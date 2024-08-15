@@ -11,7 +11,7 @@ A implementação de um sistema desse tipo também contribui para a melhoria na 
 
 Em resumo, o sistema de gestão hospitalar é uma solução abrangente e indispensável para a modernização e eficiência dos serviços de saúde, garantindo que os hospitais operem de maneira mais eficaz e com um foco constante na qualidade do atendimento ao paciente.
 
-![CRM-HealthLink](Documentos/CRM-LOGO.png)
+![CRM-HealthLink-FrontEnd](Documentos/CRM-LOGO.png)
 
 
 
