@@ -40,8 +40,11 @@ function handleLogin(event) {
       localStorage.setItem('email',data.email)
       localStorage.setItem('acessLeval',data.acessLevel)
       localStorage.setItem('id', data.id)
-
+//01162@email.com
       console.log('Login successful:', data); 
+      if(data.acessLevel=="PATIENT"){
+        window.location.href = '../pages/patient.html';
+      }
     })
     .catch(error => {
       console.error('Login error:', error);
