@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard do Doutor</title>
+    <link rel="stylesheet" href="/css/doutorStyle.css">
+</head>
+<body>
+    <header>
+        <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
+        <h1>Bem-Vindo Dr(a). [Nome do Doutor(a)]</h1>
+        <nav>
+            <!-- Links de navegação, se necessário -->
+        </nav>
+    </header>
+
+    <main>
+        <!-- Seção Criar Novo Exame -->
+        <section class="create-exam">
+            <h2>Criar Novo Exame</h2>
+            <form>
+                <label for="exam-date">Data:</label>
+                <input type="date" id="exam-date" name="exam-date">
+
+                <label for="exam-description">Descrição:</label>
+                <textarea id="exam-description" name="exam-description"></textarea>
+
+                <label for="fk-appointment">Paciente:</label>
+                <select id="fk-appointment" name="fk-appointment">
+                    <!-- Options dinamicamente geradas -->
+                </select>
+
+                <label for="fk-appointment">Consulta:</label>
+                <select id="fk-appointment" name="fk-appointment">
+                    <!-- Options dinamicamente geradas -->
+                </select>
+
+                <button type="submit">Criar Exame</button>
+            </form>
+        </section>
+
+        <!-- Seção Lista de Pacientes -->
+        <section class="patient-list">
+            <h2>Consultas Marcadas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Data de Nascimento</th>
+                        <th>CPF</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linhas dinamicamente geradas -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Seção Exames Feitos pelo Doutor -->
+        <section class="doctor-exams">
+            <h2>Histórico de Exames Realizados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Nome do Paciente</th>
+                        <th>Descrição da Consulta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linhas dinamicamente geradas -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Seção Exames Feitos pelo Paciente -->
+        <section class="patient-exams">
+            <h2>Exames Marcados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Nome do Paciente</th>
+                        <th>Descrição da Consulta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linhas dinamicamente geradas -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    
+}
+
+/* Cabeçalho */
+header {
+    background-color: #1f1f1f;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .logo {
+    height: 80px; /* Ajuste o tamanho da logo aqui */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    text-align: center;
+    flex-grow: 1; /* Faz o h1 ocupar o espaço restante */
+}
+
+
+/* Seções principais */
+main {
+    padding: 1%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+section {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    border-bottom: 2px solid #4caf50;
+    margin-bottom: 15px;
+}
+
+/* Formulário de Criação de Exame */
+.create-exam form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.create-exam label {
+    margin-bottom: 5px;
+}
+
+.create-exam input,
+.create-exam textarea,
+.create-exam select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.create-exam button {
+    padding: 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.create-exam button:hover {
+    background: #45a049;
+}
+
+/* Tabelas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table thead {
+    background: #f4f4f4;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+table tr:hover {
+    background: #f1f1f1;
+}
+
+@media (min-width: 768px) {
+    main {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -41,7 +41,7 @@ function handleLogin(event) {
       localStorage.setItem('id', data.id)
       console.log('Login successful:', data); 
       if(data.acessLevel=="PATIENT"){
-        window.location.href = '../pages/patient.html';
+        window.location.href = '../pages/patientPage.html';
       }
     })
     .catch(error => {
