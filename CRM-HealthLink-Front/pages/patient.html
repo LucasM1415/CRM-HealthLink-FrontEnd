@@ -1,24 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="../js/patient.js"></script>
+    <title>Paciente</title>
+    <link rel="icon" href="/CRM-HealthLink-Front/images/logo2.png" type="image/png">
+    <link rel="stylesheet" href="/CRM-HealthLink-Front/css/pacienteStyle.css">
 </head>
-
 <body>
-    <nav >
-        <div>
-            <ul >
-                <li >
-                   
-                    <button href="../index.html"  onclick="singOut()">Sign Out</button>
-                </li>
+    <header>
+        <img src="/CRM-HealthLink-Front/images/logo2.png" alt="Logo da Empresa" class="logo">
+        <h1>Bem-vindo(a), [Nome do Paciente]</h1>
+    </header>
+
+    <section class="patient-data">
+        <div class="exams">
+            <h2>Meus Exames</h2>
+            <ul id="exams-list">
+                <!-- Aqui os dados de exames serão inseridos dinamicamente -->
             </ul>
         </div>
-    </nav>
-</body>
 
+        <div class="appointments">
+            <h2>Minhas Consultas</h2>
+            <ul id="appointments-list">
+                <!-- Aqui os dados de consultas serão inseridos dinamicamente -->
+            </ul>
+        </div>
+    </section>
+</body>
 </html>

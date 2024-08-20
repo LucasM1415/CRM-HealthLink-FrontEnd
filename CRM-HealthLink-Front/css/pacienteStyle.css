@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #1f1f1f;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Espaça os itens ao máximo dentro do header */
+}
+
+header .logo {
+    height: 80px; /* Ajuste o tamanho da logo aqui */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    text-align: center;
+    flex-grow: 1; /* Faz o h1 ocupar o espaço restante */
+}
+
+header .user-info {
+    /* Se houver outra informação do usuário, como ícones ou textos */
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+header .user-info img {
+    border-radius: 50%; /* Exemplo para um avatar */
+    margin-left: 10px;
+    height: 40px;
+}
+
+
+
+.patient-data {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+.patient-data div {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 45%;
+}
+
+.patient-data h2 {
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
