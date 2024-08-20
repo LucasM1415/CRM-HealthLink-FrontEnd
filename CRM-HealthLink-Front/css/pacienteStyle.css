@@ -11,34 +11,31 @@ header {
     padding: 10px 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Espaça os itens ao máximo dentro do header */
+    justify-content: space-between; 
 }
 
 header .logo {
-    height: 80px; /* Ajuste o tamanho da logo aqui */
+    height: 80px; 
 }
 
 header h1 {
     margin: 0;
     font-size: 1.5em;
     text-align: center;
-    flex-grow: 1; /* Faz o h1 ocupar o espaço restante */
+    flex-grow: 1; 
 }
 
 header .user-info {
-    /* Se houver outra informação do usuário, como ícones ou textos */
     margin-left: auto;
     display: flex;
     align-items: center;
 }
 
 header .user-info img {
-    border-radius: 50%; /* Exemplo para um avatar */
+    border-radius: 50%; 
     margin-left: 10px;
     height: 40px;
 }
-
-
 
 .patient-data {
     display: flex;
@@ -62,9 +59,110 @@ header .user-info img {
 ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
-ul li {
-    padding: 10px 0;
+
+
+#appointments-list {
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.item {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    margin: 10px 0; 
+    border-radius: 8px;
+    background-color: #f9f9f9; 
+    width: calc(100% - 20px); 
+    box-sizing: border-box; 
+    display: flex; 
+    flex-direction: column; 
+    padding: 10px; 
+}
+
+.title {
+    font-weight: bold;
+    margin: 0; 
+    padding: 15px; 
+    background-color: #fff; 
+    border-bottom: 1px solid #ddd; 
+    text-align: center; 
+    width: 100%;
+    box-sizing: border-box; 
+}
+
+.expanded-content {
+    display: none; 
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #fff; 
+    width: 100%; 
+    box-sizing: border-box; 
+}
+
+.expanded-content.show {
+    display: block;
+}
+
+.expanded-content p {
+    margin: 5px 0; 
+    text-align: center;
+}
+
+
+
+#exams-list {
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.item {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    margin: 10px 0; 
+    border-radius: 8px;
+    background-color: #f9f9f9; 
+    width: calc(100% - 20px); 
+    box-sizing: border-box; 
+    display: flex; 
+    flex-direction: column; 
+    padding: 10px; 
+}
+
+.title {
+    font-weight: bold;
+    margin: 0;
+    padding: 15px; 
+    background-color: #fff; 
     border-bottom: 1px solid #ddd;
+    text-align: center; 
+    width: 900px; 
+    box-sizing: border-box; 
+    margin-left: 220px;
+}
+
+
+.expanded-content {
+    display: none; 
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #fff; 
+    width: 100%; 
+    box-sizing: border-box; 
+    margin-left: 220px;
+}
+
+
+.expanded-content.show {
+    display: block;
+}
+
+
+.expanded-content p {
+    margin: 5px 0;
+    text-align: center;
 }

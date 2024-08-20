@@ -1,11 +1,11 @@
 const ip = '10.36.20.71';
-async function listar_consultas(token, pacienteId) {
+async function listar_exames(token, doctorId) {
   if (!token) {
     alert('Usuário não autenticado.');
     return;
   }
 
-  const url = `http://${ip}:8080/crmhealthlink/api/patient/appointments/${pacienteId}`;
+  const url = `http://${ip}:8080/crmhealthlink/api/doctor/exams/${doctorId}`;
 
   fetch(url, {
     method: 'GET',
@@ -30,11 +30,12 @@ async function listar_consultas(token, pacienteId) {
 
 function getToken() {
   var token = localStorage.getItem('token');
-  var pacienteId = localStorage.getItem('id');
+  var doctorId = localStorage.getItem('id');
   if (token == null) {
     window.location.href = '../index.html';
   } else {
     var patientName = localStorage.getItem('userName')
+    alert(patientName)
   }
 }
 
@@ -133,83 +134,7 @@ const listaDeExames = [
   }
 ];
 
-function updatePatientName() {
-  var patientName = localStorage.getItem('userName');
-  var welcomeMessage = document.getElementById('welcome-message');
-  if (patientName) {
-    welcomeMessage.textContent = `Bem-vindo(a), ${patientName}`;
-  } else {
-    welcomeMessage.textContent = 'Bem-vindo(a), Usuário';
-  }
-}
 
-function renderConsultations(data) {
-  const appointmentsList = document.getElementById('appointments-list');
-  appointmentsList.innerHTML = ''; 
-  const consultas = data || listaDeConsultas;
-
-  consultas.forEach(consulta => {
-      const listItem = document.createElement('li');
-      listItem.classList.add('item');
-      
-      const title = document.createElement('div');
-      title.textContent = consulta.description || 'Descrição';
-      title.classList.add('title');
-      listItem.appendChild(title);
-      
-      const expandedContent = document.createElement('div');
-      expandedContent.classList.add('expanded-content');
-      expandedContent.innerHTML = `
-          <p><strong>Data:</strong> ${new Date(consulta.date).toLocaleDateString()}</p>
-          <p><strong>Hora:</strong> ${new Date(consulta.date).toLocaleTimeString()}</p>
-          <p><strong>Médico:</strong> ${consulta.nameDoctor}</p>
-      `;
-      listItem.appendChild(expandedContent);
-      
-      title.addEventListener('click', () => {
-          expandedContent.classList.toggle('show');
-      });
-
-      appointmentsList.appendChild(listItem);
-  });
-}
-
-function renderExams() {
-  const examsList = document.getElementById('exams-list');
-  examsList.innerHTML = '';
-  
-  listaDeExames.forEach(exame => {
-    const listItem = document.createElement('li');
-    listItem.classList.add('item');
-
-    const title = document.createElement('div');
-    title.textContent = exame.description || 'Descrição';
-    title.classList.add('title');
-    listItem.appendChild(title);
-
-    const expandedContent = document.createElement('div');
-    expandedContent.classList.add('expanded-content');
-    expandedContent.innerHTML = `
-      <p><strong>Data:</strong> ${new Date(exame.date).toLocaleDateString()}</p>
-      <p><strong>Hora:</strong> ${new Date(exame.date).toLocaleTimeString()}</p>
-      <p><strong>Médico:</strong> ${exame.nameDoctor}</p>
-    `;
-    listItem.appendChild(expandedContent);
-
-    title.addEventListener('click', () => {
-      expandedContent.classList.toggle('show');
-    });
-
-    examsList.appendChild(listItem);
-  });
-}
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  renderExams();
-  renderConsultations();
-  updatePatientName();
-});
 
 
 
