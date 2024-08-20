@@ -13,6 +13,20 @@ header {
     align-items: center;
     justify-content: space-between; 
 }
+header .back-button {
+    background-color: #4CAF50;
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    margin-left: 20px; 
+}
+
+header .back-button:hover {
+    background-color: #45a049; 
+}
 
 header .logo {
     height: 80px; 

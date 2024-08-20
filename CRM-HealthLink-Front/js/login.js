@@ -40,9 +40,15 @@ function handleLogin(event) {
       localStorage.setItem('acessLeval',data.acessLevel)
       localStorage.setItem('id', data.id)
       console.log('Login successful:', data); 
-      if(data.acessLevel=="PATIENT"){
-        window.location.href = '../pages/patientPage.html';
+      switch (data.acessLevel) {
+        case 'PATIENT':
+          window.location.href = '../pages/patientPage.html';
+          break;
+        case 'DOCTOR':
+          window.location.href = '../pages/doctorPage.html';
+          break;
       }
+      
     })
     .catch(error => {
       console.error('Login error:', error);

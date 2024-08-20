@@ -1,4 +1,4 @@
-/* Reset básico */
+
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +13,7 @@ body {
     
 }
 
-/* Cabeçalho */
+
 header {
     background-color: #1f1f1f;
     color: white;
@@ -23,19 +23,34 @@ header {
     justify-content: space-between;
 }
 
+header .back-button {
+    background-color: #4CAF50;
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    margin-left: 20px; 
+}
+
+header .back-button:hover {
+    background-color: #45a049; 
+}
+
+
 header .logo {
-    height: 80px; /* Ajuste o tamanho da logo aqui */
+    height: 80px; 
 }
 
 header h1 {
     margin: 0;
     font-size: 1.5em;
     text-align: center;
-    flex-grow: 1; /* Faz o h1 ocupar o espaço restante */
+    flex-grow: 1; 
 }
 
 
-/* Seções principais */
 main {
     padding: 1%;
     display: grid;
@@ -55,7 +70,7 @@ h2 {
     margin-bottom: 15px;
 }
 
-/* Formulário de Criação de Exame */
+
 .create-exam form {
     display: grid;
     grid-template-columns: 1fr;
@@ -88,7 +103,7 @@ h2 {
     background: #45a049;
 }
 
-/* Tabelas */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -117,3 +132,4 @@ table tr:hover {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+

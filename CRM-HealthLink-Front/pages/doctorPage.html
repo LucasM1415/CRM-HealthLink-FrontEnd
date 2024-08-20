@@ -5,18 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard do Doutor</title>
     <link rel="stylesheet" href="/css/doutorStyle.css">
+    <script src="/js/doctor.js" defer></script>
 </head>
 <body>
     <header>
         <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
-        <h1>Bem-Vindo Dr(a). [Nome do Doutor(a)]</h1>
+        <h1 id="welcome-message"></h1>
+        <button id="back-button" class="back-button">Voltar</button>
         <nav>
-            <!-- Links de navegação, se necessário -->
+         
         </nav>
     </header>
 
     <main>
-        <!-- Seção Criar Novo Exame -->
+       
         <section class="create-exam">
             <h2>Criar Novo Exame</h2>
             <form>
@@ -40,7 +42,7 @@
             </form>
         </section>
 
-        <!-- Seção Lista de Pacientes -->
+       
         <section class="patient-list">
             <h2>Consultas Marcadas</h2>
             <table>
@@ -53,13 +55,14 @@
                         <th>Email</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="appointments-list">
                     <!-- Linhas dinamicamente geradas -->
                 </tbody>
             </table>
         </section>
+        
 
-        <!-- Seção Exames Feitos pelo Doutor -->
+ 
         <section class="doctor-exams">
             <h2>Histórico de Exames Realizados</h2>
             <table>
@@ -72,13 +75,13 @@
                         <th>Descrição da Consulta</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="D-exams-list">
                     <!-- Linhas dinamicamente geradas -->
                 </tbody>
             </table>
         </section>
 
-        <!-- Seção Exames Feitos pelo Paciente -->
+       
         <section class="patient-exams">
             <h2>Exames Marcados</h2>
             <table>
@@ -91,7 +94,7 @@
                         <th>Descrição da Consulta</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbodyi id="P-exams-list">
                     <!-- Linhas dinamicamente geradas -->
                 </tbody>
             </table>
