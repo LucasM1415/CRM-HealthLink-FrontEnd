@@ -1,6 +1,16 @@
 # CRM-HealthLink-FrontEn# CRM-HealthLink
 >> Projeto desenvolvido para a disciplina de Desenvolvimento Web II - IFPE Campus Palmares
 
+## 🔗 Acesse o Swagger pelo link
+```sh
+http://localhost:8080/swagger-ui/index.html
+```
+
+## 🗂️ Repositório Back-End
+```sh
+https://github.com/JairAssisDev/CRM-HealthLink
+```
+
 ## 📋 Sobre o Projeto - Sistema de Gestão de Pacientes
 
 O sistema de gestão hospitalar tem como objetivo resolver problemas de má gestão em hospitais, abrangendo desde o registro de pacientes e médicos até o agendamento de consultas e exames. Oferecendo uma plataforma integrada, o sistema visa melhorar a eficiência operacional e garantir um atendimento de qualidade aos pacientes. 
