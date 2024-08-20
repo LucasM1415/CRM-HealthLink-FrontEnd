@@ -7,9 +7,7 @@ http://localhost:8080/swagger-ui/index.html
 ```
 
 ## 🗂️ Repositório Back-End
-```sh
-https://github.com/JairAssisDev/CRM-HealthLink
-```
+[Acesse o Link](https://github.com/JairAssisDev/CRM-HealthLink)
 
 ## 📋 Sobre o Projeto - Sistema de Gestão de Pacientes
 
