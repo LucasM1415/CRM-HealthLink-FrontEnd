@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/doutorStyle.css">
     <script src="/js/doctor.js" defer></script>
 </head>
-<body>
+<body onload="getToken()">
     <header>
         <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
         <h1 id="welcome-message"></h1>
@@ -21,45 +21,35 @@
        
         <section class="create-exam">
             <h2>Criar Novo Exame</h2>
-            <form>
+            <form id="create-exam-form">
                 <label for="exam-date">Data:</label>
-                <input type="date" id="exam-date" name="exam-date">
-
-                <label for="exam-description">Descrição:</label>
-                <textarea id="exam-description" name="exam-description"></textarea>
-
-                <label for="fk-appointment">Paciente:</label>
-                <select id="fk-appointment" name="fk-appointment">
-                    <!-- Options dinamicamente geradas -->
-                </select>
-
+                <input type="date" id="exam-date" name="exam-date" required>
+        
                 <label for="fk-appointment">Consulta:</label>
-                <select id="fk-appointment" name="fk-appointment">
-                    <!-- Options dinamicamente geradas -->
+                <select id="fk-appointment" name="fk-appointment" required>
+                    <!-- Options serão dinamicamente geradas -->
                 </select>
-
+        
+                <label for="exam-description">Descrição do exame:</label>
+                <textarea id="exam-description" name="exam-description" required></textarea>
+        
+                <label for="exam-description2">Descrição da consulta:</label>
+                <textarea id="exam-description2" name="exam-description2"></textarea>
+        
                 <button type="submit">Criar Exame</button>
             </form>
         </section>
+        
 
-       
+
         <section class="patient-list">
             <h2>Consultas Marcadas</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Data de Nascimento</th>
-                        <th>CPF</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody id="appointments-list">
-                    <!-- Linhas dinamicamente geradas -->
-                </tbody>
-            </table>
+            <ul id="appointments-list">
+                <!-- Aqui os dados de consultas serão inseridos dinamicamente -->
+            </ul>
         </section>
+
+
         
 
  

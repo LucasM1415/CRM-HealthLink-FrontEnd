@@ -1,4 +1,4 @@
-const ip = '10.36.20.71';
+const ip = 'localhost';
 
 function handleLogin(event) {
     event.preventDefault(); 

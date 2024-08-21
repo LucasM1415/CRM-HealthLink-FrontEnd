@@ -133,3 +133,57 @@ table tr:hover {
     }
 }
 
+.appointments {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px; 
+    margin: auto; 
+}
+
+
+#appointments-list {
+    list-style-type: none; 
+    padding: 0;
+    margin: 0;
+}
+
+
+.item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+
+.title {
+    font-weight: bold;
+    margin: 0;
+    padding: 10px;
+    background-color: #4CAF50; 
+    color: white; 
+    border-bottom: 1px solid #ddd; 
+    cursor: pointer; 
+}
+
+
+.expanded-content {
+    display: none; 
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+
+.expanded-content.show {
+    display: block;
+}
+
+
+.expanded-content p {
+    margin: 5px 0;
+    line-height: 1.5; 
+}
