@@ -59,7 +59,6 @@ async function listar_consultas(token, doctorId) {
     });
 }
 
-//Para o select do html, na hora de criar um exame
 async function obterConsultas(token, doctorId) {
   const url = `http://${ip}:8080/crmhealthlink/api/doctor/appointment/${doctorId}`;
 
@@ -77,10 +76,10 @@ async function obterConsultas(token, doctorId) {
     }
 
     const consultas = await response.json();
-    return consultas; // Suponha que a resposta seja um array de consultas
+    return consultas; 
   } catch (error) {
     console.error('Erro ao obter consultas:', error);
-    return []; // Retorne um array vazio em caso de erro
+    return []; 
   }
 }
 
@@ -92,40 +91,38 @@ function preencherSelectConsultas(consultas) {
     return;
   }
 
-  selectElement.innerHTML = ''; // Limpa opções existentes
+  selectElement.innerHTML = ''; 
 
-  // Adiciona uma opção padrão
+  
   const optionDefault = document.createElement('option');
   optionDefault.value = '';
   optionDefault.textContent = 'Selecione uma consulta';
   selectElement.appendChild(optionDefault);
 
-  // Preenche as opções do select
+ 
   consultas.forEach(consulta => {
     const option = document.createElement('option');
-    option.value = consulta.id; // Ajuste conforme o campo de identificação da consulta
-    option.textContent = consulta.description || 'Descrição'; // Ajuste conforme o campo de descrição
+    option.value = consulta.id; 
+    option.textContent = consulta.description || 'Descrição'; 
     selectElement.appendChild(option);
   });
 }
 
 
-async function criar_exame(token, doctorId, formData) {
+
+async function criar_exame(token,data) {
   if (!token) {
     alert('Usuário não autenticado.');
     return;
   }
 
-  const url = `http://${ip}:8080/crmhealthlink/api/doctor/exams/${doctorId}`;
+  const url = `http://${ip}:8080/crmhealthlink/api/doctor`;
 
-  // Construa o corpo da requisição com os dados do formulário
+  // 'data' deve ser um objeto JavaScript com as chaves correspondentes
   const requestBody = {
-    id: formData.get('fk-appointment'), // O ID da consulta
-    date: formData.get('exam-date'),     // Data do exame
-    description: formData.get('exam-description'), // Descrição do exame
-    namePatient: 'patient@example.com', // Substitua com o valor real ou ajuste conforme necessário
-    nameDoctor: 'doctor@example.com',   // Substitua com o valor real ou ajuste conforme necessário
-    descriptionAppointment: formData.get('exam-description2') // Descrição da consulta
+    fk_appointment: data['fk-appointment'],
+    date: data['exam-date'],
+    descricao: data['exam-description'],
   };
 
   try {
@@ -143,15 +140,16 @@ async function criar_exame(token, doctorId, formData) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
 
-    const data = await response.json();
-    renderExams(data); // Supondo que `renderExams` é a função para processar a resposta
+    const responseData = await response.json();
+    renderExams(responseData);
+
+    // Opcional: Notificar o usuário sobre o sucesso
+    alert('Exame criado com sucesso!');
   } catch (error) {
     console.error('Erro na requisição:', error);
+    alert('Não foi possível criar o exame. Por favor, tente novamente.');
   }
 }
-
-
-
 
 
 
@@ -252,39 +250,26 @@ function renderConsultations(data) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 async function setupEventListeners() {
   const form = document.getElementById('create-exam-form');
 
   if (form) {
     form.addEventListener('submit', async (event) => {
-      event.preventDefault(); // Previne o envio padrão do formulário
+      event.preventDefault(); // Impede o comportamento padrão de envio do formulário
+      
+      const token = localStorage.getItem('token');
+      const userid = localStorage.getItem('id');
 
-      const token = 'YOUR_AUTH_TOKEN'; // Substitua com o seu token real
-      const doctorId = 'YOUR_DOCTOR_ID'; // Substitua com o ID do médico real
-
+      // Coletar dados do formulário e criar um objeto JavaScript
       const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => {
+        console.log(`value: ${value}`)
+        console.log(`key: ${key}`)
+        data[key] = value;
+      });
 
-      await criar_exame(token, doctorId, formData);
+      await criar_exame(token, data);
     });
   }
 
@@ -292,20 +277,18 @@ async function setupEventListeners() {
 
   if (backButton) {
     backButton.addEventListener('click', () => {
-      singOut(); // Substitua com a função real para deslogar
+      singOut(); 
     });
   }
 
-  // Carregar e preencher o select com as consultas
-  const token = 'YOUR_AUTH_TOKEN'; // Substitua com o seu token real
-  const doctorId = 'YOUR_DOCTOR_ID'; // Substitua com o ID do médico real
-  const consultas = await obterConsultas(token, doctorId);
-  preencherSelectConsultas(consultas); // Preenche o select com as consultas
+  const token = localStorage.getItem('token');
+  const userid = localStorage.getItem('id');
+  const consultas = await obterConsultas(token, userid);
+  preencherSelectConsultas(consultas); 
 }
 
-// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
-  updateUserName(); // Supondo que `updateUserName` é a função para atualizar o nome do usuário
+  updateUserName(); 
 });
 

@@ -23,7 +23,7 @@
             <h2>Criar Novo Exame</h2>
             <form id="create-exam-form">
                 <label for="exam-date">Data:</label>
-                <input type="date" id="exam-date" name="exam-date" required>
+                <input type="datetime-local" id="exam-date" name="exam-date" required>
         
                 <label for="fk-appointment">Consulta:</label>
                 <select id="fk-appointment" name="fk-appointment" required>
@@ -32,9 +32,6 @@
         
                 <label for="exam-description">Descrição do exame:</label>
                 <textarea id="exam-description" name="exam-description" required></textarea>
-        
-                <label for="exam-description2">Descrição da consulta:</label>
-                <textarea id="exam-description2" name="exam-description2"></textarea>
         
                 <button type="submit">Criar Exame</button>
             </form>
@@ -45,33 +42,9 @@
         <section class="patient-list">
             <h2>Consultas Marcadas</h2>
             <ul id="appointments-list">
-                <!-- Aqui os dados de consultas serão inseridos dinamicamente -->
-            </ul>
+           </ul>
         </section>
-
-
         
-
- 
-        <section class="doctor-exams">
-            <h2>Histórico de Exames Realizados</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Data</th>
-                        <th>Descrição</th>
-                        <th>Nome do Paciente</th>
-                        <th>Descrição da Consulta</th>
-                    </tr>
-                </thead>
-                <tbody id="D-exams-list">
-                    <!-- Linhas dinamicamente geradas -->
-                </tbody>
-            </table>
-        </section>
-
-       
         <section class="patient-exams">
             <h2>Exames Marcados</h2>
             <table>
@@ -85,6 +58,24 @@
                     </tr>
                 </thead>
                 <tbodyi id="P-exams-list">
+                    <!-- Linhas dinamicamente geradas -->
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="doctor-exams">
+            <h2>Exames Marcados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Nome do Paciente</th>
+                        <th>Descrição da Consulta</th>
+                    </tr>
+                </thead>
+                <tbody id="D-exams-list">
                     <!-- Linhas dinamicamente geradas -->
                 </tbody>
             </table>
