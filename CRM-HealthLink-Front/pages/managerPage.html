@@ -3,31 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home do Atendente</title>
+    <title>Home do Administrador</title>
     <link rel="icon" href="/images/logo2.png" type="image/png">
-    <link rel="stylesheet" href="/css/employeeStyle.css">
+    <link rel="stylesheet" href="/css/managerStyle.css">
     <script src="/js/employee.js" defer></script>
+    <script src="/js/manager.js" refed></script>
 </head>
 <body>
     <header>
+
         <div class="header-top">
             <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
-            <h1 id="welcome-message"></h1>
-            <button id="back-button" class="back-button">Voltar</button>
+            <h1>Seja bem-vindo(a) [Nome do Administrador]</h1>
         </div>
+
         <nav>
             <a href="#pacientes">Paciente</a>
             <a href="#doutores">Médico</a>
             <a href="#consultas">Consulta</a>
+            <a href="#funcionarios">Funcionário</a>
         </nav>
-    </header>
 
+    </header>
     <main>
         <!-- Seção de Pacientes -->
         <section id="pacientes" class="content-section">
             <h2>Pacientes</h2>
 
             <div class="card">
+
                 <h3>Criar Paciente</h3>
                 <form>
                     <label for="criar-paciente-nome">Nome:</label>
@@ -53,16 +57,17 @@
             </div>
 
             <div class="card">
+
                 <h3>Obter Paciente</h3>
-                <form id="paciente-form">
+                <form>
                     <label for="obter-paciente-id">ID:</label>
-                    <input type="text" id="obter-paciente-id" required>
+                    <input type="text" id="obter-paciente-id">
                     <button type="submit">Buscar</button>
                 </form>
-                <div id="results" class="results"></div>
             </div>
 
             <div class="card">
+
                 <h3>Atualizar Paciente</h3>
                 <form>
                     <label for="update-paciente-id">ID:</label>
@@ -91,6 +96,7 @@
             </div>
 
             <div class="card">
+
                 <h3>Remover Paciente</h3>
                 <form>
                     <label for="remover-paciente-id">ID:</label>
@@ -100,6 +106,7 @@
             </div>
 
             <div class="card">
+
                 <h3>Lista dos Pacientes Registrados</h3>
                 <table>
                     <thead>
@@ -108,6 +115,7 @@
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
                             <th>Email</th>
+                            <th>Nível de Acesso</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -117,12 +125,39 @@
             </div>
         </section>
 
-        <!-- Seção de Doutores -->
+            <!-- Seção de Doutores -->
         <section id="doutores" class="content-section" style="display: none;">
             <h2>Médicos</h2>
 
             <div class="card">
+
+                <h3>Criar Médico</h3>
+                <form>
+                    <label for="criar-doutor-nome">Nome:</label>
+                    <input type="text" id="criar-doutor-nome">
+                    
+                    <label for="criar-doutor-data-nascimento">Data de Nascimento:</label>
+                    <input type="date" id="criar-doutor-data-nascimento">
+                    
+                    <label for="criar-doutor-cpf">CPF:</label>
+                    <input type="text" id="criar-doutor-cpf">
+                    
+                    <label for="criar-doutor-email">Email:</label>
+                    <input type="email" id="criar-doutor-email">
+                    
+                    <label for="criar-doutor-nivel-acesso">Nível de Acesso:</label>
+                    <input type="text" id="criar-doutor-nivel-acesso">
+                    
+                    <label for="criar-doutor-password">Password:</label>
+                    <input type="password" id="criar-doutor-password">
+                    
+                    <button type="submit">Criar</button>
+                </form>
+            </div>
+
+            <div class="card">
                 <h3>Obter Médico</h3>
+
                 <form>
                     <label for="obter-doutor-id">ID:</label>
                     <input type="text" id="obter-doutor-id">
@@ -131,7 +166,37 @@
             </div>
 
             <div class="card">
+                <h3>Atualizar Médico</h3>
+
+                <form>
+                    <label for="update-doutor-id">ID:</label>
+                    <input type="text" id="update-doutor-id">
+                    
+                    <label for="update-doutor-nome">Nome:</label>
+                    <input type="text" id="update-doutor-nome">
+                    
+                    <label for="update-doutor-data-nascimento">Data de Nascimento:</label>
+                    <input type="date" id="update-doutor-data-nascimento">
+                    
+                    <label for="update-doutor-cpf">CPF:</label>
+                    <input type="text" id="update-doutor-cpf">
+                    
+                    <label for="update-doutor-email">Email:</label>
+                    <input type="email" id="update-doutor-email">
+                    
+                    <label for="update-doutor-nivel-acesso">Nível de Acesso:</label>
+                    <input type="text" id="update-doutor-nivel-acesso">
+                    
+                    <label for="update-doutor-password">Password:</label>
+                    <input type="password" id="update-doutor-password">
+                    
+                    <button type="submit">Atualizar</button>
+                </form>
+            </div>
+
+            <div class="card">
                 <h3>Lista dos Médicos Registrados</h3>
+
                 <table>
                     <thead>
                         <tr>
@@ -157,6 +222,7 @@
 
             <div class="card">
                 <h3>Criar Consulta</h3>
+
                 <form>
                     <label for="criar-consulta-data">Data:</label>
                     <input type="date" id="criar-consulta-data">
@@ -170,6 +236,7 @@
 
             <div class="card">
                 <h3>Obter Consulta</h3>
+
                 <form>
                     <label for="obter-consulta-id">ID:</label>
                     <input type="text" id="obter-consulta-id">
@@ -179,6 +246,7 @@
 
             <div class="card">
                 <h3>Atualizar Consulta</h3>
+
                 <form>
                     <label for="update-consulta-id">ID:</label>
                     <input type="text" id="update-consulta-id">
@@ -195,6 +263,7 @@
 
             <div class="card">
                 <h3>Remover Consulta</h3>
+
                 <form>
                     <label for="remover-consulta-id">ID:</label>
                     <input type="text" id="remover-consulta-id">
@@ -204,6 +273,7 @@
 
             <div class="card">
                 <h3>Lista das Consultas Registradas</h3>
+
                 <table>
                     <thead>
                         <tr>
@@ -219,6 +289,77 @@
                 </table>
             </div>
         </section>
+
+        <!-- Seção do Funcionário -->
+         <section id="funcionarios" class="content-section" style="display: none;">
+            <h2>Funcionários</h2>
+
+            <div class="card">
+                <h3>Criar Funcionário</h3>
+
+                <form>
+                    <label for="criar-funcionario-nome">Nome:</label>
+                    <input type="text" id="criar-funcionario-nome">
+                    
+                    <label for="criar-funcionario-data-nascimento">Data de Nascimento:</label>
+                    <input type="date" id="criar-funcionario-data-nascimento">
+                    
+                    <label for="criar-funcionario-cpf">CPF:</label>
+                    <input type="text" id="criar-funcionario-cpf">
+                    
+                    <label for="criar-funcionario-email">Email:</label>
+                    <input type="email" id="criar-funcionario-email">
+                    
+                    <label for="criar-funcionario-nivel-acesso">Nível de Acesso:</label>
+                    <input type="text" id="criar-funcionario-nivel-acesso">
+                    
+                    <label for="criar-funcionario-password">Password:</label>
+                    <input type="password" id="criar-funcionario-password">
+                    
+                    <button type="submit">Criar</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Obter Funcionário</h3>
+
+                <form>
+                    <label for="obter-funcionario-id">ID:</label>
+                    <input type="text" id="obter-funcionario-id">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Atualizar Funcionário</h3>
+
+                <form>
+                    <label for="update-funcionario-id">ID:</label>
+                    <input type="text" id="update-funcionario-id">
+                    
+                    <label for="update-funcionario-nome">Nome:</label>
+                    <input type="text" id="update-funcionario-nome">
+                    
+                    <label for="update-funcionario-data-nascimento">Data de Nascimento:</label>
+                    <input type="date" id="update-funcionario-data-nascimento">
+                    
+                    <label for="update-funcionario-cpf">CPF:</label>
+                    <input type="text" id="update-funcionario-cpf">
+                    
+                    <label for="update-funcionario-email">Email:</label>
+                    <input type="email" id="update-funcionario-email">
+                    
+                    <label for="update-funcionario-nivel-acesso">Nível de Acesso:</label>
+                    <input type="text" id="update-funcionario-nivel-acesso">
+                    
+                    <label for="update-funcionario-password">Password:</label>
+                    <input type="password" id="update-funcionario-password">
+                    
+                    <button type="submit">Atualizar</button>
+                </form>
+            </div>
+         </section>
+
     </main>
 
 
