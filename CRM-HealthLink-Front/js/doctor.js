@@ -118,7 +118,6 @@ async function criar_exame(token,data) {
 
   const url = `http://${ip}:8080/crmhealthlink/api/doctor`;
 
-  // 'data' deve ser um objeto JavaScript com as chaves correspondentes
   const requestBody = {
     fk_appointment: data['fk-appointment'],
     date: data['exam-date'],
@@ -143,7 +142,6 @@ async function criar_exame(token,data) {
     const responseData = await response.json();
     renderExams(responseData);
 
-    // Opcional: Notificar o usuário sobre o sucesso
     alert('Exame criado com sucesso!');
   } catch (error) {
     console.error('Erro na requisição:', error);
@@ -211,7 +209,6 @@ function renderExams(data) {
       <td>${exame.date ? new Date(exame.date).toLocaleDateString() : 'Data não disponível'}</td>
       <td>${exame.description || 'Descrição não disponível'}</td>
       <td>${exame.namePatient || 'Nome do Paciente não disponível'}</td>
-      <td>${exame.descriptionAppointment || 'Descrição da Consulta não disponível'}</td>
     `;
 
     appointmentsList.appendChild(row);

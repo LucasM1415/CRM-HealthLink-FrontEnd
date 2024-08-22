@@ -47,6 +47,9 @@ function handleLogin(event) {
         case 'DOCTOR':
           window.location.href = '../pages/doctorPage.html';
           break;
+        case 'MANAGER':
+          window.location.href = '../pages/employeePage.html';
+          break;
       }
       
     })

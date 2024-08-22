@@ -6,12 +6,14 @@
     <title>Home do Atendente</title>
     <link rel="icon" href="/images/logo2.png" type="image/png">
     <link rel="stylesheet" href="/css/employeeStyle.css">
+    <script src="/js/employee.js" defer></script>
 </head>
 <body>
     <header>
         <div class="header-top">
             <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
-            <h1>Seja bem-vindo(a) [Nome do Atendente]</h1>
+            <h1 id="welcome-message"></h1>
+            <button id="back-button" class="back-button">Voltar</button>
         </div>
         <nav>
             <a href="#pacientes">Pacientes</a>
@@ -52,11 +54,12 @@
 
             <div class="card">
                 <h3>Obter Paciente por ID</h3>
-                <form>
+                <form id="paciente-form">
                     <label for="obter-paciente-id">ID:</label>
-                    <input type="text" id="obter-paciente-id">
+                    <input type="text" id="obter-paciente-id" required>
                     <button type="submit">Buscar</button>
                 </form>
+                <div id="results" class="results"></div>
             </div>
 
             <div class="card">
