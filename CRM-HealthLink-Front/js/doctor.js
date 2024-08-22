@@ -198,7 +198,6 @@ function reloadExams(data) {
       <td>${data.date ? new Date(data.date).toLocaleDateString() : 'Data não disponível'}</td>
       <td>${data.description || 'Descrição não disponível'}</td>
       <td>${data.namePatient || 'Nome do Paciente não disponível'}</td>
-      <td>${data.descriptionAppointment || 'Descrição da Consulta não disponível'}</td>
     `;
 
     appointmentsList.appendChild(row);

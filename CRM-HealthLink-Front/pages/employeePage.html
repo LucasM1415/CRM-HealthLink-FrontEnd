@@ -29,28 +29,27 @@
 
             <div class="card">
                 <h3>Criar Novo Paciente</h3>
-                <form>
+                <form id="criar-paciente-form">
                     <label for="criar-paciente-nome">Nome:</label>
-                    <input type="text" id="criar-paciente-nome">
+                    <input type="text" id="criar-paciente-nome" required>
                     
                     <label for="criar-paciente-data-nascimento">Data de Nascimento:</label>
-                    <input type="date" id="criar-paciente-data-nascimento">
+                    <input type="date" id="criar-paciente-data-nascimento" required>
                     
                     <label for="criar-paciente-cpf">CPF:</label>
-                    <input type="text" id="criar-paciente-cpf">
+                    <input type="text" id="criar-paciente-cpf" required>
                     
                     <label for="criar-paciente-email">Email:</label>
-                    <input type="email" id="criar-paciente-email">
-                    
-                    <label for="criar-paciente-nivel-acesso">Nível de Acesso:</label>
-                    <input type="text" id="criar-paciente-nivel-acesso">
+                    <input type="email" id="criar-paciente-email" required>
                     
                     <label for="criar-paciente-password">Password:</label>
-                    <input type="password" id="criar-paciente-password">
+                    <input type="password" id="criar-paciente-password" required>
                     
                     <button type="submit">Criar</button>
                 </form>
             </div>
+            
+            
 
             <div class="card">
                 <h3>Obter Paciente por ID</h3>
@@ -92,13 +91,14 @@
 
             <div class="card">
                 <h3>Remover Paciente</h3>
-                <form>
+                <form id="remover-paciente-form">
                     <label for="remover-paciente-id">ID:</label>
                     <input type="text" id="remover-paciente-id">
-                    <button type="submit">Remover</button>
+                    <button type="submit" id="remover-paciente-btn">Remover</button>
                 </form>
+                <div id="results"></div> 
             </div>
-
+            
             <div class="card">
                 <h3>Todos os Pacientes Registrados</h3>
                 <table>
