@@ -1,4 +1,4 @@
-const ip = 'localhost';
+const ip = '10.36.20.71';
 
 function handleLogin(event) {
     event.preventDefault(); 
@@ -46,9 +46,6 @@ function handleLogin(event) {
           break;
         case 'DOCTOR':
           window.location.href = '../pages/doctorPage.html';
-          break;
-        case 'MANAGER':
-          window.location.href = '../pages/employeePage.html';
           break;
       }
       

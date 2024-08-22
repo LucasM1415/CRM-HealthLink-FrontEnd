@@ -65,11 +65,16 @@ section {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+
 h2 {
     border-bottom: 2px solid #4caf50;
     margin-bottom: 15px;
 }
 
+.create-exam {
+    min-height: 400px; /* Ajuste esse valor conforme necessário */
+    padding-bottom: 50px;
+}
 
 .create-exam form {
     display: grid;
@@ -129,7 +134,11 @@ table tr:hover {
 
 @media (min-width: 768px) {
     main {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+    }
+    .create-exam {
+        grid-row: span 2; /* Faz com que a seção 'create-exam' ocupe duas linhas no grid */
     }
 }
 

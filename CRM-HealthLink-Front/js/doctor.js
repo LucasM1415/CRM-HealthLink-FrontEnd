@@ -1,4 +1,4 @@
-const ip = 'localhost';
+const ip = '10.36.20.71';
 
 async function listar_exames(token, doctorId) {
   if (!token) {
@@ -118,6 +118,7 @@ async function criar_exame(token,data) {
 
   const url = `http://${ip}:8080/crmhealthlink/api/doctor`;
 
+  // 'data' deve ser um objeto JavaScript com as chaves correspondentes
   const requestBody = {
     fk_appointment: data['fk-appointment'],
     date: data['exam-date'],
@@ -140,9 +141,12 @@ async function criar_exame(token,data) {
     }
 
     const responseData = await response.json();
-    renderExams(responseData);
 
+    // Opcional: Notificar o usuário sobre o sucesso
     alert('Exame criado com sucesso!');
+    
+    reloadExams(responseData);
+
   } catch (error) {
     console.error('Erro na requisição:', error);
     alert('Não foi possível criar o exame. Por favor, tente novamente.');
@@ -184,7 +188,21 @@ function updateUserName() {
   }
 }
 
+function reloadExams(data) {
+  const appointmentsList = document.getElementById('D-exams-list');
+  const row = document.createElement('tr');
+  
+  
+  row.innerHTML = `
+      <td>${data.id || 'ID não disponível'}</td>
+      <td>${data.date ? new Date(data.date).toLocaleDateString() : 'Data não disponível'}</td>
+      <td>${data.description || 'Descrição não disponível'}</td>
+      <td>${data.namePatient || 'Nome do Paciente não disponível'}</td>
+      <td>${data.descriptionAppointment || 'Descrição da Consulta não disponível'}</td>
+    `;
 
+    appointmentsList.appendChild(row);
+}
 
 function renderExams(data) {
   const appointmentsList = document.getElementById('D-exams-list');
@@ -286,6 +304,6 @@ async function setupEventListeners() {
 
 document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
-  updateUserName(); 
+  updateUserName();
 });
 
