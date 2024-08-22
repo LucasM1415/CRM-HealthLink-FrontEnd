@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home do Atendente</title>
+    <link rel="icon" href="/images/logo2.png" type="image/png">
+    <link rel="stylesheet" href="/css/employeeStyle.css">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
+            <h1>Seja bem-vindo(a) [Nome do Atendente]</h1>
+        </div>
+        <nav>
+            <a href="#pacientes">Pacientes</a>
+            <a href="#doutores">Doutores</a>
+            <a href="#consultas">Consultas</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Seção de Pacientes -->
+        <section id="pacientes" class="content-section">
+            <h2>Pacientes</h2>
+
+            <div class="card">
+                <h3>Criar Novo Paciente</h3>
+                <form>
+                    <label for="criar-paciente-nome">Nome:</label>
+                    <input type="text" id="criar-paciente-nome">
+                    
+                    <label for="criar-paciente-data-nascimento">Data de Nascimento:</label>
+                    <input type="date" id="criar-paciente-data-nascimento">
+                    
+                    <label for="criar-paciente-cpf">CPF:</label>
+                    <input type="text" id="criar-paciente-cpf">
+                    
+                    <label for="criar-paciente-email">Email:</label>
+                    <input type="email" id="criar-paciente-email">
+                    
+                    <label for="criar-paciente-nivel-acesso">Nível de Acesso:</label>
+                    <input type="text" id="criar-paciente-nivel-acesso">
+                    
+                    <label for="criar-paciente-password">Password:</label>
+                    <input type="password" id="criar-paciente-password">
+                    
+                    <button type="submit">Criar</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Obter Paciente por ID</h3>
+                <form>
+                    <label for="obter-paciente-id">ID:</label>
+                    <input type="text" id="obter-paciente-id">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Atualizar Paciente</h3>
+                <form>
+                    <label for="update-paciente-id">ID:</label>
+                    <input type="text" id="update-paciente-id">
+                    
+                    <label for="update-paciente-nome">Nome:</label>
+                    <input type="text" id="update-paciente-nome">
+                    
+                    <label for="update-paciente-data-nascimento">Data de Nascimento:</label>
+                    <input type="date" id="update-paciente-data-nascimento">
+                    
+                    <label for="update-paciente-cpf">CPF:</label>
+                    <input type="text" id="update-paciente-cpf">
+                    
+                    <label for="update-paciente-email">Email:</label>
+                    <input type="email" id="update-paciente-email">
+                    
+                    <label for="update-paciente-nivel-acesso">Nível de Acesso:</label>
+                    <input type="text" id="update-paciente-nivel-acesso">
+                    
+                    <label for="update-paciente-password">Password:</label>
+                    <input type="password" id="update-paciente-password">
+                    
+                    <button type="submit">Atualizar</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Remover Paciente</h3>
+                <form>
+                    <label for="remover-paciente-id">ID:</label>
+                    <input type="text" id="remover-paciente-id">
+                    <button type="submit">Remover</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Todos os Pacientes Registrados</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Data de Nascimento</th>
+                            <th>Email</th>
+                            <th>Nível de Acesso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dados dos pacientes serão inseridos aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Seção de Doutores -->
+        <section id="doutores" class="content-section" style="display: none;">
+            <h2>Doutores</h2>
+
+            <div class="card">
+                <h3>Obter Doutor por ID</h3>
+                <form>
+                    <label for="obter-doutor-id">ID:</label>
+                    <input type="text" id="obter-doutor-id">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Todos os Doutores Registrados</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Data de Nascimento</th>
+                            <th>Email</th>
+                            <th>Nível de Acesso</th>
+                            <th>CRM</th>
+                            <th>Especialização</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dados dos doutores serão inseridos aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Seção de Consultas -->
+        <section id="consultas" class="content-section" style="display: none;">
+            <h2>Consultas</h2>
+
+            <div class="card">
+                <h3>Criar Nova Consulta</h3>
+                <form>
+                    <label for="criar-consulta-data">Data:</label>
+                    <input type="date" id="criar-consulta-data">
+                    
+                    <label for="criar-consulta-descricao">Descrição:</label>
+                    <textarea id="criar-consulta-descricao"></textarea>
+                    
+                    <button type="submit">Criar</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Obter Consulta por ID</h3>
+                <form>
+                    <label for="obter-consulta-id">ID:</label>
+                    <input type="text" id="obter-consulta-id">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Atualizar Consulta</h3>
+                <form>
+                    <label for="update-consulta-id">ID:</label>
+                    <input type="text" id="update-consulta-id">
+                    
+                    <label for="update-consulta-data">Data:</label>
+                    <input type="date" id="update-consulta-data">
+                    
+                    <label for="update-consulta-descricao">Descrição:</label>
+                    <textarea id="update-consulta-descricao"></textarea>
+                    
+                    <button type="submit">Atualizar</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Remover Consulta</h3>
+                <form>
+                    <label for="remover-consulta-id">ID:</label>
+                    <input type="text" id="remover-consulta-id">
+                    <button type="submit">Remover</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Todas as Consultas Registradas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Nome do Paciente</th>
+                            <th>Nome do Doutor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dados das consultas serão inseridos aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+
+    <script>
+        function showSection(sectionId) {
+            // Esconde todas as seções
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+    
+            // Mostra a seção escolhida
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    
+        // Adiciona o evento de clique nos links de navegação
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Previne o comportamento padrão do link
+                const sectionId = this.getAttribute('href').substring(1); // Obtém o ID da seção
+                showSection(sectionId); // Exibe a seção correspondente
+            });
+        });
+    
+        // Exibe a primeira seção por padrão
+        document.getElementById('pacientes').style.display = 'block';
+    </script>
+
+
+</body>
+</html>

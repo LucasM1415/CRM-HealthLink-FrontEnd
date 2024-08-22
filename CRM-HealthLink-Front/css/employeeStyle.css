@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #1f1f1f;
+    color: #fff;
+    padding: 0px 20px;
+}
+
+header .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header .logo {
+    height: 80px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    text-align: center;
+    flex-grow: 1;
+}
+
+nav {
+    margin-top: 2px;
+    font-size: 15px;
+    text-align: center;
+
+}
+
+nav a {
+    color: #69be6e;
+    margin: 0 40px;
+    text-decoration: none;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+main {
+    padding: 20px;
+}
+
+h2 {
+    font-size: 33px;
+    color: #45a049;
+    border-bottom: 2px solid #45a049;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #45a049;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #333;
+    color: #fff;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
