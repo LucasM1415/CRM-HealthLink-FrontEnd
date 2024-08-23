@@ -28,86 +28,86 @@
     </header>
     <main>
         <!-- Seção de Pacientes -->
-        <section id="pacientes" class="content-section">
+         <!-- Seção de Pacientes -->
+         <section id="pacientes" class="content-section">
             <h2>Pacientes</h2>
 
             <div class="card">
-
-                <h3>Criar Paciente</h3>
-                <form>
+                <h3>Criar Novo Paciente</h3>
+                <form id="criar-paciente-form">
                     <label for="criar-paciente-nome">Nome:</label>
-                    <input type="text" id="criar-paciente-nome">
+                    <input type="text" id="criar-paciente-nome" required>
                     
                     <label for="criar-paciente-data-nascimento">Data de Nascimento:</label>
-                    <input type="date" id="criar-paciente-data-nascimento">
+                    <input type="date" id="criar-paciente-data-nascimento" required>
                     
                     <label for="criar-paciente-cpf">CPF:</label>
-                    <input type="text" id="criar-paciente-cpf">
+                    <input type="text" id="criar-paciente-cpf" required>
                     
                     <label for="criar-paciente-email">Email:</label>
-                    <input type="email" id="criar-paciente-email">
-                    
-                    <label for="criar-paciente-nivel-acesso">Nível de Acesso:</label>
-                    <input type="text" id="criar-paciente-nivel-acesso">
+                    <input type="email" id="criar-paciente-email" required>
                     
                     <label for="criar-paciente-password">Password:</label>
-                    <input type="password" id="criar-paciente-password">
+                    <input type="password" id="criar-paciente-password" required>
                     
                     <button type="submit">Criar</button>
                 </form>
             </div>
+            
+            
+
 
             <div class="card">
-
                 <h3>Obter Paciente</h3>
-                <form>
+                <form id="paciente-form">
                     <label for="obter-paciente-id">ID:</label>
-                    <input type="text" id="obter-paciente-id">
+                    <input type="text" id="obter-paciente-id" required>
                     <button type="submit">Buscar</button>
                 </form>
+                <div id="results" class="results"></div>
             </div>
 
+           <!-- Formulário para atualização do paciente -->
+        <div class="card">
+            <h3>Atualizar Paciente</h3>
+            <form id="update-paciente-form">
+                <label for="update-paciente-id">Paciente:</label>
+                <select id="update-paciente-id" name="update-paciente-id" required>
+                    <!-- Opções serão dinamicamente geradas -->
+                </select>
+                
+                <label for="update-paciente-nome">Nome:</label>
+                <input type="text" id="update-paciente-nome" name="update-paciente-nome" required>
+                
+                <label for="update-paciente-data-nascimento">Data de Nascimento:</label>
+                <input type="date" id="update-paciente-data-nascimento" name="update-paciente-data-nascimento" required>
+                
+                <label for="update-paciente-cpf">CPF:</label>
+                <input type="text" id="update-paciente-cpf" name="update-paciente-cpf" required>
+                
+                <label for="update-paciente-email">Email:</label>
+                <input type="email" id="update-paciente-email" name="update-paciente-email" required>
+                
+                <label for="update-paciente-password">Senha:</label>
+                <input type="password" id="update-paciente-password" name="update-paciente-password" required>
+                
+                <button type="submit">Atualizar</button>
+            </form>
+            <div id="results3"></div>
+        </div>
+
+
             <div class="card">
-
-                <h3>Atualizar Paciente</h3>
-                <form>
-                    <label for="update-paciente-id">ID:</label>
-                    <input type="text" id="update-paciente-id">
-                    
-                    <label for="update-paciente-nome">Nome:</label>
-                    <input type="text" id="update-paciente-nome">
-                    
-                    <label for="update-paciente-data-nascimento">Data de Nascimento:</label>
-                    <input type="date" id="update-paciente-data-nascimento">
-                    
-                    <label for="update-paciente-cpf">CPF:</label>
-                    <input type="text" id="update-paciente-cpf">
-                    
-                    <label for="update-paciente-email">Email:</label>
-                    <input type="email" id="update-paciente-email">
-                    
-                    <label for="update-paciente-nivel-acesso">Nível de Acesso:</label>
-                    <input type="text" id="update-paciente-nivel-acesso">
-                    
-                    <label for="update-paciente-password">Password:</label>
-                    <input type="password" id="update-paciente-password">
-                    
-                    <button type="submit">Atualizar</button>
-                </form>
-            </div>
-
-            <div class="card">
-
                 <h3>Remover Paciente</h3>
-                <form>
+                <form id="remover-paciente-form">
                     <label for="remover-paciente-id">ID:</label>
                     <input type="text" id="remover-paciente-id">
-                    <button type="submit">Remover</button>
+                    <button type="submit" id="remover-paciente-btn">Remover</button>
                 </form>
+                <div id="results"></div> 
             </div>
-
+            
             <div class="card">
-
                 <h3>Lista dos Pacientes Registrados</h3>
                 <table>
                     <thead>
@@ -116,7 +116,6 @@
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
                             <th>Email</th>
-                            <th>Nível de Acesso</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -133,7 +132,7 @@
             <div class="card">
 
                 <h3>Criar Médico</h3>
-                <form>
+                <form id = 'criar-doutor-form'>
                     <label for="criar-doutor-nome">Nome:</label>
                     <input type="text" id="criar-doutor-nome">
                     
@@ -146,8 +145,8 @@
                     <label for="criar-doutor-email">Email:</label>
                     <input type="email" id="criar-doutor-email">
                     
-                    <label for="criar-doutor-nivel-acesso">Nível de Acesso:</label>
-                    <input type="text" id="criar-doutor-nivel-acesso">
+                    <!-- <label for="criar-doutor-nivel-acesso">Nível de Acesso:</label>
+                    <input type="text" id="criar-doutor-nivel-acesso"> -->
                     
                     <label for="criar-doutor-password">Password:</label>
                     <input type="password" id="criar-doutor-password">
@@ -158,12 +157,12 @@
 
             <div class="card">
                 <h3>Obter Médico</h3>
-
-                <form>
+                <form id="medico-form">
                     <label for="obter-doutor-id">ID:</label>
-                    <input type="text" id="obter-doutor-id">
+                    <input type="text" id="obter-doutor-id" required>
                     <button type="submit">Buscar</button>
                 </form>
+                <div id="medico-results"></div>
             </div>
 
             <div class="card">
@@ -185,8 +184,8 @@
                     <label for="update-doutor-email">Email:</label>
                     <input type="email" id="update-doutor-email">
                     
-                    <label for="update-doutor-nivel-acesso">Nível de Acesso:</label>
-                    <input type="text" id="update-doutor-nivel-acesso">
+                    <!-- <label for="update-doutor-nivel-acesso">Nível de Acesso:</label>
+                    <input type="text" id="update-doutor-nivel-acesso"> -->
                     
                     <label for="update-doutor-password">Password:</label>
                     <input type="password" id="update-doutor-password">
@@ -195,23 +194,21 @@
                 </form>
             </div>
 
-            <div class="card">
+            <div class="card" id="list-medicos-card">
                 <h3>Lista dos Médicos Registrados</h3>
-
-                <table>
+                <table id="list-medicos-table">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
                             <th>Email</th>
-                            <th>Nível de Acesso</th>
                             <th>CRM</th>
                             <th>Especialização</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Dados dos doutores serão inseridos aqui -->
+                    <tbody id="list-medicos-tbody">
+                        <!-- Dados dos médicos serão inseridos aqui -->
                     </tbody>
                 </table>
             </div>
@@ -223,31 +220,44 @@
 
             <div class="card">
                 <h3>Criar Consulta</h3>
-
-                <form>
-                    <label for="criar-consulta-data">Data:</label>
-                    <input type="date" id="criar-consulta-data">
+                <form id="form-criar-consulta" data-form-type="create">
+                    <label for="criar-consulta-datahora">Data e Hora:</label>
+                    <input type="datetime-local" id="criar-consulta-datahora" name="criar-consulta-datahora" required>
+                    
+                    <label for="criar-consulta-medico">Médico:</label>
+                    <select id="criar-consulta-medico" name="criar-consulta-medico" required>
+                        <!-- Opções de médicos serão dinamicamente geradas -->
+                    </select>
+                    
+                    <label for="criar-consulta-paciente">Paciente:</label>
+                    <select id="criar-consulta-paciente" name="criar-consulta-paciente" required>
+                        <!-- Opções de pacientes serão dinamicamente geradas -->
+                    </select>
                     
                     <label for="criar-consulta-descricao">Descrição:</label>
-                    <textarea id="criar-consulta-descricao"></textarea>
+                    <textarea id="criar-consulta-descricao" name="criar-consulta-descricao" required></textarea>
                     
                     <button type="submit">Criar</button>
                 </form>
             </div>
+            
+            
 
             <div class="card">
                 <h3>Obter Consulta</h3>
-
-                <form>
-                    <label for="obter-consulta-id">ID:</label>
-                    <input type="text" id="obter-consulta-id">
-                    <button type="submit">Buscar</button>
+                <form id="consulta-form">
+                  <label for="obter-consulta-id">ID:</label>
+                  <input type="text" id="obter-consulta-id">
+                  <button type="submit">Buscar</button>
                 </form>
-            </div>
+                <div id="consulta-results">
+                  <!-- Resultados da consulta serão exibidos aqui -->
+                </div>
+              </div>
+              
 
             <div class="card">
                 <h3>Atualizar Consulta</h3>
-
                 <form>
                     <label for="update-consulta-id">ID:</label>
                     <input type="text" id="update-consulta-id">
@@ -264,31 +274,33 @@
 
             <div class="card">
                 <h3>Remover Consulta</h3>
-
-                <form>
-                    <label for="remover-consulta-id">ID:</label>
+                <form id="remover-consulta-form">
+                    <label for="remover-consulta-id">ID da Consulta:</label>
                     <input type="text" id="remover-consulta-id">
                     <button type="submit">Remover</button>
                 </form>
-            </div>
+                <div id="consulta-results"></div>
+              </div>
+              
 
             <div class="card">
                 <h3>Lista das Consultas Registradas</h3>
-
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Descrição</th>
-                            <th>Nome do Paciente</th>
-                            <th>Nome do Doutor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Dados das consultas serão inseridos aqui -->
-                    </tbody>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Paciente</th>
+                      <th>Médico</th>
+                      <th>Data</th>
+                      <th>Descrição</th>
+              
+                    </tr>
+                  </thead>
+                  <tbody id="list-consultas-tbody">
+                    <!-- Dados das consultas serão inseridos aqui -->
+                  </tbody>
                 </table>
-            </div>
+              </div>
         </section>
 
         <!-- Seção do Funcionário -->

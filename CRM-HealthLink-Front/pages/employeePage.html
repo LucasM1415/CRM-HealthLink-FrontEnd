@@ -162,16 +162,28 @@
 
             <div class="card">
                 <h3>Criar Consulta</h3>
-                <form>
-                    <label for="criar-consulta-data">Data:</label>
-                    <input type="date" id="criar-consulta-data">
+                <form id="form-criar-consulta" data-form-type="create">
+                    <label for="criar-consulta-datahora">Data e Hora:</label>
+                    <input type="datetime-local" id="criar-consulta-datahora" name="criar-consulta-datahora" required>
+                    
+                    <label for="criar-consulta-medico">Médico:</label>
+                    <select id="criar-consulta-medico" name="criar-consulta-medico" required>
+                        <!-- Opções de médicos serão dinamicamente geradas -->
+                    </select>
+                    
+                    <label for="criar-consulta-paciente">Paciente:</label>
+                    <select id="criar-consulta-paciente" name="criar-consulta-paciente" required>
+                        <!-- Opções de pacientes serão dinamicamente geradas -->
+                    </select>
                     
                     <label for="criar-consulta-descricao">Descrição:</label>
-                    <textarea id="criar-consulta-descricao"></textarea>
+                    <textarea id="criar-consulta-descricao" name="criar-consulta-descricao" required></textarea>
                     
                     <button type="submit">Criar</button>
                 </form>
             </div>
+            
+            
 
             <div class="card">
                 <h3>Obter Consulta</h3>

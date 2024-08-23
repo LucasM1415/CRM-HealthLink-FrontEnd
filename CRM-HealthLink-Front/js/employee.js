@@ -2,7 +2,7 @@ const ip = 'localhost';
 //buscar Paciente
 async function buscarPaciente(token, pacienteId) {
   if (!token) {
-    alert('Usuário não autenticado.');
+    ('Usuário não autenticado.');
     return;
   }
 
@@ -47,7 +47,7 @@ function renderPaciente(data) {
 //Listar paciente
 async function listarPacientes(token) {
     if (!token) {
-      alert('Usuário não autenticado.');
+      ('Usuário não autenticado.');
       return;
     }
   
@@ -113,7 +113,7 @@ async function listarPacientes(token) {
   //criar paciente
   async function criarPaciente(token, data) {
     if (!token) {
-        alert('Usuário não autenticado.');
+        ('Usuário não autenticado.');
         return;
     }
   
@@ -200,7 +200,7 @@ async function listarPacientes(token) {
   //Remover paciente
   async function removerPaciente(token, pacienteId) {
     if (!token) {
-        alert('Usuário não autenticado.');
+        ('Usuário não autenticado.');
         return;
     }
 
@@ -239,7 +239,7 @@ async function handleRemovalResult(status) {
       case 'error':
           const token = localStorage.getItem('token');
           if (token) {
-              await listarc(token); 
+              await listarConsultas(token); 
               await preencherSelectPacientes();
            }
           break;
@@ -277,7 +277,7 @@ async function configureConsultaRemovalListeners() {
 //Atualizar paciente
 async function atualizarPaciente(token, data) {
   if (!token) {
-      alert('Usuário não autenticado.');
+      ('Usuário não autenticado.');
       return;
   }
 
@@ -370,7 +370,7 @@ function renderPacientesSelect(pacientes) {
 
 async function atualizarPaciente(token, data) {
   if (!token) {
-      alert('Usuário não autenticado.');
+      
       return;
   }
 
@@ -437,7 +437,7 @@ async function handleUpdateResult(status) {
 //Obter médico
 async function buscarMedico(token, medicoId) {
   if (!token) {
-    alert('Usuário não autenticado.');
+    
     return;
   }
 
@@ -485,7 +485,7 @@ function renderMedico(data) {
 //listar medicos
 async function listarMedicos(token) {
   if (!token) {
-      alert('Usuário não autenticado.');
+      
       return;
   }
 
@@ -540,10 +540,65 @@ function renderMedicos(medicos) {
 }
 
 
+//Criar consulta
+async function criarNovaConsulta() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      return;
+  }
+
+  const datahora = document.getElementById('criar-consulta-datahora').value;
+  const medicoId = document.getElementById('criar-consulta-medico').value;
+  const pacienteId = document.getElementById('criar-consulta-paciente').value;
+  const descricao = document.getElementById('criar-consulta-descricao').value;
+
+  if (!datahora || !medicoId || !pacienteId || !descricao) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+  }
+
+
+  const corpoRequisicao = {
+      fk_patient: pacienteId, 
+      fk_doctor: medicoId,
+      fk_employee: localStorage.getItem('id'), 
+      data: datahora, 
+      description: descricao
+  };
+
+  const url = `http://${ip}:8080/crmhealthlink/api/appointment`;
+
+  try {
+      
+      const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(corpoRequisicao)
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      console.log('Resultado:', result);
+
+
+  } catch (error) {
+      console.error('Erro ao criar a consulta:', error);
+      alert('Erro ao criar a consulta. Veja o console para detalhes.');
+  }
+}
+
+
 //Listar consultas
 async function listarConsultas(token) {
   if (!token) {
-    alert('Usuário não autenticado.');
+    ('Usuário não autenticado.');
     return;
   }
 
@@ -599,10 +654,143 @@ function renderConsultas(consultas) {
 }
 
 
+async function preencherSelectPacientes() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      console.error('Token não encontrado no localStorage');
+      return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/pacientes`;
+
+  try {
+      const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json'
+          }
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const pacientes = await response.json();
+      renderPacientesSelect(pacientes);
+  } catch (error) {
+      console.error('Erro ao preencher o select com pacientes:', error);
+  }
+}
+
+function renderPacientesSelect(pacientes) {
+  const selectElement = document.getElementById('criar-consulta-paciente');
+
+  if (!selectElement) {
+      console.error('Elemento <select> não encontrado!');
+      return;
+  }
+
+  selectElement.innerHTML = '';
+
+  const optionDefault = document.createElement('option');
+  optionDefault.value = '';
+  optionDefault.textContent = 'Selecione um paciente';
+  selectElement.appendChild(optionDefault);
+
+  pacientes.forEach(paciente => {
+      const option = document.createElement('option');
+      option.value = paciente.id;
+      option.textContent = paciente.name || 'Nome não disponível';
+      selectElement.appendChild(option);
+  });
+}
+async function preencherSelectMedicos() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      console.error('Token não encontrado no localStorage');
+      return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/doctors`; 
+
+  try {
+      const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json'
+          }
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const medicos = await response.json();
+      renderMedicosSelect(medicos);
+  } catch (error) {
+      console.error('Erro ao preencher o select com médicos:', error);
+  }
+}
+
+async function preencherSelectMedicos() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      console.error('Token não encontrado no localStorage');
+      return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/doctors`; 
+
+  try {
+      const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json'
+          }
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const medicos = await response.json();
+      renderMedicosSelect(medicos);
+  } catch (error) {
+      console.error('Erro ao preencher o select com médicos:', error);
+  }
+}
+
+function renderMedicosSelect(medicos) {
+  const selectElement = document.getElementById('criar-consulta-medico');
+
+  if (!selectElement) {
+      console.error('Elemento <select> não encontrado!');
+      return;
+  }
+
+  selectElement.innerHTML = '';
+
+  const optionDefault = document.createElement('option');
+  optionDefault.value = '';
+  optionDefault.textContent = 'Selecione um médico';
+  selectElement.appendChild(optionDefault);
+
+  medicos.forEach(medico => {
+      const option = document.createElement('option');
+      option.value = medico.id;
+      option.textContent = medico.name || 'Nome não disponível';
+      selectElement.appendChild(option);
+  });
+}
+
+
 //Obter consulta
 async function buscarConsulta(token, consultaId) {
   if (!token) {
-    alert('Usuário não autenticado.');
+  
     return;
   }
 
@@ -649,7 +837,7 @@ function renderConsulta(data) {
 //remover consultas
 async function removerConsulta(token, consultaId) {
   if (!token) {
-      alert('Usuário não autenticado.');
+      
       return;
   }
 
@@ -721,27 +909,6 @@ async function setupRemovalEventListeners() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-  
-
 function getToken() {
     var token = localStorage.getItem('token');
     var userid = localStorage.getItem('id');
@@ -757,7 +924,7 @@ function getToken() {
   function singOut() {
     if (typeof localStorage !== "undefined") {
       localStorage.clear();
-      alert("Você foi desconectado com sucesso.");
+      ("Você foi desconectado com sucesso.");
       window.location.href = "../pages/login.html";
     } else {
       console.error("Local storage não está disponível.");
@@ -801,6 +968,7 @@ function updateUserName() {
       try {
           await listarPacientes(token);
           await preencherSelectPacientes();
+          await preencherSelectMedicos();
           await listarMedicos(token);
           await listarConsultas(token);
          
@@ -846,6 +1014,14 @@ function updateUserName() {
       await buscarConsulta(token, consultaId);
     });
   }
+  const formCriarConsulta = document.getElementById('form-criar-consulta');
+    if (formCriarConsulta) {
+        formCriarConsulta.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            await criarNovaConsulta();
+            await listarConsultas();
+        });
+    }
 
 
   document.addEventListener('DOMContentLoaded', () => {

@@ -118,3 +118,31 @@ table th {
 table tbody tr:hover {
     background-color: #f1f1f1;
 }
+
+select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    width: 100%; 
+    box-sizing: border-box; 
+    appearance: none; 
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="none" stroke="%23999" stroke-linecap="round" stroke-linejoin="round" d="M3 6l5 5 5-5"/></svg>'); /* Adiciona uma seta personalizada */
+    background-repeat: no-repeat;
+    background-position: right 10px center; 
+    background-size: 12px; /
+}
+
+
+.select-container {
+    position: relative; 
+    width: 100%; 
+}
+
+select:focus {
+    border-color: #007bff;
+    outline: none; 
+    box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.2); 
+}

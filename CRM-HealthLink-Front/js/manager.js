@@ -10,13 +10,13 @@ async function criarMedico(token, data) {
     const url = `http://${ip}:8080/crmhealthlink/api/employee/doctor/${managerId}`;
      
     const requestBody = {
-        name: data['nome'],
-        birthDate: data['dataNascimento'],
-        cpf: data['cpf'],
-        email: data['email'],
-        accessLevel: data['nivelAcesso'],
-        crm: data['crm'],
-        specialization: data['especializacao']
+        name: data['criar-doctor-nome'],
+        birthDate: data['criar-doctor-dataNascimento'],
+        cpf: data['criar-doctor-cpf'],
+        email: data['criar-doctor-email'],
+        crm: data['criar-doctor-crm'],
+        specialization: data['criar-doctor-especializacao'],
+        accessLevel: 'DOCTOR'
     };
 
     try {
@@ -36,10 +36,57 @@ async function criarMedico(token, data) {
     
         const responseData = await response.json();
         alert('Médico criado com sucesso!');
+        handleCreationResult('success');
       } catch (error) {
         console.error('Erro na requisição:', error);
         alert('Erro ao criar médico.');
+        handleCreationResult('error');
       }
+}
+
+//Funcção pra lidar com a criar do Médico
+async function handleCreationResult(status) {
+  const resultsDivs = document.getElementById('results');
+
+  switch (status) {
+    case 'success':
+      resultsDivs.innerText = 'Médico criado com sucesso!';
+      break;
+
+    case 'error':
+      const token = localStorage.getItem('token');
+      if (token) {
+        await listarPacientes(token);
+        await preencherSelectPacientes();
+      }
+      break;
+
+    default:
+      resultsDivs.innerText = 'Status desconhecido.';
+      break;
+  }
+}
+
+async function  setupDoctorForm() {
+  const form = document.getElementById('criar-doutor-form');
+
+  if (form) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const token = localStorage.getItem('token');
+      const data = {
+        'criar-doutor-nome' : document.getElementById('criar-doutor-nome').value,
+        'criar-doutor-data-nascimento' : document.getElementById('criar-doutor-data-nascimento').value,
+        'criar-doutor-cpf' : document.getElementById('criar-doutor-cpf').value,
+        'criar-doutor-email' : document.getElementById('criar-doutor-email').value
+      };
+
+      await criarMedico(token, data);
+    })
+  }
+
+  
 }
 
 //Atualizar um Médico pelo ID
@@ -56,7 +103,7 @@ async function atualizarMedico(token, medicoId, data) {
       birthDate: data['dataNascimento'],
       cpf: data['cpf'],
       email: data['email'],
-      accessLevel: data['nivelAcesso'],
+      accessLevel: 'DOCTOR',
       crm: data['crm'],
       specialization: data['especializacao']
     };
@@ -317,7 +364,7 @@ async function atualizarFuncionario(token, funcionarioId, data) {
       window.location.href = '../index.html';
     } else {
     
-      listarPacientes(token, userid) 
+      listarPacientes(token, userid)
     }
   }
   
