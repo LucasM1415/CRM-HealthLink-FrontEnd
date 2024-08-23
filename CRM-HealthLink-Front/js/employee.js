@@ -1,5 +1,5 @@
 const ip = 'localhost'; 
-
+//buscar Paciente
 async function buscarPaciente(token, pacienteId) {
   if (!token) {
     alert('Usuário não autenticado.');
@@ -29,8 +29,22 @@ async function buscarPaciente(token, pacienteId) {
   }
 }
 
+function renderPaciente(data) {
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = ''; 
 
+  if (data) {
+    resultsDiv.innerHTML = `
+      <p><strong>Nome:</strong> ${data.name}</p>
+      <p><strong>Data de nascimento:</strong> ${data.birthDate}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+    `;
+  } else {
+    resultsDiv.innerText = 'Nenhum paciente encontrado.';
+  }
+}
 
+//Listar paciente
 async function listarPacientes(token) {
     if (!token) {
       alert('Usuário não autenticado.');
@@ -64,10 +78,39 @@ async function listarPacientes(token) {
     }
   }
 
+  function renderPacientes(data) {
+    const resultsTable = document.querySelector('table tbody');
+  
+    if (!resultsTable) {
+      console.error('Elemento com ID "table tbody" não encontrado.');
+      return;
+    }
+  
+    resultsTable.innerHTML = '';
+  
+    if (!Array.isArray(data)) {
+      console.error('Os dados fornecidos não são uma lista de pacientes.');
+      return;
+    }
+  
+    data.forEach(paciente => {
+      const row = document.createElement('tr');
+  
+      row.innerHTML = `
+        <td>${paciente.id || 'ID não disponível'}</td>
+        <td>${paciente.name || 'Nome não disponível'}</td>
+        <td>${paciente.birthDate ? new Date(paciente.birthDate).toLocaleDateString() : 'Data de Nascimento não disponível'}</td>
+        <td>${paciente.email || 'Email não disponível'}</td>
+      `;
+  
+      resultsTable.appendChild(row);
+    });
+  }
 
 
 
-  //crirar paciente
+
+  //criar paciente
   async function criarPaciente(token, data) {
     if (!token) {
         alert('Usuário não autenticado.');
@@ -101,10 +144,10 @@ async function listarPacientes(token) {
         }
   
         const responseData = await response.json();
-        handleCreationResult('success'); // Chama a função unificada com status de sucesso
+        handleCreationResult('success'); 
     } catch (error) {
         console.error('Erro na requisição:', error);
-        handleCreationResult('error'); // Chama a função unificada com status de erro
+        handleCreationResult('error'); 
     }
   }
   
@@ -161,7 +204,7 @@ async function listarPacientes(token) {
         return;
     }
 
-    const url = `http://${ip}:8080/crmhealthlink/api/employee/paciente/${pacienteId}`; // Atualize conforme necessário
+    const url = `http://${ip}:8080/crmhealthlink/api/employee/paciente/${pacienteId}`; 
 
     try {
         const response = await fetch(url, {
@@ -196,7 +239,7 @@ async function handleRemovalResult(status) {
       case 'error':
           const token = localStorage.getItem('token');
           if (token) {
-              await listarPacientes(token); 
+              await listarc(token); 
               await preencherSelectPacientes();
            }
           break;
@@ -207,25 +250,26 @@ async function handleRemovalResult(status) {
   }
 }
 
-async function setupRemovalEventListeners() {
-  const form = document.getElementById('remover-paciente-form');
+async function configureConsultaRemovalListeners() {
+  const form = document.getElementById('remover-consulta-form');
 
   if (form) {
       form.addEventListener('submit', async (event) => {
           event.preventDefault(); // Evita o envio padrão do formulário
 
-          const pacienteId = document.getElementById('remover-paciente-id').value.trim(); // Obtém o ID do paciente
-          const token = localStorage.getItem('token'); // Obtém o token do armazenamento local
+          const consultaId = document.getElementById('remover-consulta-id').value.trim(); 
+          const token = localStorage.getItem('token'); 
 
-          if (pacienteId === '') {
-              document.getElementById('results').innerText = 'Por favor, insira o ID do paciente.';
+          if (consultaId === '') {
+              document.getElementById('consulta-results').innerText = 'Por favor, insira o ID da consulta.';
               return;
           }
 
-          await removerPaciente(token, pacienteId);
+          await removerConsulta(token, consultaId);
       });
   }
 }
+
 
 
 
@@ -496,71 +540,207 @@ function renderMedicos(medicos) {
 }
 
 
+//Listar consultas
+async function listarConsultas(token) {
+  if (!token) {
+    alert('Usuário não autenticado.');
+    return;
+  }
 
+  const url = `http://${ip}:8080/crmhealthlink/api/appointment`; 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  function renderPacientes(data) {
-    const resultsTable = document.querySelector('table tbody');
-  
-    if (!resultsTable) {
-      console.error('Elemento com ID "table tbody" não encontrado.');
-      return;
-    }
-  
-    resultsTable.innerHTML = '';
-  
-    if (!Array.isArray(data)) {
-      console.error('Os dados fornecidos não são uma lista de pacientes.');
-      return;
-    }
-  
-    data.forEach(paciente => {
-      const row = document.createElement('tr');
-  
-      row.innerHTML = `
-        <td>${paciente.id || 'ID não disponível'}</td>
-        <td>${paciente.name || 'Nome não disponível'}</td>
-        <td>${paciente.birthDate ? new Date(paciente.birthDate).toLocaleDateString() : 'Data de Nascimento não disponível'}</td>
-        <td>${paciente.email || 'Email não disponível'}</td>
-      `;
-  
-      resultsTable.appendChild(row);
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+      },
     });
-  }
 
-  function renderPaciente(data) {
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = ''; 
-  
-    if (data) {
-      resultsDiv.innerHTML = `
-        <p><strong>Nome:</strong> ${data.name}</p>
-        <p><strong>Data de nascimento:</strong> ${data.birthDate}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-      `;
-    } else {
-      resultsDiv.innerText = 'Nenhum paciente encontrado.';
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
+
+    const data = await response.json();
+    renderConsultas(data);
+
+  } catch (error) {
+    console.error('Erro na requisição:', error);
+    const resultsTable = document.querySelector('#list-consultas-tbody');
+    resultsTable.innerHTML = '<tr><td colspan="6">Erro ao listar consultas.</td></tr>';
+  }
+}
+
+function renderConsultas(consultas) {
+  const tableBody = document.querySelector('#list-consultas-tbody');
+
+  if (!tableBody) {
+    console.error('Elemento <tbody> não encontrado!');
+    return;
   }
 
+  tableBody.innerHTML = '';
+
+  consultas.forEach(consulta => {
+    const row = document.createElement('tr');
+    
+    row.innerHTML = `
+      <td>${consulta.id || 'ID não disponível'}</td>
+      <td>${consulta.namePatient || 'Paciente não disponível'}</td>
+      <td>${consulta.nameDoctor || 'Médico não disponível'}</td>
+      <td>${consulta.date || 'Data não disponível'}</td>
+      <td>${consulta.description || 'Descrição não disponível'}</td>
+      
+    `;
+
+    tableBody.appendChild(row);
+  });
+}
+
+
+//Obter consulta
+async function buscarConsulta(token, consultaId) {
+  if (!token) {
+    alert('Usuário não autenticado.');
+    return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/appointment/${consultaId}`; 
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    renderConsulta(data);
+  } catch (error) {
+    console.error('Erro na requisição:', error);
+    document.getElementById('consulta-results').innerText = 'Erro ao buscar consulta.';
+  }
+}
+
+function renderConsulta(data) {
+  const resultsDiv = document.getElementById('consulta-results');
+  resultsDiv.innerHTML = ''; 
+
+  if (data) {
+    resultsDiv.innerHTML = `
+      <p><strong>Paciente:</strong> ${data.namePatient}</p>
+      <p><strong>Médico:</strong> ${data.nameDoctor}</p>
+      <p><strong>Data:</strong> ${data.date}</p>
+      <p><strong>Descrição:</strong> ${data.description}</p>
+     
+    `;
+  } else {
+    resultsDiv.innerText = 'Nenhuma consulta encontrada.';
+  }
+}
+
+//remover consultas
+async function removerConsulta(token, consultaId) {
+  if (!token) {
+      alert('Usuário não autenticado.');
+      return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/appointment/${consultaId}`; 
+
+  try {
+      const response = await fetch(url, {
+          method: 'DELETE',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+          },
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const data = await response.json(); 
+      await handleRemovalResult('success');
+  } catch (error) {
+      console.error('Erro na requisição:', error);
+      await handleRemovalResult('error');
+  }
+}
+
+
+async function handleRemovalResult(status) {
+  const resultsDiv = document.getElementById('consulta-results');
+  
+  switch (status) {
+      case 'success':
+          resultsDiv.innerText = 'Consulta removida com sucesso!';
+          break;
+      
+      case 'error':
+          const token = localStorage.getItem('token');
+          if (token) {
+              await listarConsultas(token); 
+          }
+          break;
+      
+      default:
+          resultsDiv.innerText = 'Status desconhecido.';
+          break;
+  }
+}
+async function setupRemovalEventListeners() {
+  const form = document.getElementById('remover-consulta-form');
+
+  if (form) {
+      form.addEventListener('submit', async (event) => {
+          event.preventDefault(); 
+
+          const consultaId = document.getElementById('remover-consulta-id').value.trim(); 
+          const token = localStorage.getItem('token'); 
+
+          if (consultaId === '') {
+              document.getElementById('consulta-results').innerText = 'Por favor, insira o ID da consulta.';
+              return;
+          }
+
+          await removerConsulta(token, consultaId);
+      });
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+  
 
 function getToken() {
     var token = localStorage.getItem('token');
@@ -569,7 +749,8 @@ function getToken() {
       window.location.href = '../index.html';
     } else {
       listarPacientes(token, userid)
-      listarMedicos(token, userid) 
+      listarMedicos(token, userid)
+      listarConsultas(token, userid); 
     }
   }
   
@@ -621,6 +802,7 @@ function updateUserName() {
           await listarPacientes(token);
           await preencherSelectPacientes();
           await listarMedicos(token);
+          await listarConsultas(token);
          
       } catch (error) {
           console.error('Erro ao preencher o select com pacientes:', error);
@@ -654,6 +836,15 @@ function updateUserName() {
       await buscarMedico(token, medicoId);
     });
   }
+  }
+  const consultaForm = document.getElementById('consulta-form');
+  if (consultaForm) {
+    consultaForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const token = localStorage.getItem('token');
+      const consultaId = document.getElementById('obter-consulta-id').value;
+      await buscarConsulta(token, consultaId);
+    });
   }
 
 

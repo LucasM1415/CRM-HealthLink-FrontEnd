@@ -175,12 +175,16 @@
 
             <div class="card">
                 <h3>Obter Consulta</h3>
-                <form>
-                    <label for="obter-consulta-id">ID:</label>
-                    <input type="text" id="obter-consulta-id">
-                    <button type="submit">Buscar</button>
+                <form id="consulta-form">
+                  <label for="obter-consulta-id">ID:</label>
+                  <input type="text" id="obter-consulta-id">
+                  <button type="submit">Buscar</button>
                 </form>
-            </div>
+                <div id="consulta-results">
+                  <!-- Resultados da consulta serão exibidos aqui -->
+                </div>
+              </div>
+              
 
             <div class="card">
                 <h3>Atualizar Consulta</h3>
@@ -200,29 +204,34 @@
 
             <div class="card">
                 <h3>Remover Consulta</h3>
-                <form>
-                    <label for="remover-consulta-id">ID:</label>
+                <form id="remover-consulta-form">
+                    <label for="remover-consulta-id">ID da Consulta:</label>
                     <input type="text" id="remover-consulta-id">
                     <button type="submit">Remover</button>
                 </form>
-            </div>
+                <div id="consulta-results"></div>
+              </div>
+              
 
             <div class="card">
                 <h3>Lista das Consultas Registradas</h3>
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Descrição</th>
-                            <th>Nome do Paciente</th>
-                            <th>Nome do Doutor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Dados das consultas serão inseridos aqui -->
-                    </tbody>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Paciente</th>
+                      <th>Médico</th>
+                      <th>Data</th>
+                      <th>Descrição</th>
+              
+                    </tr>
+                  </thead>
+                  <tbody id="list-consultas-tbody">
+                    <!-- Dados das consultas serão inseridos aqui -->
+                  </tbody>
                 </table>
-            </div>
+              </div>
+              
         </section>
     </main>
 
