@@ -126,32 +126,34 @@
 
             <div class="card">
                 <h3>Obter Médico</h3>
-                <form>
+                <form id="medico-form">
                     <label for="obter-doutor-id">ID:</label>
-                    <input type="text" id="obter-doutor-id">
+                    <input type="text" id="obter-doutor-id" required>
                     <button type="submit">Buscar</button>
                 </form>
+                <div id="medico-results"></div>
             </div>
+            
 
-            <div class="card">
+            <div class="card" id="list-medicos-card">
                 <h3>Lista dos Médicos Registrados</h3>
-                <table>
+                <table id="list-medicos-table">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
                             <th>Email</th>
-                            <th>Nível de Acesso</th>
                             <th>CRM</th>
                             <th>Especialização</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Dados dos doutores serão inseridos aqui -->
+                    <tbody id="list-medicos-tbody">
+                        <!-- Dados dos médicos serão inseridos aqui -->
                     </tbody>
                 </table>
             </div>
+            
         </section>
 
         <!-- Seção de Consultas -->

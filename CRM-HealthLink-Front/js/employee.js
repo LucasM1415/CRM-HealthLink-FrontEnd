@@ -390,6 +390,113 @@ async function handleUpdateResult(status) {
   }
 }
 
+//Obter médico
+async function buscarMedico(token, medicoId) {
+  if (!token) {
+    alert('Usuário não autenticado.');
+    return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/doctor/${medicoId}`; 
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    renderMedico(data);
+  } catch (error) {
+    console.error('Erro na requisição:', error);
+    document.getElementById('medico-results').innerText = 'Erro ao buscar médico.';
+  }
+}
+
+function renderMedico(data) {
+  const resultsDiv = document.getElementById('medico-results');
+  resultsDiv.innerHTML = ''; 
+
+  if (data) {
+    resultsDiv.innerHTML = `
+      <p><strong>Nome:</strong> ${data.name}</p>
+      <p><strong>Data de Nascimento:</strong> ${data.birthDate}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>CRM:</strong> ${data.crm}</p>
+    `;
+  } else {
+    resultsDiv.innerText = 'Nenhum médico encontrado.';
+  }
+}
+
+
+
+//listar medicos
+async function listarMedicos(token) {
+  if (!token) {
+      alert('Usuário não autenticado.');
+      return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/doctors`; 
+
+  try {
+      const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+          },
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      renderMedicos(data);
+
+  } catch (error) {
+      console.error('Erro na requisição:', error);
+      const resultsTable = document.querySelector('#list-medicos-tbody');
+      resultsTable.innerHTML = '<tr><td colspan="7">Erro ao listar médicos.</td></tr>';
+  }
+}
+
+
+function renderMedicos(medicos) {
+  const tbody = document.querySelector('#list-medicos-tbody');
+
+  if (!tbody) {
+      console.error('Elemento <tbody> não encontrado!');
+      return;
+  }
+
+  tbody.innerHTML = '';
+
+  medicos.forEach(medico => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+          <td>${medico.id}</td>
+          <td>${medico.name || 'Nome não disponível'}</td>
+          <td>${medico.birthDate || 'Data não disponível'}</td>
+          <td>${medico.email || 'Email não disponível'}</td>
+          <td>${medico.crm || 'CRM não disponível'}</td>
+          <td>${medico.specialty || 'Especialização não disponível'}</td>
+      `;
+      tbody.appendChild(row);
+  });
+}
+
+
+
 
 
 
@@ -461,8 +568,8 @@ function getToken() {
     if (token == null) {
       window.location.href = '../index.html';
     } else {
-    
-      listarPacientes(token, userid) 
+      listarPacientes(token, userid)
+      listarMedicos(token, userid) 
     }
   }
   
@@ -513,6 +620,8 @@ function updateUserName() {
       try {
           await listarPacientes(token);
           await preencherSelectPacientes();
+          await listarMedicos(token);
+         
       } catch (error) {
           console.error('Erro ao preencher o select com pacientes:', error);
       }
@@ -525,7 +634,7 @@ function updateUserName() {
           const token = localStorage.getItem('token');
           const formData = new FormData(updateForm);
 
-          // Converte FormData para um objeto simples
+          
           const data = {};
           formData.forEach((value, key) => {
               data[key] = value;
@@ -534,12 +643,20 @@ function updateUserName() {
           await atualizarPaciente(token, data);
       });
   }
+  const medicoForm = document.getElementById('medico-form');
+  if (medicoForm) {
+    medicoForm.addEventListener('submit', async (event) => {
+      event.preventDefault(); 
+
+      const token = localStorage.getItem('token');
+      const medicoId = document.getElementById('obter-doutor-id').value;
+      
+      await buscarMedico(token, medicoId);
+    });
+  }
   }
 
 
-
-
-  
   document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     updateUserName(); 
