@@ -1,5 +1,6 @@
 const ip = 'localhost'; 
 
+//Area do Paciente
 async function buscarPaciente(token, pacienteId) {
   if (!token) {
     alert('Usuário não autenticado.');
@@ -205,6 +206,38 @@ async function criarPaciente(token, data) {
   }
 }
 
+async function listarDoutores(token) {
+  if (!token) {
+    alert('Usuário não autenticado.');
+    return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/doctors`; 
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    renderPacientes(data);
+
+
+
+  } catch (error) {
+    console.error('Erro na requisição:', error);
+    const resultsTable = document.querySelector('table tbody');
+    resultsTable.innerHTML = '<tr><td colspan="5">Erro ao listar pacientes.</td></tr>';
+  }
+}
 
 // Função para lidar com o resultado da criação
 function handleCreationResult(status) {
@@ -245,45 +278,6 @@ async function setupPacienteForm() {
       });
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   function renderPacientes(data) {
     const resultsTable = document.querySelector('table tbody');
@@ -386,6 +380,7 @@ function updateUserName() {
     const token = localStorage.getItem('token');
   if (token) {
     await listarPacientes(token);
+    await listarDoutores(token);
   }
   }
   

@@ -51,7 +51,7 @@ function handleLogin(event) {
             window.location.href = '../pages/employeePage.html';
             break;
           case 'MANAGER':
-          window.location.href = '../pages/employeePage.html';
+          window.location.href = '../pages/managerPage.html';
           break;
       }
       
