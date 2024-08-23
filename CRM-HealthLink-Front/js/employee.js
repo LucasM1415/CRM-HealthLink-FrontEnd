@@ -29,36 +29,7 @@ async function buscarPaciente(token, pacienteId) {
   }
 }
 
-async function removerPaciente(token, pacienteId) {
-    if (!token) {
-      alert('Usuário não autenticado.');
-      return;
-    }
-  
-    const url = `http://${ip}:8080/crmhealthlink/api/employee/paciente/${pacienteId}`; // Atualize a rota conforme necessário
-  
-    try {
-      const response = await fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Erro HTTP! Status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-      alert('Paciente removido com sucesso!');
-      // Recarregue a lista de pacientes ou atualize a interface conforme necessário
-      await listarPacientes(token); // Atualiza a lista de pacientes após a remoção
-    } catch (error) {
-      console.error('Erro na requisição:', error);
-      document.getElementById('results').innerText = 'Erro ao remover paciente.';
-    }
-  }
+
 
 async function listarPacientes(token) {
     if (!token) {
@@ -93,6 +64,97 @@ async function listarPacientes(token) {
     }
   }
 
+
+
+
+  //crirar paciente
+  async function criarPaciente(token, data) {
+    if (!token) {
+        alert('Usuário não autenticado.');
+        return;
+    }
+  
+    const url = `http://${ip}:8080/crmhealthlink/api/employee/create/patient`; 
+  
+    const requestBody = {
+        name: data['criar-paciente-nome'],
+        birthDate: data['criar-paciente-data-nascimento'],
+        cpf: data['criar-paciente-cpf'],
+        email: data['criar-paciente-email'],
+        password: data['criar-paciente-password'], 
+        acessLevel: 'PATIENT' 
+    };
+  
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`Erro HTTP! Status: ${response.status}`);
+        }
+  
+        const responseData = await response.json();
+        handleCreationResult('success'); // Chama a função unificada com status de sucesso
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        handleCreationResult('error'); // Chama a função unificada com status de erro
+    }
+  }
+  
+  
+  // Função para lidar com o resultado da criação
+  async function handleCreationResult(status) {
+    const resultsDiv = document.getElementById('results');
+    
+    switch (status) {
+        case 'success':
+            resultsDiv.innerText = 'Paciente criado com sucesso!';
+            break;
+        
+        case 'error':
+            const token = localStorage.getItem('token');
+            if (token) {
+                await listarPacientes(token); 
+                await preencherSelectPacientes();
+                
+             }
+            break;
+        
+        default:
+            resultsDiv.innerText = 'Status desconhecido.';
+            break;
+    }
+  }
+  
+  async function setupPacienteForm() {
+    const form = document.getElementById('criar-paciente-form');
+  
+    if (form) {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); 
+  
+            const token = localStorage.getItem('token');
+            const data = {
+                'criar-paciente-nome': document.getElementById('criar-paciente-nome').value,
+                'criar-paciente-data-nascimento': document.getElementById('criar-paciente-data-nascimento').value,
+                'criar-paciente-cpf': document.getElementById('criar-paciente-cpf').value,
+                'criar-paciente-email': document.getElementById('criar-paciente-email').value,
+                'criar-paciente-password': document.getElementById('criar-paciente-password').value
+            };
+  
+            await criarPaciente(token, data);
+        });
+    }
+  }
+
+  //Remover paciente
   async function removerPaciente(token, pacienteId) {
     if (!token) {
         alert('Usuário não autenticado.');
@@ -114,11 +176,11 @@ async function listarPacientes(token) {
             throw new Error(`Erro HTTP! Status: ${response.status}`);
         }
 
-        const data = await response.json(); // Pode não ser necessário se não houver dados retornados
-        handleRemovalResult('success'); // Chama a função unificada com status de sucesso
+        const data = await response.json(); 
+        handleRemovalResult('success'); 
     } catch (error) {
         console.error('Erro na requisição:', error);
-        handleRemovalResult('error'); // Chama a função unificada com status de erro
+        handleRemovalResult('error'); 
     }
 }
 
@@ -128,15 +190,15 @@ async function handleRemovalResult(status) {
   switch (status) {
       case 'success':
           resultsDiv.innerText = 'Paciente removido com sucesso!';
-          // Opcional: Atualize a lista de pacientes ou execute outra lógica necessária
-          const token = localStorage.getItem('token');
-          if (token) {
-              await listarPacientes(token); // Substitua 'token' com o método correto para obter o token
-           }
+          
           break;
       
       case 'error':
-          resultsDiv.innerText = 'Erro ao remover paciente.';
+          const token = localStorage.getItem('token');
+          if (token) {
+              await listarPacientes(token); 
+              await preencherSelectPacientes();
+           }
           break;
       
       default:
@@ -165,26 +227,30 @@ async function setupRemovalEventListeners() {
   }
 }
 
-async function criarPaciente(token, data) {
+
+
+
+//Atualizar paciente
+async function atualizarPaciente(token, data) {
   if (!token) {
       alert('Usuário não autenticado.');
       return;
   }
 
-  const url = `http://${ip}:8080/crmhealthlink/api/employee/create/patient`; 
+  const pacienteId = data['update-paciente-id'];
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/update/patient/${pacienteId}`;
 
   const requestBody = {
-      name: data['criar-paciente-nome'],
-      birthDate: data['criar-paciente-data-nascimento'],
-      cpf: data['criar-paciente-cpf'],
-      email: data['criar-paciente-email'],
-      password: data['criar-paciente-password'], 
-      acessLevel: 'PATIENT' 
+      name: data['update-paciente-nome'],
+      birthDate: data['update-paciente-data-nascimento'],
+      cpf: data['update-paciente-cpf'],
+      email: data['update-paciente-email'],
+      password: data['update-paciente-password']
   };
 
   try {
       const response = await fetch(url, {
-          method: 'POST',
+          method: 'PUT',
           headers: {
               'Authorization': `Bearer ${token}`,
               'Accept': 'application/json',
@@ -198,72 +264,131 @@ async function criarPaciente(token, data) {
       }
 
       const responseData = await response.json();
-      handleCreationResult('success'); // Chama a função unificada com status de sucesso
+      handleUpdateResult('success');
   } catch (error) {
       console.error('Erro na requisição:', error);
-      handleCreationResult('error'); // Chama a função unificada com status de erro
+      handleUpdateResult('error');
   }
 }
 
 
-// Função para lidar com o resultado da criação
-function handleCreationResult(status) {
-  const resultsDiv = document.getElementById('results');
-  
-  switch (status) {
-      case 'success':
-          resultsDiv.innerText = 'Paciente criado com sucesso!';
-          break;
-      
-      case 'error':
-          resultsDiv.innerText = 'Erro ao criar paciente.';
-          break;
-      
-      default:
-          resultsDiv.innerText = 'Status desconhecido.';
-          break;
+async function preencherSelectPacientes() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      console.error('Token não encontrado no localStorage');
+      return;
   }
-}
 
-async function setupPacienteForm() {
-  const form = document.getElementById('criar-paciente-form');
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/pacientes`;
 
-  if (form) {
-      form.addEventListener('submit', async (event) => {
-          event.preventDefault(); // Evita o envio padrão do formulário
-
-          const token = localStorage.getItem('token');
-          const data = {
-              'criar-paciente-nome': document.getElementById('criar-paciente-nome').value,
-              'criar-paciente-data-nascimento': document.getElementById('criar-paciente-data-nascimento').value,
-              'criar-paciente-cpf': document.getElementById('criar-paciente-cpf').value,
-              'criar-paciente-email': document.getElementById('criar-paciente-email').value,
-              'criar-paciente-password': document.getElementById('criar-paciente-password').value
-          };
-
-          await criarPaciente(token, data);
+  try {
+      const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json'
+          }
       });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const pacientes = await response.json();
+      renderPacientesSelect(pacientes);
+  } catch (error) {
+      console.error('Erro ao preencher o select com pacientes:', error);
+  }
+}
+
+function renderPacientesSelect(pacientes) {
+  const selectElement = document.getElementById('update-paciente-id');
+
+  if (!selectElement) {
+      console.error('Elemento <select> não encontrado!');
+      return;
+  }
+
+  selectElement.innerHTML = '';
+
+  const optionDefault = document.createElement('option');
+  optionDefault.value = '';
+  optionDefault.textContent = 'Selecione um paciente';
+  selectElement.appendChild(optionDefault);
+
+  pacientes.forEach(paciente => {
+      const option = document.createElement('option');
+      option.value = paciente.id;
+      option.textContent = paciente.name || 'Nome não disponível';
+      selectElement.appendChild(option);
+  });
+}
+
+async function atualizarPaciente(token, data) {
+  if (!token) {
+      alert('Usuário não autenticado.');
+      return;
+  }
+
+  const pacienteId = data['update-paciente-id'];
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/paciente/${pacienteId}`;
+
+  const requestBody = {
+      name: data['update-paciente-nome'],
+      birthDate: data['update-paciente-data-nascimento'],
+      cpf: data['update-paciente-cpf'],
+      email: data['update-paciente-email'],
+      password: data['update-paciente-password'] 
+  };
+
+  try {
+      const response = await fetch(url, {
+          method: 'PUT',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      handleUpdateResult('success'); 
+  } catch (error) {
+      console.error('Erro na requisição:', error);
+      handleUpdateResult('error'); 
   }
 }
 
 
+async function handleUpdateResult(status) {
+  const resultsDiv = document.getElementById('results3');
+  
+  if (!resultsDiv) {
+      console.error('Elemento <div id="results3"> não encontrado!');
+      return;
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  if (status === 'success') {
+    const token = localStorage.getItem('token');
+    if (token) {
+        await listarPacientes(token); 
+     }
+  } else if (status === 'error') {
+    const token = localStorage.getItem('token');
+    if (token) {
+        await listarPacientes(token); 
+        await preencherSelectPacientes()
+     }
+  } else {
+      resultsDiv.innerHTML = '<p>Estado desconhecido.</p>';
+      resultsDiv.style.color = 'orange'; 
+  }
+}
 
 
 
@@ -384,13 +509,40 @@ function updateUserName() {
       });
     }
     const token = localStorage.getItem('token');
-  if (token) {
-    await listarPacientes(token);
+    if (token) {
+      try {
+          await listarPacientes(token);
+          await preencherSelectPacientes();
+      } catch (error) {
+          console.error('Erro ao preencher o select com pacientes:', error);
+      }
+  }
+  const updateForm = document.getElementById('update-paciente-form');
+  if (updateForm) {
+      updateForm.addEventListener('submit', async (event) => {
+          event.preventDefault(); 
+
+          const token = localStorage.getItem('token');
+          const formData = new FormData(updateForm);
+
+          // Converte FormData para um objeto simples
+          const data = {};
+          formData.forEach((value, key) => {
+              data[key] = value;
+          });
+
+          await atualizarPaciente(token, data);
+      });
   }
   }
+
+
+
+
   
   document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     updateUserName(); 
     setupPacienteForm();
   });
+  
