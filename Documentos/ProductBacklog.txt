@@ -72,60 +72,7 @@ Sistema de Gestão de Pacientes
 
 
 
-====OUTRA COISA===========
-@MappedSuperClass User[nome,cpf,birthday,phone_number int[],email]
 
-PATIENT extends Person
-	 
-DOCTOR extends Person (atributo ENUM role)
-
-(perfis) ENUM_ROLE (1, 2, 3)
-
-Employee extends Person (atributo ENUM role)
-	(1.Attendant(cadastrar paciente e agendar consulta), 
-
-	(2.Mananger (cadastrar funcionarios e médicos)
-
-
-Schedule  
-	date : DATE
-	patient : Patient
-	doctor : Doctor
-appointment  : Appointment 	
-Serviço (1. Appointment 
-   2. Exam)
-
-Appointment 
-	Date_Appointment: date
-	observações : String
-	*vai estar na outra | required_exams : Exams[] 
-
-Exam
-Nome: String
-appointment_id 
-Date_Exam: date
-feito : boolean
-in_local : boolean
-
-
-===========BD======================
-
-Tabelas:
-
-Exame [id_PACIENTE, id_medico, id_profissional_da_saude,agendamento, feito,id_consulta]
-Consulta [id_PACIENTE, agendamento_id, prioridade_tag]
-
-//Para fazer a montagem do “Historico Medico junte essas duas
-
-Paciente
-
-Medico
-
-Funcionario
-
-Perfis (enum)
-
-Agendamento [DATE, id_paciente, id_medico, id_profissional]
 
 
 	
