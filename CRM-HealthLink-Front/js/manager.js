@@ -357,14 +357,14 @@ async function atualizarFuncionario(token, funcionarioId, data) {
     }
   }
 //Preencher select de especialidade
-async function preencherSelectEspecialidades() {
+async function preencherSelectEspecialidades(selectId) {
   const token = localStorage.getItem('token');
   if (!token) {
       console.error('Token não encontrado no localStorage');
       return;
   }
 
-  const url = `http://${ip}:8080/crmhealthlink/api/employee/doctors`; 
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/doctors`;
 
   try {
       const response = await fetch(url, {
@@ -381,7 +381,7 @@ async function preencherSelectEspecialidades() {
 
       const medicos = await response.json();
       const especialidades = extrairEspecialidadesUnicas(medicos);
-      renderEspecialidadesSelect(especialidades);
+      renderEspecialidadesSelect(especialidades, selectId);
   } catch (error) {
       console.error('Erro ao preencher o select com especialidades:', error);
   }
@@ -394,9 +394,9 @@ function extrairEspecialidadesUnicas(medicos) {
   return especialidadesUnicas;
 }
 
-function renderEspecialidadesSelect(especialidades) {
-  const selectElement = document.getElementById('specialization'); // Certifique-se de que o ID está correto
-
+function renderEspecialidadesSelect(especialidades, selectId) {
+  const selectElement = document.getElementById(selectId);
+  
   if (!selectElement) {
       console.error('Elemento <select> não encontrado!');
       return;
@@ -418,8 +418,6 @@ function renderEspecialidadesSelect(especialidades) {
 }
 
 
-
-
 //Criar um horário
 async function criarHorarios() {
   const token = localStorage.getItem('token');
@@ -429,101 +427,195 @@ async function criarHorarios() {
   }
 
   const date = document.getElementById('calendar').value;
-  const specialization = document.getElementById('specialization').value.toUpperCase(); // Transformar em maiúsculas para manter o padrão de resposta da API
-  
-  // Coletar os turnos selecionados e construir o horário
+  const specialization = document.getElementById('specialization').value.toUpperCase();
+
+  // Coletar os turnos selecionados
   const turnosSelecionados = Array.from(document.querySelectorAll('input[name="turnos"]:checked'));
 
-  // Mapeia os turnos selecionados para a estrutura esperada pela API
-  const horarios = turnosSelecionados.map(turno => {
+  const url = `http://${ip}:8080/crmhealthlink/api/calendario`;
+
+  for (const turno of turnosSelecionados) {
       const [startHour, startMinute] = turno.dataset.horarioInicio.split(':').map(Number);
       const [endHour, endMinute] = turno.dataset.horarioFim.split(':').map(Number);
       
-      return {
+      // Formatar horas e minutos para sempre ter 2 dígitos
+      const formattedStartHour = String(startHour).padStart(2, '0');
+      const formattedStartMinute = String(startMinute).padStart(2, '0');
+      const formattedEndHour = String(endHour).padStart(2, '0');
+      const formattedEndMinute = String(endMinute).padStart(2, '0');
+      
+      const horario = {
           date,
-          homeTime: {
-              hour: startHour,
-              minute: startMinute,
-              second: 0,
-              nano: 0
-          },
-          endTime: {
-              hour: endHour,
-              minute: endMinute,
-              second: 0,
-              nano: 0
-          },
+          homeTime: `${formattedStartHour}:${formattedStartMinute}:00`, // Formato "HH:mm:ss"
+          endTime: `${formattedEndHour}:${formattedEndMinute}:00`,     // Formato "HH:mm:ss"
           specialtyType: specialization
       };
-  });
 
-  const url = `http://${ip}:8080/crmhealthlink/api/employee/calendario`;
+      try {
+          const response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+              },
+              body: JSON.stringify(horario)
+          });
+
+          if (!response.ok) {
+              throw new Error(`Erro HTTP! Status: ${response.status}`);
+          }
+
+          const result = await response.json();
+          console.log('Horário criado com sucesso:', result);
+      } catch (error) {
+          console.error('Erro ao criar o horário:', error);
+      }
+  }
+}
+
+
+
+
+
+//Listar horários
+async function listarHorarios() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      console.error('Usuário não autenticado.');
+      return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/calendario`; // Ajuste a URL conforme necessário
 
   try {
       const response = await fetch(url, {
-          method: 'POST',
+          method: 'GET',
           headers: {
               'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
+              'Accept': 'application/json',
           },
-          body: JSON.stringify(horarios)
       });
 
       if (!response.ok) {
           throw new Error(`Erro HTTP! Status: ${response.status}`);
       }
 
-      const result = await response.json();
-      console.log('Horários criados com sucesso:', result);
-      // Aqui você pode adicionar qualquer lógica para atualizar a interface após a criação dos horários
+      const data = await response.json();
+      renderizarHorarios(data);
   } catch (error) {
-      console.error('Erro ao criar os horários:', error);
+      console.error('Erro na requisição:', error);
+      const resultsTable = document.getElementById('list-horarios-tbody');
+      resultsTable.innerHTML = '<tr><td colspan="4">Erro ao listar horários.</td></tr>';
   }
 }
 
+function renderizarHorarios(data) {
+  const resultsTable = document.getElementById('list-horarios-tbody');
 
-//Listar horários
-async function listarHorarios(token) {
-  //const url = `http://${ip}:8080/crmhealthlink/api/manager/list/schedules`;
-
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json'
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    renderHorarios(data);
-  } catch (error) {
-    console.error('Erro ao listar horários:', error);
+  if (!resultsTable) {
+      console.error('Elemento da tabela não encontrado.');
+      return;
   }
-}
 
-function renderHorarios(data) {
-  const resultsDiv = document.getElementById('horario-results');
-  resultsDiv.innerHTML = '';
+  resultsTable.innerHTML = '';
+
+  if (!Array.isArray(data)) {
+      console.error('Os dados fornecidos não são uma lista de horários.');
+      return;
+  }
 
   data.forEach(horario => {
-    const horarioElement = document.createElement('div');
-    horarioElement.innerHTML = `
-      <p><strong>Data:</strong> ${horario.date}</p>
-      <p><strong>Especialidade:</strong> ${horario.specialization}</p>
-      <p><strong>Turnos:</strong> ${horario.shifts.join(', ')}</p>
-    `;
-    resultsDiv.appendChild(horarioElement);
+      const row = document.createElement('tr');
+
+      row.innerHTML = `
+          <td>${horario.date || 'Data não disponível'}</td>
+          <td>${horario.homeTime || 'Hora de início não disponível'}</td>
+          <td>${horario.endTime || 'Hora de término não disponível'}</td>
+          <td>${horario.specialtyType || 'Especialidade não disponível'}</td>
+      `;
+
+      resultsTable.appendChild(row);
+  });
+}
+
+//Listar resultado da pesquisa
+async function pesquisarHorarios() {
+  const token = localStorage.getItem('token');
+  const specialty = document.getElementById('specialization-search').value;
+  const month = document.getElementById('month-search').value;
+  const year = document.getElementById('year-search').value;
+
+  if (!token || !specialty || !month || !year) {
+      console.error('Dados insuficientes para realizar a pesquisa');
+      return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/calendario/specialty?specialty=${specialty}&month=${month}&year=${year}`;
+
+  try {
+      const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+          },
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data); // Verifica a estrutura dos dados
+
+      renderizarHorariosPesquisa(data); // Chama a função para renderizar os horários de pesquisa
+
+      // Exibir a tabela após a pesquisa
+      document.getElementById('tabela-horarios').style.display = 'block';
+
+  } catch (error) {
+      console.error('Erro ao pesquisar horários:', error);
+  }
+}
+
+
+
+function renderizarHorariosPesquisa(data) {
+  const resultsTable = document.getElementById('list-consultas-tbody');
+
+  if (!resultsTable) {
+      console.error('Elemento de tabela não encontrado.');
+      return;
+  }
+
+  resultsTable.innerHTML = ''; // Limpa a tabela antes de adicionar novos resultados
+
+  if (!Array.isArray(data)) {
+      console.error('Os dados fornecidos não são uma lista de horários.');
+      return;
+  }
+
+  data.forEach(horario => {
+      const row = document.createElement('tr');
+
+      row.innerHTML = `
+          <td>${horario.id || 'ID não disponível'}</td>
+          <td>${horario.paciente || 'Paciente não disponível'}</td> <!-- Ajuste conforme necessário -->
+          <td>${horario.medico || 'Médico não disponível'}</td> <!-- Ajuste conforme necessário -->
+          <td>${horario.date ? new Date(horario.date).toLocaleDateString() : 'Data não disponível'}</td>
+          <td>${horario.homeTime || 'Horário de Início não disponível'}</td>
+          <td>${horario.endTime || 'Horário de Fim não disponível'}</td>
+          <td>${horario.specialtyType || 'Especialidade não disponível'}</td>
+      `;
+
+      resultsTable.appendChild(row);
   });
 }
 
 
-  
+
+
   function getToken() {
     var token = localStorage.getItem('token');
     var userid = localStorage.getItem('id');
@@ -555,54 +647,68 @@ function updateUserName() {
     }
   }
   
-
-  async function setupEventListeners() {
+  async function setupEventListeners2() {
     await setupRemovalEventListeners();
 
-    // Event listener para o formulário de paciente
-    const form = document.getElementById('paciente-form');
-    if (form) {
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault(); 
-            const token = localStorage.getItem('token');
-            const pacienteId = document.getElementById('obter-paciente-id').value;
-            await buscarPaciente(token, pacienteId);
-        });
-    }
-
-    // Event listener para o botão de voltar
-    const backButton = document.getElementById('back-button');
-    if (backButton) {
-        backButton.addEventListener('click', () => {
-            singOut(); 
-        });
-    }
-
-    // Verifica se o token está disponível e lista os pacientes
-    const token = localStorage.getItem('token');
-    if (token) {
-        await listarPacientes(token);
-    }
-
+    // Configuração do formulário de horário
     const horarioForm = document.getElementById('configurar-horario-form');
-    const salvarButton = document.getElementById('salvar-horario-button'); // Assumindo que você deu um ID a ele
-    
-    if (horarioForm) {
+    const salvarButton = document.getElementById('salvar-horario-button');
+
+    if (horarioForm && salvarButton) {
         salvarButton.addEventListener('click', async (event) => {
-            event.preventDefault(); // Previne o refresh da página
-            await criarHorarios(); // Chama a função que lida com a criação dos horários
-            alert('Horário salvo com sucesso!'); // Alerta de confirmação
+            event.preventDefault();
+            console.log('Salvar horário clicado'); // Para verificar
+            await criarHorarios(); // Chamando a função
         });
+    } else {
+        console.error('Formulário ou botão não encontrado');
     }
-    
+
+    // Opções de visualização
+    const visualizacaoOptions = document.querySelectorAll('input[name="visualizacao"]');
+    const searchSection = document.getElementById('search-section');
+    const listaHorarios = document.getElementById('lista-horarios');
+
+    // Verifica a opção de visualização selecionada
+    const selectedOption = document.querySelector('input[name="visualizacao"]:checked');
+    if (selectedOption && selectedOption.value === 'todos') {
+        listaHorarios.style.display = 'block'; 
+        await listarHorarios(); // Chama a função para listar horários
+    }
+
+    // Adiciona evento para as opções de visualização
+    visualizacaoOptions.forEach(option => {
+        option.addEventListener('change', async (event) => {
+            if (event.target.value === 'pesquisar') {
+                searchSection.style.display = 'block'; 
+                listaHorarios.style.display = 'none'; 
+            } else {
+                searchSection.style.display = 'none'; 
+                listaHorarios.style.display = 'block';
+                await listarHorarios(); // Chama a função para listar horários
+            }
+        });
+    });
+
+    // Adiciona evento para o botão de pesquisa
+    const searchButton = document.getElementById('search-button');
+    if (searchButton) {
+        searchButton.addEventListener('click', async (event) => {
+            event.preventDefault(); // Previne o refresh da página
+            await pesquisarHorarios(); // Chama a função para pesquisar horários
+        });
+    } else {
+        console.error('Botão de pesquisa não encontrado');
+    }
 }
+
 
   
   
   
   document.addEventListener('DOMContentLoaded', () => {
-    setupEventListeners();
-    updateUserName(); 
-    setupPacienteForm();
-    preencherSelectEspecialidades();
+    setupEventListeners2();
+    preencherSelectEspecialidades('specialization');
+    preencherSelectEspecialidades('specialization-search');
+
   });

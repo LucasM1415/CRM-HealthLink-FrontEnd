@@ -379,10 +379,11 @@
         <form id="configurar-horario-form">
             <label for="calendar">Selecione uma Data:</label>
             <input type="date" id="calendar" name="calendar" required>
-      
+            
             <label for="specialization">Especialidade:</label>
             <select id="specialization" name="specialization" required>
-                <!-- As opções serão preenchidas dinamicamente -->
+                <option value="">Selecione uma especialidade</option>
+                <!-- Opções preenchidas dinamicamente -->
             </select>
             
             <fieldset>
@@ -392,46 +393,77 @@
                 <label><input type="checkbox" name="turnos" value="tarde-bloco-1" data-horario-inicio="13:00" data-horario-fim="15:30"> Tarde - 13:00 - 15:30</label>
                 <label><input type="checkbox" name="turnos" value="tarde-bloco-2" data-horario-inicio="15:30" data-horario-fim="18:00"> Tarde - 15:30 - 18:00</label>
             </fieldset>
-      
-            <button type="submit">Salvar Horário</button>
+            
+            <button id="salvar-horario-button" type="button">Salvar Horário</button>
         </form>
-      
-        <div id="horario-results"></div>
-    
-        <h3>Opções de Visualização</h3>
+        
         <div>
+            <h3>Opções de Visualização</h3>
             <label>
                 <input type="radio" name="visualizacao" value="todos" checked>
-                Ver Todos os Agendamentos
+                Ver Todos os Horários Marcados
             </label>
             <label>
                 <input type="radio" name="visualizacao" value="pesquisar">
-                Pesquisar Agendamento
+                Pesquisar Horário
             </label>
         </div>
-    
+        
         <div id="search-section" style="display: none;">
-            <h3>Pesquisar Agendamento</h3>
-            <label for="search-date">Data:</label>
-            <input type="date" id="search-date">
+            <h3>Pesquisar Horário</h3>
+            
+            <label for="specialization-search">Especialidade:</label>
+            <select id="specialization-search" required>
+                <option value="">Selecione uma especialidade</option>
+                <!-- As opções serão preenchidas dinamicamente -->
+            </select>
+            
+            <label for="month-search">Mês:</label>
+            <input type="number" id="month-search" min="1" max="12" required placeholder="1-12">
+            
+            <label for="year-search">Ano:</label>
+            <input type="number" id="year-search" min="2020" max="2100" required placeholder="2024">
             
             <button id="search-button">Pesquisar</button>
         </div>
-    
-        <h3>Horários Marcados</h3>
-        <table id="horarios-marcados" class="result-table" style="display: none;">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Especialidade</th>
-                    <th>Turnos</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Os horários marcados serão inseridos aqui dinamicamente -->
-            </tbody>
-        </table>
+
+        <div class="card" id="lista-horarios" style="display: none;">
+            <h3>Lista dos Horários Marcados</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Hora de Início</th>
+                        <th>Hora de Fim</th>
+                        <th>Especialidade</th>
+                    </tr>
+                </thead>
+                <tbody id="list-horarios-tbody">
+                    <!-- Os dados dos horários serão inseridos aqui dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card" id="search-results" style="display: none;">
+            <h3>Resultados da Pesquisa</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Hora de Início</th>
+                        <th>Hora de Fim</th>
+                        <th>Especialidade</th>
+                    </tr>
+                </thead>
+                <tbody id="search-results-tbody">
+                    <!-- Os dados dos horários encontrados pela pesquisa serão inseridos aqui -->
+                </tbody>
+            </table>
+        </div>
+        
+        
     </section>
+    
     
     
 
