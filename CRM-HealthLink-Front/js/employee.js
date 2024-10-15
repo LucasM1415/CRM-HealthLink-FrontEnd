@@ -166,6 +166,7 @@ async function listarPacientes(token) {
             if (token) {
                 await listarPacientes(token); 
                 await preencherSelectPacientes();
+                await listarHorarios(token);
                 
              }
             break;

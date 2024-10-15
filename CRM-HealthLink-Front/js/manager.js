@@ -288,7 +288,7 @@ async function atualizarFuncionario(token, funcionarioId, data) {
   
     if (form) {
         form.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Evita o envio padrão do formulário
+            event.preventDefault(); 
   
             const token = localStorage.getItem('token');
             const data = {
@@ -303,7 +303,7 @@ async function atualizarFuncionario(token, funcionarioId, data) {
         });
     }
   }
-
+//Listar pacientes
   async function listarPacientes(token) {
     if (!token) {
       alert('Usuário não autenticado.');
@@ -356,6 +356,173 @@ async function atualizarFuncionario(token, funcionarioId, data) {
         });
     }
   }
+//Preencher select de especialidade
+async function preencherSelectEspecialidades() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      console.error('Token não encontrado no localStorage');
+      return;
+  }
+
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/doctors`; 
+
+  try {
+      const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json'
+          }
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const medicos = await response.json();
+      const especialidades = extrairEspecialidadesUnicas(medicos);
+      renderEspecialidadesSelect(especialidades);
+  } catch (error) {
+      console.error('Erro ao preencher o select com especialidades:', error);
+  }
+}
+
+function extrairEspecialidadesUnicas(medicos) {
+  // Extrai as especialidades e remove duplicatas
+  const especialidades = medicos.map(medico => medico.specialty);
+  const especialidadesUnicas = [...new Set(especialidades)]; // Remove duplicatas
+  return especialidadesUnicas;
+}
+
+function renderEspecialidadesSelect(especialidades) {
+  const selectElement = document.getElementById('specialization'); // Certifique-se de que o ID está correto
+
+  if (!selectElement) {
+      console.error('Elemento <select> não encontrado!');
+      return;
+  }
+
+  selectElement.innerHTML = '';
+
+  const optionDefault = document.createElement('option');
+  optionDefault.value = '';
+  optionDefault.textContent = 'Selecione uma especialidade';
+  selectElement.appendChild(optionDefault);
+
+  especialidades.forEach(especialidade => {
+      const option = document.createElement('option');
+      option.value = especialidade; // O valor da especialidade em si
+      option.textContent = especialidade || 'Nome não disponível';
+      selectElement.appendChild(option);
+  });
+}
+
+
+
+
+//Criar um horário
+async function criarHorarios() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      console.error('Token não encontrado no localStorage');
+      return;
+  }
+
+  const date = document.getElementById('calendar').value;
+  const specialization = document.getElementById('specialization').value.toUpperCase(); // Transformar em maiúsculas para manter o padrão de resposta da API
+  
+  // Coletar os turnos selecionados e construir o horário
+  const turnosSelecionados = Array.from(document.querySelectorAll('input[name="turnos"]:checked'));
+
+  // Mapeia os turnos selecionados para a estrutura esperada pela API
+  const horarios = turnosSelecionados.map(turno => {
+      const [startHour, startMinute] = turno.dataset.horarioInicio.split(':').map(Number);
+      const [endHour, endMinute] = turno.dataset.horarioFim.split(':').map(Number);
+      
+      return {
+          date,
+          homeTime: {
+              hour: startHour,
+              minute: startMinute,
+              second: 0,
+              nano: 0
+          },
+          endTime: {
+              hour: endHour,
+              minute: endMinute,
+              second: 0,
+              nano: 0
+          },
+          specialtyType: specialization
+      };
+  });
+
+  const url = `http://${ip}:8080/crmhealthlink/api/employee/calendario`;
+
+  try {
+      const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+          },
+          body: JSON.stringify(horarios)
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Horários criados com sucesso:', result);
+      // Aqui você pode adicionar qualquer lógica para atualizar a interface após a criação dos horários
+  } catch (error) {
+      console.error('Erro ao criar os horários:', error);
+  }
+}
+
+
+//Listar horários
+async function listarHorarios(token) {
+  //const url = `http://${ip}:8080/crmhealthlink/api/manager/list/schedules`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    renderHorarios(data);
+  } catch (error) {
+    console.error('Erro ao listar horários:', error);
+  }
+}
+
+function renderHorarios(data) {
+  const resultsDiv = document.getElementById('horario-results');
+  resultsDiv.innerHTML = '';
+
+  data.forEach(horario => {
+    const horarioElement = document.createElement('div');
+    horarioElement.innerHTML = `
+      <p><strong>Data:</strong> ${horario.date}</p>
+      <p><strong>Especialidade:</strong> ${horario.specialization}</p>
+      <p><strong>Turnos:</strong> ${horario.shifts.join(', ')}</p>
+    `;
+    resultsDiv.appendChild(horarioElement);
+  });
+}
+
+
   
   function getToken() {
     var token = localStorage.getItem('token');
@@ -391,33 +558,51 @@ function updateUserName() {
 
   async function setupEventListeners() {
     await setupRemovalEventListeners();
+
+    // Event listener para o formulário de paciente
     const form = document.getElementById('paciente-form');
-  
     if (form) {
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault(); 
-        const token = localStorage.getItem('token');
-        const pacienteId = document.getElementById('obter-paciente-id').value;
-  
-        await buscarPaciente(token, pacienteId);
-      });
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); 
+            const token = localStorage.getItem('token');
+            const pacienteId = document.getElementById('obter-paciente-id').value;
+            await buscarPaciente(token, pacienteId);
+        });
     }
-  
+
+    // Event listener para o botão de voltar
     const backButton = document.getElementById('back-button');
-  
     if (backButton) {
-      backButton.addEventListener('click', () => {
-        singOut(); 
-      });
+        backButton.addEventListener('click', () => {
+            singOut(); 
+        });
     }
+
+    // Verifica se o token está disponível e lista os pacientes
     const token = localStorage.getItem('token');
-  if (token) {
-    await listarPacientes(token);
-  }
-  }
+    if (token) {
+        await listarPacientes(token);
+    }
+
+    const horarioForm = document.getElementById('configurar-horario-form');
+    const salvarButton = document.getElementById('salvar-horario-button'); // Assumindo que você deu um ID a ele
+    
+    if (horarioForm) {
+        salvarButton.addEventListener('click', async (event) => {
+            event.preventDefault(); // Previne o refresh da página
+            await criarHorarios(); // Chama a função que lida com a criação dos horários
+            alert('Horário salvo com sucesso!'); // Alerta de confirmação
+        });
+    }
+    
+}
+
+  
+  
   
   document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     updateUserName(); 
     setupPacienteForm();
+    preencherSelectEspecialidades();
   });

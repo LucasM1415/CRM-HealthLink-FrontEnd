@@ -23,11 +23,11 @@
             <a href="#doutores">Médico</a>
             <a href="#consultas">Consulta</a>
             <a href="#funcionarios">Funcionário</a>
+            <a href="#horario">Horário</a>
         </nav>
 
     </header>
     <main>
-        <!-- Seção de Pacientes -->
          <!-- Seção de Pacientes -->
          <section id="pacientes" class="content-section">
             <h2>Pacientes</h2>
@@ -372,6 +372,68 @@
                 </form>
             </div>
          </section>
+
+       <!-- Seção do Horário -->
+       <section id="horario" class="content-section" style="display: none;">
+        <h2>Configurar Horário de Especialidades</h2>
+        <form id="configurar-horario-form">
+            <label for="calendar">Selecione uma Data:</label>
+            <input type="date" id="calendar" name="calendar" required>
+      
+            <label for="specialization">Especialidade:</label>
+            <select id="specialization" name="specialization" required>
+                <!-- As opções serão preenchidas dinamicamente -->
+            </select>
+            
+            <fieldset>
+                <legend>Turnos</legend>
+                <label><input type="checkbox" name="turnos" value="manha-bloco-1" data-horario-inicio="7:00" data-horario-fim="9:30"> Manhã - 7:00 - 9:30</label>
+                <label><input type="checkbox" name="turnos" value="manha-bloco-2" data-horario-inicio="9:30" data-horario-fim="11:00"> Manhã - 9:30 - 11:00</label>
+                <label><input type="checkbox" name="turnos" value="tarde-bloco-1" data-horario-inicio="13:00" data-horario-fim="15:30"> Tarde - 13:00 - 15:30</label>
+                <label><input type="checkbox" name="turnos" value="tarde-bloco-2" data-horario-inicio="15:30" data-horario-fim="18:00"> Tarde - 15:30 - 18:00</label>
+            </fieldset>
+      
+            <button type="submit">Salvar Horário</button>
+        </form>
+      
+        <div id="horario-results"></div>
+    
+        <h3>Opções de Visualização</h3>
+        <div>
+            <label>
+                <input type="radio" name="visualizacao" value="todos" checked>
+                Ver Todos os Agendamentos
+            </label>
+            <label>
+                <input type="radio" name="visualizacao" value="pesquisar">
+                Pesquisar Agendamento
+            </label>
+        </div>
+    
+        <div id="search-section" style="display: none;">
+            <h3>Pesquisar Agendamento</h3>
+            <label for="search-date">Data:</label>
+            <input type="date" id="search-date">
+            
+            <button id="search-button">Pesquisar</button>
+        </div>
+    
+        <h3>Horários Marcados</h3>
+        <table id="horarios-marcados" class="result-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Especialidade</th>
+                    <th>Turnos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Os horários marcados serão inseridos aqui dinamicamente -->
+            </tbody>
+        </table>
+    </section>
+    
+    
 
     </main>
 
