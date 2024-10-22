@@ -37,7 +37,6 @@ async function listar_consultas(token, doctorId) {
 
   const url = `http://${ip}:8080/crmhealthlink/api/doctor/appointment/${doctorId}`;
 
- 
   fetch(url, {
     method: 'GET',
     headers: {
@@ -93,13 +92,11 @@ function preencherSelectConsultas(consultas) {
 
   selectElement.innerHTML = ''; 
 
-  
   const optionDefault = document.createElement('option');
   optionDefault.value = '';
   optionDefault.textContent = 'Selecione uma consulta';
   selectElement.appendChild(optionDefault);
 
- 
   consultas.forEach(consulta => {
     const option = document.createElement('option');
     option.value = consulta.id; 
@@ -107,8 +104,6 @@ function preencherSelectConsultas(consultas) {
     selectElement.appendChild(option);
   });
 }
-
-
 
 async function criar_exame(token,data) {
   if (!token) {
@@ -118,7 +113,6 @@ async function criar_exame(token,data) {
 
   const url = `http://${ip}:8080/crmhealthlink/api/doctor`;
 
-  // 'data' deve ser um objeto JavaScript com as chaves correspondentes
   const requestBody = {
     fk_appointment: data['fk-appointment'],
     date: data['exam-date'],
@@ -141,10 +135,7 @@ async function criar_exame(token,data) {
     }
 
     const responseData = await response.json();
-
-    // Opcional: Notificar o usuário sobre o sucesso
     alert('Exame criado com sucesso!');
-    
     reloadExams(responseData);
 
   } catch (error) {
@@ -153,7 +144,45 @@ async function criar_exame(token,data) {
   }
 }
 
+async function obterEspecialidades(token) {
+  const url = `http://${ip}:8080/crmhealthlink/api/calendario/specialty`;
 
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const especialidades = await response.json();
+    renderEspecialidades(especialidades);
+  } catch (error) {
+    console.error('Erro ao obter especialidades:', error);
+  }
+}
+
+function renderEspecialidades(especialidades) {
+  const specialtiesList = document.getElementById('specialties-list'); // Certifique-se de ter um elemento com esse ID
+
+  if (!specialtiesList) {
+    console.error('Elemento com ID "specialties-list" não encontrado.');
+    return;
+  }
+
+  specialtiesList.innerHTML = '';
+
+  especialidades.forEach(especialidade => {
+    const listItem = document.createElement('li');
+    listItem.textContent = especialidade.specialityType || 'Tipo de Especialidade não disponível';
+    specialtiesList.appendChild(listItem);
+  });
+}
 
 function getToken() {
   var token = localStorage.getItem('token');
@@ -161,12 +190,11 @@ function getToken() {
   if (token == null) {
     window.location.href = '../index.html';
   } else {
-    listar_consultas(token, userid)  
+    listar_consultas(token, userid);  
     listar_exames(token, userid);
+    obterEspecialidades(token); // Chama a função para obter especialidades
   }
 }
-
-
 
 function singOut() {
   if (typeof localStorage !== "undefined") {
@@ -192,7 +220,6 @@ function reloadExams(data) {
   const appointmentsList = document.getElementById('D-exams-list');
   const row = document.createElement('tr');
   
-  
   row.innerHTML = `
       <td>${data.id || 'ID não disponível'}</td>
       <td>${data.date ? new Date(data.date).toLocaleDateString() : 'Data não disponível'}</td>
@@ -200,7 +227,7 @@ function reloadExams(data) {
       <td>${data.namePatient || 'Nome do Paciente não disponível'}</td>
     `;
 
-    appointmentsList.appendChild(row);
+  appointmentsList.appendChild(row);
 }
 
 function renderExams(data) {
@@ -238,31 +265,30 @@ function renderConsultations(data) {
   const consultas = data || listaDeConsultas;
 
   consultas.forEach(consulta => {
-      const listItem = document.createElement('li');
-      listItem.classList.add('item');
-      
-      const title = document.createElement('div');
-      title.textContent = consulta.description || 'Descrição';
-      title.classList.add('title');
-      listItem.appendChild(title);
-      
-      const expandedContent = document.createElement('div');
-      expandedContent.classList.add('expanded-content');
-      expandedContent.innerHTML = `
-          <p><strong>Data:</strong> ${new Date(consulta.date).toLocaleDateString()}</p>
-          <p><strong>Hora:</strong> ${new Date(consulta.date).toLocaleTimeString()}</p>
-          <p><strong>Paciente:</strong> ${consulta.namePatient}</p>
-      `;
-      listItem.appendChild(expandedContent);
-      
-      title.addEventListener('click', () => {
-          expandedContent.classList.toggle('show');
-      });
+    const listItem = document.createElement('li');
+    listItem.classList.add('item');
+    
+    const title = document.createElement('div');
+    title.textContent = consulta.description || 'Descrição';
+    title.classList.add('title');
+    listItem.appendChild(title);
+    
+    const expandedContent = document.createElement('div');
+    expandedContent.classList.add('expanded-content');
+    expandedContent.innerHTML = `
+        <p><strong>Data:</strong> ${new Date(consulta.date).toLocaleDateString()}</p>
+        <p><strong>Hora:</strong> ${new Date(consulta.date).toLocaleTimeString()}</p>
+        <p><strong>Paciente:</strong> ${consulta.namePatient}</p>
+    `;
+    listItem.appendChild(expandedContent);
+    
+    title.addEventListener('click', () => {
+        expandedContent.classList.toggle('show');
+    });
 
-      appointmentsList.appendChild(listItem);
+    appointmentsList.appendChild(listItem);
   });
 }
-
 
 async function setupEventListeners() {
   const form = document.getElementById('create-exam-form');
@@ -278,8 +304,6 @@ async function setupEventListeners() {
       const formData = new FormData(form);
       const data = {};
       formData.forEach((value, key) => {
-        console.log(`value: ${value}`)
-        console.log(`key: ${key}`)
         data[key] = value;
       });
 
@@ -305,4 +329,3 @@ document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   updateUserName();
 });
-
