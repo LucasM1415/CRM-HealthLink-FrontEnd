@@ -475,6 +475,7 @@ function renderMedico(data) {
       <p><strong>Data de Nascimento:</strong> ${data.birthDate}</p>
       <p><strong>Email:</strong> ${data.email}</p>
       <p><strong>CRM:</strong> ${data.crm}</p>
+      <p><strong>Especialidade:</strong> ${data.speciality}</p>
     `;
   } else {
     resultsDiv.innerText = 'Nenhum médico encontrado.';
@@ -534,7 +535,7 @@ function renderMedicos(medicos) {
           <td>${medico.birthDate || 'Data não disponível'}</td>
           <td>${medico.email || 'Email não disponível'}</td>
           <td>${medico.crm || 'CRM não disponível'}</td>
-          <td>${medico.specialty || 'Especialização não disponível'}</td>
+          <td>${medico.speciality || 'Especialização não disponível'}</td>
       `;
       tbody.appendChild(row);
   });

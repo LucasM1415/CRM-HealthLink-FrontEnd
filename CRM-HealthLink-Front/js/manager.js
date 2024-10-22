@@ -389,7 +389,7 @@ async function preencherSelectEspecialidades(selectId) {
 
 function extrairEspecialidadesUnicas(medicos) {
   // Extrai as especialidades e remove duplicatas
-  const especialidades = medicos.map(medico => medico.specialty);
+  const especialidades = medicos.map(medico => medico.speciality);
   const especialidadesUnicas = [...new Set(especialidades)]; // Remove duplicatas
   return especialidadesUnicas;
 }
@@ -417,8 +417,7 @@ function renderEspecialidadesSelect(especialidades, selectId) {
   });
 }
 
-
-//Criar um horário
+//Criar horário
 async function criarHorarios() {
   const token = localStorage.getItem('token');
   if (!token) {
@@ -429,52 +428,63 @@ async function criarHorarios() {
   const date = document.getElementById('calendar').value;
   const specialization = document.getElementById('specialization').value.toUpperCase();
 
-  // Coletar os turnos selecionados
+  // Validar os campos
+  if (!date || !specialization) {
+      console.error('Data ou especialidade não selecionada');
+      return;
+  }
+
   const turnosSelecionados = Array.from(document.querySelectorAll('input[name="turnos"]:checked'));
+  if (turnosSelecionados.length === 0) {
+      console.error('Nenhum turno selecionado');
+      return;
+  }
 
-  const url = `http://${ip}:8080/crmhealthlink/api/calendario`;
+  const url = `http://${ip}:8080/crmhealthlink/api/calendario/savaList`;
 
-  for (const turno of turnosSelecionados) {
+  const horarios = turnosSelecionados.map(turno => {
       const [startHour, startMinute] = turno.dataset.horarioInicio.split(':').map(Number);
       const [endHour, endMinute] = turno.dataset.horarioFim.split(':').map(Number);
-      
-      // Formatar horas e minutos para sempre ter 2 dígitos
+
       const formattedStartHour = String(startHour).padStart(2, '0');
       const formattedStartMinute = String(startMinute).padStart(2, '0');
       const formattedEndHour = String(endHour).padStart(2, '0');
       const formattedEndMinute = String(endMinute).padStart(2, '0');
-      
-      const horario = {
+
+      return {
           date,
-          homeTime: `${formattedStartHour}:${formattedStartMinute}:00`, // Formato "HH:mm:ss"
-          endTime: `${formattedEndHour}:${formattedEndMinute}:00`,     // Formato "HH:mm:ss"
-          specialtyType: specialization
+          homeTime: `${formattedStartHour}:${formattedStartMinute}:00`,
+          endTime: `${formattedEndHour}:${formattedEndMinute}:00`,
+          specialityType: specialization // Verifique aqui se é specialityType
       };
+  });
 
-      try {
-          const response = await fetch(url, {
-              method: 'POST',
-              headers: {
-                  'Authorization': `Bearer ${token}`,
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'
-              },
-              body: JSON.stringify(horario)
-          });
+  // Log dos dados que serão enviados
+  console.log('Dados enviados:', JSON.stringify(horarios, null, 2));
 
-          if (!response.ok) {
-              throw new Error(`Erro HTTP! Status: ${response.status}`);
-          }
+  try {
+      const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+          },
+          body: JSON.stringify(horarios)
+      });
 
-          const result = await response.json();
-          console.log('Horário criado com sucesso:', result);
-      } catch (error) {
-          console.error('Erro ao criar o horário:', error);
+      const responseText = await response.text(); // Captura texto da resposta
+      if (!response.ok) {
+          console.error('Erro ao criar os horários:', responseText); // Mostra mensagem de erro
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
       }
+
+      const result = await response.json();
+      console.log('Horários criados com sucesso:', result);
+  } catch (error) {
+      console.error('Erro ao criar os horários:', error);
   }
 }
-
-
 
 
 
@@ -532,7 +542,7 @@ function renderizarHorarios(data) {
           <td>${horario.date || 'Data não disponível'}</td>
           <td>${horario.homeTime || 'Hora de início não disponível'}</td>
           <td>${horario.endTime || 'Hora de término não disponível'}</td>
-          <td>${horario.specialtyType || 'Especialidade não disponível'}</td>
+          <td>${horario.specialityType || 'Especialidade não disponível'}</td>
       `;
 
       resultsTable.appendChild(row);
@@ -542,16 +552,16 @@ function renderizarHorarios(data) {
 //Listar resultado da pesquisa
 async function pesquisarHorarios() {
   const token = localStorage.getItem('token');
-  const specialty = document.getElementById('specialization-search').value;
+  const speciality = document.getElementById('specialization-search').value;
   const month = document.getElementById('month-search').value;
   const year = document.getElementById('year-search').value;
 
-  if (!token || !specialty || !month || !year) {
+  if (!token || !speciality || !month || !year) {
       console.error('Dados insuficientes para realizar a pesquisa');
       return;
   }
 
-  const url = `http://${ip}:8080/crmhealthlink/api/calendario/specialty?specialty=${specialty}&month=${month}&year=${year}`;
+  const url = `http://${ip}:8080/crmhealthlink/api/calendario/specialty?speciality=${speciality}&month=${month}&year=${year}`;
 
   try {
       const response = await fetch(url, {
@@ -567,13 +577,12 @@ async function pesquisarHorarios() {
       }
 
       const data = await response.json();
-      console.log(data); // Verifica a estrutura dos dados
+      console.log('Dados recebidos da pesquisa:', data); // Verifica a estrutura dos dados
 
       renderizarHorariosPesquisa(data); // Chama a função para renderizar os horários de pesquisa
 
       // Exibir a tabela após a pesquisa
-      document.getElementById('tabela-horarios').style.display = 'block';
-
+      document.getElementById('search-results').style.display = 'block'; // Exibe a tabela correta
   } catch (error) {
       console.error('Erro ao pesquisar horários:', error);
   }
@@ -581,8 +590,9 @@ async function pesquisarHorarios() {
 
 
 
+
 function renderizarHorariosPesquisa(data) {
-  const resultsTable = document.getElementById('list-consultas-tbody');
+  const resultsTable = document.getElementById('search-results-tbody'); // Corrigido para o ID correto
 
   if (!resultsTable) {
       console.error('Elemento de tabela não encontrado.');
@@ -600,18 +610,16 @@ function renderizarHorariosPesquisa(data) {
       const row = document.createElement('tr');
 
       row.innerHTML = `
-          <td>${horario.id || 'ID não disponível'}</td>
-          <td>${horario.paciente || 'Paciente não disponível'}</td> <!-- Ajuste conforme necessário -->
-          <td>${horario.medico || 'Médico não disponível'}</td> <!-- Ajuste conforme necessário -->
           <td>${horario.date ? new Date(horario.date).toLocaleDateString() : 'Data não disponível'}</td>
           <td>${horario.homeTime || 'Horário de Início não disponível'}</td>
           <td>${horario.endTime || 'Horário de Fim não disponível'}</td>
-          <td>${horario.specialtyType || 'Especialidade não disponível'}</td>
+          <td>${horario.specialityType || 'Especialidade não disponível'}</td>
       `;
 
       resultsTable.appendChild(row);
   });
 }
+
 
 
 
@@ -649,59 +657,64 @@ function updateUserName() {
   
   async function setupEventListeners2() {
     await setupRemovalEventListeners();
-
-    // Configuração do formulário de horário
-    const horarioForm = document.getElementById('configurar-horario-form');
-    const salvarButton = document.getElementById('salvar-horario-button');
-
-    if (horarioForm && salvarButton) {
-        salvarButton.addEventListener('click', async (event) => {
-            event.preventDefault();
-            console.log('Salvar horário clicado'); // Para verificar
-            await criarHorarios(); // Chamando a função
-        });
-    } else {
-        console.error('Formulário ou botão não encontrado');
-    }
-
-    // Opções de visualização
-    const visualizacaoOptions = document.querySelectorAll('input[name="visualizacao"]');
-    const searchSection = document.getElementById('search-section');
-    const listaHorarios = document.getElementById('lista-horarios');
-
-    // Verifica a opção de visualização selecionada
-    const selectedOption = document.querySelector('input[name="visualizacao"]:checked');
-    if (selectedOption && selectedOption.value === 'todos') {
-        listaHorarios.style.display = 'block'; 
-        await listarHorarios(); // Chama a função para listar horários
-    }
-
-    // Adiciona evento para as opções de visualização
-    visualizacaoOptions.forEach(option => {
-        option.addEventListener('change', async (event) => {
-            if (event.target.value === 'pesquisar') {
-                searchSection.style.display = 'block'; 
-                listaHorarios.style.display = 'none'; 
-            } else {
-                searchSection.style.display = 'none'; 
-                listaHorarios.style.display = 'block';
-                await listarHorarios(); // Chama a função para listar horários
-            }
-        });
-    });
-
-    // Adiciona evento para o botão de pesquisa
-    const searchButton = document.getElementById('search-button');
-    if (searchButton) {
-        searchButton.addEventListener('click', async (event) => {
-            event.preventDefault(); // Previne o refresh da página
-            await pesquisarHorarios(); // Chama a função para pesquisar horários
-        });
-    } else {
-        console.error('Botão de pesquisa não encontrado');
-    }
-}
-
+      // Configuração do formulário de horário
+      const horarioForm = document.getElementById('configurar-horario-form');
+      const salvarButton = document.getElementById('salvar-horario-button');
+  
+      if (horarioForm && salvarButton) {
+          salvarButton.addEventListener('click', async (event) => {
+              event.preventDefault();
+              console.log('Salvar horário clicado'); // Para verificar
+              await criarHorarios(); // Chamando a função
+          });
+      } else {
+          console.error('Formulário ou botão não encontrado');
+      }
+  
+      // Opções de visualização
+      const visualizacaoOptions = document.querySelectorAll('input[name="visualizacao"]');
+      const searchSection = document.getElementById('search-section');
+      const listaHorarios = document.getElementById('lista-horarios');
+      const searchResults = document.getElementById('search-results');
+  
+      // Verifica a opção de visualização selecionada
+      const selectedOption = document.querySelector('input[name="visualizacao"]:checked');
+      if (selectedOption && selectedOption.value === 'todos') {
+          listaHorarios.style.display = 'block'; 
+          searchResults.style.display = 'none'; // Esconde resultados de pesquisa
+          await listarHorarios(); // Chama a função para listar horários
+      }
+  
+      // Adiciona evento para as opções de visualização
+      visualizacaoOptions.forEach(option => {
+          option.addEventListener('change', async (event) => {
+              if (event.target.value === 'pesquisar') {
+                  searchSection.style.display = 'block'; 
+                  listaHorarios.style.display = 'none'; 
+                  searchResults.style.display = 'none'; // Esconde resultados de pesquisa
+              } else {
+                  searchSection.style.display = 'none'; 
+                  listaHorarios.style.display = 'block';
+                  searchResults.style.display = 'none'; // Esconde resultados de pesquisa
+                  await listarHorarios(); // Chama a função para listar horários
+              }
+          });
+      });
+  
+      // Adiciona evento para o botão de pesquisa
+      const searchButton = document.getElementById('search-button');
+      if (searchButton) {
+          searchButton.addEventListener('click', async (event) => {
+              event.preventDefault(); // Previne o refresh da página
+              await pesquisarHorarios(); // Chama a função para pesquisar horários
+              listaHorarios.style.display = 'none'; // Esconde a lista de horários
+              searchResults.style.display = 'block'; // Mostra os resultados da pesquisa
+          });
+      } else {
+          console.error('Botão de pesquisa não encontrado');
+      }
+  }
+  
 
   
   
