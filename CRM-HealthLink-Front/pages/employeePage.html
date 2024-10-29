@@ -48,29 +48,23 @@
                     <button type="submit">Criar</button>
                 </form>
             </div>
-            
-            
 
 
             <div class="card">
                 <h3>Obter Paciente</h3>
                 <form id="paciente-form">
-                    <label for="obter-paciente-id">ID:</label>
-                    <input type="text" id="obter-paciente-id" required>
+                    <label for="obter-paciente-email">E-Mail:</label>
+                    <input type="email" id="obter-paciente-email" required>
                     <button type="submit">Buscar</button>
                 </form>
                 <div id="results" class="results"></div>
             </div>
 
+
            <!-- Formulário para atualização do paciente -->
         <div class="card">
             <h3>Atualizar Paciente</h3>
-            <form id="update-paciente-form">
-                <label for="update-paciente-id">Paciente:</label>
-                <select id="update-paciente-id" name="update-paciente-id" required>
-                    <!-- Opções serão dinamicamente geradas -->
-                </select>
-                
+            <form id="update-paciente-form">  
                 <label for="update-paciente-nome">Nome:</label>
                 <input type="text" id="update-paciente-nome" name="update-paciente-nome" required>
                 
@@ -120,15 +114,17 @@
             </div>
         </section>
 
-        <!-- Seção de Doutores -->
+
+        <!-- Seção de Médico -->
         <section id="doutores" class="content-section" style="display: none;">
             <h2>Médicos</h2>
 
             <div class="card">
                 <h3>Obter Médico</h3>
                 <form id="medico-form">
-                    <label for="obter-doutor-id">ID:</label>
-                    <input type="text" id="obter-doutor-id" required>
+                    <label for="obter-doutor-email">E-Mail:</label>
+                    <input type="email" id="obter-doutor-email" required>
+
                     <button type="submit">Buscar</button>
                 </form>
                 <div id="medico-results"></div>
@@ -182,14 +178,19 @@
                     <button type="submit">Criar</button>
                 </form>
             </div>
-            
-            
 
             <div class="card">
                 <h3>Obter Consulta</h3>
                 <form id="consulta-form">
-                  <label for="obter-consulta-id">ID:</label>
-                  <input type="text" id="obter-consulta-id">
+                  <label for="obter-consulta-email-paciente">E-Mail do Paciente:</label>
+                  <input type="email" id="obter-consulta-email-paciente">
+
+                  <label for="obter-consulta-email-doctor">E-Mail do Médico:</label>
+                  <input type="email" id="obter-consulta-email-doctor">
+
+                  <label for="obter-consulta-data">Data:</label>
+                  <input type="datetime" id="obter-consulta-data">
+
                   <button type="submit">Buscar</button>
                 </form>
                 <div id="consulta-results">
