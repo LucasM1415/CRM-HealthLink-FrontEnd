@@ -52,6 +52,7 @@
                     
                     <button type="submit">Criar</button>
                 </form>
+                <div id="resultsCreate" class="results"></div>
             </div>
             
             
@@ -65,7 +66,7 @@
                   <button type="submit">Buscar</button>
                 </form>
             
-                <div id="results" class="results"></div>
+                <div id="resultsGet" class="results"></div>
               
             </div>
               
@@ -108,15 +109,16 @@
 
                     <button type="submit" id="remover-paciente-btn">Remover</button>
                 </form>
-                <div id="results"></div> 
+                <div id="resultsDelete" class="results"></div> 
             </div>
             
+
+
             <div class="card">
                 <h3>Lista de Pacientes Registrados</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
                             <th>Email</th>
@@ -213,7 +215,6 @@
                 <table id="list-medicos-table">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
                             <th>Email</th>
@@ -302,7 +303,6 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>Paciente</th>
                       <th>Médico</th>
                       <th>Data</th>

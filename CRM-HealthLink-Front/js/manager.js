@@ -1,5 +1,3 @@
-//const ip = 'localhost';
-
 // Criar um Médico
 async function criarMedico(token, data) {
   if (!token) {
@@ -100,7 +98,10 @@ async function setupDoctorForm() {
   
 }
 
-//Atualizar um Médico pelo ID
+
+
+
+//Atualizar um Médico pelo E-Mail
 async function atualizarMedico(token, medicoId, data) {
   if (!token) {
     alert("Usuário não autenticado.");
@@ -141,6 +142,10 @@ async function atualizarMedico(token, medicoId, data) {
     alert("Erro ao atualizar médico.");
   }
 }
+
+
+
+
 
 //Criar um Funcionário
 async function criarFuncionario(token, data) {
@@ -183,6 +188,9 @@ async function criarFuncionario(token, data) {
   }
 }
 
+
+
+
 //Obter um Funcionário
 async function obterFuncionario(token, emailFuncionario) {
   if (!token) {
@@ -218,6 +226,9 @@ async function obterFuncionario(token, emailFuncionario) {
     alert("Erro ao obter funcionário.");
   }
 }
+
+
+
 
 //Atualizar um Funcionário
 async function atualizarFuncionario(token, funcionarioId, data) {
@@ -261,7 +272,6 @@ async function atualizarFuncionario(token, funcionarioId, data) {
 
 
 
-
 //Listar todos os Funcionários
 async function listarFuncionarios(token) {
   if (!token) {
@@ -273,10 +283,10 @@ async function listarFuncionarios(token) {
 
   try {
     const response = await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
+        'Accept': "application/json",
       },
     });
 
@@ -313,7 +323,6 @@ function renderFuncionarios(data) {
     const row = document.createElement('tr');
   
     row.innerHTML = `
-      <td>${funcionario.id || 'ID não disponível'}</td>
       <td>${funcionario.name || 'Nome não disponível'}</td>
       <td>${funcionario.birthDate ? new Date(funcionario.birthDate).toLocaleDateString() : 'Data de Nascimento não disponível'}</td>
       <td>${funcionario.email || 'Email não disponível'}</td>
@@ -325,112 +334,111 @@ function renderFuncionarios(data) {
 }
 
 
-function renderPacientes(data) {
-  const resultsTable = document.querySelector("table tbody");
+// function renderPacientes(data) {
+//   const resultsTable = document.querySelector("table tbody");
 
-  if (!resultsTable) {
-    console.error('Elemento com ID "table tbody" não encontrado.');
-    return;
-  }
+//   if (!resultsTable) {
+//     console.error('Elemento com ID "table tbody" não encontrado.');
+//     return;
+//   }
 
-  resultsTable.innerHTML = "";
+//   resultsTable.innerHTML = "";
 
-  if (!Array.isArray(data)) {
-    console.error("Os dados fornecidos não são uma lista de pacientes.");
-    return;
-  }
+//   if (!Array.isArray(data)) {
+//     console.error("Os dados fornecidos não são uma lista de pacientes.");
+//     return;
+//   }
 
-  data.forEach((paciente) => {
-    const row = document.createElement("tr");
+//   data.forEach((paciente) => {
+//     const row = document.createElement("tr");
 
-    row.innerHTML = `
-        <td>${paciente.id || "ID não disponível"}</td>
-        <td>${paciente.name || "Nome não disponível"}</td>
-        <td>${
-          paciente.birthDate
-            ? new Date(paciente.birthDate).toLocaleDateString()
-            : "Data de Nascimento não disponível"
-        }</td>
-        <td>${paciente.email || "Email não disponível"}</td>
-      `;
+//     row.innerHTML = `
+//         <td>${paciente.name || "Nome não disponível"}</td>
+//         <td>${
+//           paciente.birthDate
+//             ? new Date(paciente.birthDate).toLocaleDateString()
+//             : "Data de Nascimento não disponível"
+//         }</td>
+//         <td>${paciente.email || "Email não disponível"}</td>
+//       `;
 
-    resultsTable.appendChild(row);
-  });
-}
+//     resultsTable.appendChild(row);
+//   });
+// }
 
-function renderPaciente(data) {
-  const resultsDiv = document.getElementById("results");
-  resultsDiv.innerHTML = "";
+// function renderPaciente(data) {
+//   const resultsDiv = document.getElementById("results");
+//   resultsDiv.innerHTML = "";
 
-  if (data) {
-    resultsDiv.innerHTML = `
-        <p><strong>Nome:</strong> ${data.name}</p>
-        <p><strong>Data de nascimento:</strong> ${data.birthDate}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-      `;
-  } else {
-    resultsDiv.innerText = "Nenhum paciente encontrado.";
-  }
-}
+//   if (data) {
+//     resultsDiv.innerHTML = `
+//         <p><strong>Nome:</strong> ${data.name}</p>
+//         <p><strong>Data de nascimento:</strong> ${data.birthDate}</p>
+//         <p><strong>Email:</strong> ${data.email}</p>
+//       `;
+//   } else {
+//     resultsDiv.innerText = "Nenhum paciente encontrado.";
+//   }
+// }
 
-async function setupPacienteForm() {
-  const form = document.getElementById("criar-paciente-form");
+// async function setupPacienteForm() {
+//   const form = document.getElementById("criar-paciente-form");
 
-  if (form) {
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
+//   if (form) {
+//     form.addEventListener("submit", async (event) => {
+//       event.preventDefault();
 
-      const token = localStorage.getItem("token");
-      const data = {
-        "criar-paciente-nome": document.getElementById("criar-paciente-nome")
-          .value,
-        "criar-paciente-data-nascimento": document.getElementById(
-          "criar-paciente-data-nascimento"
-        ).value,
-        "criar-paciente-cpf":
-          document.getElementById("criar-paciente-cpf").value,
-        "criar-paciente-email": document.getElementById("criar-paciente-email")
-          .value,
-        "criar-paciente-password": document.getElementById(
-          "criar-paciente-password"
-        ).value,
-      };
+//       const token = localStorage.getItem("token");
+//       const data = {
+//         "criar-paciente-nome": document.getElementById("criar-paciente-nome")
+//           .value,
+//         "criar-paciente-data-nascimento": document.getElementById(
+//           "criar-paciente-data-nascimento"
+//         ).value,
+//         "criar-paciente-cpf":
+//           document.getElementById("criar-paciente-cpf").value,
+//         "criar-paciente-email": document.getElementById("criar-paciente-email")
+//           .value,
+//         "criar-paciente-password": document.getElementById(
+//           "criar-paciente-password"
+//         ).value,
+//       };
 
-      await criarPaciente(token, data);
-    });
-  }
-}
+//       await criarPaciente(token, data);
+//     });
+//   }
+// }
 //Listar pacientes
-async function listarPacientes(token) {
-  if (!token) {
-    alert("Usuário não autenticado.");
-    return;
-  }
+// async function listarPacientes(token) {
+//   if (!token) {
+//     alert("Usuário não autenticado.");
+//     return;
+//   }
 
-  const url = `http://${ip}:8080/api/employee/pacientes`;
+//   const url = `http://${ip}:8080/api/employee/pacientes`;
 
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-    });
+//   try {
+//     const response = await fetch(url, {
+//       method: "GET",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         Accept: "application/json",
+//       },
+//     });
 
-    if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
-    }
+//     if (!response.ok) {
+//       throw new Error(`Erro HTTP! Status: ${response.status}`);
+//     }
 
-    const data = await response.json();
-    renderPacientes(data);
-  } catch (error) {
-    console.error("Erro na requisição:", error);
-    const resultsTable = document.querySelector("table tbody");
-    resultsTable.innerHTML =
-      '<tr><td colspan="5">Erro ao listar pacientes.</td></tr>';
-  }
-}
+//     const data = await response.json();
+//     renderPacientes(data);
+//   } catch (error) {
+//     console.error("Erro na requisição:", error);
+//     const resultsTable = document.querySelector("table tbody");
+//     resultsTable.innerHTML =
+//       '<tr><td colspan="5">Erro ao listar pacientes.</td></tr>';
+//   }
+// }
 
 async function setupRemovalEventListeners() {
   const form = document.getElementById("remover-paciente-form");
@@ -454,6 +462,10 @@ async function setupRemovalEventListeners() {
     });
   }
 }
+
+
+
+
 //Preencher select de especialidade
 async function preencherSelectEspecialidades(selectId) {
   const token = localStorage.getItem("token");
@@ -485,6 +497,7 @@ async function preencherSelectEspecialidades(selectId) {
   }
 }
 
+
 function extrairEspecialidadesUnicas(medicos) {
   // Extrai as especialidades e remove duplicatas
   const especialidades = medicos.map((medico) => medico.speciality);
@@ -514,6 +527,10 @@ function renderEspecialidadesSelect(especialidades, selectId) {
     selectElement.appendChild(option);
   });
 }
+
+
+
+
 
 //Criar horário
 async function criarHorarios() {
@@ -592,6 +609,9 @@ async function criarHorarios() {
   }
 }
 
+
+
+
 //Listar horários
 async function listarHorarios() {
   const token = localStorage.getItem("token");
@@ -653,6 +673,9 @@ function renderizarHorarios(data) {
     resultsTable.appendChild(row);
   });
 }
+
+
+
 
 //Listar resultado da pesquisa
 async function pesquisarHorarios() {
@@ -726,15 +749,22 @@ function renderizarHorariosPesquisa(data) {
   });
 }
 
-function getToken() {
+
+
+function tokenValidation() {
   var token = localStorage.getItem("token");
   var userid = localStorage.getItem("id");
-  if (token == null) {
+  
+  if (!token) {
     window.location.href = "../index.html";
-  } else {
-    listarPacientes(token, userid);
+    return null; // Retorna null se não houver token
   }
+  
+  return { token, userid }; // Retorna um objeto com token e userid
 }
+
+tokenValidation();
+
 
 function singOut() {
   if (typeof localStorage !== "undefined") {
@@ -746,6 +776,9 @@ function singOut() {
   }
 }
 
+
+
+
 function updateUserName() {
   const userName = localStorage.getItem("userName");
   const welcomeMessage = document.getElementById("welcome-message");
@@ -755,6 +788,9 @@ function updateUserName() {
     welcomeMessage.textContent = "Bem-vindo(a), Usuário";
   }
 }
+
+
+
 
 async function setupEventListeners2() {
   await setupRemovalEventListeners();

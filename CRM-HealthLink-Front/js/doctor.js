@@ -184,7 +184,7 @@ function renderEspecialidades(especialidades) {
   });
 }
 
-function getToken() {
+function tokenValidation() {
   var token = localStorage.getItem('token');
   var userid = localStorage.getItem('id');
   if (token == null) {
@@ -195,6 +195,8 @@ function getToken() {
     obterEspecialidades(token); // Chama a função para obter especialidades
   }
 }
+
+tokenValidation();
 
 function singOut() {
   if (typeof localStorage !== "undefined") {

@@ -47,6 +47,7 @@
                     
                     <button type="submit">Criar</button>
                 </form>
+                <div id="results" class="resultsCreate"></div>
             </div>
 
 
@@ -89,8 +90,9 @@
             <div class="card">
                 <h3>Remover Paciente</h3>
                 <form id="remover-paciente-form">
-                    <label for="remover-paciente-id">ID:</label>
-                    <input type="text" id="remover-paciente-id">
+                    <label for="remover-paciente-email">E-Mail:</label>
+                    <input type="email" id="remover-paciente-email">
+
                     <button type="submit" id="remover-paciente-btn">Remover</button>
                 </form>
                 <div id="results"></div> 
@@ -101,7 +103,6 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
                             <th>Email</th>
@@ -136,7 +137,6 @@
                 <table id="list-medicos-table">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
                             <th>Email</th>
@@ -231,7 +231,6 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>Paciente</th>
                       <th>Médico</th>
                       <th>Data</th>

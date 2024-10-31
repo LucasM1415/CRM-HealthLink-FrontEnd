@@ -1,4 +1,6 @@
 const ip = "localhost";
+
+
 async function listar_consultas(token, pacienteId) {
   if (!token) {
     alert("Usuário não autenticado.");
@@ -91,7 +93,7 @@ appointmentForm.addEventListener("submit", (event) => {
   appointmentForm.reset();
 });
 
-function getToken() {
+function tokenValidation() {
   var token = localStorage.getItem("token");
   var pacienteId = localStorage.getItem("id");
   if (token == null) {
@@ -102,7 +104,7 @@ function getToken() {
   }
 }
 
-getToken();
+tokenValidation();
 
 function singOut() {
   if (typeof localStorage !== "undefined") {

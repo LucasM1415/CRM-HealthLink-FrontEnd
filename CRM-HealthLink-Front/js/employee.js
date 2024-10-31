@@ -6,9 +6,9 @@ async function buscarPaciente(token, emailPaciente) {
     alert("Usuário não autenticado.");
     return;
   }
-
+  
   const url = `http://${ip}:8080/api/employee/paciente/${emailPaciente}`;
-
+  
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -18,6 +18,7 @@ async function buscarPaciente(token, emailPaciente) {
       },
     });
 
+    
     if (!response.ok) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
@@ -26,13 +27,13 @@ async function buscarPaciente(token, emailPaciente) {
     renderPaciente(data);
   } catch (error) {
     console.error("Erro na requisição:", error);
-    document.getElementById("results").innerText = "Erro ao buscar paciente.";
+    document.getElementById("resultsGet").innerText = "Erro ao buscar paciente.";
   }
 }
 
 // Função para renderizar os dados do paciente
 function renderPaciente(data) {
-  const resultsDiv = document.getElementById("results");
+  const resultsDiv = document.getElementById("resultsGet");
   resultsDiv.innerHTML = "";
 
   if (data) {
@@ -56,8 +57,14 @@ document
   .addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const token = "SEU_TOKEN_AQUI"; // Substitua por um método que recupere o token dinamicamente
-    const emailPaciente = document.getElementById("obter-paciente-email").value;
+    const token = localStorage.getItem("token"); // Substitua por um método que recupere o token dinamicamente
+    const emailPaciente = document.getElementById("obter-paciente-email").value.trim();
+
+    // Verifique se o email está definido e não está vazio
+    if (!emailPaciente) {
+      alert("Por favor, insira um email válido.");
+      return;
+    }
 
     await buscarPaciente(token, emailPaciente);
   });
@@ -113,7 +120,6 @@ function renderPacientes(data) {
     const row = document.createElement("tr");
 
     row.innerHTML = `
-        <td>${paciente.id || "ID não disponível"}</td>
         <td>${paciente.name || "Nome não disponível"}</td>
         <td>${
           paciente.birthDate
@@ -157,11 +163,19 @@ async function criarPaciente(token, data) {
     });
 
     if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
+      const errorText = await response.text(); // Lê o texto da resposta
+      throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
     }
 
-    const responseData = await response.json();
-    handleCreationResult("success");
+    // Verifica se a resposta possui conteúdo
+    const responseData = await response.text(); // Usa text() para evitar erro de JSON
+    if (responseData) {
+      const jsonData = JSON.parse(responseData); // Analisa o JSON
+      handleCreationResult("success");
+    } else {
+      handleCreationResult("success"); // Caso a resposta esteja vazia
+    }
+
   } catch (error) {
     console.error("Erro na requisição:", error);
     handleCreationResult("error");
@@ -170,11 +184,14 @@ async function criarPaciente(token, data) {
 
 // Função para lidar com o resultado da criação
 async function handleCreationResult(status) {
-  const resultsDiv = document.getElementById("results");
+  const resultsDiv = document.getElementById("resultsCreate");
 
   switch (status) {
     case "success":
       resultsDiv.innerText = "Paciente criado com sucesso!";
+      if (token) {
+        await listarPacientes(token);
+      }
       break;
 
     case "error":
@@ -220,10 +237,10 @@ async function setupPacienteForm() {
   }
 }
 
-//Remover paciente
+// Remover paciente
 async function removerPaciente(token, emailPaciente) {
   if (!token) {
-    ("Usuário não autenticado.");
+    alert("Usuário não autenticado.");
     return;
   }
 
@@ -242,25 +259,26 @@ async function removerPaciente(token, emailPaciente) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
 
-    const data = await response.json();
-    handleRemovalResult("success");
+    await handleRemovalResult("success", token); // Passa o token para a função de resultado
   } catch (error) {
     console.error("Erro na requisição:", error);
-    handleRemovalResult("error");
+    handleRemovalResult("error", token); // Passa o token para a função de erro
   }
 }
 
-async function handleRemovalResult(status) {
-  const resultsDiv = document.getElementById("results");
+// Função para lidar com o resultado da remoção
+async function handleRemovalResult(status, token) {
+  const resultsDiv = document.getElementById("resultsDelete");
 
   switch (status) {
     case "success":
       resultsDiv.innerText = "Paciente removido com sucesso!";
-
+      if (token) {
+        await listarPacientes(token); // Atualiza a lista de pacientes
+      }
       break;
 
     case "error":
-      const token = localStorage.getItem("token");
       if (token) {
         await listarConsultas(token);
         await preencherSelectPacientes();
@@ -273,12 +291,37 @@ async function handleRemovalResult(status) {
   }
 }
 
+// Adiciona evento de submit ao formulário de remoção
+document
+  .getElementById("remover-paciente-form")
+  .addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const token = localStorage.getItem("token");
+    const emailPaciente = document.getElementById("remover-paciente-email").value;
+
+    await removerPaciente(token, emailPaciente);
+  });
+
+// Adiciona evento de submit ao formulário
+document
+  .getElementById("remover-paciente-form")
+  .addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const token = localStorage.getItem("token");
+    const emailPaciente = document.getElementById("remover-paciente-email").value;
+
+    await removerPaciente(token, emailPaciente);
+  }) 
+
+
 async function configureConsultaRemovalListeners() {
   const form = document.getElementById("remover-consulta-form");
 
   if (form) {
     form.addEventListener("submit", async (event) => {
-      event.preventDefault(); // Evita o envio padrão do formulário
+      event.preventDefault();
 
       const consultaId = document
         .getElementById("remover-consulta-id")
@@ -552,7 +595,6 @@ function renderMedicos(medicos) {
   medicos.forEach((medico) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-          <td>${medico.id}</td>
           <td>${medico.name || "Nome não disponível"}</td>
           <td>${medico.birthDate || "Data não disponível"}</td>
           <td>${medico.email || "Email não disponível"}</td>
@@ -637,6 +679,7 @@ async function listarConsultas(token) {
 
     const data = await response.json();
     renderConsultas(data);
+
   } catch (error) {
     console.error("Erro na requisição:", error);
     const resultsTable = document.querySelector("#list-consultas-tbody");
@@ -659,7 +702,6 @@ function renderConsultas(consultas) {
     const row = document.createElement("tr");
 
     row.innerHTML = `
-      <td>${consulta.id || "ID não disponível"}</td>
       <td>${consulta.namePatient || "Paciente não disponível"}</td>
       <td>${consulta.nameDoctor || "Médico não disponível"}</td>
       <td>${consulta.date || "Data não disponível"}</td>
@@ -944,7 +986,7 @@ async function setupRemovalEventListeners() {
   }
 }
 
-function getToken() {
+function tokenValidation() {
   var token = localStorage.getItem("token");
   var userid = localStorage.getItem("id");
   if (token == null) {
@@ -955,6 +997,8 @@ function getToken() {
     listarConsultas(token, userid);
   }
 }
+
+tokenValidation();
 
 function singOut() {
   if (typeof localStorage !== "undefined") {
@@ -984,9 +1028,9 @@ async function setupEventListeners() {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const token = localStorage.getItem("token");
-      const pacienteId = document.getElementById("obter-paciente-id").value;
+      const pacienteEmail = document.getElementById("paciente-form").value;
 
-      await buscarPaciente(token, pacienteId);
+      await buscarPaciente(token, pacienteEmail);
     });
   }
 
