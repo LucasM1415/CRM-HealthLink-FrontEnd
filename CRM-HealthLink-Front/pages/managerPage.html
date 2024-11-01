@@ -75,11 +75,11 @@
            <div class="card">
             <h3>Atualizar Paciente</h3>
             <form id="update-paciente-form">
-                <label for="update-paciente-id">Paciente:</label>
-                <select id="update-paciente-id" name="update-paciente-id" required>
-                    <!-- Opções serão dinamicamente geradas -->
-                </select>
+                <label for="update-paciente-email">Digite o E-mail do Usuário:</label>
+                <input type="email" id="update-paciente-email" name="update-paciente-email" required>
                 
+                <h4> ➥ Atualize as informações deste usuário </h4>
+
                 <label for="update-paciente-nome">Nome:</label>
                 <input type="text" id="update-paciente-nome" name="update-paciente-nome" required>
                 
@@ -89,15 +89,13 @@
                 <label for="update-paciente-cpf">CPF:</label>
                 <input type="text" id="update-paciente-cpf" name="update-paciente-cpf" required>
                 
-                <label for="update-paciente-email">Email:</label>
-                <input type="email" id="update-paciente-email" name="update-paciente-email" required>
                 
                 <label for="update-paciente-password">Senha:</label>
                 <input type="password" id="update-paciente-password" name="update-paciente-password" required>
                 
                 <button type="submit">Atualizar</button>
             </form>
-            <div id="results3"></div>
+            <div id="resultsUpdate"></div>
         </div>
 
 

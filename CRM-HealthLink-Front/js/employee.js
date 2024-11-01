@@ -121,11 +121,7 @@ function renderPacientes(data) {
 
     row.innerHTML = `
         <td>${paciente.name || "Nome não disponível"}</td>
-        <td>${
-          paciente.birthDate
-            ? new Date(paciente.birthDate).toLocaleDateString()
-            : "Data de Nascimento não disponível"
-        }</td>
+        <td>${paciente.birthDate ? new Date(paciente.birthDate).toLocaleDateString(): "Data de Nascimento não disponível"}</td>
         <td>${paciente.email || "Email não disponível"}</td>
       `;
 
@@ -185,6 +181,7 @@ async function criarPaciente(token, data) {
 // Função para lidar com o resultado da criação
 async function handleCreationResult(status) {
   const resultsDiv = document.getElementById("resultsCreate");
+  const token = localStorage.getItem("token");
 
   switch (status) {
     case "success":
@@ -195,7 +192,6 @@ async function handleCreationResult(status) {
       break;
 
     case "error":
-      const token = localStorage.getItem("token");
       if (token) {
         await listarPacientes(token);
         await preencherSelectPacientes();
@@ -256,10 +252,11 @@ async function removerPaciente(token, emailPaciente) {
     });
 
     if (!response.ok) {
+      console.error("Erro ao remover paciente:", response.statusText);
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
 
-    await handleRemovalResult("success", token); // Passa o token para a função de resultado
+    handleRemovalResult("success", token); // Passa o token para a função de resultado
   } catch (error) {
     console.error("Erro na requisição:", error);
     handleRemovalResult("error", token); // Passa o token para a função de erro
@@ -273,6 +270,7 @@ async function handleRemovalResult(status, token) {
   switch (status) {
     case "success":
       resultsDiv.innerText = "Paciente removido com sucesso!";
+      
       if (token) {
         await listarPacientes(token); // Atualiza a lista de pacientes
       }
@@ -280,6 +278,7 @@ async function handleRemovalResult(status, token) {
 
     case "error":
       if (token) {
+        await listarPacientes(token); // Atualiza a lista de pacientes
         await listarConsultas(token);
         await preencherSelectPacientes();
       }
@@ -303,17 +302,6 @@ document
     await removerPaciente(token, emailPaciente);
   });
 
-// Adiciona evento de submit ao formulário
-document
-  .getElementById("remover-paciente-form")
-  .addEventListener("submit", async function (event) {
-    event.preventDefault();
-
-    const token = localStorage.getItem("token");
-    const emailPaciente = document.getElementById("remover-paciente-email").value;
-
-    await removerPaciente(token, emailPaciente);
-  }) 
 
 
 async function configureConsultaRemovalListeners() {
@@ -342,18 +330,16 @@ async function configureConsultaRemovalListeners() {
 
 
 
-
-
 //Atualizar paciente
 async function atualizarPaciente(token, data) {
   if (!token) {
     ("Usuário não autenticado.");
     return;
   }
-
+  
   //const pacienteId = data['update-paciente-id']; // Alert!!!
   const url = `http://${ip}:8080/api/employee/paciente`;
-
+  
   const requestBody = {
     name: data["update-paciente-nome"],
     birthDate: data["update-paciente-data-nascimento"],
@@ -361,7 +347,7 @@ async function atualizarPaciente(token, data) {
     email: data["update-paciente-email"],
     password: data["update-paciente-password"],
   };
-
+  
   try {
     const response = await fetch(url, {
       method: "PUT",
@@ -373,115 +359,22 @@ async function atualizarPaciente(token, data) {
       body: JSON.stringify(requestBody),
     });
 
-    if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
-    }
-
-    const responseData = await response.json();
+    const responseText = await response.text(); 
+    const responseData = responseText ? JSON.parse(responseText) : {}; 
     handleUpdateResult("success");
+
   } catch (error) {
     console.error("Erro na requisição:", error);
     handleUpdateResult("error");
   }
 }
 
-
-async function preencherSelectPacientes() {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    console.error("Token não encontrado no localStorage");
-    return;
-  }
-
-  const url = `http://${ip}:8080/api/employee/pacientes`;
-
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
-    }
-
-    const pacientes = await response.json();
-    renderPacientesSelect(pacientes);
-  } catch (error) {
-    console.error("Erro ao preencher o select com pacientes:", error);
-  }
-}
-
-function renderPacientesSelect(pacientes) {
-  const selectElement = document.getElementById("update-paciente-id");
-
-  if (!selectElement) {
-    console.error("Elemento <select> não encontrado!");
-    return;
-  }
-
-  selectElement.innerHTML = "";
-
-  const optionDefault = document.createElement("option");
-  optionDefault.value = "";
-  optionDefault.textContent = "Selecione um paciente";
-  selectElement.appendChild(optionDefault);
-
-  pacientes.forEach((paciente) => {
-    const option = document.createElement("option");
-    option.value = paciente.id;
-    option.textContent = paciente.name || "Nome não disponível";
-    selectElement.appendChild(option);
-  });
-}
-
-async function atualizarPaciente(token, data) {
-  if (!token) {
-    return;
-  }
-
-  const pacienteId = data["update-paciente-id"]; // ALERT!!!
-  const url = `http://${ip}:8080http://${ip}:8080/api/employee/${pacienteId}`;
-
-  const requestBody = {
-    name: data["update-paciente-nome"],
-    birthDate: data["update-paciente-data-nascimento"],
-    cpf: data["update-paciente-cpf"],
-    email: data["update-paciente-email"],
-    password: data["update-paciente-password"],
-  };
-
-  try {
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
-    }
-
-    const responseData = await response.json();
-    handleUpdateResult("success");
-  } catch (error) {
-    console.error("Erro na requisição:", error);
-    handleUpdateResult("error");
-  }
-}
 
 async function handleUpdateResult(status) {
-  const resultsDiv = document.getElementById("results3");
+  const resultsDiv = document.getElementById("resultsUpdate");
 
   if (!resultsDiv) {
-    console.error('Elemento <div id="results3"> não encontrado!');
+    console.error('Elemento <div id="resultsUpdate"> não encontrado!');
     return;
   }
 
@@ -501,7 +394,6 @@ async function handleUpdateResult(status) {
     resultsDiv.style.color = "orange";
   }
 }
-
 
 
 //Obter médico
