@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista Geral</title>
+    <link rel="icon" href="/images/logo2.png" type="image/png" />
+    <link rel="stylesheet" href="/css/managerStyle.css" />
+    <script src="/js/employee.js" defer></script>
+    <script src="/js/manager.js" refed></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+            /* Habilita a rolagem suave */
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div class="header-top">
+            <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
+            <h1 id="welcome-message"></h1>
+            <a href="managerPage.html">
+                <button id="back-button" class="back-button">Voltar</button>
+            </a>
+        </div>
+        <h1>Lista de Horários Marcados</h1>
+    </header>
+    <main>
+        <!-- Seção do Horário -->
+        <section id="horario" class="content-section" style="display: none;">
+            <div>
+                <h3>Opções de Visualização</h3>
+                <label>
+                    <input type="radio" name="visualizacao" value="todos" checked>
+                    Ver Todos os Horários Marcados
+                </label>
+                <label>
+                    <input type="radio" name="visualizacao" value="pesquisar">
+                    Pesquisar Horário
+                </label>
+            </div>
+
+            <div id="search-section" style="display: none;">
+                <h3>Pesquisar Horário</h3>
+
+                <label for="specialization-search">Especialidade:</label>
+                <select id="specialization-search" required>
+                    <option value="">Selecione uma especialidade</option>
+                    <!-- As opções serão preenchidas dinamicamente -->
+                </select>
+
+                <label for="month-search">Mês:</label>
+                <input type="number" id="month-search" min="1" max="12" required placeholder="1-12">
+
+                <label for="year-search">Ano:</label>
+                <input type="number" id="year-search" min="2020" max="2100" required placeholder="2024">
+
+                <button id="search-button">Pesquisar</button>
+            </div>
+
+            <div class="card" id="lista-horarios" style="display: none;">
+                <h3>Lista dos Horários Marcados</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Hora de Início</th>
+                            <th>Hora de Fim</th>
+                            <th>Especialidade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list-horarios-tbody">
+                        <!-- Os dados dos horários serão inseridos aqui dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card" id="search-results" style="display: none;">
+                <h3>Resultados da Pesquisa</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Hora de Início</th>
+                            <th>Hora de Fim</th>
+                            <th>Especialidade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="search-results-tbody">
+                        <!-- Os dados dos horários encontrados pela pesquisa serão inseridos aqui -->
+                    </tbody>
+                </table>
+            </div>
+
+
+    </main>
+    <script>
+        // Exibe a primeira seção por padrão
+        document.getElementById('horario').style.display = 'block';
+
+
+        // Chame a função listarPacientes após a página carregar
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("token"); // Substitua pelo método correto de obtenção do token
+            listarConsultas(token);
+        });
+
+
+        const searchButton = document.getElementById("search-button");
+        if (searchButton) {
+            searchButton.addEventListener("click", async (event) => {
+                event.preventDefault(); // Previne o refresh da página
+                await pesquisarHorarios(); // Chama a função para pesquisar horários
+                listaHorarios.style.display = "none"; // Esconde a lista de horários
+                searchResults.style.display = "block"; // Mostra os resultados da pesquisa
+            });
+        } else {
+            console.error("Botão de pesquisa não encontrado");
+        }
+
+    </script>
+</body>
+
+</html>

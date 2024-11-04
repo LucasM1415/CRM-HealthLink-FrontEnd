@@ -30,7 +30,8 @@ async function criarMedico(token, data) {
     });
 
     if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
+      const errorText = await response.text(); // Lê o texto da resposta
+      throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
     }
 
     const responseData = await response.json();
@@ -81,21 +82,14 @@ async function setupDoctorForm() {
         ).value,
         "criar-doutor-cpf": document.getElementById("criar-doutor-cpf").value,
         "criar-doutor-crm": document.getElementById("criar-doutor-crm").value,
-        "criar-doutor-speciality": document.getElementById(
-          "criar-doutor-speciality"
-        ).value,
-        "criar-doutor-email":
-          document.getElementById("criar-doutor-email").value,
-        "criar-doutor-password": document.getElementById(
-          "criar-doutor-password"
-        ).value,
+        "criar-doutor-speciality": document.getElementById("criar-doutor-speciality").value,
+        "criar-doutor-email": document.getElementById("criar-doutor-email").value,
+        "criar-doutor-password": document.getElementById("criar-doutor-password").value,
       };
 
       await criarMedico(token, data);
     });
   }
-
-  
 }
 
 
@@ -285,8 +279,8 @@ async function listarFuncionarios(token) {
     const response = await fetch(url, {
       method: "GET",
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': "application/json",
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
       },
     });
 
@@ -321,7 +315,7 @@ function renderFuncionarios(data) {
 
   data.forEach(funcionario => {
     const row = document.createElement('tr');
-  
+ 
     row.innerHTML = `
       <td>${funcionario.name || 'Nome não disponível'}</td>
       <td>${funcionario.birthDate ? new Date(funcionario.birthDate).toLocaleDateString() : 'Data de Nascimento não disponível'}</td>
@@ -329,116 +323,16 @@ function renderFuncionarios(data) {
       <td>${funcionario.office || 'Cargo não disponível'}</td>
     `;
   
+    console.log(funcionario.name);
+    console.log(funcionario.birthDate);
+    console.log(funcionario.email);
+    console.log(funcionario.office);
+
+
     resultsTable.appendChild(row);
   });
 }
 
-
-// function renderPacientes(data) {
-//   const resultsTable = document.querySelector("table tbody");
-
-//   if (!resultsTable) {
-//     console.error('Elemento com ID "table tbody" não encontrado.');
-//     return;
-//   }
-
-//   resultsTable.innerHTML = "";
-
-//   if (!Array.isArray(data)) {
-//     console.error("Os dados fornecidos não são uma lista de pacientes.");
-//     return;
-//   }
-
-//   data.forEach((paciente) => {
-//     const row = document.createElement("tr");
-
-//     row.innerHTML = `
-//         <td>${paciente.name || "Nome não disponível"}</td>
-//         <td>${
-//           paciente.birthDate
-//             ? new Date(paciente.birthDate).toLocaleDateString()
-//             : "Data de Nascimento não disponível"
-//         }</td>
-//         <td>${paciente.email || "Email não disponível"}</td>
-//       `;
-
-//     resultsTable.appendChild(row);
-//   });
-// }
-
-// function renderPaciente(data) {
-//   const resultsDiv = document.getElementById("results");
-//   resultsDiv.innerHTML = "";
-
-//   if (data) {
-//     resultsDiv.innerHTML = `
-//         <p><strong>Nome:</strong> ${data.name}</p>
-//         <p><strong>Data de nascimento:</strong> ${data.birthDate}</p>
-//         <p><strong>Email:</strong> ${data.email}</p>
-//       `;
-//   } else {
-//     resultsDiv.innerText = "Nenhum paciente encontrado.";
-//   }
-// }
-
-// async function setupPacienteForm() {
-//   const form = document.getElementById("criar-paciente-form");
-
-//   if (form) {
-//     form.addEventListener("submit", async (event) => {
-//       event.preventDefault();
-
-//       const token = localStorage.getItem("token");
-//       const data = {
-//         "criar-paciente-nome": document.getElementById("criar-paciente-nome")
-//           .value,
-//         "criar-paciente-data-nascimento": document.getElementById(
-//           "criar-paciente-data-nascimento"
-//         ).value,
-//         "criar-paciente-cpf":
-//           document.getElementById("criar-paciente-cpf").value,
-//         "criar-paciente-email": document.getElementById("criar-paciente-email")
-//           .value,
-//         "criar-paciente-password": document.getElementById(
-//           "criar-paciente-password"
-//         ).value,
-//       };
-
-//       await criarPaciente(token, data);
-//     });
-//   }
-// }
-//Listar pacientes
-// async function listarPacientes(token) {
-//   if (!token) {
-//     alert("Usuário não autenticado.");
-//     return;
-//   }
-
-//   const url = `http://${ip}:8080/api/employee/pacientes`;
-
-//   try {
-//     const response = await fetch(url, {
-//       method: "GET",
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//         Accept: "application/json",
-//       },
-//     });
-
-//     if (!response.ok) {
-//       throw new Error(`Erro HTTP! Status: ${response.status}`);
-//     }
-
-//     const data = await response.json();
-//     renderPacientes(data);
-//   } catch (error) {
-//     console.error("Erro na requisição:", error);
-//     const resultsTable = document.querySelector("table tbody");
-//     resultsTable.innerHTML =
-//       '<tr><td colspan="5">Erro ao listar pacientes.</td></tr>';
-//   }
-// }
 
 async function setupRemovalEventListeners() {
   const form = document.getElementById("remover-paciente-form");
@@ -489,8 +383,7 @@ async function preencherSelectEspecialidades(selectId) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
 
-    const medicos = await response.json();
-    const especialidades = extrairEspecialidadesUnicas(medicos);
+    const especialidades = await response.json();
     renderEspecialidadesSelect(especialidades, selectId);
   } catch (error) {
     console.error("Erro ao preencher o select com especialidades:", error);
@@ -498,12 +391,6 @@ async function preencherSelectEspecialidades(selectId) {
 }
 
 
-function extrairEspecialidadesUnicas(medicos) {
-  // Extrai as especialidades e remove duplicatas
-  const especialidades = medicos.map((medico) => medico.speciality);
-  const especialidadesUnicas = [...new Set(especialidades)]; // Remove duplicatas
-  return especialidadesUnicas;
-}
 
 function renderEspecialidadesSelect(especialidades, selectId) {
   const selectElement = document.getElementById(selectId);
@@ -522,10 +409,11 @@ function renderEspecialidadesSelect(especialidades, selectId) {
 
   especialidades.forEach((especialidade) => {
     const option = document.createElement("option");
-    option.value = especialidade; // O valor da especialidade em si
+    option.value = especialidade; // O valor da especialidade em si, Ñ ESTÁ PEGANDO
     option.textContent = especialidade || "Nome não disponível";
     selectElement.appendChild(option);
   });
+
 }
 
 
@@ -615,6 +503,7 @@ async function criarHorarios() {
 //Listar horários
 async function listarHorarios() {
   const token = localStorage.getItem("token");
+  
   if (!token) {
     console.error("Usuário não autenticado.");
     return;
@@ -858,6 +747,6 @@ async function setupEventListeners2() {
 
 document.addEventListener("DOMContentLoaded", () => {
   setupEventListeners2();
-  preencherSelectEspecialidades("specialization");
-  preencherSelectEspecialidades("specialization-search");
+  preencherSelectEspecialidades("criar-doutor-speciality");
+  preencherSelectEspecialidades("criar-doutor-speciality");
 });

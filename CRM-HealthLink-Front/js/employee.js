@@ -6,9 +6,9 @@ async function buscarPaciente(token, emailPaciente) {
     alert("Usuário não autenticado.");
     return;
   }
-  
+
   const url = `http://${ip}:8080/api/employee/paciente/${emailPaciente}`;
-  
+
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -18,7 +18,6 @@ async function buscarPaciente(token, emailPaciente) {
       },
     });
 
-    
     if (!response.ok) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
@@ -27,7 +26,8 @@ async function buscarPaciente(token, emailPaciente) {
     renderPaciente(data);
   } catch (error) {
     console.error("Erro na requisição:", error);
-    document.getElementById("resultsGet").innerText = "Erro ao buscar paciente.";
+    document.getElementById("resultsGet").innerText =
+      "Erro ao buscar paciente.";
   }
 }
 
@@ -58,7 +58,9 @@ document
     event.preventDefault();
 
     const token = localStorage.getItem("token"); // Substitua por um método que recupere o token dinamicamente
-    const emailPaciente = document.getElementById("obter-paciente-email").value.trim();
+    const emailPaciente = document
+      .getElementById("obter-paciente-email")
+      .value.trim();
 
     // Verifique se o email está definido e não está vazio
     if (!emailPaciente) {
@@ -105,7 +107,7 @@ function renderPacientes(data) {
   const resultsTable = document.querySelector("table tbody");
 
   if (!resultsTable) {
-    console.error('Elemento com ID "table tbody" não encontrado.');
+    // console.error('Elemento com ID "table tbody" não encontrado.'); "[tbody] Deste render está no listPatientManagerPage.html"
     return;
   }
 
@@ -121,7 +123,11 @@ function renderPacientes(data) {
 
     row.innerHTML = `
         <td>${paciente.name || "Nome não disponível"}</td>
-        <td>${paciente.birthDate ? new Date(paciente.birthDate).toLocaleDateString(): "Data de Nascimento não disponível"}</td>
+        <td>${
+          paciente.birthDate
+            ? new Date(paciente.birthDate).toLocaleDateString()
+            : "Data de Nascimento não disponível"
+        }</td>
         <td>${paciente.email || "Email não disponível"}</td>
       `;
 
@@ -160,7 +166,9 @@ async function criarPaciente(token, data) {
 
     if (!response.ok) {
       const errorText = await response.text(); // Lê o texto da resposta
-      throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
+      throw new Error(
+        `Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`
+      );
     }
 
     // Verifica se a resposta possui conteúdo
@@ -171,7 +179,6 @@ async function criarPaciente(token, data) {
     } else {
       handleCreationResult("success"); // Caso a resposta esteja vazia
     }
-
   } catch (error) {
     console.error("Erro na requisição:", error);
     handleCreationResult("error");
@@ -270,7 +277,7 @@ async function handleRemovalResult(status, token) {
   switch (status) {
     case "success":
       resultsDiv.innerText = "Paciente removido com sucesso!";
-      
+
       if (token) {
         await listarPacientes(token); // Atualiza a lista de pacientes
       }
@@ -297,12 +304,12 @@ document
     event.preventDefault();
 
     const token = localStorage.getItem("token");
-    const emailPaciente = document.getElementById("remover-paciente-email").value;
+    const emailPaciente = document.getElementById(
+      "remover-paciente-email"
+    ).value;
 
     await removerPaciente(token, emailPaciente);
   });
-
-
 
 async function configureConsultaRemovalListeners() {
   const form = document.getElementById("remover-consulta-form");
@@ -327,19 +334,15 @@ async function configureConsultaRemovalListeners() {
   }
 }
 
-
-
-
 //Atualizar paciente
 async function atualizarPaciente(token, data) {
   if (!token) {
     ("Usuário não autenticado.");
     return;
   }
-  
-  //const pacienteId = data['update-paciente-id']; // Alert!!!
+
   const url = `http://${ip}:8080/api/employee/paciente`;
-  
+
   const requestBody = {
     name: data["update-paciente-nome"],
     birthDate: data["update-paciente-data-nascimento"],
@@ -347,7 +350,7 @@ async function atualizarPaciente(token, data) {
     email: data["update-paciente-email"],
     password: data["update-paciente-password"],
   };
-  
+
   try {
     const response = await fetch(url, {
       method: "PUT",
@@ -359,16 +362,14 @@ async function atualizarPaciente(token, data) {
       body: JSON.stringify(requestBody),
     });
 
-    const responseText = await response.text(); 
-    const responseData = responseText ? JSON.parse(responseText) : {}; 
+    const responseText = await response.text();
+    const responseData = responseText ? JSON.parse(responseText) : {};
     handleUpdateResult("success");
-
   } catch (error) {
     console.error("Erro na requisição:", error);
     handleUpdateResult("error");
   }
 }
-
 
 async function handleUpdateResult(status) {
   const resultsDiv = document.getElementById("resultsUpdate");
@@ -394,7 +395,6 @@ async function handleUpdateResult(status) {
     resultsDiv.style.color = "orange";
   }
 }
-
 
 //Obter médico
 async function buscarMedico(token, emailDoctor) {
@@ -478,7 +478,7 @@ function renderMedicos(medicos) {
   const tbody = document.querySelector("#list-medicos-tbody");
 
   if (!tbody) {
-    console.error("Elemento <tbody> não encontrado!");
+    // console.error("Elemento <tbody> não encontrado!"); "[tbody] Deste render está no listDoctorManagerPage.html"
     return;
   }
 
@@ -509,15 +509,21 @@ async function criarNovaConsulta() {
   const pacienteId = document.getElementById("criar-consulta-paciente").value;
   const descricao = document.getElementById("criar-consulta-descricao").value;
 
+console.log(datahora);
+console.log(medicoId);
+console.log(pacienteId);
+console.log(descricao);
+
+
   if (!datahora || !medicoId || !pacienteId || !descricao) {
     alert("Por favor, preencha todos os campos.");
     return;
   }
 
   const corpoRequisicao = {
-    fk_patient: pacienteId,
-    fk_doctor: medicoId,
-    fk_employee: localStorage.getItem("id"),
+    email_patient: pacienteId,
+    email_doctor: medicoId,
+    email_employee: localStorage.getItem("email"), 
     data: datahora,
     description: descricao,
   };
@@ -546,6 +552,7 @@ async function criarNovaConsulta() {
     alert("Erro ao criar a consulta. Veja o console para detalhes.");
   }
 }
+
 
 //Listar consultas
 async function listarConsultas(token) {
@@ -584,7 +591,7 @@ function renderConsultas(consultas) {
   const tableBody = document.querySelector("#list-consultas-tbody");
 
   if (!tableBody) {
-    console.error("Elemento <tbody> não encontrado!");
+    // console.error("Elemento <tbody> não encontrado!"); >> "[tbody] Deste render está no listAppointmentManagerPage.html"
     return;
   }
 
@@ -651,7 +658,7 @@ function renderPacientesSelect(pacientes) {
 
   pacientes.forEach((paciente) => {
     const option = document.createElement("option");
-    option.value = paciente.id;
+    option.value = paciente.email; 
     option.textContent = paciente.name || "Nome não disponível";
     selectElement.appendChild(option);
   });
@@ -732,7 +739,7 @@ function renderMedicosSelect(medicos) {
 
   medicos.forEach((medico) => {
     const option = document.createElement("option");
-    option.value = medico.id;
+    option.value = medico.email;
     option.textContent = medico.name || "Nome não disponível";
     selectElement.appendChild(option);
   });

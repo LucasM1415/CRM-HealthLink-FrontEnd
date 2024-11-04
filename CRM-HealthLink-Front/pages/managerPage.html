@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,9 @@
     <link rel="stylesheet" href="/css/managerStyle.css">
     <script src="/js/employee.js" defer></script>
     <script src="/js/manager.js" refed></script>
+
 </head>
+
 <body>
     <header>
 
@@ -16,6 +19,7 @@
             <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
             <h1 id="welcome-message"></h1>
             <button id="back-button" class="back-button">Voltar</button>
+
         </div>
 
         <nav>
@@ -28,8 +32,8 @@
 
     </header>
     <main>
-         <!-- Seção de Pacientes -->
-         <section id="pacientes" class="content-section">
+        <!-- Seção de Pacientes -->
+        <section id="pacientes" class="content-section">
             <h2>Pacientes</h2>
 
             <div class="card">
@@ -37,66 +41,67 @@
                 <form id="criar-paciente-form">
                     <label for="criar-paciente-nome">Nome:</label>
                     <input type="text" id="criar-paciente-nome" required>
-                    
+
                     <label for="criar-paciente-data-nascimento">Data de Nascimento:</label>
                     <input type="date" id="criar-paciente-data-nascimento" required>
-                    
+
                     <label for="criar-paciente-cpf">CPF:</label>
                     <input type="text" id="criar-paciente-cpf" required>
-                    
+
                     <label for="criar-paciente-email">Email:</label>
                     <input type="email" id="criar-paciente-email" required>
-                    
+
                     <label for="criar-paciente-password">Password:</label>
                     <input type="password" id="criar-paciente-password" required>
-                    
+
                     <button type="submit">Criar</button>
                 </form>
                 <div id="resultsCreate" class="results"></div>
             </div>
-            
-            
+
+
 
 
             <div class="card">
                 <h3>Obter Paciente</h3>
                 <form id="paciente-form">
-                  <label for="obter-paciente-email">E-Mail:</label>
-                  <input type="email" id="obter-paciente-email" required>
-                  <button type="submit">Buscar</button>
+                    <label for="obter-paciente-email">E-Mail:</label>
+                    <input type="email" id="obter-paciente-email" required>
+                    <button type="submit">Buscar</button>
                 </form>
-            
+
                 <div id="resultsGet" class="results"></div>
-              
+
             </div>
-              
-            
 
-           <div class="card">
-            <h3>Atualizar Paciente</h3>
-            <form id="update-paciente-form">
-                <label for="update-paciente-email">Digite o E-mail do Usuário:</label>
-                <input type="email" id="update-paciente-email" name="update-paciente-email" required>
-                
-                <h4> ➥ Atualize as informações deste usuário </h4>
 
-                <label for="update-paciente-nome">Nome:</label>
-                <input type="text" id="update-paciente-nome" name="update-paciente-nome" required>
-                
-                <label for="update-paciente-data-nascimento">Data de Nascimento:</label>
-                <input type="date" id="update-paciente-data-nascimento" name="update-paciente-data-nascimento" required>
-                
-                <label for="update-paciente-cpf">CPF:</label>
-                <input type="text" id="update-paciente-cpf" name="update-paciente-cpf" required>
-                
-                
-                <label for="update-paciente-password">Senha:</label>
-                <input type="password" id="update-paciente-password" name="update-paciente-password" required>
-                
-                <button type="submit">Atualizar</button>
-            </form>
-            <div id="resultsUpdate"></div>
-        </div>
+
+            <div class="card">
+                <h3>Atualizar Paciente</h3>
+                <form id="update-paciente-form">
+                    <label for="update-paciente-email">Digite o E-mail do Usuário:</label>
+                    <input type="email" id="update-paciente-email" name="update-paciente-email" required>
+
+                    <h4> ➥ Atualize as informações deste usuário </h4>
+
+                    <label for="update-paciente-nome">Nome:</label>
+                    <input type="text" id="update-paciente-nome" name="update-paciente-nome" required>
+
+                    <label for="update-paciente-data-nascimento">Data de Nascimento:</label>
+                    <input type="date" id="update-paciente-data-nascimento" name="update-paciente-data-nascimento"
+                        required>
+
+                    <label for="update-paciente-cpf">CPF:</label>
+                    <input type="text" id="update-paciente-cpf" name="update-paciente-cpf" required>
+
+
+                    <label for="update-paciente-password">Senha:</label>
+                    <input type="password" id="update-paciente-password" name="update-paciente-password" required>
+
+                    <button type="submit">Atualizar</button>
+                </form>
+                <div id="resultsUpdate"></div>
+            </div>
 
 
             <div class="card">
@@ -107,42 +112,36 @@
 
                     <button type="submit" id="remover-paciente-btn">Remover</button>
                 </form>
-                <div id="resultsDelete" class="results"></div> 
+                <div id="resultsDelete" class="results"></div>
             </div>
-            
+
 
 
             <div class="card">
                 <h3>Lista de Pacientes Registrados</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Data de Nascimento</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Dados dos pacientes serão inseridos aqui -->
-                    </tbody>
-                </table>
+                <a href="listPatientManagerPage.html">
+                    <button>Conferir Lista</button>
+                </a>
             </div>
         </section>
 
-            <!-- Seção de Doutores -->
+
+
+
+        <!-- Seção de Doutores -->
         <section id="doutores" class="content-section" style="display: none;">
             <h2>Médicos</h2>
 
             <div class="card">
 
                 <h3>Criar Médico</h3>
-                <form id = 'criar-doutor-form'>
+                <form id='criar-doutor-form'>
                     <label for="criar-doutor-nome">Nome:</label>
                     <input type="text" id="criar-doutor-nome">
-                    
+
                     <label for="criar-doutor-data-nascimento">Data de Nascimento:</label>
                     <input type="date" id="criar-doutor-data-nascimento">
-                    
+
                     <label for="criar-doutor-cpf">CPF:</label>
                     <input type="text" id="criar-doutor-cpf">
 
@@ -151,15 +150,15 @@
 
                     <label for="criar-doutor-speciality">Especialidade:</label>
                     <select id="criar-doutor-speciality">
-                      <option value="" disabled selected>Selecione uma especialidade</option>
+                        <option value="" disabled selected>Selecione uma especialidade</option>
                     </select>
-                    
+
                     <label for="criar-doutor-email">Email:</label>
                     <input type="email" id="criar-doutor-email">
-                    
+
                     <label for="criar-doutor-password">Password:</label>
                     <input type="password" id="criar-doutor-password">
-                    
+
                     <button type="submit">Criar</button>
                 </form>
             </div>
@@ -167,7 +166,7 @@
             <div class="card">
                 <h3>Obter Médico</h3>
                 <form id="medico-form">
-                    <label for="obter-doutor-id">ID:</label>
+                    <label for="obter-doutor-id">E-Mail:</label>
                     <input type="text" id="obter-doutor-id" required>
                     <button type="submit">Buscar</button>
                 </form>
@@ -178,15 +177,17 @@
                 <h3>Atualizar Médico</h3>
 
                 <form>
-                    <label for="update-doutor-id">ID:</label>
-                    <input type="text" id="update-doutor-id">
-                    
+                    <label for="update-doutor-email">Digite o E-mail do Médico:</label>
+                    <input type="email" id="update-doutor-email">
+
+                    <h4> ➥ Atualize as informações deste Médico </h4>
+
                     <label for="update-doutor-nome">Nome:</label>
                     <input type="text" id="update-doutor-nome">
-                    
+
                     <label for="update-doutor-data-nascimento">Data de Nascimento:</label>
                     <input type="date" id="update-doutor-data-nascimento">
-                    
+
                     <label for="update-doutor-cpf">CPF:</label>
                     <input type="text" id="update-doutor-cpf">
 
@@ -195,37 +196,26 @@
 
                     <label for="update-doutor-speciality">Especialidade:</label>
                     <select id="update-doutor-speciality">
-                      <option value="" disabled selected>Selecione uma especialidade</option>
+                        <option value="" disabled selected>Selecione uma especialidade</option>
                     </select>
-                    
-                    <label for="update-doutor-email">Email:</label>
-                    <input type="email" id="update-doutor-email">
-                    
+
                     <label for="update-doutor-password">Password:</label>
                     <input type="password" id="update-doutor-password">
-                    
+
                     <button type="submit">Atualizar</button>
                 </form>
             </div>
 
             <div class="card" id="list-medicos-card">
                 <h3>Lista de Médicos Registrados</h3>
-                <table id="list-medicos-table">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Data de Nascimento</th>
-                            <th>Email</th>
-                            <th>CRM</th>
-                            <th>Especialização</th>
-                        </tr>
-                    </thead>
-                    <tbody id="list-medicos-tbody">
-                        <!-- Dados dos médicos serão inseridos aqui -->
-                    </tbody>
-                </table>
+                <a href="listDoctorManagerPage.html">
+                    <button>Conferir Lista</button>
+                </a>
             </div>
         </section>
+
+
+
 
         <!-- Seção de Consultas -->
         <section id="consultas" class="content-section" style="display: none;">
@@ -236,51 +226,49 @@
                 <form id="form-criar-consulta" data-form-type="create">
                     <label for="criar-consulta-datahora">Data e Hora:</label>
                     <input type="datetime-local" id="criar-consulta-datahora" name="criar-consulta-datahora" required>
-                    
-                    <label for="criar-consulta-medico">Médico:</label>
+
+                    <label for="criar-consulta-medico">E-Mail do Médico:</label>
                     <select id="criar-consulta-medico" name="criar-consulta-medico" required>
-                        <!-- Opções de médicos serão dinamicamente geradas -->
                     </select>
-                    
-                    <label for="criar-consulta-paciente">Paciente:</label>
+
+                    <label for="criar-consulta-paciente">E-Mail do Paciente:</label>
                     <select id="criar-consulta-paciente" name="criar-consulta-paciente" required>
-                        <!-- Opções de pacientes serão dinamicamente geradas -->
                     </select>
-                    
+
                     <label for="criar-consulta-descricao">Descrição:</label>
                     <textarea id="criar-consulta-descricao" name="criar-consulta-descricao" required></textarea>
-                    
+
                     <button type="submit">Criar</button>
                 </form>
             </div>
-            
-            
+
+
 
             <div class="card">
                 <h3>Obter Consulta</h3>
                 <form id="consulta-form">
-                  <label for="obter-consulta-id">ID:</label>
-                  <input type="text" id="obter-consulta-id">
-                  <button type="submit">Buscar</button>
+                    <label for="obter-consulta-id">ID:</label>
+                    <input type="text" id="obter-consulta-id">
+                    <button type="submit">Buscar</button>
                 </form>
                 <div id="consulta-results">
-                  <!-- Resultados da consulta serão exibidos aqui -->
+                    <!-- Resultados da consulta serão exibidos aqui -->
                 </div>
-              </div>
-              
+            </div>
+
 
             <div class="card">
                 <h3>Atualizar Consulta</h3>
                 <form>
                     <label for="update-consulta-id">ID:</label>
                     <input type="text" id="update-consulta-id">
-                    
+
                     <label for="update-consulta-data">Data:</label>
                     <input type="date" id="update-consulta-data">
-                    
+
                     <label for="update-consulta-descricao">Descrição:</label>
                     <textarea id="update-consulta-descricao"></textarea>
-                    
+
                     <button type="submit">Atualizar</button>
                 </form>
             </div>
@@ -293,30 +281,22 @@
                     <button type="submit">Remover</button>
                 </form>
                 <div id="consulta-results"></div>
-              </div>
-              
+            </div>
+
 
             <div class="card">
                 <h3>Lista de Consultas Registradas</h3>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Paciente</th>
-                      <th>Médico</th>
-                      <th>Data</th>
-                      <th>Descrição</th>
-              
-                    </tr>
-                  </thead>
-                  <tbody id="list-consultas-tbody">
-                    <!-- Dados das consultas serão inseridos aqui -->
-                  </tbody>
-                </table>
-              </div>
+                <a href="listAppointmentManagerPage.html">
+                    <button>Conferir Lista</button>
+                </a>
+            </div>
         </section>
 
+
+
+
         <!-- Seção do Funcionário -->
-         <section id="funcionarios" class="content-section" style="display: none;">
+        <section id="funcionarios" class="content-section" style="display: none;">
             <h2>Funcionários</h2>
 
             <div class="card">
@@ -325,27 +305,27 @@
                 <form>
                     <label for="criar-funcionario-nome">Nome:</label>
                     <input type="text" id="criar-funcionario-nome">
-                    
+
                     <label for="criar-funcionario-data-nascimento">Data de Nascimento:</label>
                     <input type="date" id="criar-funcionario-data-nascimento">
-                    
+
                     <label for="criar-funcionario-cpf">CPF:</label>
                     <input type="text" id="criar-funcionario-cpf">
 
                     <label for="criar-funcionario-cargo">Cargo:</label>
                     <select id="criar-funcionario-cargo">
-                      <option value="" disabled selected>Selecione um Cargo</option>
+                        <option value="" disabled selected>Selecione um Cargo</option>
                     </select>
-                    
+
                     <label for="criar-funcionario-nivel-acesso">Nível de Acesso:</label>
                     <input type="text" id="criar-funcionario-nivel-acesso">
 
                     <label for="criar-funcionario-email">Email:</label>
                     <input type="email" id="criar-funcionario-email">
-                    
+
                     <label for="criar-funcionario-password">Password:</label>
                     <input type="password" id="criar-funcionario-password">
-                    
+
                     <button type="submit">Criar</button>
                 </form>
             </div>
@@ -366,144 +346,74 @@
                 <form>
                     <label for="update-funcionario-nome">Nome:</label>
                     <input type="text" id="update-funcionario-nome">
-                    
+
                     <label for="update-funcionario-data-nascimento">Data de Nascimento:</label>
                     <input type="date" id="update-funcionario-data-nascimento">
-                    
+
                     <label for="update-funcionario-cpf">CPF:</label>
                     <input type="text" id="update-funcionario-cpf">
-                    
+
                     <label for="update-funcionario-email">Email:</label>
                     <input type="email" id="update-funcionario-email">
-                    
+
                     <label for="update-funcionario-password">Password:</label>
                     <input type="password" id="update-funcionario-password">
-                    
+
                     <label for="update-funcionario-nivel-acesso">Nível de Acesso:</label>
                     <select id="update-funcionario-nivel-acesso">
-                      <option value="" disabled selected>Selecione um Nível de Acesso</option>
+                        <option value="" disabled selected>Selecione um Nível de Acesso</option>
                     </select>
-                    
+
                     <button type="submit">Atualizar</button>
                 </form>
             </div>
 
             <div class="card" id="list-employee-card">
                 <h3>Lista de Funcionários Registrados</h3>
-                <table id="list-employee-table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Nome</th>
-                      <th>Data de Nascimento</th>
-                      <th>Email</th>
-                      <th>Cargo</th>
-                    </tr>
-                  </thead>
-                  <tbody id="list-employee-tbody">
-                    <!-- Dados dos funcionários serão inseridos aqui -->
-                  </tbody>
-                </table>
-              </div>
-              
-         </section>
+                <a href="listEmployeeManagerPage.html">
+                    <button>Conferir Lista</button>
+                </a>
+            </div>
 
-       <!-- Seção do Horário -->
-       <section id="horario" class="content-section" style="display: none;">
-        <h2>Configurar Horário de Especialidades</h2>
-        <form id="configurar-horario-form">
-            <label for="calendar">Selecione uma Data:</label>
-            <input type="date" id="calendar" name="calendar" required>
-            
-            <label for="specialization">Especialidade:</label>
-            <select id="specialization" name="specialization" required>
-                <option value="">Selecione uma especialidade</option>
-                <!-- Opções preenchidas dinamicamente -->
-            </select>
-            
-            <fieldset>
-                <legend>Turnos</legend>
-                <label><input type="checkbox" name="turnos" value="manha-bloco-1" data-horario-inicio="7:00" data-horario-fim="9:30"> Manhã - 7:00 - 9:30</label>
-                <label><input type="checkbox" name="turnos" value="manha-bloco-2" data-horario-inicio="9:30" data-horario-fim="11:00"> Manhã - 9:30 - 11:00</label>
-                <label><input type="checkbox" name="turnos" value="tarde-bloco-1" data-horario-inicio="13:00" data-horario-fim="15:30"> Tarde - 13:00 - 15:30</label>
-                <label><input type="checkbox" name="turnos" value="tarde-bloco-2" data-horario-inicio="15:30" data-horario-fim="18:00"> Tarde - 15:30 - 18:00</label>
-            </fieldset>
-            
-            <button id="salvar-horario-button" type="button">Salvar Horário</button>
-        </form>
-        
-        <div>
-            <h3>Opções de Visualização</h3>
-            <label>
-                <input type="radio" name="visualizacao" value="todos" checked>
-                Ver Todos os Horários Marcados
-            </label>
-            <label>
-                <input type="radio" name="visualizacao" value="pesquisar">
-                Pesquisar Horário
-            </label>
-        </div>
-        
-        <div id="search-section" style="display: none;">
-            <h3>Pesquisar Horário</h3>
-            
-            <label for="specialization-search">Especialidade:</label>
-            <select id="specialization-search" required>
-                <option value="">Selecione uma especialidade</option>
-                <!-- As opções serão preenchidas dinamicamente -->
-            </select>
-            
-            <label for="month-search">Mês:</label>
-            <input type="number" id="month-search" min="1" max="12" required placeholder="1-12">
-            
-            <label for="year-search">Ano:</label>
-            <input type="number" id="year-search" min="2020" max="2100" required placeholder="2024">
-            
-            <button id="search-button">Pesquisar</button>
-        </div>
+        </section>
 
-        <div class="card" id="lista-horarios" style="display: none;">
-            <h3>Lista dos Horários Marcados</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Hora de Início</th>
-                        <th>Hora de Fim</th>
-                        <th>Especialidade</th>
-                    </tr>
-                </thead>
-                <tbody id="list-horarios-tbody">
-                    <!-- Os dados dos horários serão inseridos aqui dinamicamente -->
-                </tbody>
-            </table>
-        </div>
 
-        <div class="card" id="search-results" style="display: none;">
-            <h3>Resultados da Pesquisa</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Hora de Início</th>
-                        <th>Hora de Fim</th>
-                        <th>Especialidade</th>
-                    </tr>
-                </thead>
-                <tbody id="search-results-tbody">
-                    <!-- Os dados dos horários encontrados pela pesquisa serão inseridos aqui -->
-                </tbody>
-            </table>
-        </div>
-        
-        
-    </section>
-    
-    
-    
 
+
+        <!-- Seção do Horário -->
+        <section id="horario" class="content-section" style="display: none;">
+            <h2>Configurar Horário de Especialidades</h2>
+            <form id="configurar-horario-form">
+                <label for="calendar">Selecione uma Data:</label>
+                <input type="date" id="calendar" name="calendar" required>
+
+                <label for="specialization">Especialidade:</label>
+                <select id="specialization" name="specialization" required>
+                    <option value="">Selecione uma especialidade</option>
+                    <!-- Opções preenchidas dinamicamente -->
+                </select>
+
+                <fieldset>
+                    <legend>Turnos</legend>
+                    <label><input type="checkbox" name="turnos" value="manha-bloco-1" data-horario-inicio="7:00"
+                            data-horario-fim="9:30"> Manhã - 7:00 - 9:30</label>
+                    <label><input type="checkbox" name="turnos" value="manha-bloco-2" data-horario-inicio="9:30"
+                            data-horario-fim="11:00"> Manhã - 9:30 - 11:00</label>
+                    <label><input type="checkbox" name="turnos" value="tarde-bloco-1" data-horario-inicio="13:00"
+                            data-horario-fim="15:30"> Tarde - 13:00 - 15:30</label>
+                    <label><input type="checkbox" name="turnos" value="tarde-bloco-2" data-horario-inicio="15:30"
+                            data-horario-fim="18:00"> Tarde - 15:30 - 18:00</label>
+                </fieldset>
+
+                <button id="salvar-horario-button" type="button">Salvar Horário</button>
+            </form>
+
+            <h3>Lista de Horários Marcados</h3>
+            <a href="listSchedulesManagerPage.html">
+                <button>Conferir Lista</button>
+            </a>
+        </section>
     </main>
-
 
     <script>
         function showSection(sectionId) {
@@ -511,24 +421,30 @@
             document.querySelectorAll('.content-section').forEach(section => {
                 section.style.display = 'none';
             });
-    
+
             // Mostra a seção escolhida
             document.getElementById(sectionId).style.display = 'block';
         }
-    
+
         // Adiciona o evento de clique nos links de navegação
         document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function(event) {
+            link.addEventListener('click', function (event) {
                 event.preventDefault(); // Previne o comportamento padrão do link
                 const sectionId = this.getAttribute('href').substring(1); // Obtém o ID da seção
                 showSection(sectionId); // Exibe a seção correspondente
             });
         });
-    
+
         // Exibe a primeira seção por padrão
         document.getElementById('pacientes').style.display = 'block';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            preencherSelectEspecialidades("criar-doutor-speciality");
+            preencherSelectEspecialidades("update-doutor-speciality");
+        });
     </script>
 
 
 </body>
+
 </html>
