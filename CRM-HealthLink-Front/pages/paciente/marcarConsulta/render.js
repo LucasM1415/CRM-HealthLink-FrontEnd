@@ -1,10 +1,6 @@
 const cardMedicoDisponibilidadeClassName = "cardMedicoDisponibilidade";
 const containerPacienteMarcarConsultaClassName = "pacienteMarcarConsultaContainer";
 const emailPaciente = "patient@email.com";
-const especialidadeSelecionada = "CLINICOGERAL"
-const tipoAgendamentoSelecionado = "CONSULTA"
-
-
 
 class DisponibilidadeMedico{
     constructor(data,inicio,fim,especialidade,tipoAgendamento,nomeMedico,emailMedico){
@@ -40,8 +36,11 @@ const cardMedicoDisponibilidade = (disponibilidadesMedico)=>{
 }
 
 async function popularPacienteMarcarConsulta(){
+    if(localStorage.getItem("token") == null){
+        window.location.href= "/pages/login.html";
+    }
     document.getElementsByClassName(containerPacienteMarcarConsultaClassName)[0].innerHTML = ""
-    const response = await fetch(`http://localhost:8080/api/calendario/disponibilidades/${especialidadeSelecionada}/${tipoAgendamentoSelecionado}`,{
+    const response = await fetch(`http://localhost:8080/api/calendario/disponibilidades/${localStorage.getItem("especialidade")}/${localStorage.getItem("tipoAgendamento")}`,{
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`,
@@ -64,6 +63,12 @@ async function popularPacienteMarcarConsulta(){
     for(let medico in medicoDisponibilidade){
         let card = cardMedicoDisponibilidade(medicoDisponibilidade[medico]);
         document.getElementsByClassName(containerPacienteMarcarConsultaClassName)[0].appendChild(card);
+    }
+    
+    if(disponibilidadesMedico.length == 0){
+        let h1 = document.createElement("h1")
+        h1.textContent = "Nada encontrado"
+        document.getElementsByClassName(containerPacienteMarcarConsultaClassName)[0].appendChild(h1);
     }
 }
 

@@ -42,7 +42,7 @@ function handleLogin(event) {
       console.log('Login successful:', data); 
       switch (data.acessLevel) {
         case 'PATIENT':
-          window.location.href = '../pages/patientPage.html';
+          window.location.href = '../pages/paciente/home/patientPage.html';
           break;
         case 'DOCTOR':
           window.location.href = '../pages/doctorPage.html';
