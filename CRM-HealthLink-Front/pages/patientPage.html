@@ -1,59 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Paciente</title>
-    <link rel="icon" href="/images/logo2.png" type="image/png" />
-    <link rel="stylesheet" href="/css/pacienteStyle.css" />
-    <script src="/js/patient.js" defer></script>
-  </head>
-  <body onload="getToken()">
-    <header>
-      <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
-      <h1 id="welcome-message"></h1>
-      <button id="back-button" class="back-button">Voltar</button>
-    </header>
 
-    <section class="patient-data">
-      <div class="exams">
-        <h2>Meus Exames</h2>
-        <ul id="exams-list">
-          <!-- Aqui os dados de exames serão inseridos dinamicamente -->
-        </ul>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paciente</title>
+  <link rel="icon" href="/images/logo2.png" type="image/png" />
+  <link rel="stylesheet" href="/css/pacienteStyle.css" />
+  <script src="/js/patient.js" defer></script>
+</head>
 
-      <div class="appointments">
-        <h2>Minhas Consultas</h2>
-        <ul id="appointments-list">
-          <!-- Aqui os dados de consultas serão inseridos dinamicamente -->
-        </ul>
-      </div>
-    </section>
+<body>
+  <header>
+    <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
+    <h1 id="welcome-message"></h1>
+    <button id="back-button" class="back-button">Voltar</button>
+  </header>
 
-    <section class="schedule-appointment">
-      <h2>Marcar Nova Consulta</h2>
-      <form id="appointment-form">
-        <label for="appointment-date">Data:</label>
-        <input type="date" id="appointment-date" required />
+  <section class="patient-data">
+    <div class="exams">
+      <h2>Meus Exames</h2>
+      <ul id="exams-list">
+        <!-- Aqui os dados de exames serão inseridos dinamicamente -->
+      </ul>
+    </div>
 
-        <label for="appointment-turn">Turno:</label>
-        <select id="appointment-turn" required>
-          <option value="manha">Manhã</option>
-          <option value="tarde">Tarde</option>
-        </select>
+    <div class="appointments">
+      <h2>Minhas Consultas</h2>
+      <ul id="appointments-list">
+        <!-- Os dados das consultas serão inseridos dinamicamente aqui -->
+      </ul>
+    </div>
+  </section>
 
-        <label for="appointment-block">Bloco:</label>
-        <select id="appointment-block" required>
-          <option value="block1" class="manha">8h - 10h</option>
-          <option value="block2" class="manha">10h - 12h</option>
-          <option value="block3" class="tarde">13h - 15h</option>
-          <option value="block4" class="tarde">15h - 17h</option>
-        </select>
+  <section class="schedule-appointment">
+    <h2>Marcar Nova Consulta</h2>
+    <form id="appointment-form">
+      <label for="appointment-date">Data:</label>
+      <input type="date" id="appointment-date" required />
 
-        <button type="submit" class="submit-button">Marcar Consulta</button>
-      </form>
-    </section>
+      <label for="start-time">Horário Inicial:</label>
+      <input type="time" id="start-time" required />
 
-  </body>
+      <label for="end-time">Horário Final:</label>
+      <input type="time" id="end-time" required />
+
+      <label for="speciality-type">Especialidade:</label>
+      <select id="speciality-type">
+        <option value="" disabled selected>Selecione uma especialidade</option>
+      </select>
+
+
+      <button type="submit" class="submit-button" id="agendar-button">Marcar Consulta</button>
+    </form>
+  </section>
+
+</body>
+
 </html>
