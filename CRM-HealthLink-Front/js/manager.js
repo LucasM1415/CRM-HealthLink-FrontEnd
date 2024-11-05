@@ -698,6 +698,101 @@ function renderizarHorariosPesquisa(data) {
     resultsTable.appendChild(row);
   });
 }
+//Preencher o select de médicos de emergência
+async function preencherSelectMedicosEmergencia() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+      console.error("Token não encontrado no localStorage");
+      return;
+  }
+
+  const url = `http://${ip}:8080/api/employee/doctors`;
+
+  try {
+      const response = await fetch(url, {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+          },
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const medicos = await response.json();
+      renderMedicosSelectEmergencia(medicos); // Chama a função de renderização
+  } catch (error) {
+      console.error("Erro ao preencher o select com médicos:", error);
+  }
+}
+
+function renderMedicosSelectEmergencia(medicos) {
+  const selectElement = document.getElementById("criar-consulta-medico-emergencia"); // Use o ID específico para emergência
+  console.log("Médicos recebidos:", medicos);
+
+  if (!selectElement) {
+      console.error("Elemento <select> não encontrado!");
+      return;
+  }
+
+  selectElement.innerHTML = ""; // Limpa as opções existentes
+
+  const optionDefault = document.createElement("option");
+  optionDefault.value = "";
+  optionDefault.textContent = "Selecione um médico";
+  selectElement.appendChild(optionDefault);
+
+  medicos.forEach((medico) => {
+      const option = document.createElement("option");
+      option.value = medico.email; // Use o id do médico
+      option.textContent = medico.name || "Nome não disponível";
+      selectElement.appendChild(option);
+  });
+}
+
+// Lista para armazenar os médicos selecionados
+let medicosAdicionados = []; // Lista de médicos adicionados
+
+async function adicionarMedico() {
+    const selectElement = document.getElementById("criar-consulta-medico-emergencia");
+    const medicoEmail = selectElement.value; // E-mail do médico selecionado
+    const medicoNome = selectElement.options[selectElement.selectedIndex].text; // Nome do médico selecionado
+
+    // Verifica se um médico foi selecionado
+    if (!medicoEmail) {
+        alert("Por favor, selecione um médico.");
+        return;
+    }
+
+    // Verifica se o médico já foi adicionado
+    if (medicosAdicionados.some(medico => medico.email === medicoEmail)) {
+        alert("Este médico já está na lista.");
+        return;
+    }
+
+    // Adiciona o médico à lista
+    medicosAdicionados.push({ email: medicoEmail, nome: medicoNome });
+
+    // Atualiza a exibição da lista de médicos
+    atualizarListaMedicos();
+}
+
+function atualizarListaMedicos() {
+    const listaMedicosElement = document.getElementById("medicos-adicionados");
+    listaMedicosElement.innerHTML = ""; // Limpa a lista atual
+
+    medicosAdicionados.forEach(medico => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `${medico.nome} (${medico.email})`; // Exibe nome e e-mail
+        listaMedicosElement.appendChild(listItem);
+    });
+}
+
+
+
+
 
 
 
@@ -804,6 +899,14 @@ async function setupEventListeners2() {
   } else {
     console.error("Botão de pesquisa não encontrado");
   }
+  //Botão de adicionar médico
+  const adicionarMedicoBtn = document.getElementById("adicionar-medico-btn");
+
+  if (adicionarMedicoBtn) {
+    adicionarMedicoBtn.addEventListener("click", adicionarMedico);
+  } else {
+    console.error("Botão 'Adicionar Médico' não encontrado.");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -812,4 +915,5 @@ document.addEventListener("DOMContentLoaded", () => {
   setupEventListeners2();
   preencherSelectEspecialidades("criar-doutor-speciality");
   preencherSelectEspecialidades("criar-doutor-speciality");
+  preencherSelectMedicosEmergencia();
 });
