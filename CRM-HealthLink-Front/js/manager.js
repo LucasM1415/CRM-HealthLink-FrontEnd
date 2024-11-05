@@ -5,18 +5,20 @@ async function criarMedico(token, data) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/doctor/${managerId}`;
+  const url = `http://${ip}:8080/api/employee/doctor`;
 
   const requestBody = {
     name: data["criar-doutor-nome"],
     birthDate: data["criar-doutor-data-nascimento"],
     cpf: data["criar-doutor-cpf"],
     crm: data["criar-doutor-crm"],
-    speciality: data["criar-doutor-speciality"],
+    speciality: [data["criar-doutor-speciality"]],
     email: data["criar-doutor-email"],
     password: data["criar-doutor-password"],
     accessLevel: "DOCTOR",
   };
+
+  console.log("Dados enviados:", requestBody);
 
   try {
     const response = await fetch(url, {
@@ -35,27 +37,34 @@ async function criarMedico(token, data) {
     }
 
     const responseData = await response.json();
-    alert("Médico criado com sucesso!");
-    handleCreationResult("success");
+    if (responseData) {
+      //const jsonData = JSON.parse(responseData);
+      handleCreationResult("success");
+    } else {
+      handleCreationResult("success");
+    }
   } catch (error) {
     console.error("Erro na requisição:", error);
-    alert("Erro ao criar médico.");
     handleCreationResult("error");
   }
 }
 
 //Funcção pra lidar com a criar do Médico
 async function handleCreationResult(status) {
-  const resultsDivs = document.getElementById("results");
+  const resultsDivs = document.getElementById("resultsCreateDoctor");
+  const token = localStorage.getItem("token");
 
   switch (status) {
     case "success":
       resultsDivs.innerText = "Médico criado com sucesso!";
+      if (token) {
+        await listarMedicos(token);
+      }
       break;
 
     case "error":
-      const token = localStorage.getItem("token");
       if (token) {
+        await listarMedicos(token);
         await listarPacientes(token);
         await preencherSelectPacientes();
       }
@@ -77,9 +86,7 @@ async function setupDoctorForm() {
       const token = localStorage.getItem("token");
       const data = {
         "criar-doutor-nome": document.getElementById("criar-doutor-nome").value,
-        "criar-doutor-data-nascimento": document.getElementById(
-          "criar-doutor-data-nascimento"
-        ).value,
+        "criar-doutor-data-nascimento": document.getElementById("criar-doutor-data-nascimento").value,
         "criar-doutor-cpf": document.getElementById("criar-doutor-cpf").value,
         "criar-doutor-crm": document.getElementById("criar-doutor-crm").value,
         "criar-doutor-speciality": document.getElementById("criar-doutor-speciality").value,
@@ -96,20 +103,21 @@ async function setupDoctorForm() {
 
 
 //Atualizar um Médico pelo E-Mail
-async function atualizarMedico(token, medicoId, data) {
+async function atualizarMedico(token, data) {
   if (!token) {
     alert("Usuário não autenticado.");
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/doctor/${medicoId}`;
+  const url = `http://${ip}:8080/api/employee/doctor`;
+
 
   const requestBody = {
     name: data["update-doutor-nome"],
     birthDate: data["update-doutor-data-nascimento"],
     cpf: data["update-doutor-cpf"],
     crm: data["update-doutor-crm"],
-    speciality: data["update-doutor-speciality"],
+    speciality: [data["update-doutor-speciality"]],
     accessLevel: "DOCTOR",
     email: data["update-doutor-email"],
     password: data["update-doutor-password"],
@@ -127,13 +135,66 @@ async function atualizarMedico(token, medicoId, data) {
     });
 
     if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
+      const errorText = await response.text(); // Lê o texto da resposta
+      throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
     }
 
     alert("Médico atualizado com sucesso!");
+    handleUpdateDoctorResult("success");
   } catch (error) {
     console.error("Erro na requisição:", error);
     alert("Erro ao atualizar médico.");
+    handleUpdateDoctorResult("error");
+  }
+}
+
+async function handleUpdateDoctorResult(status) {
+  const resultsDiv = document.getElementById("resultsUpdateDoctor");
+
+  if (!resultsDiv) {
+    console.error('Elemento <div id="resultsUpdate"> não encontrado!');
+    return;
+  }
+
+  if (status === "success") {
+    const token = localStorage.getItem("token");
+    if (token) {
+      await listarMedicos(token);
+    }
+  } else if (status === "error") {
+    const token = localStorage.getItem("token");
+    if (token) {
+      await listarMedicos(token);
+      await preencherSelectEspecialidades("update-doutor-speciality");
+    }
+  } else {
+    resultsDiv.innerHTML = "<p>Estado desconhecido.</p>";
+    resultsDiv.style.color = "orange";
+  }
+}
+
+async function setupUpdateDoctorForm() {
+  const form = document.getElementById("update-doutor-form");
+
+  if (form) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault(); // Previne o refresh da página
+
+      const token = localStorage.getItem("token");
+      const data = {
+        "update-doutor-email": document.getElementById("update-doutor-email").value,
+        "update-doutor-nome": document.getElementById("update-doutor-nome").value,
+        "update-doutor-data-nascimento": document.getElementById("update-doutor-data-nascimento").value,
+        "update-doutor-cpf": document.getElementById("update-doutor-cpf").value,
+        "update-doutor-crm": document.getElementById("update-doutor-crm").value,
+        "update-doutor-speciality": document.getElementById("update-doutor-speciality").value,
+        "update-doutor-password": document.getElementById("update-doutor-password").value,
+      };
+
+      await atualizarMedico(token, data);
+    });
+  } else {
+    console.error("Formulário de atualização de médico não encontrado!");
   }
 }
 
@@ -746,6 +807,8 @@ async function setupEventListeners2() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  setupDoctorForm();
+  setupUpdateDoctorForm();
   setupEventListeners2();
   preencherSelectEspecialidades("criar-doutor-speciality");
   preencherSelectEspecialidades("criar-doutor-speciality");

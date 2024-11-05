@@ -176,7 +176,7 @@
             <div class="card">
                 <h3>Atualizar Médico</h3>
 
-                <form>
+                <form id="update-doutor-form">
                     <label for="update-doutor-email">Digite o E-mail do Médico:</label>
                     <input type="email" id="update-doutor-email">
 
@@ -247,8 +247,15 @@
             <div class="card">
                 <h3>Obter Consulta</h3>
                 <form id="consulta-form">
-                    <label for="obter-consulta-id">ID:</label>
-                    <input type="text" id="obter-consulta-id">
+                    <label for="obter-consulta-email-paciente">E-Mail do Paciente:</label>
+                    <input type="email" id="obter-consulta-email-paciente">
+
+                    <label for="obter-consulta-email-doctor">E-Mail do Médico:</label>
+                    <input type="email" id="obter-consulta-email-doctor">
+
+                    <label for="obter-consulta-dataHora">Data da Consulta:</label>
+                    <input type="date" id="obter-consulta-dataHora">
+
                     <button type="submit">Buscar</button>
                 </form>
                 <div id="consulta-results">
