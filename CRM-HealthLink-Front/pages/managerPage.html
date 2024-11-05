@@ -28,6 +28,7 @@
             <a href="#consultas">Consulta</a>
             <a href="#funcionarios">Funcionário</a>
             <a href="#horario">Horário</a>
+            <a href="#emergencia">Emergência</a>
         </nav>
 
     </header>
@@ -413,6 +414,54 @@
                 <button>Conferir Lista</button>
             </a>
         </section>
+        <!-- Seção de Emergência -->
+    <section id="emergencia" class="content-section" style="display: none;">
+        <h2>Marcar Consulta de Emergência</h2>
+    
+        <!-- Seleção de Data -->
+        <div class="card">
+            <h3>Data da Consulta</h3>
+            <form id="form-emergencia">
+                <label for="data-consulta">Data:</label>
+                <input type="date" id="data-consulta" name="data-consulta" required>
+        </div>
+    
+        <!-- Seleção de Horários -->
+        <div class="card">
+            <h3>Horários</h3>
+            
+            <label for="hora-inicio">Horário de Início:</label>
+            <input type="time" id="hora-inicio" name="hora-inicio" required>
+    
+            <label for="hora-fim">Horário de Fim:</label>
+            <input type="time" id="hora-fim" name="hora-fim" required>
+        </div>
+    
+        <div class="card">
+            <h3>Adicionar Médicos Disponíveis</h3>
+            
+            <label for="criar-consulta-medico-emergencia">Selecionar Médico:</label>
+            <select id="criar-consulta-medico-emergencia" name="criar-consulta-medico" required>
+                <!-- Opções de médicos disponíveis serão inseridas dinamicamente aqui -->
+            </select>
+            
+            <button type="button" id="adicionar-medico-btn">Adicionar Médico</button>
+            
+            <!-- Lista de médicos adicionados -->
+            <div id="lista-medicos">
+                <h4>Médicos Selecionados:</h4>
+                <ul id="medicos-adicionados">
+                    <!-- Lista dos médicos será populada aqui -->
+                </ul>
+            </div>
+          </div>
+          
+        
+        
+        <!-- Botão para Salvar Marcação -->
+        <button type="submit">Salvar Marcação</button>
+        </form>
+    </section>
     </main>
 
     <script>
