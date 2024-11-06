@@ -1,0 +1,22 @@
+.cardDia {
+    background-color: rgba(162, 230, 198, 0.377);
+    margin: 0.5em;
+    width: 10vh;
+    display: flex;
+    justify-content: center;
+    
+}
+.cardDia:hover{
+    cursor: pointer;
+    background-color: rgb(59, 141, 141);
+    
+}
+.cardDia p {
+    color: rgb(7, 7, 7);
+    padding: 1em;
+}
+
+.calendario {
+    display: flex;
+    flex-wrap: wrap;
+}

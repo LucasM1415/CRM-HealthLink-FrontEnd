@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/css/managerStyle.css">
     <script src="/js/employee.js" defer></script>
     <script src="/js/manager.js" refed></script>
+    <Script src="/pages/gerente/gerenteCalendario.js" refed></Script>
+    <link rel="stylesheet" href="/pages/gerente/calendario.css">
 
 </head>
 
@@ -390,31 +392,52 @@
 
         <!-- Seção do Horário -->
         <section id="horario" class="content-section" style="display: none;">
-            <h2>Configurar Horário de Especialidades</h2>
-            <form id="configurar-horario-form">
-                <label for="calendar">Selecione uma Data:</label>
-                <input type="date" id="calendar" name="calendar" required>
-
-                <label for="specialization">Especialidade:</label>
-                <select id="specialization" name="specialization" required>
-                    <option value="">Selecione uma especialidade</option>
-                    <!-- Opções preenchidas dinamicamente -->
+            <h2>Calendário de Consultas</h2>
+        
+            <!-- Seletor de especialidade -->
+            <div class="specialty-selector">
+                <label >Especialidade:</label>
+                    <select id="selectSpeciality">
+                        <option value=""  selected>Selecione uma especialidade</option>
+                    </select>
+                <label >Tipo dos Agendamentos:</label>
+                    <select id="selectAgendamentos">
+                        <option value=""  selected>Selecione uma Tipo do Agendamento</option>
+                    </select>
+                    <label for="quantidadeDeVagas">Quantidade De Vagas:</label>
+                    <input type="number" id="quantidade-De-Vagas" min="1">
+            </div>
+        
+            <!-- Seletores de mês e ano -->
+            <div class="date-selectors">
+                <label for="month">Mês:</label>
+                <select id="month">
+                    <option value="01">Janeiro</option>
+                    <option value="02">Fevereiro</option>
+                    <option value="03">Março</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Maio</option>
+                    <option value="06">Junho</option>
+                    <option value="07">Julho</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Setembro</option>
+                    <option value="10">Outubro</option>
+                    <option value="11">Novembro</option>
+                    <option value="12">Dezembro</option>
                 </select>
+        
+                <label for="year">Ano:</label>
+                <input type="number" id="year" value="2024" min="2000" max="2100">
+                <button onclick="renderizarGerenteCalendario()">Mostrar Calendário</button>
+            </div>
+            
+            <div id="calendarioDoctor" class="calendario"></div>
 
-                <fieldset>
-                    <legend>Turnos</legend>
-                    <label><input type="checkbox" name="turnos" value="manha-bloco-1" data-horario-inicio="7:00"
-                            data-horario-fim="9:30"> Manhã - 7:00 - 9:30</label>
-                    <label><input type="checkbox" name="turnos" value="manha-bloco-2" data-horario-inicio="9:30"
-                            data-horario-fim="11:00"> Manhã - 9:30 - 11:00</label>
-                    <label><input type="checkbox" name="turnos" value="tarde-bloco-1" data-horario-inicio="13:00"
-                            data-horario-fim="15:30"> Tarde - 13:00 - 15:30</label>
-                    <label><input type="checkbox" name="turnos" value="tarde-bloco-2" data-horario-inicio="15:30"
-                            data-horario-fim="18:00"> Tarde - 15:30 - 18:00</label>
-                </fieldset>
-
-                <button id="salvar-horario-button" type="button">Salvar Horário</button>
-            </form>
+            <div class="calendar" id="calendar"></div>
+            <div class="day-details" id="day-details" style="display: none;">
+                <h3>Detalhes do Dia</h3>
+                <p id="selected-day-info"></p>
+            </div>
 
             <h3>Lista de Horários Marcados</h3>
             <a href="listSchedulesManagerPage.html">
@@ -497,6 +520,9 @@
         document.addEventListener("DOMContentLoaded", () => {
             preencherSelectEspecialidades("criar-doutor-speciality");
             preencherSelectEspecialidades("update-doutor-speciality");
+            preencherSelectEspecialidades("selectSpeciality");
+            preencherSelectTipoAgendamentos("selectAgendamentos")
+            // selectSpeciality
         });
     </script>
 

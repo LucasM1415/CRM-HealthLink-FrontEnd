@@ -1,12 +1,12 @@
 const ip = 'localhost';
 
-async function listar_exames(token, doctorId) {
+async function listar_exames(token, doctorEmail) {
   if (!token) {
     alert('Usuário não autenticado.');
     return;
   }
 
-  const url = `http://${ip}:8080/crmhealthlink/api/doctor/exams/${doctorId}`;
+  const url = `http://${ip}:8080/api/doctor/exams/${doctorEmail}`;
 
   fetch(url, {
     method: 'GET',
@@ -29,13 +29,13 @@ async function listar_exames(token, doctorId) {
     });
 }
 
-async function listar_consultas(token, doctorId) {
+async function listar_consultas(token, doctorEmail) {
   if (!token) {
     alert('Usuário não autenticado.');
     return;
   }
 
-  const url = `http://${ip}:8080/crmhealthlink/api/doctor/appointment/${doctorId}`;
+  const url = `http://${ip}:8080/api/doctor/appointment/${doctorEmail}`;
 
   fetch(url, {
     method: 'GET',
@@ -58,8 +58,8 @@ async function listar_consultas(token, doctorId) {
     });
 }
 
-async function obterConsultas(token, doctorId) {
-  const url = `http://${ip}:8080/crmhealthlink/api/doctor/appointment/${doctorId}`;
+async function obterConsultas(token, doctorEmail) {
+  const url = `http://${ip}:8080/api/doctor/appointment/${doctorEmail}`;
 
   try {
     const response = await fetch(url, {
@@ -111,7 +111,7 @@ async function criar_exame(token,data) {
     return;
   }
 
-  const url = `http://${ip}:8080/crmhealthlink/api/doctor`;
+  const url = `http://${ip}:8080/api/doctor`;
 
   const requestBody = {
     fk_appointment: data['fk-appointment'],
@@ -145,7 +145,7 @@ async function criar_exame(token,data) {
 }
 
 async function obterEspecialidades(token) {
-  const url = `http://${ip}:8080/crmhealthlink/api/calendario/specialty`;
+  const url = `http://${ip}:8080/api/calendario/specialty`;
 
   try {
     const response = await fetch(url, {
@@ -186,13 +186,13 @@ function renderEspecialidades(especialidades) {
 
 function tokenValidation() {
   var token = localStorage.getItem('token');
-  var userid = localStorage.getItem('id');
+  var userEmail = localStorage.getItem('email');
+  var doctorCRM = localStorage.getItem('crm')
   if (token == null) {
     window.location.href = '../index.html';
   } else {
-    listar_consultas(token, userid);  
-    listar_exames(token, userid);
-    obterEspecialidades(token); // Chama a função para obter especialidades
+    listar_consultas(token, doctorCRM);  
+    listar_exames(token, doctorCRM);
   }
 }
 
@@ -300,7 +300,7 @@ async function setupEventListeners() {
       event.preventDefault(); // Impede o comportamento padrão de envio do formulário
       
       const token = localStorage.getItem('token');
-      const userid = localStorage.getItem('id');
+      const userEmail = localStorage.getItem('email');
 
       // Coletar dados do formulário e criar um objeto JavaScript
       const formData = new FormData(form);
@@ -322,12 +322,123 @@ async function setupEventListeners() {
   }
 
   const token = localStorage.getItem('token');
-  const userid = localStorage.getItem('id');
-  const consultas = await obterConsultas(token, userid);
+  var userEmail = localStorage.getItem('email');
+  var doctorCRM = localStorage.getItem('crm')
+  const consultas = await obterConsultas(token, doctorCRM);
   preencherSelectConsultas(consultas); 
 }
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   updateUserName();
 });
+
+
+// Lista padrão de especialidades
+const defaultSpecialties = localStorage.getItem('speciality')
+
+// Função para verificar e carregar especialidades do localStorage
+function loadSpecialties() {
+  // Verifica se as especialidades já estão no localStorage
+  if (!localStorage.getItem("speciality")) {
+      // Se não estiverem, armazena a string padrão no localStorage
+      localStorage.setItem("speciality", defaultSpecialties);
+  }
+
+  // Retorna a lista de especialidades como array, separando a string pelo separador de vírgulas
+  return localStorage.getItem("speciality").split(",");
+}
+
+// Função para preencher o seletor dinamicamente
+function populateSpecialtySelector() {
+  const specialtySelect = document.getElementById("specialty");
+  const specialties = loadSpecialties(); // Carrega as especialidades do localStorage como array
+
+  // Adiciona cada especialidade como uma nova opção
+  specialties.forEach(specialty => {
+      const option = document.createElement("option");
+      option.value = specialty.toLowerCase();
+      option.textContent = specialty;
+      specialtySelect.appendChild(option);
+  });
+}
+
+// Chama a função quando a página é carregada
+window.onload = populateSpecialtySelector;
+
+
+
+function showSection(sectionId) {
+  document.querySelectorAll('main section').forEach(section => {
+      section.classList.add('section-hidden');
+  });
+  document.getElementById(sectionId).classList.remove('section-hidden');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  showSection('Calendario');
+});
+
+function generateCalendar() {
+  const specialty = document.getElementById("specialty").value;
+  console.log(specialty)
+
+  const month = parseInt(document.getElementById("month").value);
+  const year = parseInt(document.getElementById("year").value);
+  console.log(month)
+  console.log(year)
+  carregarDisponibilidade(specialty,month,year);
+  const calendar = document.getElementById("calendar");
+  calendar.innerHTML = ''; // Limpa o calendário anterior
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let day = 1; day <= daysInMonth; day++) {
+      const dayElement = document.createElement("div");
+      dayElement.className = "calendar-day";
+      dayElement.textContent = day;
+      dayElement.onclick = () => showDayDetails(day, month + 1, year);
+      calendar.appendChild(dayElement);
+  }
+}
+
+function showDayDetails(day, month, year) {
+  const details = document.getElementById("day-details");
+  details.style.display = "block";
+  document.getElementById("selected-day-info").textContent = `Informações para ${day}/${month}/${year}`;
+}
+
+
+  async function carregarDisponibilidade(speciality, month, year) {
+    const url = new URL(`http://${ip}:8080/api/calendario/specialty`); 
+
+    // Define os parâmetros da URL
+    url.searchParams.append("speciality", speciality.toUpperCase());
+    url.searchParams.append("month", (month+1));
+    url.searchParams.append("year", year);
+
+    const token = localStorage.getItem('token'); // Obtenha o token do localStorage
+
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // Adicione o token no cabeçalho
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro: ${response.statusText}`);
+        }
+
+        // Converte a resposta em JSON
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Erro ao obter os agendamentos:", error);
+        return null;
+    }
+}

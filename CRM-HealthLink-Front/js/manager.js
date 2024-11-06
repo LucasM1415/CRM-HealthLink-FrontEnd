@@ -914,6 +914,5 @@ document.addEventListener("DOMContentLoaded", () => {
   setupUpdateDoctorForm();
   setupEventListeners2();
   preencherSelectEspecialidades("criar-doutor-speciality");
-  preencherSelectEspecialidades("criar-doutor-speciality");
   preencherSelectMedicosEmergencia();
 });

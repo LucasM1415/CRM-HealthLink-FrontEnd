@@ -32,7 +32,6 @@ nav {
     margin-top: 2px;
     font-size: 15px;
     text-align: center;
-
 }
 
 nav a {
@@ -45,6 +44,46 @@ nav a {
 
 main {
     padding: 20px;
+}
+
+/* Estilos para o calendário */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+}
+
+.calendar-day {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-day:hover {
+    background-color: #e3f2e5;
+}
+
+/* Estilo para a exibição de detalhes do dia */
+.day-details {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    text-align: center;
+}
+
+/* Estilo para os seletores de mês e ano */
+.date-selectors {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
 }
 
 h2 {
@@ -126,23 +165,22 @@ select {
     background-color: #fff;
     font-size: 16px;
     font-family: Arial, sans-serif;
-    width: 100%; 
-    box-sizing: border-box; 
-    appearance: none; 
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="none" stroke="%23999" stroke-linecap="round" stroke-linejoin="round" d="M3 6l5 5 5-5"/></svg>'); /* Adiciona uma seta personalizada */
+    width: 100%;
+    box-sizing: border-box;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="none" stroke="%23999" stroke-linecap="round" stroke-linejoin="round" d="M3 6l5 5 5-5"/></svg>');
     background-repeat: no-repeat;
-    background-position: right 10px center; 
-    background-size: 12px; /
+    background-position: right 10px center;
+    background-size: 12px; /* Correção da linha */
 }
 
-
 .select-container {
-    position: relative; 
-    width: 100%; 
+    position: relative;
+    width: 100%;
 }
 
 select:focus {
     border-color: #007bff;
-    outline: none; 
-    box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.2); 
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.2);
 }
