@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paciente</title>
-  <link rel="icon" href="/images/logo2.png" type="image/png" />
-  <link rel="stylesheet" href="pacienteStyle.css" />
-   <script src="/pages/paciente/home/patient.js"></script> 
-  <script src="render.js"></script>
-</head>
-
-<body onload="especialidades()">
-  <header>
-    <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
-    <h1 id="welcome-message"></h1>
-    <button id="back-button" class="back-button">Logout</button>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paciente</title>
+    <link rel="icon" href="/images/logo2.png" type="image/png" />
+    <link rel="stylesheet" href="/css/pacienteStyle.css" />
+    <!-- <script src="/js/patient.js" defer></script> -->
+    <script src="render.js"></script>
+  </head>
+  <body onload="especialidades()">
+    <header>
+      <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
+      <h1 id="welcome-message"></h1>
+      <button id="back-button" class="back-button">Voltar</button>
+    </header>
 
   <section class="patient-data">
     <div class="exams">
