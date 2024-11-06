@@ -22,5 +22,5 @@ const especialidades = async ()=>{
 function irParaMarcarConsulta(){
     localStorage.setItem("especialidade",document.getElementById("especialidadeSelect").value)
     localStorage.setItem("tipoAgendamento",document.getElementById("tipoAgendamentoSelect").value)
-    window.location.href='../marcarConsulta/marcarConsulta.html'
+    window.location.href="../marcarConsulta/marcarConsulta.html" // ../marcarConsulta/marcarConsulta-TESTE.html
 }

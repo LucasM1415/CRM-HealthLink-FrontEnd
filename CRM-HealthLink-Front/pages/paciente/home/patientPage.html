@@ -1,49 +1,72 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Paciente</title>
-    <link rel="icon" href="/images/logo2.png" type="image/png" />
-    <link rel="stylesheet" href="/css/pacienteStyle.css" />
-    <!-- <script src="/js/patient.js" defer></script> -->
-    <script src="render.js"></script>
-  </head>
-  <body onload="especialidades()">
-    <header>
-      <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
-      <h1 id="welcome-message"></h1>
-      <button id="back-button" class="back-button">Voltar</button>
-    </header>
 
-    <section class="patient-data">
-      <div class="exams">
-        <h2>Meus Exames</h2>
-        <ul id="exams-list">
-          <!-- Aqui os dados de exames serão inseridos dinamicamente -->
-        </ul>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paciente</title>
+  <link rel="icon" href="/images/logo2.png" type="image/png" />
+  <link rel="stylesheet" href="pacienteStyle.css" />
+   <script src="/pages/paciente/home/patient.js"></script> 
+  <script src="render.js"></script>
+</head>
 
-      <div class="appointments">
-        <h2>Minhas Consultas</h2>
-        <ul id="appointments-list">
-          <!-- Aqui os dados de consultas serão inseridos dinamicamente -->
-        </ul>
-      </div>
-    </section>
+<body onload="especialidades()">
+  <header>
+    <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
+    <h1 id="welcome-message"></h1>
+    <button id="back-button" class="back-button">Logout</button>
+  </header>
+
+  <section class="patient-data">
+    <div class="exams">
+      <h2>Meus Exames</h2>
+      <ul id="exams-list">
+        <!-- Aqui os dados de exames serão inseridos dinamicamente -->
+      </ul>
+    </div>
+
+    <div class="appointments">
+      <h2>Minhas Consultas</h2>
+      <ul id="appointments-list">
+        <!-- Aqui os dados de consultas serão inseridos dinamicamente -->
+      </ul>
+    </div>
+  </section>
+
+  <section class="schedule-appointment">
+    <h2>Minhas Consultas</h2>
 
     <label for="especialidadeSelect">Selecione uma Especialidade: </label>
-    <select name="especialidadeSelect" id="especialidadeSelect"></select>
+    <select name="especialidadeSelect" id="especialidadeSelect"></select required>
 
-    <label for="tipoAgendamentoSelect">Selecione o tipo de agendaento: </label>
+    <br>
+
+    <label for="tipoAgendamentoSelect">Tipo de Agendamento: </label>
     <select name="tipoAgendamentoSelect" id="tipoAgendamentoSelect">
       <option value="CONSULTA">CONSULTA</option>
       <option value="PRONTIDÃO">PRONTIDÃO</option>
       <option value="CONSULTA ONLINE">CONSULTA ONLINE</option>
-    </select>
+    </select required>
 
-    <button onclick="irParaMarcarConsulta()">
-      GO
+    <br>
+
+    <button id="submit-button" class="submit-button" onclick="irParaMarcarConsulta()">
+      Marcar Consulta
     </button>
-  </body>
+
+  </section>
+
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setupEventListeners();
+      updateUserName();
+    });
+
+  </script>
+
+</body>
+
 </html>

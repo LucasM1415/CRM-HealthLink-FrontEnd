@@ -1,5 +1,6 @@
 const ip = "localhost";
 
+//alert("patient.js está carregado");
 
 async function listar_consultas(token) {
   if (!token) {
@@ -279,7 +280,7 @@ function singOut() {
   if (typeof localStorage !== "undefined") {
     localStorage.clear();
     alert("Você foi desconectado com sucesso.");
-    window.location.href = "../pages/login.html";
+    window.location.href = "/pages/login.html";
   } else {
     console.error("Local storage não está disponível.");
   }
