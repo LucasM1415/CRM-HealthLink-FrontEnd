@@ -393,105 +393,115 @@
         <!-- Seção do Horário -->
         <section id="horario" class="content-section" style="display: none;">
             <h2>Calendário de Consultas</h2>
-        
-            <!-- Seletor de especialidade -->
-            <div class="specialty-selector">
-                <label >Especialidade:</label>
+
+            <div class="robertoCarlos">
+                
+                <!-- Seletor de especialidade -->
+                <div class="specialty-selector">
+                    <label>Especialidade:</label>
                     <select id="selectSpeciality">
-                        <option value=""  selected>Selecione uma especialidade</option>
+                        <option value="" selected>Selecione uma especialidade</option>
                     </select>
-                <label >Tipo dos Agendamentos:</label>
+                    <label>Tipo dos Agendamentos:</label>
                     <select id="selectAgendamentos">
-                        <option value=""  selected>Selecione uma Tipo do Agendamento</option>
+                        <option value="" selected>Selecione uma Tipo do Agendamento</option>
                     </select>
                     <label for="quantidadeDeVagas">Quantidade De Vagas:</label>
                     <input type="number" id="quantidade-De-Vagas" min="1">
-            </div>
-        
-            <!-- Seletores de mês e ano -->
-            <div class="date-selectors">
-                <label for="month">Mês:</label>
-                <select id="month">
-                    <option value="01">Janeiro</option>
-                    <option value="02">Fevereiro</option>
-                    <option value="03">Março</option>
-                    <option value="04">Abril</option>
-                    <option value="05">Maio</option>
-                    <option value="06">Junho</option>
-                    <option value="07">Julho</option>
-                    <option value="08">Agosto</option>
-                    <option value="09">Setembro</option>
-                    <option value="10">Outubro</option>
-                    <option value="11">Novembro</option>
-                    <option value="12">Dezembro</option>
-                </select>
-        
-                <label for="year">Ano:</label>
-                <input type="number" id="year" value="2024" min="2000" max="2100">
-                <button onclick="renderizarGerenteCalendario()">Mostrar Calendário</button>
-            </div>
+              
+
+                <!-- Seletores de mês e ano -->
+                <div class="date-selectors">
+                    <label for="month">Mês:</label>
+                    <select id="month">
+                        <option value="01">Janeiro</option>
+                        <option value="02">Fevereiro</option>
+                        <option value="03">Março</option>
+                        <option value="04">Abril</option>
+                        <option value="05">Maio</option>
+                        <option value="06">Junho</option>
+                        <option value="07">Julho</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                    </select>
+
+                    <label for="year">Ano:</label>
+                    <input type="number" id="year" value="2024" min="2000" max="2100">
+                    <button onclick="renderizarGerenteCalendario()">Mostrar Calendário</button>
+                </div>
             
+            </div>
+
             <div id="calendarioDoctor" class="calendario"></div>
 
+        
             <div class="calendar" id="calendar"></div>
             <div class="day-details" id="day-details" style="display: none;">
-                <h3>Detalhes do Dia</h3>
                 <p id="selected-day-info"></p>
             </div>
-
+        </div>
+        <div class="listadehorarios">
             <h3>Lista de Horários Marcados</h3>
             <a href="listSchedulesManagerPage.html">
                 <button>Conferir Lista</button>
             </a>
+        </div>
+        
         </section>
+
+
+
         <!-- Seção de Emergência -->
-    <section id="emergencia" class="content-section" style="display: none;">
-        <h2>Marcar Consulta de Emergência</h2>
-    
-        <!-- Seleção de Data -->
-        <div class="card">
-            <h3>Data da Consulta</h3>
-            <form id="form-emergencia">
-                <label for="data-consulta">Data:</label>
-                <input type="date" id="data-consulta" name="data-consulta" required>
-        </div>
-    
-        <!-- Seleção de Horários -->
-        <div class="card">
-            <h3>Horários</h3>
-            
-            <label for="hora-inicio">Horário de Início:</label>
-            <input type="time" id="hora-inicio" name="hora-inicio" required>
-    
-            <label for="hora-fim">Horário de Fim:</label>
-            <input type="time" id="hora-fim" name="hora-fim" required>
-        </div>
-    
-        <div class="card">
-            <h3>Adicionar Médicos Disponíveis</h3>
-            
-            <label for="criar-consulta-medico-emergencia">Selecionar Médico:</label>
-            <select id="criar-consulta-medico-emergencia" name="criar-consulta-medico" required>
-                <!-- Opções de médicos disponíveis serão inseridas dinamicamente aqui -->
-            </select>
-            
-            <button type="button" id="adicionar-medico-btn">Adicionar Médico</button>
-            
-            <!-- Lista de médicos adicionados -->
-            <div id="lista-medicos">
-                <h4>Médicos Selecionados:</h4>
-                <ul id="medicos-adicionados">
-                    <!-- Lista dos médicos será populada aqui -->
-                </ul>
+        <section id="emergencia" class="content-section" style="display: none;">
+            <h2>Marcar Consulta de Emergência</h2>
+
+            <!-- Seleção de Data -->
+            <div class="card">
+                <h3>Data da Consulta</h3>
+                <form id="form-emergencia">
+                    <label for="data-consulta">Data:</label>
+                    <input type="date" id="data-consulta" name="data-consulta" required>
             </div>
-          </div>
-          
-        
-        
-        <!-- Botão para Salvar Marcação -->
-        <button type="submit">Salvar Marcação</button>
-        </form>
-    </section>
+
+            <!-- Seleção de Horários -->
+            <div class="card">
+                <h3>Horários</h3>
+
+                <label for="hora-inicio">Horário de Início:</label>
+                <input type="time" id="hora-inicio" name="hora-inicio" required>
+
+                <label for="hora-fim">Horário de Fim:</label>
+                <input type="time" id="hora-fim" name="hora-fim" required>
+            </div>
+
+            <div class="card">
+                <h3>Adicionar Médicos Disponíveis</h3>
+
+                <label for="criar-consulta-medico-emergencia">Selecionar Médico:</label>
+                <select id="criar-consulta-medico-emergencia" name="criar-consulta-medico" required>
+                    <!-- Opções de médicos disponíveis serão inseridas dinamicamente aqui -->
+                </select>
+
+                <button type="button" id="adicionar-medico-btn">Adicionar Médico</button>
+
+                <!-- Lista de médicos adicionados -->
+                <div id="lista-medicos">
+                    <h4>Médicos Selecionados:</h4>
+                    <ul id="medicos-adicionados">
+                        <!-- Lista dos médicos será populada aqui -->
+                    </ul>
+                </div>
+            </div>
+
+
+
+            <!-- Botão para Salvar Marcação -->
+            <button type="submit">Salvar Marcação</button>
+            </form>
+        </section>
     </main>
 
     <script>
@@ -521,7 +531,7 @@
             preencherSelectEspecialidades("criar-doutor-speciality");
             preencherSelectEspecialidades("update-doutor-speciality");
             preencherSelectEspecialidades("selectSpeciality");
-            preencherSelectTipoAgendamentos("selectAgendamentos")
+            preencherSelectTipoAgendamentos("selectAgendamentos");
             // selectSpeciality
         });
     </script>
