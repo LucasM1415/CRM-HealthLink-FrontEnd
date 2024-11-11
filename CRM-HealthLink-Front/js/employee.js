@@ -311,28 +311,28 @@ document
     await removerPaciente(token, emailPaciente);
   });
 
-async function configureConsultaRemovalListeners() {
-  const form = document.getElementById("remover-consulta-form");
+// async function configureConsultaRemovalListeners() {
+//   const form = document.getElementById("remover-consulta-form");
 
-  if (form) {
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
+//   if (form) {
+//     form.addEventListener("submit", async (event) => {
+//       event.preventDefault();
 
-      const consultaId = document
-        .getElementById("remover-consulta-id")
-        .value.trim();
-      const token = localStorage.getItem("token");
+//       const consultaId = document
+//         .getElementById("remover-consulta-id")
+//         .value.trim();
+//       const token = localStorage.getItem("token");
 
-      if (consultaId === "") {
-        document.getElementById("consulta-results").innerText =
-          "Por favor, insira o ID da consulta.";
-        return;
-      }
+//       if (consultaId === "") {
+//         document.getElementById("consulta-results").innerText =
+//           "Por favor, insira o ID da consulta.";
+//         return;
+//       }
 
-      await removerConsulta(token, consultaId);
-    });
-  }
-}
+//       await removerConsulta(token);
+//     });
+//   }
+// }
 
 //Atualizar paciente
 async function atualizarPaciente(token, data) {
@@ -501,21 +501,18 @@ function renderMedicos(medicos) {
 async function criarNovaConsulta() {
   const token = localStorage.getItem("token");
   if (!token) {
+    alert("Token de autenticação não encontrado. Por favor, faça login novamente.");
     return;
   }
 
-  const datahora = document.getElementById("criar-consulta-datahora").value;
+  const data = document.getElementById("criar-consulta-data").value;
+  const horaInicial = document.getElementById("criar-consulta-horaInicial").value;
+  const horaFinal = document.getElementById("criar-consulta-horaFinal").value;
   const medicoId = document.getElementById("criar-consulta-medico").value;
   const pacienteId = document.getElementById("criar-consulta-paciente").value;
-  const descricao = document.getElementById("criar-consulta-descricao").value;
+  const especialidade = document.getElementById("criar-consulta-especialidade").value;
 
-console.log(datahora);
-console.log(medicoId);
-console.log(pacienteId);
-console.log(descricao);
-
-
-  if (!datahora || !medicoId || !pacienteId || !descricao) {
+  if (!data || !horaInicial || !horaFinal || !medicoId || !pacienteId || !especialidade) {
     alert("Por favor, preencha todos os campos.");
     return;
   }
@@ -523,9 +520,10 @@ console.log(descricao);
   const corpoRequisicao = {
     email_patient: pacienteId,
     email_doctor: medicoId,
-    email_employee: localStorage.getItem("email"), 
-    data: datahora,
-    description: descricao,
+    date: data,
+    inicio: `${horaInicial}:00`,
+    speciality: especialidade,
+    fim: `${horaFinal}:00`,
   };
 
   const url = `http://${ip}:8080/api/appointment`;
@@ -540,13 +538,20 @@ console.log(descricao);
       body: JSON.stringify(corpoRequisicao),
     });
 
-    if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    if (response.status === 201) {
+      console.log("Consulta criada com sucesso.");
+      alert("Consulta criada com sucesso.");
+    } else {
+      // Só tenta ler a resposta como JSON se houver conteúdo
+      const text = await response.text();
+      if (text) {
+        const errorResponse = JSON.parse(text);
+        console.error("Detalhes do Erro:", errorResponse);
+        alert(`Erro ao criar a consulta: ${errorResponse.message || "Erro desconhecido"}`);
+      } else {
+        throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
     }
-
-    const result = await response.json();
-
-    console.log("Resultado:", result);
   } catch (error) {
     console.error("Erro ao criar a consulta:", error);
     alert("Erro ao criar a consulta. Veja o console para detalhes.");
@@ -578,12 +583,11 @@ async function listarConsultas(token) {
 
     const data = await response.json();
     renderConsultas(data);
-
   } catch (error) {
     console.error("Erro na requisição:", error);
     const resultsTable = document.querySelector("#list-consultas-tbody");
     resultsTable.innerHTML =
-      '<tr><td colspan="6">Erro ao listar consultas.</td></tr>';
+      '<tr><td colspan="3">Erro ao listar consultas.</td></tr>';
   }
 }
 
@@ -597,15 +601,15 @@ function renderConsultas(consultas) {
 
   tableBody.innerHTML = "";
 
+  
+  
   consultas.forEach((consulta) => {
     const row = document.createElement("tr");
-
+    
     row.innerHTML = `
-      <td>${consulta.namePatient || "Paciente não disponível"}</td>
-      <td>${consulta.nameDoctor || "Médico não disponível"}</td>
-      <td>${consulta.date || "Data não disponível"}</td>
-      <td>${consulta.description || "Descrição não disponível"}</td>
-      
+    <td>${consulta.date || "Data não disponível"}</td>
+    <td>${consulta.namePatient || "Paciente não disponível"}</td>
+    <td>${consulta.nameDoctor || "Médico não disponível"}</td>
     `;
 
     tableBody.appendChild(row);
@@ -658,7 +662,7 @@ function renderPacientesSelect(pacientes) {
 
   pacientes.forEach((paciente) => {
     const option = document.createElement("option");
-    option.value = paciente.email; 
+    option.value = paciente.email;
     option.textContent = paciente.name || "Nome não disponível";
     selectElement.appendChild(option);
   });
@@ -747,27 +751,21 @@ function renderMedicosSelect(medicos) {
 
 //Obter Consultas
 async function buscarConsulta(event) {
-  event.preventDefault(); // Impedir o recarregamento da página
+  event.preventDefault(); //Impedir o recarregamento da página
 
   const token = localStorage.getItem("token");
-  const emailPaciente = document.getElementById(
-    "obter-consulta-email-paciente"
-  ).value;
-  const emailDoctor = document.getElementById(
-    "obter-consulta-email-doctor"
-  ).value;
-  const dataConsulta = document.getElementById("obter-consulta-data").value;
+  const emailPaciente = document.getElementById("obter-consulta-email-paciente").value;
+  const emailDoctor = document.getElementById("obter-consulta-email-doctor").value;
+  const date = document.getElementById("obter-consulta-data").value;
+  const horaInicio = document.getElementById("obter-consulta-horaInicio").value;
 
-  if (!token || !emailPaciente || !emailDoctor || !dataConsulta) {
+  if (!token || !emailPaciente || !emailDoctor || !date || !horaInicio) {
     alert("Por favor, preencha todos os campos.");
     return;
   }
 
-  const url = `http://${ip}:8080/api/appointment?emailPatient=${encodeURIComponent(
-    emailPaciente
-  )}&emailDoctor=${encodeURIComponent(emailDoctor)}&date=${encodeURIComponent(
-    dataConsulta
-  )}`;
+  const url = `http://${ip}:8080/api/appointment?emailPatient=${encodeURIComponent(emailPaciente)}&emailDoctor=${encodeURIComponent(emailDoctor)}&date=${encodeURIComponent(date)}`;
+  console.log("URL da requisição:", url);
 
   try {
     const response = await fetch(url, {
@@ -779,6 +777,7 @@ async function buscarConsulta(event) {
     });
 
     if (!response.ok) {
+      console.error(`Erro HTTP! Status: ${response.status}`);
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
 
@@ -812,47 +811,63 @@ document
   .getElementById("consulta-form")
   .addEventListener("submit", buscarConsulta);
 
-//remover consultas
-async function removerConsulta(token) {
+
+
+
+// Função para remover consulta
+async function removerConsulta(token, emailPaciente, emailDoctor, dataConsulta) {
   if (!token) {
+    alert("Usuário não autenticado.");
     return;
   }
 
   const url = `http://${ip}:8080/api/appointment`;
+
+  // Corpo da requisição conforme especificado
+  const corpoRequisicao = {
+    emailPatient: emailPaciente,
+    emailDoctor: emailDoctor,
+    date: dataConsulta,
+  };
 
   try {
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
         Accept: "application/json",
       },
+      body: JSON.stringify(corpoRequisicao),
     });
 
     if (!response.ok) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
 
-    const data = await response.json();
-    await handleRemovalResult("success");
+    await handleRemovalResult("success", token); // Passa o token para a função de resultado
   } catch (error) {
     console.error("Erro na requisição:", error);
-    await handleRemovalResult("error");
+    await handleRemovalResult("error", token); // Passa o token para a função de erro
   }
 }
 
-async function handleRemovalResult(status) {
+// Função para lidar com o resultado da remoção
+async function handleRemovalResult(status, token) {
   const resultsDiv = document.getElementById("consulta-results");
 
   switch (status) {
     case "success":
       resultsDiv.innerText = "Consulta removida com sucesso!";
+      if (token) {
+        await listarConsultas(token); // Atualiza a lista de consultas
+      }
       break;
 
     case "error":
-      const token = localStorage.getItem("token");
+      resultsDiv.innerText = "Erro ao remover a consulta.";
       if (token) {
-        await listarConsultas(token);
+        await listarConsultas(token); // Tenta atualizar a lista em caso de erro
       }
       break;
 
@@ -862,6 +877,7 @@ async function handleRemovalResult(status) {
   }
 }
 
+// Função para configurar o evento de remoção de consulta
 async function setupRemovalEventListeners() {
   const form = document.getElementById("remover-consulta-form");
 
@@ -869,21 +885,23 @@ async function setupRemovalEventListeners() {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const consultaId = document
-        .getElementById("remover-consulta-id")
-        .value.trim();
+      const emailPaciente = document.getElementById("remover-consulta-email-paciente").value.trim();
+      const emailDoctor = document.getElementById("remover-consulta-email-doctor").value.trim();
+      const dataConsulta = document.getElementById("remover-consulta-data").value.trim();
       const token = localStorage.getItem("token");
 
-      if (consultaId === "") {
+      if (!emailPaciente || !emailDoctor || !dataConsulta) {
         document.getElementById("consulta-results").innerText =
-          "Por favor, insira o ID da consulta.";
+          "Por favor, insira os dados da consulta.";
         return;
       }
 
-      await removerConsulta(token, consultaId);
+      await removerConsulta(token, emailPaciente, emailDoctor, dataConsulta);
     });
   }
 }
+
+setupRemovalEventListeners();
 
 function tokenValidation() {
   var token = localStorage.getItem("token");
@@ -988,7 +1006,7 @@ if (consultaForm) {
   consultaForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    const consultaId = document.getElementById("obter-consulta-id").value;
+    const consultaId = document.getElementById("obter-consulta-data").value;
     await buscarConsulta(token, consultaId);
   });
 }

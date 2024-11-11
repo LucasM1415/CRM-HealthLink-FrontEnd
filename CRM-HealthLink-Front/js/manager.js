@@ -730,7 +730,7 @@ async function preencherSelectMedicosEmergencia() {
 
 function renderMedicosSelectEmergencia(medicos) {
   const selectElement = document.getElementById("criar-consulta-medico-emergencia"); // Use o ID específico para emergência
-  console.log("Médicos recebidos:", medicos);
+  // console.log("Médicos recebidos:", medicos);
 
   if (!selectElement) {
       console.error("Elemento <select> não encontrado!");
