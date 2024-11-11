@@ -5,48 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard do Doutor</title>
     <link rel="stylesheet" href="/css/doutorStyle.css">
+    <link rel="stylesheet" href="/pages/doctor/calendarioDoctor.css">
     <script src="/js/doctor.js" defer></script>
+    <Script src="/pages/doctor/doctor.js" refed></Script>
+
+
+    <script>
+        
+    </script>
 </head>
-<body onload="getToken()">
+<body >
     <header>
-        <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
-        <h1 id="welcome-message"></h1>
-        <button id="back-button" class="back-button">Voltar</button>
+        <div class="header-top">
+            <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
+            <h1 id="welcome-message"></h1>
+            <button id="back-button" class="back-button">Voltar</button>
+        </div>
         <nav>
-         
+            <a href="#Calendario" onclick="showSection('Calendario')">Calendário de Consultas</a>
+            <a href="#exam" onclick="showSection('exam')">Criar Exame</a>
+            <a href="#appointments" onclick="showSection('appointments')">Consultas Marcadas</a>
+            <a href="#meusExames" onclick="showSection('meusExames')">Exames Marcados</a>
         </nav>
     </header>
 
     <main>
-       
-        <section class="create-exam">
+        <section id="exam" class="create-exam section-hidden">
             <h2>Criar Novo Exame</h2>
             <form id="create-exam-form">
                 <label for="exam-date">Data:</label>
                 <input type="datetime-local" id="exam-date" name="exam-date" required>
-        
                 <label for="fk-appointment">Consulta:</label>
-                <select id="fk-appointment" name="fk-appointment" required>
-                    <!-- Options serão dinamicamente geradas -->
-                </select>
-        
+                <select id="fk-appointment" name="fk-appointment" required></select>
                 <label for="exam-description">Descrição do exame:</label>
                 <textarea id="exam-description" name="exam-description" required></textarea>
-        
                 <button type="submit">Criar Exame</button>
             </form>
         </section>
-        
 
-        <section class="patient-list">
+        <section id="appointments" class="patient-list section-hidden">
             <h2>Consultas Marcadas</h2>
-            <ul id="appointments-list">
-           </ul>
+            <ul id="appointments-list"></ul>
         </section>
-        
-        
-        
-        <section class="doctor-exams">
+
+        <section id="meusExames" class="doctor-exams section-hidden">
             <h2>Exames Marcados</h2>
             <table>
                 <thead>
@@ -57,17 +59,61 @@
                         <th>Nome do Paciente</th>
                     </tr>
                 </thead>
-                <tbody id="D-exams-list">
-                    <!-- Linhas dinamicamente geradas -->
-                </tbody>
+                <tbody id="D-exams-list"></tbody>
             </table>
         </section>
 
-        <section class="specialty-schedules">
-            <h2>Horários por Especialização</h2>
-            <ul id="specialties-list">
-                <!-- Listagem das especializações será gerada aqui -->
-            </ul>
+        <!-- Seção de calendário com exibição dos detalhes diretamente -->
+        <section id="Calendario" class="specialty-schedules">
+            <h2>Calendário de Consultas</h2>
+        
+            <!-- Seletor de especialidade -->
+            <div class="specialty-selector">
+                <label for="specialty">Especialidade:</label>
+                <select id="specialty">
+                    <option value="">Selecione uma especialidade</option>
+                    <!-- Opções serão preenchidas dinamicamente -->
+                </select>               
+            </div>
+            <div class="agendamento-selector">
+                <label>Tipo dos Agendamentos:</label>
+                    <select id="selectAgendamentos">
+                        <option value="" selected>Selecione uma Tipo do Agendamento</option>
+                    </select>
+            </div>
+        
+            <!-- Seletores de mês e ano -->
+            <div class="date-selectors">
+                <label for="month">Mês:</label>
+                <select id="month">
+                    <option value="01">Janeiro</option>
+                    <option value="02">Fevereiro</option>
+                    <option value="03">Março</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Maio</option>
+                    <option value="06">Junho</option>
+                    <option value="07">Julho</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Setembro</option>
+                    <option value="10">Outubro</option>
+                    <option value="11">Novembro</option>
+                    <option value="12">Dezembro</option>
+                </select>
+
+                <label for="year">Ano:</label>
+                <input type="number" id="year" value="2024" min="2000" max="2100">
+                <button onclick="renderizarGerenteCalendario()">Mostrar Calendário</button>
+            </div>
+            <div id="calendarioDoctor" class="calendario"></div>
+
+        
+            <div class="calendar" id="calendar"></div>
+            <div class="day-details" id="day-details" style="display: none;">
+                <p id="selected-day-info"></p>
+                <label for="quantidadeDeVagas">Tempo medio de consulta:</label>
+                <input type="number" id="tempo-medio" min="1">
+            </div>
+        </div>
         </section>
         
     </main>

@@ -1,4 +1,4 @@
-
+/* Mantém a estrutura anterior */
 * {
     margin: 0;
     padding: 0;
@@ -7,20 +7,37 @@
 
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
     background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
-    
 }
-
 
 header {
     background-color: #1f1f1f;
-    color: white;
-    padding: 10px 20px;
+    color: #fff;
+    padding: 0px 20px;
+}
+
+.specialty-schedules{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    width: 80%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+header .header-top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+header .logo {
+    height: 80px;
 }
 
 header .back-button {
@@ -38,24 +55,31 @@ header .back-button:hover {
     background-color: #45a049; 
 }
 
-
-header .logo {
-    height: 80px; 
-}
-
 header h1 {
     margin: 0;
-    font-size: 1.5em;
+    font-size: 2em;
     text-align: center;
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
+nav {
+    margin-top: 2px;
+    font-size: 15px;
+    text-align: center;
+}
+
+nav a {
+    color: #69be6e;
+    margin: 0 40px;
+    text-decoration: none;
+    font-weight: bolder;
+    cursor: pointer;
+}
 
 main {
-    padding: 1%;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
 
 section {
@@ -63,49 +87,84 @@ section {
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px; /* Define a largura máxima da seção */
+    width: 100%; /* Faz a seção ocupar toda a largura disponível até o limite de 800px */
+    margin: 20px auto; /* Centraliza horizontalmente */
 }
 
+ /* Estilo para ocultar seções inicialmente */
+ .section-hidden {
+    display: none;
+}
+
+/* Centralizar o conteúdo em cada seção */
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 60vh;
+    text-align: center;
+}
+
+/* Estilos para o calendário */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+}
+
+.calendar-day {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-day:hover {
+    background-color: #e3f2e5;
+}
+
+/* Estilo para a exibição de detalhes do dia */
+.day-details {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    text-align: center;
+}
+
+/* Estilo para os seletores de mês e ano */
+.date-selectors {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
 
 h2 {
     border-bottom: 2px solid #4caf50;
     margin-bottom: 15px;
+    text-align: center;
 }
 
-.specialty-schedules {
+/* Estilo específico para os elementos das seções */
+
+.specialty-schedules, .appointments, .create-exam {
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#specialties-list {
-    list-style-type: none; 
-    padding: 0;
-    margin: 0;
-}
-
-#specialties-list li {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    margin-bottom: 10px;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.create-exam {
-    min-height: 400px; /* Ajuste esse valor conforme necessário */
-    padding-bottom: 50px;
-}
-
 .create-exam form {
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
-}
-
-.create-exam label {
-    margin-bottom: 5px;
 }
 
 .create-exam input,
@@ -130,14 +189,9 @@ h2 {
     background: #45a049;
 }
 
-
 table {
     width: 100%;
     border-collapse: collapse;
-}
-
-table thead {
-    background: #f4f4f4;
 }
 
 table th, table td {
@@ -155,66 +209,8 @@ table tr:hover {
 }
 
 @media (min-width: 768px) {
+    /* Aumenta o espaço para seções em telas maiores */
     main {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto;
+        padding: 40px;
     }
-    .create-exam {
-        grid-row: span 2; /* Faz com que a seção 'create-exam' ocupe duas linhas no grid */
-    }
-}
-
-.appointments {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px; 
-    margin: auto; 
-}
-
-
-#appointments-list {
-    list-style-type: none; 
-    padding: 0;
-    margin: 0;
-}
-
-
-.item {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    margin-bottom: 10px;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-}
-
-
-.title {
-    font-weight: bold;
-    margin: 0;
-    padding: 10px;
-    background-color: #4CAF50; 
-    color: white; 
-    border-bottom: 1px solid #ddd; 
-    cursor: pointer; 
-}
-
-
-.expanded-content {
-    display: none; 
-    padding: 10px;
-    border-top: 1px solid #ddd;
-}
-
-
-.expanded-content.show {
-    display: block;
-}
-
-
-.expanded-content p {
-    margin: 5px 0;
-    line-height: 1.5; 
 }
