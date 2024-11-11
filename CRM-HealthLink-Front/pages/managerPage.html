@@ -422,31 +422,22 @@
             </a>
         </section>
         <!-- Seção de Emergência -->
-    <section id="emergencia" class="content-section" style="display: none;">
-        <h2>Marcar Consulta de Emergência</h2>
-    
-        <!-- Seleção de Data -->
-        <div class="card">
-            <h3>Data da Consulta</h3>
-            <form id="form-emergencia">
-                <label for="data-consulta">Data:</label>
-                <input type="date" id="data-consulta" name="data-consulta" required>
-        </div>
-    
-        <!-- Seleção de Horários -->
-        <div class="card">
-            <h3>Horários</h3>
-            
+<section id="emergencia" class="content-section" style="display: none;">
+    <h2>Agendar Prontidão de Emergência</h2>
+    <div class="card">
+        <h3>Criar Prontidão</h3>
+        <form id="form-emergencia">
+            <label for="data-consulta">Data:</label>
+            <input type="date" id="data-consulta" name="data-consulta" required>
+        </form>
+        <form id="horarios-form">
             <label for="hora-inicio">Horário de Início:</label>
             <input type="time" id="hora-inicio" name="hora-inicio" required>
-    
+
             <label for="hora-fim">Horário de Fim:</label>
             <input type="time" id="hora-fim" name="hora-fim" required>
-        </div>
-    
-        <div class="card">
-            <h3>Adicionar Médicos Disponíveis</h3>
-            
+        </form>
+        <form id="medicos-form">
             <label for="criar-consulta-medico-emergencia">Selecionar Médico:</label>
             <select id="criar-consulta-medico-emergencia" name="criar-consulta-medico" required>
                 <!-- Opções de médicos disponíveis serão inseridas dinamicamente aqui -->
@@ -454,21 +445,74 @@
             
             <button type="button" id="adicionar-medico-btn">Adicionar Médico</button>
             
-            <!-- Lista de médicos adicionados -->
+            <!-- Lista de Médicos Adicionados -->
             <div id="lista-medicos">
                 <h4>Médicos Selecionados:</h4>
                 <ul id="medicos-adicionados">
                     <!-- Lista dos médicos será populada aqui -->
                 </ul>
+                <button type="submit" form="form-emergencia">Salvar Marcação</button>
             </div>
-          </div>
-          
-        
-        
-        <!-- Botão para Salvar Marcação -->
-        <button type="submit">Salvar Marcação</button>
         </form>
-    </section>
+    </div>
+
+   
+
+
+<div class="card">
+    <h3>Remover Prontidão de Emergência</h3>
+    <form id="remove-emergencia-form">
+        <!-- Campo para Data da Consulta -->
+        <label for="remover-consulta-data">Data da Consulta:</label>
+        <input type="date" id="remover-consulta-data" required>
+      
+        <!-- Campo para Horário de Início -->
+        <label for="remover-consulta-hora-inicio">Horário de Início:</label>
+        <input type="time" id="remover-consulta-hora-inicio" required>
+      
+        <!-- Campo para Horário de Fim -->
+        <label for="remover-consulta-hora-fim">Horário de Fim:</label>
+        <input type="time" id="remover-consulta-hora-fim" required>
+      
+        <!-- Select para escolher o Médico -->
+        <label for="remover-consulta-medico">Selecionar Médico:</label>
+        <select id="remover-consulta-medico" required>
+            <option value="">Selecione um médico</option>
+            <!-- Opções de médicos serão inseridas dinamicamente -->
+        </select>
+      
+        <!-- Botão para adicionar médico à lista de remoção -->
+        <button type="button" id="remover-medico-btn">Adicionar Médico para Remoção</button>
+      
+        <!-- Exibição da lista de médicos selecionados para remoção -->
+        <div id="lista-medicos-remocao">
+            <h4>Médicos Selecionados para Remoção:</h4>
+            <ul id="medicos-remocao">
+                <!-- Lista de médicos para remoção será populada aqui -->
+            </ul>
+            <!-- Botão para enviar o formulário e remover a seleção -->
+            <button type="submit">Remover Seleção</button>
+        </div>
+    </form>
+    
+    <!-- Exibição do resultado após tentativa de remoção -->
+    <div id="remove-consulta-results">
+        <!-- Mensagem de confirmação ou erro será exibida aqui -->
+    </div>
+    
+</div>
+
+
+
+    <!-- Card para Listar Consultas -->
+    <div class="card" id="list-emergencias-card">
+        <h3>Lista de Consultas de Emergência</h3>
+        <a href="listEmergencyConsultationsPage.html">
+            <button>Conferir Lista</button>
+        </a>
+    </div>
+</section>
+
     </main>
 
     <script>
