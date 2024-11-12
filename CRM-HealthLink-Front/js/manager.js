@@ -201,7 +201,6 @@ async function setupUpdateDoctorForm() {
 
 
 
-
 //Criar um Funcionário
 async function criarFuncionario(token, data) {
   if (!token) {
@@ -561,7 +560,7 @@ async function criarHorarios() {
 
 
 
-//Listar horários
+// horários
 async function listarHorarios() {
   const token = localStorage.getItem("token");
   

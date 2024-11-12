@@ -225,31 +225,35 @@
             <div class="card">
                 <h3>Criar Consulta</h3>
                 <form id="form-criar-consulta" data-form-type="create">
+                    <!-- Campo para selecionar a especialidade -->
+                    <label for="criar-consulta-especialidade">Selecione uma Especialidade:</label>
+                    <select name="criar-consulta-especialidade" id="criar-consulta-especialidade" required>
+                        <option value="">Selecione uma especialidade</option>
+                    </select>
+            
+                    <!-- Campo para selecionar a data -->
                     <label for="criar-consulta-data">Data:</label>
                     <input type="date" id="criar-consulta-data" name="criar-consulta-data" required>
-
-                    <label for="criar-consulta-horaInicial">Hora Inicial:</label>
-                    <input type="time" id="criar-consulta-horaInicial" name="criar-consulta-horaInicial" required>
-
-                    <label for="criar-consulta-horaFinal">Hora Final:</label>
-                    <input type="time" id="criar-consulta-horaFinal" name="criar-consulta-horaFinal" required>
-
+            
+                    <!-- Campo para selecionar o e-mail do médico -->
                     <label for="criar-consulta-medico">E-Mail do Médico:</label>
                     <select id="criar-consulta-medico" name="criar-consulta-medico" required>
                     </select>
-
+            
+                    <!-- Campo para selecionar o e-mail do paciente -->
                     <label for="criar-consulta-paciente">E-Mail do Paciente:</label>
                     <select id="criar-consulta-paciente" name="criar-consulta-paciente" required>
                     </select>
-
-                    <label for="criar-consulta-especialidade">Selecione uma Especialidade: </label>
-                    <select name="criar-consulta-especialidade" id="criar-consulta-especialidade">
-                    </select required>
-
-
+            
+                    <!-- Campo para selecionar o horário disponível -->
+                    <label for="criar-consulta-horaInicial">Horários Disponíveis:</label>
+                    <select name="criar-consulta-horaInicial" id="criar-consulta-horaInicial" required>
+                    </select>
+            
                     <button type="submit">Criar</button>
                 </form>
             </div>
+            
 
 
 
@@ -265,7 +269,7 @@
                     <label for="obter-consulta-data">Data da Consulta:</label>
                     <input type="date" id="obter-consulta-data">
 
-                    <label for="obter-consulta-horaInicio">Hora Início da Consulta:</label>
+                    <label for="obter-consulta-hora-inicio">Hora Início da Consulta:</label>
                     <input type="time" id="obter-consulta-hora-inicio">
 
                     <button type="submit">Buscar</button>
@@ -291,6 +295,8 @@
                     <label for="update-consulta-hora-inicio">Hora Início da Consulta:</label>
                     <input type="time" id="update-consulta-hora-inicio">
 
+                    <h4> ➥ Atualize as informações desta consulta </h4>
+
                     <label for="update-consulta-hora-fim">Hora Final da Consulta:</label>
                     <input type="time" id="update-consulta-hora-fim">
 
@@ -313,6 +319,9 @@
 
                     <label for="remover-consulta-data">Data da Consulta:</label>
                     <input type="date" id="remover-consulta-data">
+
+                    <label for="remover-consulta-hora-inicio">Horário Inicial da Consulta</label>
+                    <input type="time" id="remover-consulta-hora-inicio" required>
 
                     <button type="submit">Remover</button>
                 </form>
@@ -532,5 +541,4 @@
 
 
 </body>
-
 </html>
