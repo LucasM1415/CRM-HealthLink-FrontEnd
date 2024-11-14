@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +12,11 @@
 
 
     <script>
-        
+
     </script>
 </head>
-<body >
+
+<body>
     <header>
         <div class="header-top">
             <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
@@ -66,22 +68,20 @@
         <!-- Seção de calendário com exibição dos detalhes diretamente -->
         <section id="Calendario" class="specialty-schedules">
             <h2>Calendário de Consultas</h2>
-        
+
             <!-- Seletor de especialidade -->
             <div class="specialty-selector">
                 <label for="specialty">Especialidade:</label>
                 <select id="specialty">
-                    <option value="">Selecione uma especialidade</option>
-                    <!-- Opções serão preenchidas dinamicamente -->
-                </select>               
+                </select>
             </div>
             <div class="agendamento-selector">
                 <label>Tipo dos Agendamentos:</label>
-                    <select id="selectAgendamentos">
-                        <option value="" selected>Selecione uma Tipo do Agendamento</option>
-                    </select>
+                <select id="selectAgendamentos">
+                    <option value="" selected>Selecione uma Tipo do Agendamento</option>
+                </select>
             </div>
-        
+
             <!-- Seletores de mês e ano -->
             <div class="date-selectors">
                 <label for="month">Mês:</label>
@@ -106,16 +106,15 @@
             </div>
             <div id="calendarioDoctor" class="calendario"></div>
 
-        
+
             <div class="calendar" id="calendar"></div>
             <div class="day-details" id="day-details" style="display: none;">
                 <p id="selected-day-info"></p>
-                <label for="quantidadeDeVagas">Tempo medio de consulta:</label>
-                <input type="number" id="tempo-medio" min="1">
             </div>
-        </div>
+            </div>
         </section>
-        
+
     </main>
 </body>
+
 </html>

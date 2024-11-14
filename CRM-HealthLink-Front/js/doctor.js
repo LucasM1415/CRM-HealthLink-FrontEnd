@@ -389,7 +389,6 @@ function generateCalendar() {
   const year = parseInt(document.getElementById("year").value);
   console.log(month)
   console.log(year)
-  carregarDisponibilidade(specialty,month,year);
   const calendar = document.getElementById("calendar");
   calendar.innerHTML = ''; // Limpa o calendário anterior
 
@@ -410,35 +409,3 @@ function showDayDetails(day, month, year) {
   document.getElementById("selected-day-info").textContent = `Informações para ${day}/${month}/${year}`;
 }
 
-
-  async function carregarDisponibilidade(speciality, month, year) {
-    const url = new URL(`http://${ip}:8080/api/calendario/specialty`); 
-
-    // Define os parâmetros da URL
-    url.searchParams.append("speciality", speciality.toUpperCase());
-    url.searchParams.append("month", (month+1));
-    url.searchParams.append("year", year);
-
-    const token = localStorage.getItem('token'); // Obtenha o token do localStorage
-
-    try {
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}` // Adicione o token no cabeçalho
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Erro: ${response.statusText}`);
-        }
-
-        // Converte a resposta em JSON
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error("Erro ao obter os agendamentos:", error);
-        return null;
-    }
-}
