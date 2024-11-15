@@ -147,11 +147,6 @@ function renderEspecialidadesSelect(especialidades, selectId) {
 
   selectElement.innerHTML = "";
 
-  const optionDefault = document.createElement("option");
-  optionDefault.value = "";
-  optionDefault.textContent = "Selecione uma especialidade";
-  selectElement.appendChild(optionDefault);
-
   especialidades.forEach((especialidade) => {
     if (especialidade === "PRONTIDAO") {
       return; // Ignora a especialidade "PRONTIDAO"
