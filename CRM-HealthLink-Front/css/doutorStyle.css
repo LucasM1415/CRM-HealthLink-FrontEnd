@@ -141,7 +141,7 @@ section {
 
 /* Estilo para os seletores de mês e ano */
 .date-selectors {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     display: flex;
     gap: 10px;
 }
@@ -175,7 +175,21 @@ h2 {
     border-radius: 5px;
     width: 100%;
 }
-
+.imputNumber{
+    width: 40px;
+    height: 20px;
+}
+.marginTop{
+    margin-top: 10px;
+}
+.button {
+    padding: 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 .create-exam button {
     padding: 10px;
     background: #4CAF50;

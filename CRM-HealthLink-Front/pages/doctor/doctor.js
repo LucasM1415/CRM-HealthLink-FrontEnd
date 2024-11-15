@@ -81,20 +81,17 @@ async function mostraHorarios(day) {
     details.style.display = "block";
     const horariosHtml = agendamentosFiltrados.map((agendamento, index) => `
       <div class="horario-bloco">
-        <h4>Agendamento ${index + 1}</h4>
-        <label for="Hora-de-inicio-${index}">Hora de início:</label>
-        <input type="time" id="Hora-de-inicio-${index}" name="Hora-de-inicio-${index}" value="${agendamento.homeTime}" required>
-        
-        <label for="Hora-de-termino-${index}">Hora de término:</label>
-        <input type="time" id="Hora-de-termino-${index}" name="Hora-de-termino-${index}" value="${agendamento.endTime}" required>
-        
-        <label for="quantidadeDeVagas">Tempo medio de consulta:</label>
-                <input type="number" id="tempo-medio-${index}" value = 10 min="1">
-        
-        <button onclick="cadastrarHorario(${index},'${dataEscolhida}','${day}')">Criar</button>
-        
-        
-
+        <h4 class="marginTop">Agendamento ${index + 1}</h4>
+        <label class="marginTop marginTop" for="Hora-de-inicio-${index}">Hora de início:</label>
+        <input class="marginTop" type="time" id="Hora-de-inicio-${index}" name="Hora-de-inicio-${index}" value="${agendamento.homeTime}" required>
+        <br>
+        <label class="marginTop" for="Hora-de-termino-${index}">Hora de término:</label>
+        <input class="marginTop" type="time" id="Hora-de-termino-${index}" name="Hora-de-termino-${index}" value="${agendamento.endTime}" required>
+        <br>
+        <label class="marginTop" for="quantidadeDeVagas">Tempo medio de consulta:</label>
+        <input type="number" id="tempo-medio-${index}" value = 10 min="1" class="imputNumber marginTop">
+        <br>
+        <button class="button marginTop" onclick="cadastrarHorario(${index},'${dataEscolhida}','${day}')">Criar</button>
       </div>
     `).join("");
 

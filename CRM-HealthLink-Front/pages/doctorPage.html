@@ -29,6 +29,7 @@
             <a href="#appointments" onclick="showSection('appointments')">Consultas Marcadas</a>
             <a href="#meusExames" onclick="showSection('meusExames')">Exames Marcados</a>
         </nav>
+        <br>
     </header>
 
     <main>
@@ -71,11 +72,11 @@
 
             <!-- Seletor de especialidade -->
             <div class="specialty-selector">
-                <label for="specialty">Especialidade:</label>
+                <label class="marginTop" for="specialty">Especialidade:</label>
                 <select id="specialty">
                 </select>
             </div>
-            <div class="agendamento-selector">
+            <div class="agendamento-selector marginTop">
                 <label>Tipo dos Agendamentos:</label>
                 <select id="selectAgendamentos">
                     <option value="" selected>Selecione uma Tipo do Agendamento</option>
@@ -83,7 +84,7 @@
             </div>
 
             <!-- Seletores de mês e ano -->
-            <div class="date-selectors">
+            <div class="date-selectors marginTop">
                 <label for="month">Mês:</label>
                 <select id="month">
                     <option value="01">Janeiro</option>
@@ -102,8 +103,9 @@
 
                 <label for="year">Ano:</label>
                 <input type="number" id="year" value="2024" min="2000" max="2100">
-                <button onclick="renderizarGerenteCalendario()">Mostrar Calendário</button>
             </div>
+            <button class="button" onclick="renderizarGerenteCalendario()">Mostrar Calendário</button>
+
             <div id="calendarioDoctor" class="calendario"></div>
 
 
