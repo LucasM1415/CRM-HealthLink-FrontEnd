@@ -1,5 +1,7 @@
+
+
 .cardDia {
-    background-color: rgba(162, 230, 198, 0.377);
+    background-color: rgb(215, 226, 221);
     margin: 0.5em;
     width: 10vh;
     display: flex;
@@ -8,7 +10,7 @@
 }
 .cardDia:hover{
     cursor: pointer;
-    background-color: rgb(59, 141, 141);
+    background-color: rgb(128, 128, 128);
     
 }
 .cardDia p {
@@ -25,7 +27,20 @@
     
     justify-content: center;
 }
+.highlighted {
+    background-color:  rgb(71, 236, 93);
+    margin: 0.5em;
+    width: 10vh;
+    display: flex;
+    justify-content: center;
+    
+  }
 
+.highlighted:hover{
+    cursor: pointer;
+    background-color: rgba(29, 182, 111, 0.76);
+}
+  
 
 .robertoCarlos{
     display: flex;

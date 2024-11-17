@@ -2,7 +2,7 @@ const cardDiaClassName = "cardDia";
 
 
 
-function cadastrarHorario(index,data,day) {
+function cadastrarHorario(index, data, day) {
   var tempo_medio = document.getElementById(`tempo-medio-${index}`).value;
   var Hora_de_inicio = document.getElementById(`Hora-de-inicio-${index}`).value;
   var Hora_de_termino = document.getElementById(`Hora-de-termino-${index}`).value;
@@ -20,11 +20,9 @@ function cadastrarHorario(index,data,day) {
     "tempoMedioConsultaMinutos": parseInt(tempo_medio)
   };
 
-  // Exibir dados para confirmação
   console.log(datas);
 
   var token = localStorage.getItem("token");
-  // Enviar requisição PUT
   fetch('http://localhost:8080/api/calendario/associateDoctor', {
     method: 'PUT',
     headers: {
@@ -34,22 +32,20 @@ function cadastrarHorario(index,data,day) {
     },
     body: JSON.stringify(datas)
   })
-  .then(response => {
-    // Verifique se a resposta tem corpo
-    if (response.ok) {
-      return response.text();  // Converte a resposta para texto
-    } else {
-      throw new Error('Erro na requisição: ' + response.statusText);
-    }
-  })
-  .then(message => {
-    // A resposta agora é uma string
-    mostraHorarios(day);
-  })
-  .catch(error => {
-    console.error('Erro:', error);
-  });
-  
+    .then(response => {
+      if (response.ok) {
+        return response.text();  
+      } else {
+        throw new Error('Erro na requisição: ' + response.statusText);
+      }
+    })
+    .then(message => {
+      mostraHorarios(day);
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+
 }
 
 
@@ -74,7 +70,13 @@ async function mostraHorarios(day) {
 
   // Filtrar agendamentos pela data escolhida
   const agendamentosFiltrados = datas.filter(agendamento => agendamento.date === dataEscolhida);
-
+  console.log(agendamentosFiltrados)
+  if (agendamentosFiltrados.length === 0) { 
+    console.log("O array está vazio!")
+    renderizarGerenteCalendario();
+  }
+    
+  
   // Verifica se existem agendamentos filtrados
   if (agendamentosFiltrados.length > 0) {
     // Exibe blocos de horários dos agendamentos
@@ -112,7 +114,13 @@ async function mostraHorarios(day) {
 }
 
 
-function gerarCardDia(qtd) {
+async function gerarCardDia(qtd) {
+  const especialidade_Medico = document.getElementById("specialty").value.toUpperCase();
+  const tipo_agendamento = document.getElementById('selectAgendamentos').value.toUpperCase();
+  const month = document.getElementById("month").value;
+  const year = document.getElementById("year").value;
+
+  const listDays = await pegaDias(especialidade_Medico, tipo_agendamento, month, year);
   const cards = []
   for (let i = 1; i <= qtd; i++) {
     let c = document.createElement('div')
@@ -120,6 +128,9 @@ function gerarCardDia(qtd) {
     let p = document.createElement('p')
     p.textContent = i;
     c.appendChild(p)
+    if (listDays.includes(i)) {
+      c.classList.add('highlighted');
+    }
     c.addEventListener("click", () => {
       let dia = String(i)
 
@@ -131,17 +142,56 @@ function gerarCardDia(qtd) {
 
 }
 
+async function pegaDias(specialty, agendamento, month, year) {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.error("Token não encontrado no localStorage");
+    return []; // Retorna array vazio se o token não for encontrado
+  }
+
+  const url = new URL(`http://${ip}:8080/api/calendario/listofdays`);
+  url.searchParams.append("speciality", specialty);
+  url.searchParams.append("month", month);
+  url.searchParams.append("year", year);
+  url.searchParams.append("tipoAgendamento", agendamento);
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erro ao buscar os dias do calendário:", error);
+    return []; // Retorna array vazio em caso de erro
+  }
+}
+
+
 async function renderizarCalendario(mes, ano, local) {
   const div = document.getElementById(local);
-  div.innerHTML = ""
-  const quantidadeDias = (new Date(ano, mes, 0)).getDate();
+  div.innerHTML = "";
+  const quantidadeDias = new Date(ano, mes, 0).getDate();
 
-  const cards = gerarCardDia(quantidadeDias);
-
-  cards.forEach(card => {
-    div.appendChild(card)
-  })
+  try {
+    const cards = await gerarCardDia(quantidadeDias); // Aguarda a Promise ser resolvida
+    cards.forEach((card) => {
+      div.appendChild(card);
+    });
+  } catch (error) {
+    console.error("Erro ao gerar cards do calendário:", error);
+  }
 }
+
 
 async function pegaDatasDisponives(specialty, agendamento, month, year) {
   const token = localStorage.getItem("token");
@@ -228,7 +278,7 @@ function renderEspecialidadesSelect(especialidades, selectId) {
 
   selectElement.innerHTML = "";
 
-  
+
 
   especialidades.forEach((especialidade) => {
     const option = document.createElement("option");
