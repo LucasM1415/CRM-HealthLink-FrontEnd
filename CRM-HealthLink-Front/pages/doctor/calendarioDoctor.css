@@ -1,18 +1,33 @@
-
-
-.cardDia {
-    background-color: rgb(215, 226, 221);
-    margin: 0.5em;
-    width: 10vh;
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 colunas para os dias da semana */
+    gap: 5px; /* Espaçamento entre os elementos */
+    max-width: 100%; /* Garante que o calendário não transborde */
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  .cardDia {
     display: flex;
+    align-items: center;
     justify-content: center;
-    
-}
-.cardDia:hover{
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 50px;
+    text-align: center;
+    font-size: 1rem;
     cursor: pointer;
-    background-color: rgb(128, 128, 128);
-    
-}
+    transition: background-color 0.3s ease;
+    width: 10vh;
+  }
+  .cardDia:hover {
+    background-color: #e6f7ff; /* Cor de destaque ao passar o mouse */
+  }
+  .cardDia.highlighted {
+    background-color: #d4edda; /* Cor dos dias disponíveis */
+    border-color: #c3e6cb;
+  }
+  
 .cardDia p {
     color: rgb(7, 7, 7);
     padding: 1em;
@@ -28,8 +43,6 @@
     justify-content: center;
 }
 .highlighted {
-    background-color:  rgb(71, 236, 93);
-    margin: 0.5em;
     width: 10vh;
     display: flex;
     justify-content: center;
@@ -55,23 +68,33 @@
     text-align: center;
 }
 
-/* Estilos para o calendário */
 .calendar {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    text-align: center;
-    max-width: 600px;
-    margin: auto;
+    grid-template-columns: repeat(7, 1fr); /* 7 colunas */
+    gap: 5px; /* Espaçamento entre os dias */
+    max-width: 100%; /* Ajusta à largura disponível */
+    min-height: 250px; /* Define uma altura mínima para o calendário */
+    padding: 10px;
+    overflow: hidden; /* Evita transbordamento */
+    box-sizing: border-box;
 }
 
 .calendar-day {
-    padding: 20px;
+    padding: 15px; /* Ajuste o tamanho dos "dias" */
     background-color: #f4f4f4;
     border-radius: 5px;
-    cursor: pointer;
+    text-align: center;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
 }
+
+.calendar-day.hidden {
+    visibility: hidden; /* Esconde os dias vazios (placeholders) */
+}
+
 
 .calendar-day:hover {
     background-color: #e3f2e5;

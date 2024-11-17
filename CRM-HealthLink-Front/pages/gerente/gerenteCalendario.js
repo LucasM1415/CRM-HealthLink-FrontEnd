@@ -58,14 +58,27 @@ function mostraHorarios(day) {
   details.style.display = "block";
   document.getElementById("selected-day-info").innerHTML = `
     <h3>Detalhes do Dia ${day}</h3>
-    <label for="criar-consulta-datahora">Hora de inicio:</label>
-                    <input type="time" id="Hora-de-inicio" name="Hora-de-inicio" required>
+    <div class="form-row">
+      <div class="field-group w-30">
+        <label for="criar-consulta-datahora">Hora de inicio:</label>
+        <input type="time" id="Hora-de-inicio" name="Hora-de-inicio" required>  
+      </div>
 
-                    <label for="criar-consulta-datahora">Hora de termino:</label>
-                    <input type="time" id="Hora-de-termino" name="Hora-de-termino" required>
-
-                    <button onclick="cadastrarHorario(${day})">criar</button>
-                    `;
+      <div class="field-group w-30">
+        <label for="criar-consulta-datahora">Hora de termino:</label>
+        <input type="time" id="Hora-de-termino" name="Hora-de-termino" required>    
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="field-group w-40">
+        <label for="quantidadeDeVagas">Quantidade De Vagas:</label>
+        <input class="w-50" type="number" id="quantidade-De-Vagas" min="1">
+      </div>
+    </div>
+  
+    <button onclick="cadastrarHorario(${day})">criar</button>
+  `;
 }
 
 function gerarCardDia(qtd) {

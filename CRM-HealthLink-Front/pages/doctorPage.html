@@ -71,15 +71,15 @@
             <h2>Calendário de Consultas</h2>
 
             <!-- Seletor de especialidade -->
-            <div class="specialty-selector">
-                <label class="marginTop" for="specialty">Especialidade:</label>
-                <select id="specialty">
-                </select>
-            </div>
-            <div class="agendamento-selector marginTop">
+            <div class="form-row">
                 <label>Tipo dos Agendamentos:</label>
                 <select id="selectAgendamentos">
                     <option value="" selected>Selecione uma Tipo do Agendamento</option>
+                </select>
+            </div>
+            <div class="agendamento-selector marginTop">
+                <label class="marginTop" for="specialty">Especialidade:</label>
+                <select id="specialty">
                 </select>
             </div>
 
@@ -105,11 +105,12 @@
                 <input type="number" id="year" value="2024" min="2000" max="2100">
             </div>
             <button class="button" onclick="renderizarGerenteCalendario()">Mostrar Calendário</button>
+            <br>
+            <div id="calendarioDoctor" class="calendario">
 
-            <div id="calendarioDoctor" class="calendario"></div>
+                <div class="calendar" id="calendar"></div>
 
-
-            <div class="calendar" id="calendar"></div>
+            </div>
             <div class="day-details" id="day-details" style="display: none;">
                 <p id="selected-day-info"></p>
             </div>
