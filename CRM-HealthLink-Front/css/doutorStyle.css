@@ -18,18 +18,15 @@ header {
     padding: 0px 20px;
 }
 
-.specialty-schedules{
+.specialty-schedules {
+    width: 100%;
+    max-width: 800px; /* Ajuste para telas maiores */
+    overflow: hidden; /* Evita estouro de conteúdo */
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 auto;
-    width: 80%;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
 }
+
 header .header-top {
     display: flex;
     align-items: center;
@@ -106,22 +103,25 @@ section {
     text-align: center;
 }
 
-/* Estilos para o calendário */
 .calendar {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, 1fr); /* 7 colunas */
     gap: 5px;
-    text-align: center;
-    max-width: 600px;
-    margin: auto;
+    max-width: 100%; /* Ajusta à largura disponível */
+    min-height: 300px; /* Define uma altura mínima */
+    overflow-y: auto; /* Adiciona barra de rolagem, se necessário */
 }
 
 .calendar-day {
-    padding: 20px;
+    padding: 10px;
     background-color: #f4f4f4;
     border-radius: 5px;
-    cursor: pointer;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.calendar-day.hidden {
+    visibility: hidden; /* Esconde os dias vazios (placeholders) */
 }
 
 .calendar-day:hover {

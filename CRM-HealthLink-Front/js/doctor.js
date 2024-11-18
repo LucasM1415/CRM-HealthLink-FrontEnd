@@ -75,22 +75,22 @@ async function obterConsultas(token, doctorEmail) {
     }
 
     const consultas = await response.json();
-    return consultas; 
+    return consultas;
   } catch (error) {
     console.error('Erro ao obter consultas:', error);
-    return []; 
+    return [];
   }
 }
 
 function preencherSelectConsultas(consultas) {
   const selectElement = document.getElementById('fk-appointment');
-  
+
   if (!selectElement) {
     console.error('Elemento <select> não encontrado!');
     return;
   }
 
-  selectElement.innerHTML = ''; 
+  selectElement.innerHTML = '';
 
   const optionDefault = document.createElement('option');
   optionDefault.value = '';
@@ -99,13 +99,13 @@ function preencherSelectConsultas(consultas) {
 
   consultas.forEach(consulta => {
     const option = document.createElement('option');
-    option.value = consulta.id; 
-    option.textContent = consulta.description || 'Descrição'; 
+    option.value = consulta.id;
+    option.textContent = consulta.description || 'Descrição';
     selectElement.appendChild(option);
   });
 }
 
-async function criar_exame(token,data) {
+async function criar_exame(token, data) {
   if (!token) {
     alert('Usuário não autenticado.');
     return;
@@ -168,8 +168,7 @@ async function obterEspecialidades(token) {
 }
 
 function renderEspecialidades(especialidades) {
-  const specialtiesList = document.getElementById('specialties-list'); // Certifique-se de ter um elemento com esse ID
-
+  const specialtiesList = document.getElementById('specialties-list');
   if (!specialtiesList) {
     console.error('Elemento com ID "specialties-list" não encontrado.');
     return;
@@ -191,7 +190,7 @@ function tokenValidation() {
   if (token == null) {
     window.location.href = '../index.html';
   } else {
-    listar_consultas(token, doctorCRM);  
+    listar_consultas(token, doctorCRM);
     listar_exames(token, doctorCRM);
   }
 }
@@ -221,7 +220,7 @@ function updateUserName() {
 function reloadExams(data) {
   const appointmentsList = document.getElementById('D-exams-list');
   const row = document.createElement('tr');
-  
+
   row.innerHTML = `
       <td>${data.id || 'ID não disponível'}</td>
       <td>${data.date ? new Date(data.date).toLocaleDateString() : 'Data não disponível'}</td>
@@ -263,18 +262,18 @@ function renderExams(data) {
 
 function renderConsultations(data) {
   const appointmentsList = document.getElementById('appointments-list');
-  appointmentsList.innerHTML = ''; 
+  appointmentsList.innerHTML = '';
   const consultas = data || listaDeConsultas;
 
   consultas.forEach(consulta => {
     const listItem = document.createElement('li');
     listItem.classList.add('item');
-    
+
     const title = document.createElement('div');
     title.textContent = consulta.description || 'Descrição';
     title.classList.add('title');
     listItem.appendChild(title);
-    
+
     const expandedContent = document.createElement('div');
     expandedContent.classList.add('expanded-content');
     expandedContent.innerHTML = `
@@ -283,9 +282,9 @@ function renderConsultations(data) {
         <p><strong>Paciente:</strong> ${consulta.namePatient}</p>
     `;
     listItem.appendChild(expandedContent);
-    
+
     title.addEventListener('click', () => {
-        expandedContent.classList.toggle('show');
+      expandedContent.classList.toggle('show');
     });
 
     appointmentsList.appendChild(listItem);
@@ -297,12 +296,11 @@ async function setupEventListeners() {
 
   if (form) {
     form.addEventListener('submit', async (event) => {
-      event.preventDefault(); // Impede o comportamento padrão de envio do formulário
-      
+      event.preventDefault();
+
       const token = localStorage.getItem('token');
       const userEmail = localStorage.getItem('email');
 
-      // Coletar dados do formulário e criar um objeto JavaScript
       const formData = new FormData(form);
       const data = {};
       formData.forEach((value, key) => {
@@ -317,7 +315,7 @@ async function setupEventListeners() {
 
   if (backButton) {
     backButton.addEventListener('click', () => {
-      singOut(); 
+      singOut();
     });
   }
 
@@ -325,7 +323,7 @@ async function setupEventListeners() {
   var userEmail = localStorage.getItem('email');
   var doctorCRM = localStorage.getItem('crm')
   const consultas = await obterConsultas(token, doctorCRM);
-  preencherSelectConsultas(consultas); 
+  preencherSelectConsultas(consultas);
 }
 
 
@@ -336,43 +334,34 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Lista padrão de especialidades
 const defaultSpecialties = localStorage.getItem('speciality')
 
-// Função para verificar e carregar especialidades do localStorage
 function loadSpecialties() {
-  // Verifica se as especialidades já estão no localStorage
   if (!localStorage.getItem("speciality")) {
-      // Se não estiverem, armazena a string padrão no localStorage
-      localStorage.setItem("speciality", defaultSpecialties);
+    localStorage.setItem("speciality", defaultSpecialties);
   }
-
-  // Retorna a lista de especialidades como array, separando a string pelo separador de vírgulas
   return localStorage.getItem("speciality").split(",");
 }
 
-// Função para preencher o seletor dinamicamente
 function populateSpecialtySelector() {
   const specialtySelect = document.getElementById("specialty");
-  const specialties = loadSpecialties(); // Carrega as especialidades do localStorage como array
+  const specialties = loadSpecialties();
 
-  // Adiciona cada especialidade como uma nova opção
   specialties.forEach(specialty => {
-      const option = document.createElement("option");
-      option.value = specialty.toLowerCase();
-      option.textContent = specialty;
-      specialtySelect.appendChild(option);
+    const option = document.createElement("option");
+    option.value = specialty.toLowerCase();
+    option.textContent = specialty;
+    specialtySelect.appendChild(option);
   });
 }
 
-// Chama a função quando a página é carregada
 window.onload = populateSpecialtySelector;
 
 
 
 function showSection(sectionId) {
   document.querySelectorAll('main section').forEach(section => {
-      section.classList.add('section-hidden');
+    section.classList.add('section-hidden');
   });
   document.getElementById(sectionId).classList.remove('section-hidden');
 }
@@ -390,16 +379,16 @@ function generateCalendar() {
   console.log(month)
   console.log(year)
   const calendar = document.getElementById("calendar");
-  calendar.innerHTML = ''; // Limpa o calendário anterior
+  calendar.innerHTML = '';
 
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   for (let day = 1; day <= daysInMonth; day++) {
-      const dayElement = document.createElement("div");
-      dayElement.className = "calendar-day";
-      dayElement.textContent = day;
-      dayElement.onclick = () => showDayDetails(day, month + 1, year);
-      calendar.appendChild(dayElement);
+    const dayElement = document.createElement("div");
+    dayElement.className = "calendar-day";
+    dayElement.textContent = day;
+    dayElement.onclick = () => showDayDetails(day, month + 1, year);
+    calendar.appendChild(dayElement);
   }
 }
 

@@ -1,8 +1,7 @@
 const cardDiaClassName = "cardDia";
 
 
-
-function cadastrarHorario(index,data,day) {
+function cadastrarHorario(index, data, day) {
   var tempo_medio = document.getElementById(`tempo-medio-${index}`).value;
   var Hora_de_inicio = document.getElementById(`Hora-de-inicio-${index}`).value;
   var Hora_de_termino = document.getElementById(`Hora-de-termino-${index}`).value;
@@ -20,11 +19,7 @@ function cadastrarHorario(index,data,day) {
     "tempoMedioConsultaMinutos": parseInt(tempo_medio)
   };
 
-  // Exibir dados para confirmação
-  console.log(datas);
-
   var token = localStorage.getItem("token");
-  // Enviar requisição PUT
   fetch('http://localhost:8080/api/calendario/associateDoctor', {
     method: 'PUT',
     headers: {
@@ -34,22 +29,20 @@ function cadastrarHorario(index,data,day) {
     },
     body: JSON.stringify(datas)
   })
-  .then(response => {
-    // Verifique se a resposta tem corpo
-    if (response.ok) {
-      return response.text();  // Converte a resposta para texto
-    } else {
-      throw new Error('Erro na requisição: ' + response.statusText);
-    }
-  })
-  .then(message => {
-    // A resposta agora é uma string
-    mostraHorarios(day);
-  })
-  .catch(error => {
-    console.error('Erro:', error);
-  });
-  
+    .then(response => {
+      if (response.ok) {
+        return response.text();
+      } else {
+        throw new Error('Erro na requisição: ' + response.statusText);
+      }
+    })
+    .then(message => {
+      mostraHorarios(day);
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+
 }
 
 
@@ -61,7 +54,6 @@ async function mostraHorarios(day) {
   var month = document.getElementById("month").value;
   var year = document.getElementById("year").value;
 
-  // Obter datas disponíveis
   var datas = await pegaDatasDisponives(
     especialidade_Medico,
     tipo_agendamento,
@@ -69,15 +61,18 @@ async function mostraHorarios(day) {
     year
   );
 
-  // Formatar a data escolhida
   const dataEscolhida = `${year}-${month}-${day}`;
 
-  // Filtrar agendamentos pela data escolhida
   const agendamentosFiltrados = datas.filter(agendamento => agendamento.date === dataEscolhida);
+  if (agendamentosFiltrados.length === 0) {
+    
+    renderizarGerenteCalendario();
+    const details = document.getElementById("day-details");
+    details.style.display = "none";
+  }
 
-  // Verifica se existem agendamentos filtrados
+
   if (agendamentosFiltrados.length > 0) {
-    // Exibe blocos de horários dos agendamentos
     details.style.display = "block";
     const horariosHtml = agendamentosFiltrados.map((agendamento, index) => `
       <div class="horario-bloco">
@@ -95,53 +90,129 @@ async function mostraHorarios(day) {
       </div>
     `).join("");
 
-    // Insere o HTML gerado no elemento
     document.getElementById("selected-day-info").innerHTML = `
       <h3>Detalhes do Dia ${day}</h3>
       ${horariosHtml}
     `;
   } else if (agendamentosFiltrados.date != dataEscolhida) {
-    // Exibe entrada manual de horário caso não existam agendamentos
-    details.style.display = "block";
-    document.getElementById("selected-day-info").innerHTML = `
-                      <h3>Detalhes do Dia ${day}</h3>
-
-                      <label for="criar-consulta-datahora">Não a disponibilidade </label>
-    `;
+    details.style.display = "none";
+    alert( `Não a disponibilidade para o Dia ${day}`);
   }
 }
 
 
-function gerarCardDia(qtd) {
-  const cards = []
+async function gerarCardDia(qtd) {
+  const especialidade_Medico = document.getElementById("specialty").value.toUpperCase();
+  const tipo_agendamento = document.getElementById('selectAgendamentos').value.toUpperCase();
+  const month = document.getElementById("month").value;
+  const year = document.getElementById("year").value;
+
+  // Pega os dias destacados (disponíveis)
+  const listDays = await pegaDias(especialidade_Medico, tipo_agendamento, month, year);
+
+  // Determina o primeiro dia da semana do mês
+  const primeiroDiaSemana = new Date(year, month - 1, 1).getDay(); // 0 = domingo, 1 = segunda, etc.
+
+  const cards = [];
+  console.log(`Quantidade de dias no mês: ${qtd}`);
+  console.log(`Primeiro dia da semana: ${primeiroDiaSemana}`);
+
+  // Adiciona placeholders (dias vazios) no início
+  for (let i = 0; i < primeiroDiaSemana; i++) {
+    let placeholder = document.createElement('div');
+    placeholder.classList.add(cardDiaClassName);
+    placeholder.style.visibility = "hidden"; // Esconde o placeholder
+    cards.push(placeholder);
+  }
+
+  // Gera os dias do mês
   for (let i = 1; i <= qtd; i++) {
-    let c = document.createElement('div')
+    let c = document.createElement('div');
     c.classList.add(cardDiaClassName);
-    let p = document.createElement('p')
-    p.textContent = i;
-    c.appendChild(p)
+
+    let p = document.createElement('p');
+    p.textContent = i; // Número do dia
+    c.appendChild(p);
+
+    // Se o dia estiver na lista de "disponíveis", destaque
+    if (listDays.includes(i)) {
+      c.classList.add('highlighted');
+    }
+
+    // Adiciona evento de clique para mostrar horários
     c.addEventListener("click", () => {
-      let dia = String(i)
+      let dia = String(i);
+      mostraHorarios(dia.padStart(2, '0')); // Formata com zero à esquerda, se necessário
+    });
 
-      mostraHorarios(dia.padStart(2, '0'));
-    })
-    cards.push(c)
+    cards.push(c);
   }
-  return cards;
 
+  // Calcula os placeholders no final para completar a última linha
+  const totalCelas = cards.length;
+  const diasExtras = totalCelas % 7 === 0 ? 0 : 7 - (totalCelas % 7);
+
+  for (let i = 0; i < diasExtras; i++) {
+    let placeholder = document.createElement('div');
+    placeholder.classList.add(cardDiaClassName);
+    placeholder.style.visibility = "hidden"; // Esconde o placeholder
+    cards.push(placeholder);
+  }
+
+  return cards;
 }
+
+
+async function pegaDias(specialty, agendamento, month, year) {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.error("Token não encontrado no localStorage");
+    return [];
+  }
+
+  const url = new URL(`http://${ip}:8080/api/calendario/listofdays`);
+  url.searchParams.append("speciality", specialty);
+  url.searchParams.append("month", month);
+  url.searchParams.append("year", year);
+  url.searchParams.append("tipoAgendamento", agendamento);
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return [];
+  }
+}
+
 
 async function renderizarCalendario(mes, ano, local) {
   const div = document.getElementById(local);
-  div.innerHTML = ""
-  const quantidadeDias = (new Date(ano, mes, 0)).getDate();
+  div.innerHTML = "";
+  const quantidadeDias = new Date(ano, mes, 0).getDate();
 
-  const cards = gerarCardDia(quantidadeDias);
-
-  cards.forEach(card => {
-    div.appendChild(card)
-  })
+  try {
+    const cards = await gerarCardDia(quantidadeDias);
+    cards.forEach((card) => {
+      div.appendChild(card);
+    });
+    
+    } catch (error) {
+    console.error("Erro ao gerar cards do calendário:", error);
+  }
 }
+
 
 async function pegaDatasDisponives(specialty, agendamento, month, year) {
   const token = localStorage.getItem("token");
@@ -179,8 +250,8 @@ async function pegaDatasDisponives(specialty, agendamento, month, year) {
 
 
 function renderizarGerenteCalendario() {
-
-  renderizarCalendario(document.getElementById('month').value, document.getElementById('year').value, 'calendar')
+  renderizarCalendario(document.getElementById('month').value, document.getElementById('year').value, 'calendar');
+  
 }
 
 
@@ -228,7 +299,7 @@ function renderEspecialidadesSelect(especialidades, selectId) {
 
   selectElement.innerHTML = "";
 
-  
+
 
   especialidades.forEach((especialidade) => {
     const option = document.createElement("option");
