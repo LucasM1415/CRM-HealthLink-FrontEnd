@@ -65,7 +65,10 @@ async function mostraHorarios(day) {
 
   const agendamentosFiltrados = datas.filter(agendamento => agendamento.date === dataEscolhida);
   if (agendamentosFiltrados.length === 0) {
+    
     renderizarGerenteCalendario();
+    const details = document.getElementById("day-details");
+    details.style.display = "none";
   }
 
 
@@ -92,12 +95,8 @@ async function mostraHorarios(day) {
       ${horariosHtml}
     `;
   } else if (agendamentosFiltrados.date != dataEscolhida) {
-    details.style.display = "block";
-    document.getElementById("selected-day-info").innerHTML = `
-                      <h3>Detalhes do Dia ${day}</h3>
-
-                      <label for="criar-consulta-datahora">Não a disponibilidade </label>
-    `;
+    details.style.display = "none";
+    alert( `Não a disponibilidade para o Dia ${day}`);
   }
 }
 
@@ -208,7 +207,8 @@ async function renderizarCalendario(mes, ano, local) {
     cards.forEach((card) => {
       div.appendChild(card);
     });
-  } catch (error) {
+    
+    } catch (error) {
     console.error("Erro ao gerar cards do calendário:", error);
   }
 }
@@ -250,8 +250,8 @@ async function pegaDatasDisponives(specialty, agendamento, month, year) {
 
 
 function renderizarGerenteCalendario() {
-
-  renderizarCalendario(document.getElementById('month').value, document.getElementById('year').value, 'calendar')
+  renderizarCalendario(document.getElementById('month').value, document.getElementById('year').value, 'calendar');
+  
 }
 
 

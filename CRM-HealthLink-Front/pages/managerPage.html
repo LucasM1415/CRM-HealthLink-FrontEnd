@@ -398,14 +398,14 @@
             <div class="robertoCarlos">
                 <!-- Seletor de especialidade -->
                 <div class="form-row">
-                    <div class="field-group w-40">
+                    <div class="field-group w-30">
                         <label>Especialidade:</label>
                         <select id="selectSpeciality">
                             <option value="" selected>Selecione uma especialidade</option>
                         </select>
                     </div>
 
-                    <div class="field-group w-40">
+                    <div class="field-group w-30">
                         <label>Tipo dos Agendamentos:</label>
                         <select id="selectAgendamentos">
                             <option value="" selected>Selecione uma Tipo do Agendamento</option>
@@ -414,7 +414,7 @@
                 </div>
 
                 <div class="form-row">
-                    <div class="field-group w-40">
+                    <div class="field-group w-30">
                         <label for="month">Mês:</label>
                         <select id="month">
                             <option value="01">Janeiro</option>
@@ -432,7 +432,7 @@
                         </select>
                     </div>
 
-                    <div class="field-group w-40">
+                    <div class="field-group w-30">
                         <label for="year">Ano:</label>
                         <select type="number" id="year" value="2024" min="2000" max="2100">
                         </select>
@@ -558,7 +558,7 @@
         });
 
         // Exibe a primeira seção por padrão
-        document.getElementById('').style.display = 'block';
+        document.getElementById('pacientes').style.display = 'block';
 
         document.addEventListener("DOMContentLoaded", () => {
             preencherSelectEspecialidades("criar-doutor-speciality");
