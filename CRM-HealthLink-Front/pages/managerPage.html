@@ -5,10 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home do Administrador</title>
+
     <link rel="icon" href="/images/logo2.png" type="image/png">
+
     <link rel="stylesheet" href="/css/managerStyle.css">
+    <link rel="stylesheet" href="/pages/gerente/calendario.css">
+
     <script src="/js/employee.js" defer></script>
     <script src="/js/manager.js" refed></script>
+    <Script src="/pages/gerente/gerenteCalendario.js" refed></Script>
 
 </head>
 
@@ -30,7 +35,7 @@
             <a href="#horario">Horário</a>
             <a href="#emergencia">Emergência</a>
         </nav>
-
+        <br>
     </header>
     <main>
         <!-- Seção de Pacientes -->
@@ -386,42 +391,80 @@
         </section>
 
 
-
-
         <!-- Seção do Horário -->
         <section id="horario" class="content-section" style="display: none;">
-            <h2>Configurar Horário de Especialidades</h2>
-            <form id="configurar-horario-form">
-                <label for="calendar">Selecione uma Data:</label>
-                <input type="date" id="calendar" name="calendar" required>
+            <h2>Calendário de Consultas</h2>
 
-                <label for="specialization">Especialidade:</label>
-                <select id="specialization" name="specialization" required>
-                    <option value="">Selecione uma especialidade</option>
-                    <!-- Opções preenchidas dinamicamente -->
-                </select>
+            <div class="robertoCarlos">
+                <!-- Seletor de especialidade -->
+                <div class="form-row">
+                    <div class="field-group w-30">
+                        <label>Especialidade:</label>
+                        <select id="selectSpeciality">
+                            <option value="" selected>Selecione uma especialidade</option>
+                        </select>
+                    </div>
 
-                <fieldset>
-                    <legend>Turnos</legend>
-                    <label><input type="checkbox" name="turnos" value="manha-bloco-1" data-horario-inicio="7:00"
-                            data-horario-fim="9:30"> Manhã - 7:00 - 9:30</label>
-                    <label><input type="checkbox" name="turnos" value="manha-bloco-2" data-horario-inicio="9:30"
-                            data-horario-fim="11:00"> Manhã - 9:30 - 11:00</label>
-                    <label><input type="checkbox" name="turnos" value="tarde-bloco-1" data-horario-inicio="13:00"
-                            data-horario-fim="15:30"> Tarde - 13:00 - 15:30</label>
-                    <label><input type="checkbox" name="turnos" value="tarde-bloco-2" data-horario-inicio="15:30"
-                            data-horario-fim="18:00"> Tarde - 15:30 - 18:00</label>
-                </fieldset>
+                    <div class="field-group w-30">
+                        <label>Tipo dos Agendamentos:</label>
+                        <select id="selectAgendamentos">
+                            <option value="" selected>Selecione uma Tipo do Agendamento</option>
+                        </select>
+                    </div>
+                </div>
 
-                <button id="salvar-horario-button" type="button">Salvar Horário</button>
-            </form>
+                <div class="form-row">
+                    <div class="field-group w-30">
+                        <label for="month">Mês:</label>
+                        <select id="month">
+                            <option value="01">Janeiro</option>
+                            <option value="02">Fevereiro</option>
+                            <option value="03">Março</option>
+                            <option value="04">Abril</option>
+                            <option value="05">Maio</option>
+                            <option value="06">Junho</option>
+                            <option value="07">Julho</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Setembro</option>
+                            <option value="10">Outubro</option>
+                            <option value="11">Novembro</option>
+                            <option value="12">Dezembro</option>
+                        </select>
+                    </div>
 
-            <h3>Lista de Horários Marcados</h3>
-            <a href="listSchedulesManagerPage.html">
-                <button>Conferir Lista</button>
-            </a>
+                    <div class="field-group w-30">
+                        <label for="year">Ano:</label>
+                        <select type="number" id="year" value="2024" min="2000" max="2100">
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Seletores de mês e ano -->
+                <div class="date-selectors">
+
+                    <button onclick="renderizarGerenteCalendario()">Mostrar Calendário</button>
+                </div>
+
+
+
+                <div id="calendarioDoctor" class="calendario">
+
+                    <div class="calendar" id="calendar"></div>
+                </div>
+
+                <div class="day-details" id="day-details" style="display: none;">
+                    <p id="selected-day-info"></p>
+                </div>
+            </div>
+            <div class="listadehorarios">
+                <h3>Lista de Horários Marcados</h3>
+                <a href="listSchedulesManagerPage.html">
+                    <button>Conferir Lista</button>
+                </a>
+            </div>
+
         </section>
-        <!-- Seção de Emergência -->
+
 <section id="emergencia" class="content-section" style="display: none;">
     <h2>Agendar Prontidão de Emergência</h2>
     <div class="card">
@@ -516,6 +559,26 @@
     </main>
 
     <script>
+        const minYear = 2000;
+        const maxYear = 2100;
+        const currentYear = new Date().getFullYear(); // Ano atual
+
+        // Seleciona o elemento <select> pelo ID
+        const yearSelect = document.getElementById("year");
+
+        // Gera as opções dinamicamente
+        for (let year = minYear; year <= maxYear; year++) {
+            const option = document.createElement("option");
+            option.value = year;
+            option.textContent = year;
+
+            // Marca o ano atual como selecionado
+            if (year === currentYear) {
+                option.selected = true;
+            }
+
+            yearSelect.appendChild(option);
+        }
         function showSection(sectionId) {
             // Esconde todas as seções
             document.querySelectorAll('.content-section').forEach(section => {
@@ -541,6 +604,9 @@
         document.addEventListener("DOMContentLoaded", () => {
             preencherSelectEspecialidades("criar-doutor-speciality");
             preencherSelectEspecialidades("update-doutor-speciality");
+            preencherSelectEspecialidades("selectSpeciality");
+            preencherSelectTipoAgendamentos("selectAgendamentos");
+            // selectSpeciality
         });
     </script>
 
