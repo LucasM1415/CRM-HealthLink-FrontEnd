@@ -717,7 +717,7 @@ function renderConsultas(consultas) {
     //   homeTime: consulta.homeTime,
     //   endTime: consulta.endTime,
     //   namePatient: consulta.namePatient,
-    //   nameDoctor: consulta.nameDoctor,
+    //   nameDoctor: consulta.nameDoctor,it
     // });
 
     tableBody.appendChild(row);
