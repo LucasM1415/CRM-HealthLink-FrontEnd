@@ -284,6 +284,7 @@ async function handleRemovalResult(status, token) {
       break;
 
     case "error":
+      resultsDiv.innerText = "Erro ao remover paciente.";
       if (token) {
         await listarPacientes(token); // Atualiza a lista de pacientes
         await listarConsultas(token);
@@ -301,7 +302,6 @@ async function handleRemovalResult(status, token) {
 document
   .getElementById("remover-paciente-form")
   .addEventListener("submit", async function (event) {
-    event.preventDefault();
 
     const token = localStorage.getItem("token");
     const emailPaciente = document.getElementById(
@@ -311,28 +311,6 @@ document
     await removerPaciente(token, emailPaciente);
   });
 
-async function configureConsultaRemovalListeners() {
-  const form = document.getElementById("remover-consulta-form");
-
-  if (form) {
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      const consultaId = document
-        .getElementById("remover-consulta-id")
-        .value.trim();
-      const token = localStorage.getItem("token");
-
-      if (consultaId === "") {
-        document.getElementById("consulta-results").innerText =
-          "Por favor, insira o ID da consulta.";
-        return;
-      }
-
-      await removerConsulta(token, consultaId);
-    });
-  }
-}
 
 //Atualizar paciente
 async function atualizarPaciente(token, data) {
@@ -703,7 +681,6 @@ async function listarConsultas(token) {
 
     const data = await response.json();
     renderConsultas(data);
-
   } catch (error) {
     console.error("Erro na requisição:", error);
     const resultsTable = document.querySelector("#list-consultas-tbody");
@@ -732,6 +709,16 @@ function renderConsultas(consultas) {
       <td>${consulta.namePatient || "Paciente não disponível"}</td>
       <td>${consulta.nameDoctor || "Médico não disponível"}</td>
     `;
+
+    //Checar os dados na renderização!!!
+
+    // console.log({
+    //   date: consulta.date,
+    //   homeTime: consulta.homeTime,
+    //   endTime: consulta.endTime,
+    //   namePatient: consulta.namePatient,
+    //   nameDoctor: consulta.nameDoctor,
+    // });
 
     tableBody.appendChild(row);
   });
@@ -783,7 +770,7 @@ function renderPacientesSelect(pacientes) {
 
   pacientes.forEach((paciente) => {
     const option = document.createElement("option");
-    option.value = paciente.email; 
+    option.value = paciente.email;
     option.textContent = paciente.name || "Nome não disponível";
     selectElement.appendChild(option);
   });
@@ -1079,7 +1066,6 @@ async function setupRemovalEventListeners() {
 
       const emailPaciente = document.getElementById("remover-consulta-email-paciente").value.trim();
       const emailDoctor = document.getElementById("remover-consulta-email-doctor").value.trim();
-<<<<<<< HEAD
       const dataConsulta = document.getElementById("remover-consultaData").value.trim();
       const horaInicio = document.getElementById("remover-consulta-horaInicio").value.trim(); 
       const token = localStorage.getItem("token");
