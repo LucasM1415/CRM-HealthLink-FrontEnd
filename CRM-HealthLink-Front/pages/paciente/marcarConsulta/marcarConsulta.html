@@ -1,95 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marcar Consulta</title>
-    <!-- basic -->
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <!-- mobile metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-  <!-- bootstrap css -->
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <!-- style css -->
-  <link rel="stylesheet" href="/css/style.css">
-  <!-- Responsive-->
-  <link rel="stylesheet" href="/css/responsive.css">
-  <!-- fevicon -->
-  <link rel="icon" href="/images/logo2.png" type="image/png">
-  <!-- Scrollbar Custom CSS -->
-  <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css">
-  <!-- Tweaks for older IEs-->
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-  <!-- owl stylesheets -->
-  <link rel="stylesheet" href="/css/owl.carousel.min.css">
-  <link rel="stylesheet" href="/css/owl.theme.default.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-    media="screen">
-    <link rel="stylesheet" href="marcarConsulta.css">
-    <script src="marcarConsulta.js"></script>
-    <script src="render.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marcar Consulta</title>
+  <link rel="icon" href="/images/logo2.png" type="image/png" />
+  <link rel="stylesheet" href="../home/pacienteStyle.css" />
+  <script src="../home/patient.js" defer></script>
+  <script src="marcarConsulta.js"></script>
+  <script src="render.js"></script>
 </head>
+
+
 <body onload="popularPacienteMarcarConsulta()">
-    <!-- header section start -->
-  <div class="header_section">
-    <!-- Desktop Navbar -->
-    <nav class="destop_header navbar navbar-expand-lg navbar-light bg-light">
-      <div class="logo"></div>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="depatments.html">Departamentos</a>
-          </li>
-          <li class="nav-item">
-            <a class="logo_main" href="/index.html"><img src="/images/logoCRM.png"></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">Sobre</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="login.html">LOGIN</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <!-- Mobile Navbar -->
-    <nav class="mobile_header navbar navbar-expand-lg navbar-light bg-light">
-      <div class="logo"><a href="/index.html"><img src="/images/logoCRM.png"></a></div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent2"
-        aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="depatments.html">Depatamentos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">Sobre</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="login.html">LOGIN</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#"><img src="/images/search-icon.png"></a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </div>
-  <!-- header section end -->
-  <div class="pacienteMarcarConsultaContainer">
+  <header>
+        <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
+        <h1 id="patientGetName"></h1>
+        <button onclick="voltarPacienteHome()" id = "back-button" class="back-button"><strong>Voltar</strong></button>
+  </header>
 
-  </div>
+  <section class="schedule-appointment">
+        <div class="pacienteMarcarConsultaContainer">
 
+        </div>
+    </section>
 
+    <script>
+      function getNome() {
+        var userName = localStorage.getItem("userName");
+        var patientGetName = document.getElementById("patientGetName");
+        if (userName) {
+          patientGetName.textContent = `Selecione sua marcação, ${userName}`
+        } else {
+          patientGetName.textContent = `Selecione sua marcação`
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        getNome(); // Chama a função ao carregar a página
+      });
+    </script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setupEventListeners();
+            updateUserName();
+        });
+    </script>
 </body>
 </html>

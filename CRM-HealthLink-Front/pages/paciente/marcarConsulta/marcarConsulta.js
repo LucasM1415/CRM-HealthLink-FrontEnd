@@ -17,6 +17,8 @@ async function marcarConsulta(disponibilidade){
         body: JSON.stringify(body)
     })
     
-    if(response.ok)
-        popularPacienteMarcarConsulta()
+    if(response.ok){
+        alert("Consulta marcada com sucesso!")
+        voltarPacienteHome()
+    }
 }

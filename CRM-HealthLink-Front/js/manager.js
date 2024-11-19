@@ -201,7 +201,6 @@ async function setupUpdateDoctorForm() {
 
 
 
-
 //Criar um Funcionário
 async function criarFuncionario(token, data) {
   if (!token) {
@@ -561,7 +560,7 @@ async function criarHorarios() {
 
 
 
-//Listar horários
+// horários
 async function listarHorarios() {
   const token = localStorage.getItem("token");
   
@@ -733,7 +732,7 @@ async function preencherSelectMedicosEmergencia() {
 
 function renderMedicosSelectEmergencia(medicos) {
   const selectElement = document.getElementById("criar-consulta-medico-emergencia"); // Use o ID específico para emergência
-  console.log("Médicos recebidos:", medicos);
+  // console.log("Médicos recebidos:", medicos);
 
   if (!selectElement) {
       console.error("Elemento <select> não encontrado!");
