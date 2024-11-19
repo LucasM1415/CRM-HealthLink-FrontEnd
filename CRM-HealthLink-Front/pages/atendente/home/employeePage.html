@@ -85,7 +85,28 @@
                     <input type="password" id="update-paciente-password" name="update-paciente-password" required>
 
                     <button type="submit">Atualizar</button>
+                <label for="update-paciente-email">Digite o E-mail do Usuário:</label>
+                    <input type="email" id="update-paciente-email" name="update-paciente-email" required>
+
+                    <h4> ➥ Atualize as informações deste usuário </h4>
+
+                    <label for="update-paciente-nome">Nome:</label>
+                    <input type="text" id="update-paciente-nome" name="update-paciente-nome" required>
+
+                    <label for="update-paciente-data-nascimento">Data de Nascimento:</label>
+                    <input type="date" id="update-paciente-data-nascimento" name="update-paciente-data-nascimento"
+                        required>
+
+                    <label for="update-paciente-cpf">CPF:</label>
+                    <input type="text" id="update-paciente-cpf" name="update-paciente-cpf" required>
+
+
+                    <label for="update-paciente-password">Senha:</label>
+                    <input type="password" id="update-paciente-password" name="update-paciente-password" required>
+
+                    <button type="submit">Atualizar</button>
             </form>
+            <div id="resultsUpdate"></div>
             <div id="resultsUpdate"></div>
         </div>
 
@@ -117,6 +138,8 @@
             <div class="card">
                 <h3>Obter Médico</h3>
                 <form id="medico-form">
+                    <label for="obter-doutor-id">E-Mail:</label>
+                    <input type="text" id="obter-doutor-id" required>
                     <label for="obter-doutor-id">E-Mail:</label>
                     <input type="text" id="obter-doutor-id" required>
                     <button type="submit">Buscar</button>
@@ -153,13 +176,34 @@
             
                     <!-- Campo para selecionar o e-mail do médico -->
                     <label for="criar-consulta-medico">E-Mail do Médico:</label>
+                    <!-- Campo para selecionar a especialidade -->
+                    <label for="criar-consulta-especialidade">Selecione uma Especialidade:</label>
+                    <select name="criar-consulta-especialidade" id="criar-consulta-especialidade" required>
+                        <option value="">Selecione uma especialidade</option>
+                    </select>
+            
+                    <!-- Campo para selecionar a data -->
+                    <label for="criar-consulta-data">Data:</label>
+                    <input type="date" id="criar-consulta-data" name="criar-consulta-data" required>
+            
+                    <!-- Campo para selecionar o e-mail do médico -->
+                    <label for="criar-consulta-medico">E-Mail do Médico:</label>
                     <select id="criar-consulta-medico" name="criar-consulta-medico" required>
                     </select>
             
                     <!-- Campo para selecionar o e-mail do paciente -->
                     <label for="criar-consulta-paciente">E-Mail do Paciente:</label>
+            
+                    <!-- Campo para selecionar o e-mail do paciente -->
+                    <label for="criar-consulta-paciente">E-Mail do Paciente:</label>
                     <select id="criar-consulta-paciente" name="criar-consulta-paciente" required>
                     </select>
+            
+                    <!-- Campo para selecionar o horário disponível -->
+                    <label for="criar-consulta-horaInicial">Horários Disponíveis:</label>
+                    <select name="criar-consulta-horaInicial" id="criar-consulta-horaInicial" required>
+                    </select>
+            
             
                     <!-- Campo para selecionar o horário disponível -->
                     <label for="criar-consulta-horaInicial">Horários Disponíveis:</label>
@@ -175,7 +219,11 @@
                 <form id="consulta-form">
                     <label for="obter-consulta-email-paciente">E-Mail do Paciente:</label>
                     <input type="email" id="obter-consulta-email-paciente">
+                    <label for="obter-consulta-email-paciente">E-Mail do Paciente:</label>
+                    <input type="email" id="obter-consulta-email-paciente">
 
+                    <label for="obter-consulta-email-doctor">E-Mail do Médico:</label>
+                    <input type="email" id="obter-consulta-email-doctor">
                     <label for="obter-consulta-email-doctor">E-Mail do Médico:</label>
                     <input type="email" id="obter-consulta-email-doctor">
 
@@ -184,7 +232,13 @@
 
                     <label for="obter-consulta-hora-inicio">Hora Início da Consulta:</label>
                     <input type="time" id="obter-consulta-hora-inicio">
+                    <label for="obter-consulta-data">Data da Consulta:</label>
+                    <input type="date" id="obter-consulta-data">
 
+                    <label for="obter-consulta-hora-inicio">Hora Início da Consulta:</label>
+                    <input type="time" id="obter-consulta-hora-inicio">
+
+                    <button type="submit">Buscar</button>
                     <button type="submit">Buscar</button>
                 </form>
                 <div id="consulta-results">
@@ -196,6 +250,13 @@
             <div class="card">
                 <h3>Atualizar Consulta</h3>
                 <form>
+                    <label for="update-consulta-email-paciente">E-Mail do Paciente:</label>
+                    <input type="email" id="update-consulta-email-paciente">
+
+                    <label for="update-consulta-email-doctor">E-Mail do Médico:</label>
+                    <input type="email" id="update-consulta-email-doctor">
+
+                    <label for="update-consulta-data">Data da Consulta:</label>
                     <label for="update-consulta-email-paciente">E-Mail do Paciente:</label>
                     <input type="email" id="update-consulta-email-paciente">
 
@@ -217,6 +278,19 @@
                     <select name="update-consulta-especialidade" id="update-consulta-especialidade">
                     </select required>
 
+
+                    <label for="update-consulta-hora-inicio">Hora Início da Consulta:</label>
+                    <input type="time" id="update-consulta-hora-inicio">
+
+                    <h4> ➥ Atualize as informações desta consulta </h4>
+
+                    <label for="update-consulta-hora-fim">Hora Final da Consulta:</label>
+                    <input type="time" id="update-consulta-hora-fim">
+
+                    <label for="update-consulta-especialidade">Selecione uma Especialidade: </label>
+                    <select name="update-consulta-especialidade" id="update-consulta-especialidade">
+                    </select required>
+
                     <button type="submit">Atualizar</button>
                 </form>
             </div>
@@ -224,6 +298,18 @@
             <div class="card">
                 <h3>Remover Consulta</h3>
                 <form id="remover-consulta-form">
+                    <label for="remover-consulta-email-paciente">E-Mail do Paciente:</label>
+                    <input type="email" id="remover-consulta-email-paciente">
+
+                    <label for="remover-consulta-email-doctor">E-Mail do Médico:</label>
+                    <input type="email" id="remover-consulta-email-doctor">
+
+                    <label for="remover-consulta-data">Data da Consulta:</label>
+                    <input type="date" id="remover-consulta-data">
+
+                    <label for="remover-consulta-hora-inicio">Horário Inicial da Consulta</label>
+                    <input type="time" id="remover-consulta-hora-inicio" required>
+
                     <label for="remover-consulta-email-paciente">E-Mail do Paciente:</label>
                     <input type="email" id="remover-consulta-email-paciente">
 
@@ -275,6 +361,11 @@
     
         // Exibe a primeira seção por padrão
         document.getElementById('pacientes').style.display = 'block';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            preencherSelectEspecialidades("criar-consulta-especialidade");
+            preencherSelectEspecialidades("update-consulta-especialidade");
+        });
 
         document.addEventListener("DOMContentLoaded", () => {
             preencherSelectEspecialidades("criar-consulta-especialidade");

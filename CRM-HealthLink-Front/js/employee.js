@@ -1079,6 +1079,7 @@ async function setupRemovalEventListeners() {
 
       const emailPaciente = document.getElementById("remover-consulta-email-paciente").value.trim();
       const emailDoctor = document.getElementById("remover-consulta-email-doctor").value.trim();
+<<<<<<< HEAD
       const dataConsulta = document.getElementById("remover-consultaData").value.trim();
       const horaInicio = document.getElementById("remover-consulta-horaInicio").value.trim(); 
       const token = localStorage.getItem("token");
