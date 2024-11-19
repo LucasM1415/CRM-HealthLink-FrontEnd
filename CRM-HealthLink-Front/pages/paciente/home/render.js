@@ -18,9 +18,41 @@ const especialidades = async ()=>{
     });
 
 }
+const minhasConsultas = async ()=> {
+    const response = await fetch(`http://localhost:8080/api/patient/appointments/${localStorage.getItem("email")}`, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,
+            'Accept': 'application/json',
+          }
+    });
+
+    const consultas = await response.json();
+    const ul = document.getElementById("appointments-list")
+    console.log(consultas)
+    consultas.forEach(consulta=>{
+        let li = document.createElement('li')
+        let pHorario = document.createElement('p')
+        let pMedicoEspecialidade = document.createElement('p')
+        pHorario.textContent = `${consulta["inicio"]} - ${consulta["fim"]}`
+        pMedicoEspecialidade.textContent = ` Médico: ${consulta["nameDoctor"]} / ${consulta["speciality"]}`
+        li.appendChild(pMedicoEspecialidade)
+        li.appendChild(pHorario)
+        ul.appendChild(li);
+    })
+}
+
+function iniciarTelaPaciente(){
+    especialidades();
+    minhasConsultas();
+}
 
 function irParaMarcarConsulta(){
     localStorage.setItem("especialidade",document.getElementById("especialidadeSelect").value)
-    localStorage.setItem("tipoAgendamento",document.getElementById("tipoAgendamentoSelect").value)
+    localStorage.setItem("dataSelect",document.getElementById("dataSelect").value)
     window.location.href='../marcarConsulta/marcarConsulta.html'
+}
+function logout(){
+    window.location.href = "/pages/login.html"
+    localStorage.removeItem("token")
 }

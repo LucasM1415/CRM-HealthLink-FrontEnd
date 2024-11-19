@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Paciente</title>
     <link rel="icon" href="" type="../../../images/logo2.png" />
-    <link rel="stylesheet" href="../../../css/pacienteStyle.css" />
-    <script src="../../../js/patient.js" defer></script> 
+    <link rel="stylesheet" href="pacienteStyle.css" />
+    <script src="patient.js" defer></script> 
     <script src="render.js"></script>
+    <link rel="stylesheet" href="pacienteStyle.css">
   </head>
-  <body onload="especialidades()">
+  <body onload="iniciarTelaPaciente()">
     <header>
       <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
       <h1 id="welcome-message"></h1>
-      <button id="back-button" class="back-button">Voltar</button>
+      <button id="back-button" class="back-button" onclick="logout()"><strong>Logout</strong></button>
     </header>
 
     <section class="patient-data">
@@ -32,18 +33,32 @@
       </div>
     </section>
 
-    <label for="especialidadeSelect">Selecione uma Especialidade: </label>
-    <select name="especialidadeSelect" id="especialidadeSelect"></select>
+    <section class="schedule-appointment"> 
+      <h2>Agendar Consulta</h2>
 
-    <label for="tipoAgendamentoSelect">Selecione o tipo de agendaento: </label>
-    <select name="tipoAgendamentoSelect" id="tipoAgendamentoSelect">
-      <option value="CONSULTA">CONSULTA</option>
-      <option value="PRONTIDÃO">PRONTIDÃO</option>
-      <option value="CONSULTA ONLINE">CONSULTA ONLINE</option>
-    </select>
+      <label for="especialidadeSelect">Selecione uma Especialidade: </label>
+      <select name="especialidadeSelect" id="especialidadeSelect"></select>
 
-    <button onclick="irParaMarcarConsulta()">
-      GO
-    </button>
+      <br>
+
+      <label for="dataSelect">Selecione uma data: </label>
+      <input type="date" id="dataSelect"></input>
+
+      <br>
+  
+      <button id="submit-button" class="submit-button" onclick="irParaMarcarConsulta()">
+        <strong>Marcar Consulta</strong>
+      </button>
+    </section>
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        setupEventListeners();
+        updateUserName();
+      });
+  
+    </script>
+
   </body>
 </html>

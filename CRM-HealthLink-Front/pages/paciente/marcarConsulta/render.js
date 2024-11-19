@@ -1,6 +1,6 @@
 const cardMedicoDisponibilidadeClassName = "cardMedicoDisponibilidade";
 const containerPacienteMarcarConsultaClassName = "pacienteMarcarConsultaContainer";
-const emailPaciente = "patient@email.com";
+
 
 class DisponibilidadeMedico{
     constructor(data,inicio,fim,especialidade,tipoAgendamento,nomeMedico,emailMedico){
@@ -40,7 +40,7 @@ async function popularPacienteMarcarConsulta(){
         window.location.href= "/pages/login.html";
     }
     document.getElementsByClassName(containerPacienteMarcarConsultaClassName)[0].innerHTML = ""
-    const response = await fetch(`http://localhost:8080/api/calendario/disponibilidades/${localStorage.getItem("especialidade")}/${localStorage.getItem("tipoAgendamento")}`,{
+    const response = await fetch(`http://localhost:8080/api/calendario/disponibilidades/${localStorage.getItem("especialidade")}/${localStorage.getItem("dataSelect")}`,{
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`,
@@ -48,10 +48,10 @@ async function popularPacienteMarcarConsulta(){
         },
       }
     );
+    
     const disponibilidadesMedico = (await response.json()).map(d =>{
         return new DisponibilidadeMedico(d.date,d.homeTime,d.endTime,d.specialityType,d.tipoAgendamento,d.nomeMedico,d.emailMedico);
     });
-
     medicoDisponibilidade = {};
     const disponibilidadesDividoPorMedico = disponibilidadesMedico.forEach(d => {
         if(medicoDisponibilidade[d.nomeMedico] == undefined){
@@ -72,3 +72,6 @@ async function popularPacienteMarcarConsulta(){
     }
 }
 
+function voltarPacienteHome(){
+    window.location.href = "../home/patientPage.html";
+}

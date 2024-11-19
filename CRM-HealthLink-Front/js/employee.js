@@ -497,36 +497,51 @@ function renderMedicos(medicos) {
   });
 }
 
+
 //Criar consulta
 async function criarNovaConsulta() {
   const token = localStorage.getItem("token");
   if (!token) {
+    alert(
+      "Token de autenticação não encontrado. Por favor, faça login novamente."
+    );
     return;
   }
 
-  const datahora = document.getElementById("criar-consulta-datahora").value;
-  const medicoId = document.getElementById("criar-consulta-medico").value;
-  const pacienteId = document.getElementById("criar-consulta-paciente").value;
-  const descricao = document.getElementById("criar-consulta-descricao").value;
+  const data = document.getElementById("criar-consulta-data").value;
+  
+ // Obter o valor selecionado do horário (contém tanto horaInicial quanto horaFinal)
+ const horarioSelecionado = document.getElementById("criar-consulta-horaInicial").value;
+ const medicoId = document.getElementById("criar-consulta-medico").value;
+ const pacienteId = document.getElementById("criar-consulta-paciente").value;
+ const especialidade = document.getElementById("criar-consulta-especialidade").value;
 
-console.log(datahora);
-console.log(medicoId);
-console.log(pacienteId);
-console.log(descricao);
+ // Verificar se todos os campos necessários foram preenchidos
+ if (!data || !horarioSelecionado || !medicoId || !pacienteId || !especialidade) {
+   alert("Por favor, preencha todos os campos.");
+   return;
+ }
 
+ // Separar o horário inicial e final do valor selecionado
+ const [horaInicial, horaFinal] = horarioSelecionado.split(" - ");
+ console.log("Hora Inicial:", horaInicial);
+ console.log("Hora Final:", horaFinal);
 
-  if (!datahora || !medicoId || !pacienteId || !descricao) {
-    alert("Por favor, preencha todos os campos.");
-    return;
-  }
+ if (!horaInicial || !horaFinal) {
+   alert("Por favor, selecione um horário válido.");
+   return;
+ }
 
-  const corpoRequisicao = {
-    email_patient: pacienteId,
-    email_doctor: medicoId,
-    email_employee: localStorage.getItem("email"), 
-    data: datahora,
-    description: descricao,
-  };
+ const corpoRequisicao = {
+   email_patient: pacienteId,
+   email_doctor: medicoId,
+   date: data,
+   inicio: horaInicial.trim(),
+   speciality: especialidade,
+   fim: horaFinal.trim(),
+ };
+
+ console.log("Corpo da Requisição:", corpoRequisicao);
 
   const url = `http://${ip}:8080/api/appointment`;
 
@@ -540,18 +555,128 @@ console.log(descricao);
       body: JSON.stringify(corpoRequisicao),
     });
 
-    if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    if (response.status === 201) {
+      console.log("Consulta criada com sucesso.");
+      alert("Consulta criada com sucesso.");
+    } else {
+      // Só tenta ler a resposta como JSON se houver conteúdo
+      const text = await response.text();
+      if (text) {
+        const errorResponse = JSON.parse(text);
+        console.error("Detalhes do Erro:", errorResponse);
+        alert(
+          `Erro ao criar a consulta: ${
+            errorResponse.message || "Erro desconhecido"
+          }`
+        );
+      } else {
+        throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
     }
-
-    const result = await response.json();
-
-    console.log("Resultado:", result);
   } catch (error) {
     console.error("Erro ao criar a consulta:", error);
     alert("Erro ao criar a consulta. Veja o console para detalhes.");
   }
 }
+
+// Função para buscar horários disponíveis da API
+async function buscarHorariosDisponiveis(especialidade, data) {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.error("Token não encontrado no localStorage");
+    return [];
+  }
+
+  const url = `http://${ip}:8080/api/calendario/disponibilidades/${encodeURIComponent(data)}/${encodeURIComponent(especialidade)}`; //encodeURIComponent(data)
+
+  console.log(url)
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const disponibilidades = await response.json();
+    return disponibilidades;
+  } catch (error) {
+    console.error("Erro ao buscar horários disponíveis:", error);
+    return [];
+  }
+}
+
+// Função para renderizar os horários no <select>
+function renderizarHorariosSelect(horarios) {
+  const selectElement = document.getElementById("criar-consulta-horaInicial");
+
+  if (!selectElement) {
+    console.error("Elemento <select> não encontrado!");
+    return;
+  }
+
+  // Limpar as opções anteriores
+  selectElement.innerHTML = "";
+
+  // Adicionar uma opção padrão
+  const optionDefault = document.createElement("option");
+  optionDefault.value = "";
+  optionDefault.textContent = "Selecione um horário";
+  selectElement.appendChild(optionDefault);
+
+  // Adicionar os horários ao <select>
+  horarios.forEach((horario) => {
+    const option = document.createElement("option");
+    // Agora, o value contém tanto a hora inicial quanto a hora final
+    option.value = `${horario.homeTime} - ${horario.endTime}`;
+    option.textContent = `${horario.homeTime} - ${horario.endTime}`;
+    selectElement.appendChild(option);
+  });
+}
+
+// Função para preencher os horários quando a data ou especialidade forem alteradas
+async function preencherHorarios() {
+  const data = document.getElementById("criar-consulta-data").value;
+  const especialidade = document.getElementById("criar-consulta-especialidade").value;
+
+  // Verificar se a data e especialidade foram selecionadas
+  if (!data || !especialidade) {
+    return;
+  }
+
+  // Buscar os horários disponíveis
+  const horariosDisponiveis = await buscarHorariosDisponiveis(especialidade, data);
+  renderizarHorariosSelect(horariosDisponiveis);
+}
+
+// Adicionar eventos para atualizar os horários ao alterar a data ou especialidade
+document.getElementById("criar-consulta-data").addEventListener("change", preencherHorarios);
+document.getElementById("criar-consulta-especialidade").addEventListener("change", preencherHorarios);
+
+// Função para preencher o select de horários quando a data ou especialidade for alterada
+async function preencherHorarios() {
+  const data = document.getElementById("criar-consulta-data").value;
+  const especialidade = document.getElementById("criar-consulta-especialidade").value;
+
+  if (!data || !especialidade) {
+    return;
+  }
+
+  // Buscar e renderizar os horários disponíveis
+  const horariosDisponiveis = await buscarHorariosDisponiveis(data, especialidade);
+  renderizarHorariosSelect(horariosDisponiveis);
+}
+
+// Adicionar eventos para atualizar os horários quando a data ou especialidade mudar
+document.getElementById("criar-consulta-data").addEventListener("change", preencherHorarios);
+document.getElementById("criar-consulta-especialidade").addEventListener("change", preencherHorarios);
+
 
 
 //Listar consultas
@@ -587,6 +712,7 @@ async function listarConsultas(token) {
   }
 }
 
+// Função para renderizar as consultas na tabela
 function renderConsultas(consultas) {
   const tableBody = document.querySelector("#list-consultas-tbody");
 
@@ -601,11 +727,10 @@ function renderConsultas(consultas) {
     const row = document.createElement("tr");
 
     row.innerHTML = `
+      <td>${consulta.date || "Data não disponível"}</td>
+      <td>${consulta.inicio || "Horário não disponível"}</td>
       <td>${consulta.namePatient || "Paciente não disponível"}</td>
       <td>${consulta.nameDoctor || "Médico não disponível"}</td>
-      <td>${consulta.date || "Data não disponível"}</td>
-      <td>${consulta.description || "Descrição não disponível"}</td>
-      
     `;
 
     tableBody.appendChild(row);
@@ -745,29 +870,16 @@ function renderMedicosSelect(medicos) {
   });
 }
 
-//Obter Consultas
-async function buscarConsulta(event) {
-  event.preventDefault(); // Impedir o recarregamento da página
 
+//Preencher select de especialidade
+async function preencherSelectEspecialidades(selectId) {
   const token = localStorage.getItem("token");
-  const emailPaciente = document.getElementById(
-    "obter-consulta-email-paciente"
-  ).value;
-  const emailDoctor = document.getElementById(
-    "obter-consulta-email-doctor"
-  ).value;
-  const dataConsulta = document.getElementById("obter-consulta-data").value;
-
-  if (!token || !emailPaciente || !emailDoctor || !dataConsulta) {
-    alert("Por favor, preencha todos os campos.");
+  if (!token) {
+    console.error("Token não encontrado no localStorage");
     return;
   }
 
-  const url = `http://${ip}:8080/api/appointment?emailPatient=${encodeURIComponent(
-    emailPaciente
-  )}&emailDoctor=${encodeURIComponent(emailDoctor)}&date=${encodeURIComponent(
-    dataConsulta
-  )}`;
+  const url = `http://${ip}:8080/api/employee/allspecialities`;
 
   try {
     const response = await fetch(url, {
@@ -782,12 +894,82 @@ async function buscarConsulta(event) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
 
+    const especialidades = await response.json();
+    renderEspecialidadesSelect(especialidades, selectId);
+  } catch (error) {
+    console.error("Erro ao preencher o select com especialidades:", error);
+  }
+}
+
+
+
+function renderEspecialidadesSelect(especialidades, selectId) {
+  const selectElement = document.getElementById(selectId);
+
+  if (!selectElement) {
+    console.error("Elemento <select> não encontrado!");
+    return;
+  }
+
+  selectElement.innerHTML = "";
+
+  const optionDefault = document.createElement("option");
+  optionDefault.value = "";
+  optionDefault.textContent = "Selecione uma especialidade";
+  selectElement.appendChild(optionDefault);
+
+  especialidades.forEach((especialidade) => {
+    const option = document.createElement("option");
+    option.value = especialidade; // O valor da especialidade em si, Ñ ESTÁ PEGANDO
+    option.textContent = especialidade || "Nome não disponível";
+    selectElement.appendChild(option);
+  });
+
+}
+
+
+//Obter Consultas
+async function buscarConsulta(event) {
+  event.preventDefault(); // Impedir o recarregamento da página
+
+  const token = localStorage.getItem("token");
+  const emailPaciente = document.getElementById("obter-consulta-email-paciente").value;
+  const emailDoctor = document.getElementById("obter-consulta-email-doctor").value;
+  const date = document.getElementById("obter-consulta-data").value;
+  const horaInicio = document.getElementById("obter-consulta-hora-inicio").value;
+
+  if (!token || !emailPaciente || !emailDoctor || !date || !horaInicio) {
+    alert("Por favor, preencha todos os campos.");
+    return;
+  }
+    //emailDoctor    -    emailPaciente       -        date      -       horaInicio
+  const url = `http://${ip}:8080/api/appointment?emailMedico=${
+    emailDoctor
+  }&emailPaciente=${emailPaciente}&date=${
+    date
+  }&inicio=${horaInicio}:00`; // Inclua horaInicio na URL, se necessário
+  
+  console.log("URL da requisição:", url);
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Erro HTTP! Status: ${response.status}`);
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
     const data = await response.json();
     renderConsulta(data);
   } catch (error) {
     console.error("Erro na requisição:", error);
-    document.getElementById("consulta-results").innerText =
-      "Erro ao buscar consulta.";
+    document.getElementById("consulta-results").innerText = "Erro ao buscar consulta.";
   }
 }
 
@@ -800,59 +982,84 @@ function renderConsulta(data) {
       <p><strong>Paciente:</strong> ${data.namePatient}</p>
       <p><strong>Médico:</strong> ${data.nameDoctor}</p>
       <p><strong>Data:</strong> ${data.date}</p>
-      <p><strong>Descrição:</strong> ${data.description}</p>
-
     `;
   } else {
     resultsDiv.innerText = "Nenhuma consulta encontrada.";
   }
 }
-// Adicionar o evento de submit ao formulário
-document
-  .getElementById("consulta-form")
-  .addEventListener("submit", buscarConsulta);
 
-//remover consultas
-async function removerConsulta(token) {
+document.getElementById("consulta-form").addEventListener("submit", function(event) {
+  event.preventDefault(); 
+  buscarConsulta(event); 
+});
+
+
+
+
+// Função para remover consulta
+async function removerConsulta(
+  token,
+  emailPaciente,
+  emailDoctor,
+  dataConsulta,
+  horaInicio
+) {
   if (!token) {
+    alert("Usuário não autenticado.");
     return;
   }
 
   const url = `http://${ip}:8080/api/appointment`;
+
+  // Corpo da requisição conforme especificado
+  const corpoRequisicao = {
+    emailPatient: emailPaciente,
+    emailDoctor: emailDoctor,
+    date: dataConsulta,
+    inicio: `${horaInicio}:00` 
+  };
+
+  console.log("Corpo da requisição:", JSON.stringify(corpoRequisicao));
 
   try {
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
         Accept: "application/json",
       },
+      body: JSON.stringify(corpoRequisicao),
     });
 
     if (!response.ok) {
+      console.error(`Erro HTTP! Status: ${response.status}`);
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
 
-    const data = await response.json();
-    await handleRemovalResult("success");
+    await handleRemovalResult("success", token); // Passa o token para a função de resultado
   } catch (error) {
     console.error("Erro na requisição:", error);
-    await handleRemovalResult("error");
+    await handleRemovalResult("error", token); // Passa o token para a função de erro
   }
 }
 
-async function handleRemovalResult(status) {
+// Função para lidar com o resultado da remoção
+async function handleRemovalResult(status, token) {
   const resultsDiv = document.getElementById("consulta-results");
 
   switch (status) {
     case "success":
       resultsDiv.innerText = "Consulta removida com sucesso!";
+      if (token) {
+        await listarConsultas(token); // Atualiza a lista de consultas
+      }
       break;
 
     case "error":
-      const token = localStorage.getItem("token");
+      resultsDiv.innerText = "Erro ao remover a consulta.";
       if (token) {
-        await listarConsultas(token);
+        await listarConsultas(token); // Tenta atualizar a lista em caso de erro
       }
       break;
 
@@ -862,6 +1069,7 @@ async function handleRemovalResult(status) {
   }
 }
 
+// Função para configurar o evento de remoção de consulta
 async function setupRemovalEventListeners() {
   const form = document.getElementById("remover-consulta-form");
 
@@ -869,21 +1077,137 @@ async function setupRemovalEventListeners() {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const consultaId = document
-        .getElementById("remover-consulta-id")
-        .value.trim();
+      const emailPaciente = document.getElementById("remover-consulta-email-paciente").value.trim();
+      const emailDoctor = document.getElementById("remover-consulta-email-doctor").value.trim();
+      const dataConsulta = document.getElementById("remover-consultaData").value.trim();
+      const horaInicio = document.getElementById("remover-consulta-horaInicio").value.trim(); 
       const token = localStorage.getItem("token");
 
-      if (consultaId === "") {
-        document.getElementById("consulta-results").innerText =
-          "Por favor, insira o ID da consulta.";
+      if (!emailPaciente || !emailDoctor || !dataConsulta || !horaInicio) {
+        document.getElementById("consulta-results").innerText = "Por favor, insira todos os dados da consulta.";
         return;
       }
 
-      await removerConsulta(token, consultaId);
+      await removerConsulta(token, emailPaciente, emailDoctor, dataConsulta, horaInicio);
     });
   }
 }
+
+setupRemovalEventListeners();
+
+
+// Função para atualizar uma consulta
+async function atualizarConsulta(token, data) {
+  if (!token) {
+    alert("Usuário não autenticado.");
+    return;
+  }
+
+  const url = `http://${ip}:8080/api/appointment`;
+
+  // Montando o corpo da requisição conforme o esperado pelo backend
+  const requestBody = {
+    emailPatient: data["update-consulta-email-paciente"],
+    emailDoctor: data["update-consulta-email-doctor"],
+    date: data["update-consulta-data"],
+    inicio: `${data["update-consulta-hora-inicio"]}:00`, // Adicionando ":00" aos segundos
+    fim: `${data["update-consulta-hora-fim"]}:00`,
+    speciality: data["update-consulta-especialidade"],
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text(); // Lê o texto da resposta
+      throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
+    }
+
+    alert("Consulta atualizada com sucesso!");
+    handleUpdateConsultaResult("success");
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+    alert("Erro ao atualizar consulta.");
+    handleUpdateConsultaResult("error");
+  }
+}
+
+// Função para lidar com o resultado da atualização
+async function handleUpdateConsultaResult(status) {
+  const resultsDiv = document.getElementById("resultsUpdateConsulta");
+
+  if (!resultsDiv) {
+    console.error('Elemento <div id="resultsUpdateConsulta"> não encontrado!');
+    return;
+  }
+
+  if (status === "success") {
+    resultsDiv.innerText = "Consulta atualizada com sucesso!";
+    const token = localStorage.getItem("token");
+    if (token) {
+      await listarConsultas(token); // Atualiza a lista de consultas
+    }
+  } else if (status === "error") {
+    resultsDiv.innerText = "Erro ao atualizar a consulta.";
+    resultsDiv.style.color = "red";
+    const token = localStorage.getItem("token");
+    if (token) {
+      await listarConsultas(token); // Tenta atualizar a lista mesmo em caso de erro
+    }
+  } else {
+    resultsDiv.innerText = "Status desconhecido.";
+    resultsDiv.style.color = "orange";
+  }
+}
+
+async function setupUpdateConsultaForm() {
+  const form = document.querySelector("#update-consulta-form");
+
+  if (form) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault(); // Previne o refresh da página
+
+      const token = localStorage.getItem("token");
+
+      const data = {
+        "update-consulta-email-paciente": document.getElementById("update-consulta-email-paciente").value.trim(),
+        "update-consulta-email-doctor": document.getElementById("update-consulta-email-doctor").value.trim(),
+        "update-consulta-data": document.getElementById("update-consulta-data").value,
+        "update-consulta-hora-inicio": document.getElementById("update-consulta-hora-inicio").value,
+        "update-consulta-hora-fim": document.getElementById("update-consulta-hora-fim").value,
+        "update-consulta-especialidade": document.getElementById("update-consulta-especialidade").value,
+      };
+
+      if (
+        !data["update-consulta-email-paciente"] ||
+        !data["update-consulta-email-doctor"] ||
+        !data["update-consulta-data"] ||
+        !data["update-consulta-hora-inicio"] ||
+        !data["update-consulta-hora-fim"] ||
+        !data["update-consulta-especialidade"]
+      ) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+      }
+
+      await atualizarConsulta(token, data);
+    });
+  } else {
+    console.error("Formulário de atualização de consulta não encontrado!");
+  }
+}
+
+// Chamar a função para configurar o evento do formulário ao carregar a página
+setupUpdateConsultaForm();
+
 
 function tokenValidation() {
   var token = localStorage.getItem("token");
@@ -903,11 +1227,13 @@ function singOut() {
   if (typeof localStorage !== "undefined") {
     localStorage.clear();
     ("Você foi desconectado com sucesso.");
-    window.location.href = "../pages/login.html";
+    window.location.href = "/pages/login.html"; 
   } else {
     console.error("Local storage não está disponível.");
   }
 }
+
+
 
 function updateUserName() {
   const userName = localStorage.getItem("userName");
@@ -988,7 +1314,7 @@ if (consultaForm) {
   consultaForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    const consultaId = document.getElementById("obter-consulta-id").value;
+    const consultaId = document.getElementById("obter-consulta-data").value;
     await buscarConsulta(token, consultaId);
   });
 }
