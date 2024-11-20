@@ -96,7 +96,6 @@ async function mostraHorarios(day) {
     `;
   } else if (agendamentosFiltrados.date != dataEscolhida) {
     details.style.display = "none";
-    alert( `Não a disponibilidade para o Dia ${day}`);
   }
 }
 
