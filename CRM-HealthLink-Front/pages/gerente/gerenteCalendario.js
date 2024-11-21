@@ -5,7 +5,6 @@ async function cadastrarHorario(day) {
   let dia = String(day);
 
   var mes = document.getElementById('month').value;
-  console.log(`MÊs: ${mes}`)
   var ano = document.getElementById('year').value;
   var horainicio = document.getElementById("Hora-de-inicio").value;
   var horafinal = document.getElementById("Hora-de-termino").value
@@ -142,7 +141,7 @@ async function preencherSelectTipoAgendamentos(selectId) {
     }
 
     const especialidades = await response.json();
-    renderEspecialidadesSelect(especialidades, selectId);
+    renderEspecialidadesSelectDeAgendamento(especialidades, selectId);
   } catch (error) {
     console.error("Erro ao preencher o select com especialidades:", error);
   }
@@ -150,7 +149,7 @@ async function preencherSelectTipoAgendamentos(selectId) {
 
 
 
-function renderEspecialidadesSelect(especialidades, selectId) {
+function renderEspecialidadesSelectDeAgendamento(especialidades, selectId) {
   const selectElement = document.getElementById(selectId);
 
   if (!selectElement) {

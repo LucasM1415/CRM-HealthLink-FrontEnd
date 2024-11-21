@@ -7,13 +7,12 @@
     <title>Home do Administrador</title>
 
     <link rel="icon" href="/images/logo2.png" type="image/png">
-
     <link rel="stylesheet" href="/css/managerStyle.css">
     <link rel="stylesheet" href="/pages/gerente/calendario.css">
 
+    <script src="/pages/gerente/gerenteCalendario.js"></script>
     <script src="/js/employee.js" defer></script>
-    <script src="/js/manager.js" refed></script>
-    <Script src="/pages/gerente/gerenteCalendario.js" refed></Script>
+    <script src="/js/manager.js"></script>
 
 </head>
 
@@ -24,7 +23,6 @@
             <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
             <h1 id="welcome-message"></h1>
             <button id="back-button" class="back-button"><strong>Logout</strong></button>
-
         </div>
 
         <nav>
@@ -41,7 +39,6 @@
         <!-- Seção de Pacientes -->
         <section id="pacientes" class="content-section">
             <h2>Pacientes</h2>
-
             <div class="card">
                 <h3>Criar Novo Paciente</h3>
                 <form id="criar-paciente-form">
@@ -65,9 +62,6 @@
                 <div id="resultsCreate" class="results"></div>
             </div>
 
-
-
-
             <div class="card">
                 <h3>Obter Paciente</h3>
                 <form id="paciente-form">
@@ -79,8 +73,6 @@
                 <div id="resultsGet" class="results"></div>
 
             </div>
-
-
 
             <div class="card">
                 <h3>Atualizar Paciente</h3>
@@ -109,7 +101,6 @@
                 <div id="resultsUpdate"></div>
             </div>
 
-
             <div class="card">
                 <h3>Remover Paciente</h3>
                 <form id="remover-paciente-form">
@@ -120,8 +111,6 @@
                 </form>
                 <div id="resultsDelete" class="results"></div>
             </div>
-
-
 
             <div class="card">
                 <h3>Lista de Pacientes Registrados</h3>
@@ -139,7 +128,6 @@
             <h2>Médicos</h2>
 
             <div class="card">
-
                 <h3>Criar Médico</h3>
                 <form id='criar-doutor-form'>
                     <label for="criar-doutor-nome">Nome:</label>
@@ -156,7 +144,7 @@
 
                     <label for="criar-doutor-speciality">Especialidade:</label>
                     <select id="criar-doutor-speciality">
-                        <option value="" disabled selected>Selecione uma especialidade</option>
+                        <option value="" disabled selected></option>
                     </select>
 
                     <label for="criar-doutor-email">Email:</label>
@@ -181,7 +169,6 @@
 
             <div class="card">
                 <h3>Atualizar Médico</h3>
-
                 <form id="update-doutor-form">
                     <label for="update-doutor-email">Digite o E-mail do Médico:</label>
                     <input type="email" id="update-doutor-email">
@@ -202,7 +189,7 @@
 
                     <label for="update-doutor-speciality">Especialidade:</label>
                     <select id="update-doutor-speciality">
-                        <option value="" disabled selected>Selecione uma especialidade</option>
+                        <option value="" disabled selected></option>
                     </select>
 
                     <label for="update-doutor-password">Password:</label>
@@ -226,41 +213,33 @@
         <!-- Seção de Consultas -->
         <section id="consultas" class="content-section" style="display: none;">
             <h2>Consultas</h2>
-        
+
             <div class="card">
                 <h3>Criar Consulta</h3>
                 <form id="form-criar-consulta" data-form-type="create">
-                     <!-- Campo para selecionar a especialidade -->
-                     <label for="criar-consulta-especialidade">Selecione uma Especialidade:</label>
-                     <select name="criar-consulta-especialidade" id="criar-consulta-especialidade" required>
-                         <option value="">Selecione uma especialidade</option>
-                     </select>
-             
-                     <!-- Campo para selecionar a data -->
-                     <label for="criar-consulta-data">Data:</label>
-                     <input type="date" id="criar-consulta-data" name="criar-consulta-data" required>
-             
-                     <!-- Campo para selecionar o e-mail do médico -->
-                     <label for="criar-consulta-medico">E-Mail do Médico:</label>
-                     <select id="criar-consulta-medico" name="criar-consulta-medico" required>
-                     </select>
-             
-                     <!-- Campo para selecionar o e-mail do paciente -->
-                     <label for="criar-consulta-paciente">E-Mail do Paciente:</label>
-                     <select id="criar-consulta-paciente" name="criar-consulta-paciente" required>
-                     </select>
-             
-                     <!-- Campo para selecionar o horário disponível -->
-                     <label for="criar-consulta-horaInicial">Horários Disponíveis:</label>
-                     <select name="criar-consulta-horaInicial" id="criar-consulta-horaInicial" required>
-                     </select>
-        
+                    <label for="criar-consulta-especialidade">Especialidade:</label>
+                    <select name="criar-consulta-especialidade" id="criar-consulta-especialidade" required>
+                        <option value=""></option>
+                    </select>
+
+                    <label for="criar-consulta-data">Data:</label>
+                    <input type="date" id="criar-consulta-data" name="criar-consulta-data" required>
+
+                    <label for="criar-consulta-medico">E-Mail do Médico:</label>
+                    <select id="criar-consulta-medico" name="criar-consulta-medico" required>
+                    </select>
+
+                    <label for="criar-consulta-paciente">E-Mail do Paciente:</label>
+                    <select id="criar-consulta-paciente" name="criar-consulta-paciente" required>
+                    </select>
+
+                    <label for="criar-consulta-horaInicial">Horários Disponíveis:</label>
+                    <select name="criar-consulta-horaInicial" id="criar-consulta-horaInicial" required>
+                    </select>
+
                     <button type="submit"><strong>Criar Consulta</strong></button>
                 </form>
             </div>
-            
-
-
 
             <div class="card">
                 <h3>Obter Consulta</h3>
@@ -276,35 +255,22 @@
 
                     <label for="obter-consulta-hora-inicio">Hora Início da Consulta:</label>
                     <input type="time" id="obter-consulta-hora-inicio">
-                    <label for="obter-consulta-data">Data da Consulta:</label>
-                    <input type="date" id="obter-consulta-data">
-
-                    <label for="obter-consulta-hora-inicio">Hora Início da Consulta:</label>
-                    <input type="time" id="obter-consulta-hora-inicio">
 
                     <button type="submit"><strong>Buscar Consulta</strong></button>
                 </form>
                 <div id="consulta-results">
-                    <!-- Resultados da consulta serão exibidos aqui -->
                 </div>
             </div>
 
-
             <div class="card">
                 <h3>Atualizar Consulta</h3>
-                <form>
+                <form id="update-consulta-form">
                     <label for="update-consulta-email-paciente">E-Mail do Paciente:</label>
                     <input type="email" id="update-consulta-email-paciente">
 
                     <label for="update-consulta-email-doctor">E-Mail do Médico:</label>
                     <input type="email" id="update-consulta-email-doctor">
-                    <label for="update-consulta-email-paciente">E-Mail do Paciente:</label>
-                    <input type="email" id="update-consulta-email-paciente">
 
-                    <label for="update-consulta-email-doctor">E-Mail do Médico:</label>
-                    <input type="email" id="update-consulta-email-doctor">
-
-                    <label for="update-consulta-data">Data da Consulta:</label>
                     <label for="update-consulta-data">Data da Consulta:</label>
                     <input type="date" id="update-consulta-data">
 
@@ -316,18 +282,7 @@
                     <label for="update-consulta-hora-fim">Hora Final da Consulta:</label>
                     <input type="time" id="update-consulta-hora-fim">
 
-                    <label for="update-consulta-especialidade">Selecione uma Especialidade: </label>
-                    <select name="update-consulta-especialidade" id="update-consulta-especialidade">
-                    </select required>
-                    <label for="update-consulta-hora-inicio">Hora Início da Consulta:</label>
-                    <input type="time" id="update-consulta-hora-inicio">
-
-                    <h4> ➥ Atualize as informações desta consulta </h4>
-
-                    <label for="update-consulta-hora-fim">Hora Final da Consulta:</label>
-                    <input type="time" id="update-consulta-hora-fim">
-
-                    <label for="update-consulta-especialidade">Selecione uma Especialidade: </label>
+                    <label for="update-consulta-especialidade">Especialidade</label>
                     <select name="update-consulta-especialidade" id="update-consulta-especialidade">
                     </select required>
 
@@ -354,7 +309,6 @@
                 </form>
                 <div id="consulta-results"></div>
             </div>
-
 
             <div class="card">
                 <h3>Lista de Consultas Registradas</h3>
@@ -455,19 +409,18 @@
             <h2>Calendário de Consultas</h2>
 
             <div class="robertoCarlos">
-                <!-- Seletor de especialidade -->
                 <div class="form-row">
                     <div class="field-group w-30">
                         <label>Especialidade:</label>
                         <select id="selectSpeciality">
-                            <option value="" selected>Selecione uma especialidade</option>
+                            <option value="" selected></option>
                         </select>
                     </div>
 
                     <div class="field-group w-30">
                         <label>Tipo dos Agendamentos:</label>
                         <select id="selectAgendamentos">
-                            <option value="" selected>Selecione uma Tipo do Agendamento</option>
+                            <option value="" selected>Selecione um Tipo do Agendamento</option>
                         </select>
                     </div>
                 </div>
@@ -504,117 +457,106 @@
                     <button onclick="renderizarGerenteCalendario()"><strong>Mostrar Calendário</strong></button>
                 </div>
 
-
-
                 <div id="calendarioDoctor" class="calendario">
-
-                    <div class="calendar" id="calendar"></div>
+                    <div class="calendar" id="calendar">
+                    </div>
                 </div>
 
                 <div class="day-details" id="day-details" style="display: none;">
                     <p id="selected-day-info"></p>
                 </div>
             </div>
+
             <div class="listadehorarios">
                 <h3>Lista de Horários Marcados</h3>
                 <a href="listSchedulesManagerPage.html">
                     <button><strong>Conferir Lista de Horários Marcados</strong></button>
                 </a>
             </div>
-
         </section>
 
-<section id="emergencia" class="content-section" style="display: none;">
-    <h2>Agendar Prontidão de Emergência</h2>
-    <div class="card">
-        <h3>Criar Prontidão</h3>
-        <form id="form-emergencia">
-            <label for="data-consulta">Data:</label>
-            <input type="date" id="data-consulta" name="data-consulta" required>
-        </form>
-        <form id="horarios-form">
-            <label for="hora-inicio">Horário de Início:</label>
-            <input type="time" id="hora-inicio" name="hora-inicio" required>
 
-            <label for="hora-fim">Horário de Fim:</label>
-            <input type="time" id="hora-fim" name="hora-fim" required>
-        </form>
-        <form id="medicos-form">
-            <label for="criar-consulta-medico-emergencia">Selecionar Médico:</label>
-            <select id="criar-consulta-medico-emergencia" name="criar-consulta-medico" required>
-                <!-- Opções de médicos disponíveis serão inseridas dinamicamente aqui -->
-            </select>
-            
-            <button type="button" id="adicionar-medico-btn"><strong>Adicionar Médico</strong></button>
-            
-            <!-- Lista de Médicos Adicionados -->
-            <div id="lista-medicos">
-                <h4>Médicos Selecionados:</h4>
-                <ul id="medicos-adicionados">
-                    <!-- Lista dos médicos será populada aqui -->
-                </ul>
-                <button type="submit" form="form-emergencia"><strong>Salvar Marcação</strong></button>
+        <section id="emergencia" class="content-section" style="display: none;">
+            <h2>Agendar Prontidão de Emergência</h2>
+            <div class="card">
+                <h3>Criar Prontidão</h3>
+                <form id="form-emergencia">
+                    <label for="data-consulta">Data:</label>
+                    <input type="date" id="data-consulta" name="data-consulta" required>
+                </form>
+
+                <form id="horarios-form">
+                    <label for="hora-inicio">Horário de Início:</label>
+                    <input type="time" id="hora-inicio" name="hora-inicio" required>
+
+                    <label for="hora-fim">Horário de Fim:</label>
+                    <input type="time" id="hora-fim" name="hora-fim" required>
+                </form>
+
+                <form id="medicos-form">
+                    <label for="criar-consulta-medico-emergencia">Selecionar Médico:</label>
+                    <select id="criar-consulta-medico-emergencia" name="criar-consulta-medico" required>
+                    </select>
+
+                    <button type="button" id="adicionar-medico-btn"><strong>Adicionar Médico</strong></button>
+
+                    <!-- Lista de Médicos Adicionados -->
+                    <div id="lista-medicos">
+                        <h4>Médicos Selecionados:</h4>
+                        <ul id="medicos-adicionados">
+                        </ul>
+                        <button type="submit" form="form-emergencia"><strong>Salvar Marcação</strong></button>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-
-   
-
-
-<div class="card">
-    <h3>Remover Prontidão de Emergência</h3>
-    <form id="remove-emergencia-form">
-        <!-- Campo para Data da Consulta -->
-        <label for="remover-consulta-data">Data da Consulta:</label>
-        <input type="date" id="remover-consulta-data" required>
-      
-        <!-- Campo para Horário de Início -->
-        <label for="remover-consulta-hora-inicio">Horário de Início:</label>
-        <input type="time" id="remover-consulta-hora-inicio" required>
-      
-        <!-- Campo para Horário de Fim -->
-        <label for="remover-consulta-hora-fim">Horário de Fim:</label>
-        <input type="time" id="remover-consulta-hora-fim" required>
-      
-        <!-- Select para escolher o Médico -->
-        <label for="remover-consulta-medico">Selecionar Médico:</label>
-        <select id="remover-consulta-medico" required>
-            <option value="">Selecione um médico</option>
-            <!-- Opções de médicos serão inseridas dinamicamente -->
-        </select>
-      
-        <!-- Botão para adicionar médico à lista de remoção -->
-        <button type="button" id="remover-medico-btn"><strong>Adicionar Médico para Remoção</strong></button>
-      
-        <!-- Exibição da lista de médicos selecionados para remoção -->
-        <div id="lista-medicos-remocao">
-            <h4>Médicos Selecionados para Remoção:</h4>
-            <ul id="medicos-remocao">
-                <!-- Lista de médicos para remoção será populada aqui -->
-            </ul>
-            <!-- Botão para enviar o formulário e remover a seleção -->
-            <button type="submit"><strong>Remover Seleção</strong></button>
-        </div>
-    </form>
-    
-    <!-- Exibição do resultado após tentativa de remoção -->
-    <div id="remove-consulta-results">
-        <!-- Mensagem de confirmação ou erro será exibida aqui -->
-    </div>
-    
-</div>
 
 
 
-    <!-- Card para Listar Consultas -->
-    <div class="card" id="list-emergencias-card">
-        <h3>Lista de Consultas de Emergência</h3>
-        <a href="listEmergencyConsultationsPage.html">
-            <button><strong>Conferir Lista de Emergências</strong></button>
-        </a>
-    </div>
-</section>
 
+            <div class="card">
+                <h3>Remover Prontidão de Emergência</h3>
+                <form id="remove-emergencia-form">
+                    <label for="remover-consulta-data">Data da Consulta:</label>
+                    <input type="date" id="remover-consulta-data" required>
+
+                    <label for="remover-consulta-hora-inicio">Horário de Início:</label>
+                    <input type="time" id="remover-consulta-hora-inicio" required>
+
+                    <label for="remover-consulta-hora-fim">Horário de Fim:</label>
+                    <input type="time" id="remover-consulta-hora-fim" required>
+
+                    <label for="remover-consulta-medico">Selecionar Médico:</label>
+                    <select id="remover-consulta-medico" required>
+                        <option value="">Selecione um médico</option>
+                    </select>
+
+                    <button type="button" id="remover-medico-btn">
+                        <strong>Adicionar Médico para Remoção</strong>
+                        </button>
+
+                    <div id="lista-medicos-remocao">
+                        <h4>Médicos Selecionados para Remoção:</h4>
+                        <ul id="medicos-remocao">
+                        </ul>
+
+                        <button type="submit"><strong>Remover Seleção</strong></button>
+                    </div>
+                </form>
+
+
+                <div id="remove-consulta-results">
+                </div>
+            </div>
+
+
+            <!-- Card para Listar Consultas -->
+            <div class="card" id="list-emergencias-card">
+                <h3>Lista de Consultas de Emergência</h3>
+                <a href="listEmergencyConsultationsPage.html">
+                    <button><strong>Conferir Lista de Emergências</strong></button>
+                </a>
+            </div>
+        </section>
     </main>
 
     <script>
@@ -664,12 +606,10 @@
             preencherSelectEspecialidades("criar-doutor-speciality");
             preencherSelectEspecialidades("update-doutor-speciality");
             preencherSelectEspecialidades("criar-consulta-especialidade");
+            preencherSelectEspecialidades("update-consulta-especialidade");
             preencherSelectEspecialidades("selectSpeciality");
             preencherSelectTipoAgendamentos("selectAgendamentos");
-            // selectSpeciality
         });
     </script>
-
-
 </body>
 </html>

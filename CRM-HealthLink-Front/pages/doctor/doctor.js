@@ -281,7 +281,7 @@ async function preencherSelectTipoAgendamentos(selectId) {
     }
 
     const especialidades = await response.json();
-    renderEspecialidadesSelect(especialidades, selectId);
+    renderEspecialidadesSelectDeAgendamento(especialidades, selectId);
   } catch (error) {
     console.error("Erro ao preencher o select com especialidades:", error);
   }
@@ -289,7 +289,7 @@ async function preencherSelectTipoAgendamentos(selectId) {
 
 
 
-function renderEspecialidadesSelect(especialidades, selectId) {
+function renderEspecialidadesSelectDeAgendamento(especialidades, selectId) {
   const selectElement = document.getElementById(selectId);
 
   if (!selectElement) {
@@ -302,9 +302,11 @@ function renderEspecialidadesSelect(especialidades, selectId) {
 
 
   especialidades.forEach((especialidade) => {
+    if (especialidade === "PRONTIDAO") {
+      return; // Ignora a especialidade "PRONTIDAO"
+    }
     const option = document.createElement("option");
     option.value = especialidade;
-
     option.textContent = especialidade || "Nome não disponível";
     selectElement.appendChild(option);
   });
