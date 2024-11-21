@@ -1,0 +1,23 @@
+.pacienteMarcarConsultaContainer{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.cardMedicoDisponibilidade {
+    background-color: azure;
+    flex: 1;
+    margin-top: 1em;
+    padding: 1.5em;
+}
+
+.cardMedicoDisponibilidade span{
+    background-color: aqua;
+    margin: 0.5em;
+}
+
+.cardMedicoDisponibilidade span:hover{
+    background-color: rgb(57, 167, 167);
+    transition: color 0.5s ease;
+    cursor: pointer;
+}

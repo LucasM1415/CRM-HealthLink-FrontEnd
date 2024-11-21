@@ -5,18 +5,20 @@ async function criarMedico(token, data) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/doctor/${managerId}`;
+  const url = `http://${ip}:8080/api/employee/doctor`;
 
   const requestBody = {
     name: data["criar-doutor-nome"],
     birthDate: data["criar-doutor-data-nascimento"],
     cpf: data["criar-doutor-cpf"],
     crm: data["criar-doutor-crm"],
-    speciality: data["criar-doutor-speciality"],
+    speciality: [data["criar-doutor-speciality"]],
     email: data["criar-doutor-email"],
     password: data["criar-doutor-password"],
     accessLevel: "DOCTOR",
   };
+
+  console.log("Dados enviados:", requestBody);
 
   try {
     const response = await fetch(url, {
@@ -35,27 +37,34 @@ async function criarMedico(token, data) {
     }
 
     const responseData = await response.json();
-    alert("Médico criado com sucesso!");
-    handleCreationResult("success");
+    if (responseData) {
+      //const jsonData = JSON.parse(responseData);
+      handleCreationResult("success");
+    } else {
+      handleCreationResult("success");
+    }
   } catch (error) {
     console.error("Erro na requisição:", error);
-    alert("Erro ao criar médico.");
     handleCreationResult("error");
   }
 }
 
 //Funcção pra lidar com a criar do Médico
 async function handleCreationResult(status) {
-  const resultsDivs = document.getElementById("results");
+  const resultsDivs = document.getElementById("resultsCreateDoctor");
+  const token = localStorage.getItem("token");
 
   switch (status) {
     case "success":
       resultsDivs.innerText = "Médico criado com sucesso!";
+      if (token) {
+        await listarMedicos(token);
+      }
       break;
 
     case "error":
-      const token = localStorage.getItem("token");
       if (token) {
+        await listarMedicos(token);
         await listarPacientes(token);
         await preencherSelectPacientes();
       }
@@ -77,9 +86,7 @@ async function setupDoctorForm() {
       const token = localStorage.getItem("token");
       const data = {
         "criar-doutor-nome": document.getElementById("criar-doutor-nome").value,
-        "criar-doutor-data-nascimento": document.getElementById(
-          "criar-doutor-data-nascimento"
-        ).value,
+        "criar-doutor-data-nascimento": document.getElementById("criar-doutor-data-nascimento").value,
         "criar-doutor-cpf": document.getElementById("criar-doutor-cpf").value,
         "criar-doutor-crm": document.getElementById("criar-doutor-crm").value,
         "criar-doutor-speciality": document.getElementById("criar-doutor-speciality").value,
@@ -96,20 +103,21 @@ async function setupDoctorForm() {
 
 
 //Atualizar um Médico pelo E-Mail
-async function atualizarMedico(token, medicoId, data) {
+async function atualizarMedico(token, data) {
   if (!token) {
     alert("Usuário não autenticado.");
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/doctor/${medicoId}`;
+  const url = `http://${ip}:8080/api/employee/doctor`;
+
 
   const requestBody = {
     name: data["update-doutor-nome"],
     birthDate: data["update-doutor-data-nascimento"],
     cpf: data["update-doutor-cpf"],
     crm: data["update-doutor-crm"],
-    speciality: data["update-doutor-speciality"],
+    speciality: [data["update-doutor-speciality"]],
     accessLevel: "DOCTOR",
     email: data["update-doutor-email"],
     password: data["update-doutor-password"],
@@ -127,16 +135,68 @@ async function atualizarMedico(token, medicoId, data) {
     });
 
     if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
+      const errorText = await response.text(); // Lê o texto da resposta
+      throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
     }
 
     alert("Médico atualizado com sucesso!");
+    handleUpdateDoctorResult("success");
   } catch (error) {
     console.error("Erro na requisição:", error);
     alert("Erro ao atualizar médico.");
+    handleUpdateDoctorResult("error");
   }
 }
 
+async function handleUpdateDoctorResult(status) {
+  const resultsDiv = document.getElementById("resultsUpdateDoctor");
+
+  if (!resultsDiv) {
+    console.error('Elemento <div id="resultsUpdate"> não encontrado!');
+    return;
+  }
+
+  if (status === "success") {
+    const token = localStorage.getItem("token");
+    if (token) {
+      await listarMedicos(token);
+    }
+  } else if (status === "error") {
+    const token = localStorage.getItem("token");
+    if (token) {
+      await listarMedicos(token);
+      await preencherSelectEspecialidades("update-doutor-speciality");
+    }
+  } else {
+    resultsDiv.innerHTML = "<p>Estado desconhecido.</p>";
+    resultsDiv.style.color = "orange";
+  }
+}
+
+async function setupUpdateDoctorForm() {
+  const form = document.getElementById("update-doutor-form");
+
+  if (form) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault(); // Previne o refresh da página
+
+      const token = localStorage.getItem("token");
+      const data = {
+        "update-doutor-email": document.getElementById("update-doutor-email").value,
+        "update-doutor-nome": document.getElementById("update-doutor-nome").value,
+        "update-doutor-data-nascimento": document.getElementById("update-doutor-data-nascimento").value,
+        "update-doutor-cpf": document.getElementById("update-doutor-cpf").value,
+        "update-doutor-crm": document.getElementById("update-doutor-crm").value,
+        "update-doutor-speciality": document.getElementById("update-doutor-speciality").value,
+        "update-doutor-password": document.getElementById("update-doutor-password").value,
+      };
+
+      await atualizarMedico(token, data);
+    });
+  } else {
+    console.error("Formulário de atualização de médico não encontrado!");
+  }
+}
 
 
 
@@ -500,7 +560,7 @@ async function criarHorarios() {
 
 
 
-//Listar horários
+// horários
 async function listarHorarios() {
   const token = localStorage.getItem("token");
   
@@ -637,6 +697,9 @@ function renderizarHorariosPesquisa(data) {
     resultsTable.appendChild(row);
   });
 }
+//EMERGÊNCIA
+
+
 //Preencher o select de médicos de emergência
 async function preencherSelectMedicosEmergencia() {
   const token = localStorage.getItem("token");
@@ -669,7 +732,7 @@ async function preencherSelectMedicosEmergencia() {
 
 function renderMedicosSelectEmergencia(medicos) {
   const selectElement = document.getElementById("criar-consulta-medico-emergencia"); // Use o ID específico para emergência
-  console.log("Médicos recebidos:", medicos);
+  // console.log("Médicos recebidos:", medicos);
 
   if (!selectElement) {
       console.error("Elemento <select> não encontrado!");
@@ -690,6 +753,61 @@ function renderMedicosSelectEmergencia(medicos) {
       selectElement.appendChild(option);
   });
 }
+
+// Preencher o select de médicos para remoção de consulta de emergência
+async function preencherSelectMedicosParaRemocao() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+      console.error("Token não encontrado no localStorage");
+      return;
+  }
+
+  const url = `http://${ip}:8080/api/employee/doctors`;
+
+  try {
+      const response = await fetch(url, {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+          },
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const medicos = await response.json();
+      renderMedicosSelectParaRemocao(medicos); // Chama a função de renderização específica para remoção
+  } catch (error) {
+      console.error("Erro ao preencher o select com médicos para remoção:", error);
+  }
+}
+
+function renderMedicosSelectParaRemocao(medicos) {
+  const selectElement = document.getElementById("remover-consulta-medico"); // Use o ID específico para remoção
+  console.log("Médicos recebidos para remoção:", medicos);
+
+  if (!selectElement) {
+      console.error("Elemento <select> de remoção não encontrado!");
+      return;
+  }
+
+  selectElement.innerHTML = ""; // Limpa as opções existentes
+
+  const optionDefault = document.createElement("option");
+  optionDefault.value = "";
+  optionDefault.textContent = "Selecione um médico";
+  selectElement.appendChild(optionDefault);
+
+  medicos.forEach((medico) => {
+      const option = document.createElement("option");
+      option.value = medico.email; // Use o email do médico
+      option.textContent = medico.name || "Nome não disponível";
+      selectElement.appendChild(option);
+  });
+}
+
 
 // Lista para armazenar os médicos selecionados
 let medicosAdicionados = []; // Lista de médicos adicionados
@@ -717,6 +835,240 @@ async function adicionarMedico() {
     // Atualiza a exibição da lista de médicos
     atualizarListaMedicos();
 }
+
+let medicosParaRemocao = []; // Lista de médicos selecionados para remoção
+
+// Função para adicionar médicos à lista de remoção
+async function adicionarMedicoRemocao() {
+  const selectElement = document.getElementById("remover-consulta-medico");
+  const medicoEmail = selectElement.value;
+  const medicoNome = selectElement.options[selectElement.selectedIndex].text;
+
+  // Verifica se um médico foi selecionado
+  if (!medicoEmail) {
+      alert("Por favor, selecione um médico para remoção.");
+      return;
+  }
+
+  // Verifica se o médico já foi adicionado
+  if (medicosParaRemocao.some(medico => medico.email === medicoEmail)) {
+      alert("Este médico já está na lista de remoção.");
+      return;
+  }
+
+  // Adiciona o médico à lista de remoção
+  medicosParaRemocao.push({ email: medicoEmail, nome: medicoNome });
+
+  // Atualiza a exibição da lista de médicos para remoção
+  atualizarListaMedicosRemocao();
+}
+
+// Função para atualizar a exibição da lista de médicos para remoção
+function atualizarListaMedicosRemocao() {
+  const ulElement = document.getElementById("medicos-remocao");
+  ulElement.innerHTML = ""; // Limpa a lista antes de adicionar novos médicos
+
+  medicosParaRemocao.forEach(medico => {
+      const li = document.createElement("li");
+      li.textContent = medico.nome;
+      ulElement.appendChild(li);
+  });
+}
+
+
+
+
+//Criar Prontidão de emergência
+async function criarProntidaoEmergencia(event) {
+  event.preventDefault(); // Impede o envio do formulário
+
+  const token = localStorage.getItem("token"); // Pega o token do localStorage
+  if (!token) {
+      console.error("Token não encontrado no localStorage");
+      return;
+  }
+
+  // Captura os dados do formulário
+  const data = document.getElementById("data-consulta").value;
+  let inicio = document.getElementById("hora-inicio").value;
+  let fim = document.getElementById("hora-fim").value;
+  inicio = `${inicio}:00`; // Adiciona os segundos
+  fim = `${fim}:00`;
+  
+
+  
+  // Verifica se todos os campos obrigatórios foram preenchidos
+  if (!data || !inicio || !fim || medicosAdicionados.length === 0) {
+      alert("Por favor, preencha todos os campos e adicione pelo menos um médico.");
+      return;
+  }
+
+  // Monta o corpo da requisição com os dados necessários
+  const prontidaoData = {
+      data,
+      inicio,
+      fim,
+      emails_medico: medicosAdicionados.map(medico => medico.email), // Envia a lista de médicos com o email
+  };
+  
+  const url = `http://${ip}:8080/api/prontidao`; // Altere para a URL correta da sua API
+
+  try {
+      const response = await fetch(url, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(prontidaoData),
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Prontidão criada com sucesso:", data);
+      alert("Prontidão de emergência criada com sucesso!");
+      // Você pode redirecionar ou limpar o formulário aqui, conforme necessário
+  } catch (error) {
+      console.error("Erro ao criar prontidão de emergência:", error);
+      alert("Erro ao criar prontidão de emergência.");
+  }
+}
+
+//ListarProntidão
+async function listarEmergencias(token) {
+  if (!token) {
+    console.error("Usuário não autenticado.");
+    return;
+  }
+
+  const url = `http://${ip}:8080/api/prontidao`;  // Atualize para o endpoint correto de emergências
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    renderEmergencias(data);
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+    const resultsTable = document.querySelector("table tbody");
+    resultsTable.innerHTML =
+      '<tr><td colspan="4">Erro ao listar emergências.</td></tr>';
+  }
+}
+
+function renderEmergencias(data) {
+  const resultsTable = document.querySelector("table tbody");
+
+  if (!resultsTable) {
+    console.error('Elemento "tbody" não encontrado.');
+    return;
+  }
+
+  resultsTable.innerHTML = "";  // Limpa a tabela antes de adicionar os novos dados
+
+  if (!Array.isArray(data)) {
+    console.error("Os dados fornecidos não são uma lista de emergências.");
+    return;
+  }
+
+  data.forEach((emergencia) => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>${emergencia.data || "Data não disponível"}</td>
+        <td>${emergencia.inicio || "Hora de Início não disponível"}</td>
+        <td>${emergencia.fim || "Hora de Fim não disponível"}</td>
+        <td>${emergencia.doctor && emergencia.doctor.email ? emergencia.doctor.email : "Médicos não disponíveis"}</td>
+        <td>${emergencia.doctor && emergencia.doctor.speciality && emergencia.doctor.speciality.length > 0 ? emergencia.doctor.speciality.join(', ') : "Especialidades não disponíveis"}</td>
+
+
+      `;
+
+    resultsTable.appendChild(row);
+  });
+}
+
+//Remover Prontidão
+
+async function removerProntidaoEmergencia() {
+  const token = localStorage.getItem("token"); // Recupera o token de autenticação
+
+  if (!token) {
+    console.error("Token não encontrado no localStorage");
+    return;
+  }
+
+  // Coleta os dados do formulário
+  const data = document.getElementById("remover-consulta-data").value;
+  let inicio = document.getElementById("remover-consulta-hora-inicio").value;
+  let fim = document.getElementById("remover-consulta-hora-fim").value;
+
+  inicio = `${inicio}:00`; // Adiciona os segundos
+  fim = `${fim}:00`;
+  
+
+  if (!data || !inicio || !fim || medicosParaRemocao.length === 0) {
+    alert("Por favor, preencha todos os campos e adicione médicos para remoção.");
+    return;
+  }
+
+  // Prepara os dados para enviar na requisição
+  const dadosRemocao = {
+    data,
+    inicio,
+    fim,
+    emails_medico: medicosParaRemocao.map(medico => medico.email), // Envia apenas os e-mails dos médicos
+  };
+
+  const url = `http://${ip}:8080/api/prontidao`; // URL da API para remoção de prontidão de emergência
+
+  try {
+    const response = await fetch(url, {
+      method: "DELETE", 
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dadosRemocao), // Converte o objeto para JSON
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const dataResposta = await response.json();
+    document.getElementById("remove-consulta-results").innerHTML = `
+      <p>Prontidão de emergência removida com sucesso.</p>
+    `;
+    console.log("Prontidão removida:", dataResposta);
+  } catch (error) {
+    console.error("Erro na remoção da prontidão de emergência:", error);
+    document.getElementById("remove-consulta-results").innerHTML = `
+      <p>Prontidão de emergência removida com sucesso.</p>
+    `;
+  }
+}
+
+
+
+
+
+
+
 
 function atualizarListaMedicos() {
     const listaMedicosElement = document.getElementById("medicos-adicionados");
@@ -836,7 +1188,7 @@ async function setupEventListeners2() {
       searchResults.style.display = "block"; // Mostra os resultados da pesquisa
     });
   } else {
-    console.error("Botão de pesquisa não encontrado");
+    console.error("Botão de pesquisa não encontrado(horarios)");
   }
   //Botão de adicionar médico
   const adicionarMedicoBtn = document.getElementById("adicionar-medico-btn");
@@ -846,11 +1198,43 @@ async function setupEventListeners2() {
   } else {
     console.error("Botão 'Adicionar Médico' não encontrado.");
   }
+
+  const adicionarMedicoRemocaoBtn = document.getElementById("remover-medico-btn");
+if (adicionarMedicoRemocaoBtn) {
+    adicionarMedicoRemocaoBtn.addEventListener("click", adicionarMedicoRemocao);
+} else {
+    console.error("Botão 'Adicionar Médico para Remoção' não encontrado.");
+}
+
+  //Formulârio de emergência
+  const formEmergencia = document.getElementById("form-emergencia");
+
+  if (formEmergencia) {
+      formEmergencia.addEventListener("submit", criarProntidaoEmergencia);
+  } else {
+      console.error("Formulário de emergência não encontrado.");
+  }
+
+  //Remoção formulario emerência
+  // Formulário de remoção de prontidão de emergência
+const formRemocaoEmergencia = document.getElementById("remove-emergencia-form");
+
+if (formRemocaoEmergencia) {
+    formRemocaoEmergencia.addEventListener("submit", (event) => {
+        event.preventDefault(); // Impede o envio padrão do formulário
+        removerProntidaoEmergencia(); // Chama a função para remover a prontidão
+    });
+} else {
+    console.error("Formulário de remoção de prontidão não encontrado.");
+}
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  setupDoctorForm();
+  setupUpdateDoctorForm();
   setupEventListeners2();
   preencherSelectEspecialidades("criar-doutor-speciality");
-  preencherSelectEspecialidades("criar-doutor-speciality");
   preencherSelectMedicosEmergencia();
+  preencherSelectMedicosParaRemocao();
 });

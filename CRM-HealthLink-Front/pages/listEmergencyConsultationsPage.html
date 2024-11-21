@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lista Geral</title>
+    <title>Lista de Consultas de Emergência</title>
     <link rel="icon" href="/images/logo2.png" type="image/png" />
     <link rel="stylesheet" href="/css/managerStyle.css" />
     <script src="/js/employee.js" defer></script>
-    <script src="/js/manager.js" refed></script>
+    <script src="/js/manager.js" defer></script>
 
     <style>
         html {
@@ -27,38 +27,40 @@
                 <button id="back-button" class="back-button">Voltar</button>
             </a>
         </div>
-        <h1>Lista de Consultas Registradas</h1>
+        <h1>Lista de Consultas de Emergência Registradas</h1>
     </header>
+
     <main>
-        <!-- Seção de Doutores -->
-        <section id="consultas" class="content-section" style="display: none;">
+        <!-- Seção de Consultas de Emergência -->
+        <section id="consultas-emergencia" class="content-section" style="display: none;">
             <div class="card">
-                <table>
+                <table id="consultas-emergencia-table">
                     <thead>
                         <tr>
                             <th>Data</th>
-                            <th>Horário Inicial</th>
-                            <th>Nome do Paciente</th>
-                            <th>Nome do Médico</th>
+                            <th>Hora de Início</th>
+                            <th>Hora de Fim</th>
+                            <th>Médico</th>
+                            <th>Especialidades</th>
+
                         </tr>
                     </thead>
-                    <tbody id="list-consultas-tbody">
-                        <!-- Dados das consultas serão inseridos aqui  -->
+                    <tbody id="consultas-emergencia-tbody">
+                        <!-- Dados das emergências serão inseridos aqui -->
                     </tbody>
                 </table>
             </div>
         </section>
-
-
     </main>
+
     <script>
         // Exibe a primeira seção por padrão
-        document.getElementById('consultas').style.display = 'block';
+        document.getElementById('consultas-emergencia').style.display = 'block';
 
-        // Chame a função listarPacientes após a página carregar
+        // Chame a função listarConsultasEmergencia após a página carregar
         document.addEventListener("DOMContentLoaded", () => {
             const token = localStorage.getItem("token"); // Substitua pelo método correto de obtenção do token
-            listarConsultas(token);
+            listarEmergencias(token);
         });
     </script>
 </body>

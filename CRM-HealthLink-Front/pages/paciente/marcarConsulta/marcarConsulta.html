@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marcar Consulta</title>
+  <link rel="icon" href="/images/logo2.png" type="image/png" />
+  <link rel="stylesheet" href="../home/pacienteStyle.css" />
+  <script src="../home/patient.js" defer></script>
+  <script src="marcarConsulta.js"></script>
+  <script src="render.js"></script>
+</head>
+
+
+<body onload="popularPacienteMarcarConsulta()">
+  <header>
+        <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
+        <h1 id="patientGetName"></h1>
+        <button onclick="voltarPacienteHome()" id = "back-button" class="back-button"><strong>Voltar</strong></button>
+  </header>
+
+  <section class="schedule-appointment">
+        <div class="pacienteMarcarConsultaContainer">
+
+        </div>
+    </section>
+
+    <script>
+      function getNome() {
+        var userName = localStorage.getItem("userName");
+        var patientGetName = document.getElementById("patientGetName");
+        if (userName) {
+          patientGetName.textContent = `Selecione sua marcação, ${userName}`
+        } else {
+          patientGetName.textContent = `Selecione sua marcação`
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        getNome(); // Chama a função ao carregar a página
+      });
+    </script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setupEventListeners();
+            updateUserName();
+        });
+    </script>
+</body>
+</html>

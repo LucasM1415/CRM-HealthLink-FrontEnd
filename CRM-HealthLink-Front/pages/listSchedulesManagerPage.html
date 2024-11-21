@@ -106,6 +106,7 @@
 
         // Chame a função listarPacientes após a página carregar
         document.addEventListener("DOMContentLoaded", () => {
+            preencherSelectEspecialidades("specialization-search");
             const token = localStorage.getItem("token"); // Substitua pelo método correto de obtenção do token
             listarConsultas(token);
         });
