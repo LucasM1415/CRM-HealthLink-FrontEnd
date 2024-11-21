@@ -31,7 +31,6 @@ async function buscarPaciente(token, emailPaciente) {
   }
 }
 
-// Função para renderizar os dados do paciente
 function renderPaciente(data) {
   const resultsDiv = document.getElementById("resultsGet");
   resultsDiv.innerHTML = "";
@@ -53,7 +52,7 @@ function renderPaciente(data) {
 
 // Adiciona evento de submit ao formulário
 document
-  .getElementById("paciente-form")
+  .getElementById("paciente-form") 
   .addEventListener("submit", async function (event) {
     event.preventDefault();
 
@@ -70,6 +69,10 @@ document
 
     await buscarPaciente(token, emailPaciente);
   });
+
+
+
+
 
 //Listar paciente
 async function listarPacientes(token) {
@@ -134,6 +137,10 @@ function renderPacientes(data) {
     resultsTable.appendChild(row);
   });
 }
+
+
+
+
 
 //criar paciente
 async function criarPaciente(token, data) {
@@ -240,6 +247,10 @@ async function setupPacienteForm() {
   }
 }
 
+
+
+
+
 // Remover paciente
 async function removerPaciente(token, emailPaciente) {
   if (!token) {
@@ -284,6 +295,7 @@ async function handleRemovalResult(status, token) {
       break;
 
     case "error":
+      resultsDiv.innerText = "Erro ao remover paciente.";
       if (token) {
         await listarPacientes(token); // Atualiza a lista de pacientes
         await listarConsultas(token);
@@ -301,7 +313,6 @@ async function handleRemovalResult(status, token) {
 document
   .getElementById("remover-paciente-form")
   .addEventListener("submit", async function (event) {
-    event.preventDefault();
 
     const token = localStorage.getItem("token");
     const emailPaciente = document.getElementById(
@@ -311,28 +322,10 @@ document
     await removerPaciente(token, emailPaciente);
   });
 
-async function configureConsultaRemovalListeners() {
-  const form = document.getElementById("remover-consulta-form");
 
-  if (form) {
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
 
-      const consultaId = document
-        .getElementById("remover-consulta-id")
-        .value.trim();
-      const token = localStorage.getItem("token");
 
-      if (consultaId === "") {
-        document.getElementById("consulta-results").innerText =
-          "Por favor, insira o ID da consulta.";
-        return;
-      }
 
-      await removerConsulta(token, consultaId);
-    });
-  }
-}
 
 //Atualizar paciente
 async function atualizarPaciente(token, data) {
@@ -396,6 +389,10 @@ async function handleUpdateResult(status) {
   }
 }
 
+
+
+
+
 //Obter médico
 async function buscarMedico(token, emailDoctor) {
   if (!token) {
@@ -442,6 +439,10 @@ function renderMedico(data) {
     resultsDiv.innerText = "Nenhum médico encontrado.";
   }
 }
+
+
+
+
 
 //listar medicos
 async function listarMedicos(token) {
@@ -498,6 +499,10 @@ function renderMedicos(medicos) {
 }
 
 
+
+
+
+
 //Criar consulta
 async function criarNovaConsulta() {
   const token = localStorage.getItem("token");
@@ -524,8 +529,6 @@ async function criarNovaConsulta() {
 
  // Separar o horário inicial e final do valor selecionado
  const [horaInicial, horaFinal] = horarioSelecionado.split(" - ");
- console.log("Hora Inicial:", horaInicial);
- console.log("Hora Final:", horaFinal);
 
  if (!horaInicial || !horaFinal) {
    alert("Por favor, selecione um horário válido.");
@@ -541,8 +544,6 @@ async function criarNovaConsulta() {
    fim: horaFinal.trim(),
  };
 
- console.log("Corpo da Requisição:", corpoRequisicao);
-
   const url = `http://${ip}:8080/api/appointment`;
 
   try {
@@ -556,7 +557,6 @@ async function criarNovaConsulta() {
     });
 
     if (response.status === 201) {
-      console.log("Consulta criada com sucesso.");
       alert("Consulta criada com sucesso.");
     } else {
       // Só tenta ler a resposta como JSON se houver conteúdo
@@ -579,6 +579,10 @@ async function criarNovaConsulta() {
   }
 }
 
+
+
+
+
 // Função para buscar horários disponíveis da API
 async function buscarHorariosDisponiveis(especialidade, data) {
   const token = localStorage.getItem("token");
@@ -587,9 +591,7 @@ async function buscarHorariosDisponiveis(especialidade, data) {
     return [];
   }
 
-  const url = `http://${ip}:8080/api/calendario/disponibilidades/${encodeURIComponent(data)}/${encodeURIComponent(especialidade)}`; //encodeURIComponent(data)
-
-  console.log(url)
+  const url = `http://${ip}:8080/api/calendario/disponibilidades/${encodeURIComponent(data)}/${encodeURIComponent(especialidade)}`;
 
   try {
     const response = await fetch(url, {
@@ -640,6 +642,10 @@ function renderizarHorariosSelect(horarios) {
   });
 }
 
+
+
+
+
 // Função para preencher os horários quando a data ou especialidade forem alteradas
 async function preencherHorarios() {
   const data = document.getElementById("criar-consulta-data").value;
@@ -679,6 +685,8 @@ document.getElementById("criar-consulta-especialidade").addEventListener("change
 
 
 
+
+
 //Listar consultas
 async function listarConsultas(token) {
   if (!token) {
@@ -703,7 +711,6 @@ async function listarConsultas(token) {
 
     const data = await response.json();
     renderConsultas(data);
-
   } catch (error) {
     console.error("Erro na requisição:", error);
     const resultsTable = document.querySelector("#list-consultas-tbody");
@@ -736,6 +743,10 @@ function renderConsultas(consultas) {
     tableBody.appendChild(row);
   });
 }
+
+
+
+
 
 async function preencherSelectPacientes() {
   const token = localStorage.getItem("token");
@@ -783,11 +794,15 @@ function renderPacientesSelect(pacientes) {
 
   pacientes.forEach((paciente) => {
     const option = document.createElement("option");
-    option.value = paciente.email; 
+    option.value = paciente.email;
     option.textContent = paciente.name || "Nome não disponível";
     selectElement.appendChild(option);
   });
 }
+
+
+
+
 
 async function preencherSelectMedicos() {
   const token = localStorage.getItem("token");
@@ -871,6 +886,10 @@ function renderMedicosSelect(medicos) {
 }
 
 
+
+
+
+
 //Preencher select de especialidade
 async function preencherSelectEspecialidades(selectId) {
   const token = localStorage.getItem("token");
@@ -901,8 +920,6 @@ async function preencherSelectEspecialidades(selectId) {
   }
 }
 
-
-
 function renderEspecialidadesSelect(especialidades, selectId) {
   const selectElement = document.getElementById(selectId);
 
@@ -913,11 +930,6 @@ function renderEspecialidadesSelect(especialidades, selectId) {
 
   selectElement.innerHTML = "";
 
-  const optionDefault = document.createElement("option");
-  optionDefault.value = "";
-  optionDefault.textContent = "Selecione uma especialidade";
-  selectElement.appendChild(optionDefault);
-
   especialidades.forEach((especialidade) => {
     const option = document.createElement("option");
     option.value = especialidade; // O valor da especialidade em si, Ñ ESTÁ PEGANDO
@@ -926,6 +938,9 @@ function renderEspecialidadesSelect(especialidades, selectId) {
   });
 
 }
+
+
+
 
 
 //Obter Consultas
@@ -942,15 +957,9 @@ async function buscarConsulta(event) {
     alert("Por favor, preencha todos os campos.");
     return;
   }
-    //emailDoctor    -    emailPaciente       -        date      -       horaInicio
-  const url = `http://${ip}:8080/api/appointment?emailMedico=${
-    emailDoctor
-  }&emailPaciente=${emailPaciente}&date=${
-    date
-  }&inicio=${horaInicio}:00`; // Inclua horaInicio na URL, se necessário
-  
-  console.log("URL da requisição:", url);
 
+  const url = `http://${ip}:8080/api/appointment?emailMedico=${emailDoctor}&emailPaciente=${emailPaciente}&date=${date}&inicio=${horaInicio}:00`; // Inclua horaInicio na URL, se necessário
+  
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -996,14 +1005,9 @@ document.getElementById("consulta-form").addEventListener("submit", function(eve
 
 
 
+
 // Função para remover consulta
-async function removerConsulta(
-  token,
-  emailPaciente,
-  emailDoctor,
-  dataConsulta,
-  horaInicio
-) {
+async function removerConsulta(token, emailPaciente, emailDoctor, dataConsulta, horaInicio) {
   if (!token) {
     alert("Usuário não autenticado.");
     return;
@@ -1079,7 +1083,6 @@ async function setupRemovalEventListeners() {
 
       const emailPaciente = document.getElementById("remover-consulta-email-paciente").value.trim();
       const emailDoctor = document.getElementById("remover-consulta-email-doctor").value.trim();
-<<<<<<< HEAD
       const dataConsulta = document.getElementById("remover-consultaData").value.trim();
       const horaInicio = document.getElementById("remover-consulta-horaInicio").value.trim(); 
       const token = localStorage.getItem("token");
@@ -1095,6 +1098,8 @@ async function setupRemovalEventListeners() {
 }
 
 setupRemovalEventListeners();
+
+
 
 
 // Função para atualizar uma consulta
@@ -1210,6 +1215,8 @@ async function setupUpdateConsultaForm() {
 setupUpdateConsultaForm();
 
 
+
+
 function tokenValidation() {
   var token = localStorage.getItem("token");
   var userid = localStorage.getItem("id");
@@ -1223,6 +1230,8 @@ function tokenValidation() {
 }
 
 tokenValidation();
+
+
 
 function singOut() {
   if (typeof localStorage !== "undefined") {
@@ -1260,6 +1269,7 @@ async function setupEventListeners() {
     });
   }
 
+
   const backButton = document.getElementById("back-button");
 
   if (backButton) {
@@ -1280,6 +1290,7 @@ async function setupEventListeners() {
     }
   }
 
+
   const updateForm = document.getElementById("update-paciente-form");
   if (updateForm) {
     updateForm.addEventListener("submit", async (event) => {
@@ -1296,6 +1307,7 @@ async function setupEventListeners() {
       await atualizarPaciente(token, data);
     });
   }
+
 
   const medicoForm = document.getElementById("medico-form");
   if (medicoForm) {
@@ -1320,6 +1332,7 @@ if (consultaForm) {
   });
 }
 
+
 const formCriarConsulta = document.getElementById("form-criar-consulta");
 if (formCriarConsulta) {
   formCriarConsulta.addEventListener("submit", async (event) => {
@@ -1328,6 +1341,7 @@ if (formCriarConsulta) {
     await listarConsultas();
   });
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   setupEventListeners();
