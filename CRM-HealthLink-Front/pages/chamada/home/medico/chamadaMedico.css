@@ -1,0 +1,34 @@
+.container-medico{
+    display: flex;
+    height: 90vh;
+    flex-direction: column;
+}
+
+.container-consultas-agendadas{
+    
+    flex: 2;
+}
+.container-prontidao{
+    flex: 1;
+}
+.card-consulta-online{
+    display: inline-block;
+    color: white;
+    background-color: rgb(186, 231, 216);
+    width: 20%;
+    padding: 1em;
+    margin: 0.4em;
+    cursor: pointer;
+}
+.card-consulta-online:hover{
+    background-color: rgb(120, 194, 194);
+}
+.card-consulta-online a {
+    color: rgb(116, 255, 181);
+    text-decoration: none;
+    cursor: pointer;
+    
+}
+.card-consulta-online a:hover {
+    color: rgb(75, 168, 89);
+}
