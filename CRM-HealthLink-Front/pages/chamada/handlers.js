@@ -1,71 +1,63 @@
 let peerConnection;
-let sendTo;
-const remoteVideo = document.getElementById("remoteVideo")
-
-let localStream;
-
-async function getPermissions(){
-    localStream = await navigator.mediaDevices.getUserMedia({audio: true})
-    btnI.disabled = true;
-    btnS.disabled = false;
-    client.publish({destination: sendTo, body: JSON.stringify({type: 'ready'})})
-}
 
 function criarConnection(){
     peerConnection = new RTCPeerConnection()
     
     peerConnection.onicecandidate = e => {
-        const message = {
-          type: 'candidate',
-          candidate: null,
-        };
-        if (e.candidate) {
-          message.candidate = e.candidate.candidate;
-          message.sdpMid = e.candidate.sdpMid;
-          message.sdpMLineIndex = e.candidate.sdpMLineIndex;
-        }
-        client.publish({destination: sendTo,body: JSON.stringify(message)});
-      };
-    peerConnection.ontrack = e => remoteVideo.srcObject = e.streams[0];
-    localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+        MessageManager.candidate(e)
+    };
+    peerConnection.ontrack = e => DeviceManager.remoteVideoElement.srcObject = e.streams[0];
+    DeviceManager.localStream.getTracks()
+    .forEach(track => peerConnection.addTrack(track, DeviceManager.localStream));
     
 }
-async function conectar(){
+
+async function handleOffer(e){
+    const sdp = e.detail.sdp
     criarConnection();
+    MessageManager.sendToUser = sdp["sendTo"];
+    
+    delete sdp.sendTo;
+
+    await peerConnection.setRemoteDescription(sdp)
+    const answer = await peerConnection.createAnswer();
+    MessageManager.send(answer)
+    await peerConnection.setLocalDescription(answer)
+}
+async function handleAnswer(e){
+    await peerConnection.setRemoteDescription(e.detail.sdp)
+}
+
+async function handleDoOffer(e){
+    const sdp =e.detail.sdp
+
+    MessageManager.sendToUser = sdp["sendTo"];
+    criarConnection()
 
     const offer = await peerConnection.createOffer();
-    client.publish({destination: sendTo,body: JSON.stringify(offer)})
     await peerConnection.setLocalDescription(offer)
-    
-}
-function handleProntidao(msg){
-  sendTo = "/app/sendTo/"+msg['sendTo']
-  const prontidaoMsg = {
-    type: "prontidaoResposta",
-    sendTo: localStorage.getItem("email")
-  }
-  client.publish({destination: sendTo , body: JSON.stringify(prontidaoMsg)});
+    offer.sendTo = localStorage.getItem("email");
+    MessageManager.send(offer)
 }
 
-function handleProntidaoResposta(msg){
-  sendTo = "/app/sendTo/"+msg['sendTo']
+async function handleCandidate(e){
+    const sdp = e.detail.sdp
+    if (!sdp.candidate) {
+        await peerConnection.addIceCandidate(null);
+      } else {
+        await peerConnection.addIceCandidate(sdp);
+      }
 }
-async function handleOffer(sdp){
-  criarConnection();
+//function handleHangout(sdp){}
 
-  await peerConnection.setRemoteDescription(sdp)
-  const answer = await peerConnection.createAnswer();
-  client.publish({destination: sendTo, body: JSON.stringify(answer)})
-  await peerConnection.setLocalDescription(answer)
-}
-async function handleCandidate(sdp){
-  if (!sdp.candidate) {
-    await peerConnection.addIceCandidate(null);
-  } else {
-    await peerConnection.addIceCandidate(sdp);
-  }
-}
 
-async function handleAnswer(sdp){
-  await peerConnection.setRemoteDescription(sdp)
-}
+EventDispatcher.dispatcher.addEventListener("offer",(e)=>{
+    handleOffer(e);
+    document.getElementsByClassName("loader-container")[0].style.display = "none"
+    DeviceManager.remoteVideoElement.style.display = "block"
+})
+
+EventDispatcher.dispatcher.addEventListener("answer",handleAnswer)
+EventDispatcher.dispatcher.addEventListener("candidate",handleCandidate)
+EventDispatcher.dispatcher.addEventListener("doOffer",handleDoOffer)
+//EventDispatcher.dispatcher.addEventListener("hangout",handleOffer)

@@ -16,44 +16,44 @@
       <h1 id="welcome-message"></h1>
       <button id="back-button" class="back-button" onclick="logout()"><strong>Logout</strong></button>
     </header>
-
-  <section class="patient-data">
-    <div class="exams">
-      <h2>Meus Exames</h2>
-      <ul id="exams-list">
-        <!-- Aqui os dados de exames serão inseridos dinamicamente -->
-      </ul>
-    </div>
-
-      <div class="appointments">
-        <h2>Minhas Consultas</h2>
-        <ul id="appointments-list">
-          <!-- Aqui os dados de consultas serão inseridos dinamicamente -->
+    <section class="patient-data">
+      <div class="exams">
+        <h2>Meus Exames</h2>
+        <ul id="exams-list">
+          <!-- Aqui os dados de exames serão inseridos dinamicamente -->
         </ul>
       </div>
-    </section>
-
-    <section class="schedule-appointment"> 
-      <h2>Agendar Consulta</h2>
-
-      <label for="especialidadeSelect">Selecione uma Especialidade: </label>
-      <select name="especialidadeSelect" id="especialidadeSelect"></select>
-
-      <br>
-
-      <label for="dataSelect">Selecione uma data: </label>
-      <input type="date" id="dataSelect"></input>
-
-      <br>
   
-      <button id="submit-button" class="submit-button" onclick="irParaMarcarConsulta()">
-        <strong>Marcar Consulta</strong>
-      </button>
-    </section>
-    <div class="paciente-atendimento-remoto-container">
-      <a href="../../chamada/home/paciente/chamadaPaciente.html">Atendimento Remoto</a>
-    </div>
+        <div class="appointments">
+          <h2>Minhas Consultas</h2>
+          <ul id="appointments-list">
+            <!-- Aqui os dados de consultas serão inseridos dinamicamente -->
+          </ul>
+        </div>
+      </section>
+    <div class="schedule-appointment">
+      <section class="section-agendar-consulta-online"> 
+        <h2>Agendar Consulta</h2>
 
+        <label for="especialidadeSelect">Selecione uma Especialidade: </label>
+        <select name="especialidadeSelect" id="especialidadeSelect"></select>
+
+        <br>
+
+        <label for="dataSelect">Selecione uma data: </label>
+        <input type="date" id="dataSelect"></input>
+
+        <br>
+    
+        <button id="submit-button" class="submit-button" onclick="irParaMarcarConsulta()">
+          <strong>Marcar Consulta</strong>
+        </button>
+        
+      </section>
+      <div class="paciente-atendimento-remoto-container">
+        <a href="../../chamada/paciente/chamadaPacienteProntidao.html">Prontidão</a>
+      </div>
+    </div>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         setupEventListeners();
