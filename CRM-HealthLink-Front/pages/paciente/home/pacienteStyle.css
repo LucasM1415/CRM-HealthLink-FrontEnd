@@ -106,10 +106,12 @@ header .user-info img {
 
 .schedule-appointment {
     background-color: white;
-    padding: 15px;
+    padding: 0.2em;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 20px;
+    display: flex;
+    height: 30vh;
 }
 
 .schedule-appointment h2 {
@@ -407,4 +409,34 @@ ul {
 .expanded-content p {
     margin: 5px 0;
     text-align: center;
+}
+
+.paciente-atendimento-remoto-container a{
+    text-decoration: none;
+    color: #1B1B1B  ;
+    font-weight: 700;
+    height: 8vh;
+    width: 50%;
+    background-color:#eeee67;
+    align-content: center;
+    text-align: center;
+    border-radius: 12px;
+}
+.paciente-atendimento-remoto-container a:hover {
+    background-color:#C0CA33;
+}
+.paciente-atendimento-remoto-container {
+    border-left: 2px solid #eeee67;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.section-agendar-consulta-online{
+    flex: 2;
+}
+.paciente-atendimento-remoto-container iframe{
+    height: 100%;
+    width: 100%;
 }
