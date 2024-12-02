@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prontidao</title>
+    <script src="../stomp.js"></script>
+    <link rel="stylesheet" href="chamaPacienteProntidao.css">
+</head>
+<body>
+    <div class="loader-container">
+        <div class="loader"></div>
+        Aguardando um Médico
+    </div>
+    <video style="display: none" id="remoteVideo" autoplay></video>
+    <script src="../eventDispatcher.js"></script>
+    <script src="../deviceManager.js"></script>
+    <script src="../onConnect.js"></script>
+    <script src="../handlers.js"></script>
+    <script src="../ws.js"></script>
+    
+    <script>
+
+        WsConnFac.get(onConnectPatientProntidao)
+    </script>
+</body>
+</html>
