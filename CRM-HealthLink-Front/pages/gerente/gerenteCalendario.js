@@ -28,6 +28,7 @@ async function cadastrarHorario(day) {
     "vagas": vagas
   }
     ;
+    console.log(requestBody.date)
 
   try {
     const response = await fetch(url, {

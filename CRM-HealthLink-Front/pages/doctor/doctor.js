@@ -63,7 +63,17 @@ async function mostraHorarios(day) {
 
   const dataEscolhida = `${year}-${month}-${day}`;
 
-  const agendamentosFiltrados = datas.filter(agendamento => agendamento.date === dataEscolhida);
+  for(var x in datas){
+    if(datas[x].date === dataEscolhida){
+
+    }
+    console.log(datas[x].date)
+    //console.log(dataEscolhida)
+  }
+  var agendamentosFiltrados = datas.filter(agendamento => agendamento.date === dataEscolhida);
+
+
+  console.log(agendamentosFiltrados)
   if (agendamentosFiltrados.length === 0) {
     
     renderizarGerenteCalendario();
@@ -113,8 +123,7 @@ async function gerarCardDia(qtd) {
   const primeiroDiaSemana = new Date(year, month - 1, 1).getDay(); // 0 = domingo, 1 = segunda, etc.
 
   const cards = [];
-  console.log(`Quantidade de dias no mês: ${qtd}`);
-  console.log(`Primeiro dia da semana: ${primeiroDiaSemana}`);
+ 
 
   // Adiciona placeholders (dias vazios) no início
   for (let i = 0; i < primeiroDiaSemana; i++) {
@@ -235,7 +244,6 @@ async function pegaDatasDisponives(specialty, agendamento, month, year) {
         Accept: "application/json",
       },
     }).then(res => res.json());
-
     if (!response) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
