@@ -59,7 +59,7 @@ function handleLogin(event) {
           localStorage.setItem('email', data.email)
           localStorage.setItem('acessLeval', data.acessLevel)
           console.log('Login successful:', data);
-          window.location.href = '/pages/atendente/home/employeePage.html';
+          window.location.href = '/pages/atendente/home/attendantPage.html'; // Tela Primeira Versão'/pages/atendente/home/employeePage.html'
           break;
         case 'MANAGER':
           localStorage.setItem('token', data.token)
