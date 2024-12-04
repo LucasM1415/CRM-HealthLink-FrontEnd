@@ -1,0 +1,277 @@
+
+
+/* Geral */
+table tr td {
+    vertical-align: middle;
+}
+
+table tr th {
+    text-align: center; 
+    vertical-align: middle; 
+    color: #000000; 
+}
+
+td button {
+    margin: 5px;
+}
+
+td button i {
+    font-size: 20px;
+}
+
+.btn-primary {
+    color: #000000;
+    background-color: #0d6efd;
+}
+
+.btn-success {
+    color: #000000;
+    background-color: #45a049;
+}
+
+.btn-danger {
+    color: #000000;
+    background-color: #dc3545;
+}
+
+
+/* Modal Principal */
+.modal-header {
+    background: #45a049;
+    color: #fff;
+}
+
+.modal-body form {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.modal-body form .imgholder {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid #000000;
+}
+
+.imgholder .upload {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.upload i {
+    color: #fff;
+    font-size: 35px;
+    transition: transform 0.2s;
+}
+
+.imgholder:hover .upload {
+    display: flex;
+    
+}
+
+.imgholder:hover .upload i {
+    transform: scale(1.1);
+    
+}
+
+.imgholder .upload input {
+    display: none;
+    
+}
+
+/* Linha vertical que separa Foto de perfil dos dados do usuario */
+.modal-body form .inputField {
+    flex-basis: 68%;
+    border-left: 3px groove rgb(0, 0, 0);
+    padding-left: 20px;
+}
+
+/* Rótulos dos dados do usuário */
+form .inputField > div {
+    width: 100%;
+    color: #000000;
+    display: flex;
+    justify-content: left;  /* space-between */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+form .inputField > div label {
+    font-size: 20px;
+    font-weight: 500;
+    color: #000000;
+}
+
+#userForm form .inputField > div label::after {
+    content: "*";
+    color: red;
+}
+
+/* Sublinhado dos Dados de Atualização do Usuário */
+form .inputField > div input {
+    width: 75%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-bottom: 2px solid #000000;
+    transition: border-color 0.3s;
+}
+
+form .inputField > div input:focus {
+    border-bottom: 2px solid #0d6efd;
+}
+
+/* Botão de Enviar/Atual */
+.modal-footer .submit {
+    font-size: 18px;
+    background-color: #45a049;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-footer .submit:hover {
+    background-color: #309135;
+}
+
+/* Modal de Leitura */
+#readData form .inputField > div input {
+    color: #000000;
+    font-size: 18px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+/* Modal de Confirmação de Exclusão */
+#deleteModal {
+    display: none; /* Modal escondido inicialmente */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    background-color: rgba(255, 255, 255, 0.596);
+    padding: 220px;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#deleteModal.show {
+    display: flex; /* Modal visível ao adicionar a classe 'show' */
+}
+
+
+#deleteModal .modal-content {
+    background-color: #ffffff;
+    padding: 20px 40px;
+    gap: 7px;
+    border-radius: 15px;
+    text-align: center;
+    width: 400px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
+    animation: scaleUp 0.3s ease-in-out;
+}
+
+#deleteModal .modal-content h4 {
+    font-size: 23px;
+    margin-bottom: 18px;
+    color: #000000;
+    font-weight: bold;
+}
+
+#deleteModal .modal-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#deleteModal .modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+#deleteModal .modal-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#deleteModal .modal-buttons .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    font-weight: bold;
+}
+
+#deleteModal .modal-buttons .btn-danger:hover {
+    background-color: #a71d2a;
+}
+
+#deleteModal .modal-buttons .btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    font-weight: bold;
+}
+
+#deleteModal .modal-buttons .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Botão de Fechamento no Modal */
+#deleteModal .close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#deleteModal .close:hover {
+    color: #333;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.9);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+
