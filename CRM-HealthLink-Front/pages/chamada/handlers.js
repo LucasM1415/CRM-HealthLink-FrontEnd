@@ -13,8 +13,8 @@ function criarConnection(){
         MessageManager.candidate(e)
     };
     peerConnection.ontrack = e => DeviceManager.remoteVideoElement.srcObject = e.streams[0];
-    DeviceManager.localStream.getTracks()
-    .forEach(track => peerConnection.addTrack(track, DeviceManager.localStream));
+    DeviceManager.localStream.getTracks().forEach(track => peerConnection.addTrack(track, DeviceManager.localStream));
+    
     
 }
 
@@ -61,12 +61,14 @@ EventDispatcher.dispatcher.addEventListener("offer",(e)=>{
     handleOffer(e);
     document.getElementsByClassName("loader-container")[0].style.display = "none"
     DeviceManager.remoteVideoElement.style.display = "block"
+    DeviceManager.localVideoElement.style.display = "block"
 })
 
 EventDispatcher.dispatcher.addEventListener("doOffer",(e)=>{
     handleDoOffer(e);
     document.getElementsByClassName("loader-container")[0].style.display = "none"
     DeviceManager.remoteVideoElement.style.display = "block"
+    DeviceManager.localVideoElement.style.display = "block"
 })
 
 EventDispatcher.dispatcher.addEventListener("answer",handleAnswer)
