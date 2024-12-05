@@ -28,4 +28,45 @@
         transform: rotate(360deg);
     }
 }
+
+
+
+.videos-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; 
+    overflow: hidden;
+  }
+  
+  
+  .video-remoto {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover; 
+    z-index: 1; 
+  }
+  
+  
+  .video-overlay {
+    position: absolute;
+    top: 10%; 
+    left: 10%; 
+    width: 25%; 
+    height: auto; 
+    z-index: 2; 
+    border-radius: 15px; 
+    border: 2px solid white; 
+    left: 0;
+  }
+  
+  
+  .video-me {
+    width: 100%; 
+    height: auto; 
+    border-radius: 15px; 
+  }
+  
   
