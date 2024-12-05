@@ -1,4 +1,3 @@
-const ip = 'localhost';
 
 function handleLogin(event) {
   event.preventDefault();
@@ -13,7 +12,7 @@ function handleLogin(event) {
     return;
   }
 
-  const url = `http://${ip}:8080/auth/login`;
+  const url = `https://crm-healthlink.onrender.com/auth/login`;
 
   const body = {
     email,

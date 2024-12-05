@@ -17,7 +17,7 @@ async function cadastrarHorario(day) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/calendario`;
+  const url = `https://crm-healthlink.onrender.com/api/calendario`;
 
   const requestBody = {
     "date": `${ano}-${mes}-${dia.padStart(2, '0')}`,
@@ -126,7 +126,7 @@ async function preencherSelectTipoAgendamentos(selectId) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/alltipoagendamentos`;
+  const url = `https://crm-healthlink.onrender.com/api/employee/alltipoagendamentos`;
 
   try {
     const response = await fetch(url, {

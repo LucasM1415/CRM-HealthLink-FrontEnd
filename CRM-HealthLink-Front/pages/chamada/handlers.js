@@ -1,7 +1,13 @@
 let peerConnection;
 
 function criarConnection(){
-    peerConnection = new RTCPeerConnection()
+    peerConnection = new RTCPeerConnection(
+        {
+            iceServers: [
+              { urls: 'stun:stun.l.google.com:19302' }
+            ]
+          }
+    );
     
     peerConnection.onicecandidate = e => {
         MessageManager.candidate(e)
@@ -57,7 +63,13 @@ EventDispatcher.dispatcher.addEventListener("offer",(e)=>{
     DeviceManager.remoteVideoElement.style.display = "block"
 })
 
+EventDispatcher.dispatcher.addEventListener("doOffer",(e)=>{
+    handleDoOffer(e);
+    document.getElementsByClassName("loader-container")[0].style.display = "none"
+    DeviceManager.remoteVideoElement.style.display = "block"
+})
+
 EventDispatcher.dispatcher.addEventListener("answer",handleAnswer)
 EventDispatcher.dispatcher.addEventListener("candidate",handleCandidate)
-EventDispatcher.dispatcher.addEventListener("doOffer",handleDoOffer)
+//EventDispatcher.dispatcher.addEventListener("doOffer",handleDoOffer)
 //EventDispatcher.dispatcher.addEventListener("hangout",handleOffer)

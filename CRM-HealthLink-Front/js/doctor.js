@@ -1,4 +1,3 @@
-const ip = 'localhost';
 
 async function listar_exames(token, doctorEmail) {
   if (!token) {
@@ -6,7 +5,7 @@ async function listar_exames(token, doctorEmail) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/doctor/exams/${doctorEmail}`;
+  const url = `https://crm-healthlink.onrender.com/api/doctor/exams/${doctorEmail}`;
 
   fetch(url, {
     method: 'GET',
@@ -35,7 +34,7 @@ async function listar_consultas(token, doctorEmail) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/doctor/appointment/${doctorEmail}`;
+  const url = `https://crm-healthlink.onrender.com/api/doctor/appointment/${doctorEmail}`;
 
   fetch(url, {
     method: 'GET',
@@ -59,7 +58,7 @@ async function listar_consultas(token, doctorEmail) {
 }
 
 async function obterConsultas(token, doctorEmail) {
-  const url = `http://${ip}:8080/api/doctor/appointment/${doctorEmail}`;
+  const url = `https://crm-healthlink.onrender.com/api/doctor/appointment/${doctorEmail}`;
 
   try {
     const response = await fetch(url, {
@@ -111,7 +110,7 @@ async function criar_exame(token, data) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/doctor`;
+  const url = `https://crm-healthlink.onrender.com/api/doctor`;
 
   const requestBody = {
     fk_appointment: data['fk-appointment'],
@@ -145,7 +144,7 @@ async function criar_exame(token, data) {
 }
 
 async function obterEspecialidades(token) {
-  const url = `http://${ip}:8080/api/calendario/specialty`;
+  const url = `https://crm-healthlink.onrender.com/api/calendario/specialty`;
 
   try {
     const response = await fetch(url, {

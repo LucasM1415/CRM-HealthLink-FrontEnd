@@ -3,7 +3,7 @@ class DeviceManager {
     static remoteVideoElement = document.getElementById("remoteVideo");
 
     static async getPermissions(){
-        DeviceManager.localStream = await navigator.mediaDevices.getUserMedia({audio: true})
+        DeviceManager.localStream = await navigator.mediaDevices.getUserMedia({video: true,audio: true})
     }
 
 }

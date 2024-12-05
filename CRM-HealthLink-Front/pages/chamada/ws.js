@@ -3,7 +3,7 @@ class WsConnFac {
 
     static createClient(){
         WsConnFac.client = new StompJs.Client({
-            brokerURL: `ws://localhost:8080/ws?token=${localStorage.getItem("token")}`,
+            brokerURL: `https://crm-healthlink.onrender.com/ws?token=${localStorage.getItem("token")}`,
           connectHeaders: {
             login: 'user',
             passcode: 'password'

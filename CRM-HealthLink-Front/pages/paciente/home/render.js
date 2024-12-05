@@ -1,5 +1,5 @@
 const especialidades = async ()=>{
-    const response = await fetch("http://localhost:8080/api/employee/allspecialities", {
+    const response = await fetch("https://crm-healthlink.onrender.com/api/employee/allspecialities", {
         method: "GET",
         headers: {
             'Authorization': `Bearer ${localStorage.getItem("token")}`,
@@ -19,7 +19,7 @@ const especialidades = async ()=>{
 
 }
 const minhasConsultas = async ()=> {
-    const response = await fetch(`http://localhost:8080/api/patient/appointments/${localStorage.getItem("email")}`, {
+    const response = await fetch(`https://crm-healthlink.onrender.com/api/patient/appointments/${localStorage.getItem("email")}`, {
         method: "GET",
         headers: {
             'Authorization': `Bearer ${localStorage.getItem("token")}`,
