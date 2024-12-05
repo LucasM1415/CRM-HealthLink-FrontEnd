@@ -40,7 +40,7 @@ async function popularPacienteMarcarConsulta(){
         window.location.href= "/pages/login.html";
     }
     document.getElementsByClassName(containerPacienteMarcarConsultaClassName)[0].innerHTML = ""
-    const response = await fetch(`http://localhost:8080/api/calendario/disponibilidades/${localStorage.getItem("especialidade")}/${localStorage.getItem("dataSelect")}`,{
+    const response = await fetch(`https://crm-healthlink.onrender.com/api/calendario/disponibilidades/${localStorage.getItem("especialidade")}/${localStorage.getItem("dataSelect")}`,{
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`,

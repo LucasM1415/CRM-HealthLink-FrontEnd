@@ -5,7 +5,7 @@ async function criarMedico(token, data) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/doctor`;
+  const url = `https://crm-healthlink.onrender.com/api/employee/doctor`;
 
   const requestBody = {
     name: data["criar-doutor-nome"],
@@ -115,7 +115,7 @@ async function atualizarMedico(token, data) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/doctor`;
+  const url = `https://crm-healthlink.onrender.com/api/employee/doctor`;
 
   const requestBody = {
     name: data["update-doutor-nome"],
@@ -220,7 +220,7 @@ async function criarFuncionario(token, data) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/create/employee`;
+  const url = `https://crm-healthlink.onrender.com/api/employee/create/employee`;
 
   const requestBody = {
     name: data["criar-funcionario-nome"],
@@ -261,7 +261,7 @@ async function obterFuncionario(token, emailFuncionario) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/${emailFuncionario}`;
+  const url = `https://crm-healthlink.onrender.com/api/employee/${emailFuncionario}`;
 
   try {
     const response = await fetch(url, {
@@ -298,7 +298,7 @@ async function atualizarFuncionario(token, funcionarioId, data) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee`;
+  const url = `https://crm-healthlink.onrender.com/api/employee`;
 
   const requestBody = {
     name: data["update-funcionario-nome"],
@@ -338,7 +338,7 @@ async function listarFuncionarios(token) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee`;
+  const url = `https://crm-healthlink.onrender.com/api/employee`;
 
   try {
     const response = await fetch(url, {
@@ -446,7 +446,7 @@ async function criarHorarios() {
     return;
   }
 
-  const url = `http://${ip}:8080/api/calendario/savaList`;
+  const url = `https://crm-healthlink.onrender.com/api/calendario/savaList`;
 
   const horarios = turnosSelecionados.map((turno) => {
     const [startHour, startMinute] = turno.dataset.horarioInicio
@@ -505,7 +505,7 @@ async function listarHorarios() {
     return;
   }
 
-  const url = `http://${ip}:8080/api/calendario`;
+  const url = `https://crm-healthlink.onrender.com/api/calendario`;
 
   try {
     const response = await fetch(url, {
@@ -571,7 +571,7 @@ async function pesquisarHorarios() {
     return;
   }
 
-  const url = `http://${ip}:8080/api/calendario/specialty?speciality=${speciality}&month=${month}&year=${year}`;
+  const url = `https://crm-healthlink.onrender.com/api/calendario/specialty?speciality=${speciality}&month=${month}&year=${year}`;
 
   try {
     const response = await fetch(url, {
@@ -640,7 +640,7 @@ async function preencherSelectMedicosEmergencia() {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/doctors`;
+  const url = `https://crm-healthlink.onrender.com/api/employee/doctors`;
 
   try {
     const response = await fetch(url, {
@@ -696,7 +696,7 @@ async function preencherSelectMedicosParaRemocao() {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/doctors`;
+  const url = `https://crm-healthlink.onrender.com/api/employee/doctors`;
 
   try {
     const response = await fetch(url, {
@@ -845,7 +845,7 @@ async function criarProntidaoEmergencia(event) {
     emails_medico: medicosAdicionados.map((medico) => medico.email), // Envia a lista de médicos com o email
   };
 
-  const url = `http://${ip}:8080/api/prontidao`; // Altere para a URL correta da sua API
+  const url = `https://crm-healthlink.onrender.com/api/prontidao`; // Altere para a URL correta da sua API
 
   try {
     const response = await fetch(url, {
@@ -878,7 +878,7 @@ async function listarEmergencias(token) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/prontidao`; // Atualize para o endpoint correto de emergências
+  const url = `https://crm-healthlink.onrender.com/api/prontidao`; // Atualize para o endpoint correto de emergências
 
   try {
     const response = await fetch(url, {
@@ -978,7 +978,7 @@ async function removerProntidaoEmergencia() {
     emails_medico: medicosParaRemocao.map((medico) => medico.email), // Envia apenas os e-mails dos médicos
   };
 
-  const url = `http://${ip}:8080/api/prontidao`; // URL da API para remoção de prontidão de emergência
+  const url = `https://crm-healthlink.onrender.com/api/prontidao`; // URL da API para remoção de prontidão de emergência
 
   try {
     const response = await fetch(url, {

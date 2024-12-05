@@ -20,7 +20,7 @@ function cadastrarHorario(index, data, day) {
   };
 
   var token = localStorage.getItem("token");
-  fetch('http://localhost:8080/api/calendario/associateDoctor', {
+  fetch('https://crm-healthlink.onrender.com/api/calendario/associateDoctor', {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -178,7 +178,7 @@ async function pegaDias(specialty, agendamento, month, year) {
     return [];
   }
 
-  const url = new URL(`http://${ip}:8080/api/calendario/listofdays`);
+  const url = new URL(`https://crm-healthlink.onrender.com/api/calendario/listofdays`);
   url.searchParams.append("speciality", specialty);
   url.searchParams.append("month", month);
   url.searchParams.append("year", year);
@@ -229,7 +229,7 @@ async function pegaDatasDisponives(specialty, agendamento, month, year) {
     return;
   }
 
-  const url = new URL(`http://${ip}:8080/api/calendario/specialtyfordoctor`);
+  const url = new URL(`https://crm-healthlink.onrender.com/api/calendario/specialtyfordoctor`);
 
   url.searchParams.append("speciality", specialty);
   url.searchParams.append("month", month);
@@ -272,7 +272,7 @@ async function preencherSelectTipoAgendamentos(selectId) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/alltipoagendamentos`;
+  const url = `https://crm-healthlink.onrender.com/api/employee/alltipoagendamentos`;
 
   try {
     const response = await fetch(url, {

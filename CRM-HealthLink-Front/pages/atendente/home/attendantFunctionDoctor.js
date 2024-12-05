@@ -6,7 +6,7 @@ async function showDoctors() {
       return;
     }
   
-    const url = `http://${ip}:8080/api/employee/doctors`; 
+    const url = `https://crm-healthlink.onrender.com/api/employee/doctors`; 
       
     try {
       const response = await fetch(url, {
@@ -101,7 +101,7 @@ function readInfoDoctor(picture, name, birthDate, crm, email, especialidade) {
         return;
       }
     
-      const url = `http://${ip}:8080/api/employee/doctor/${emailMedico}`;
+      const url = `https://crm-healthlink.onrender.com/api/employee/doctor/${emailMedico}`;
 
   try {
     const response = await fetch(url, {

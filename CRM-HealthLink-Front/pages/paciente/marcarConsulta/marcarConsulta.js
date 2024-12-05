@@ -7,7 +7,7 @@ async function marcarConsulta(disponibilidade){
         email_doctor: disponibilidade.emailMedico,
         email_patient: localStorage.getItem("email")
     }
-    const response = await fetch("http://localhost:8080/api/appointment", {
+    const response = await fetch("https://crm-healthlink.onrender.com/api/appointment", {
         method: "POST",
         headers: {
             'Authorization': `Bearer ${localStorage.getItem("token")}`,

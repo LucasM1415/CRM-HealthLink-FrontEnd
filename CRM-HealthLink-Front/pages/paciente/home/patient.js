@@ -1,6 +1,3 @@
-const ip = "localhost";
-
-
 async function listar_consultas(token) {
   if (!token) {
     alert("Usuário não autenticado.");
@@ -10,7 +7,7 @@ async function listar_consultas(token) {
   const patientName = localStorage.getItem("userName");
   const patientEmail = localStorage.getItem("email");
 
-  const url = `http://${ip}:8080/api/patient/appointments/${patientName}/${patientEmail}`;
+  const url = `https://crm-healthlink.onrender.com/api/patient/appointments/${patientName}/${patientEmail}`;
 
   try {
     const response = await fetch(url, {
@@ -89,7 +86,7 @@ async function listar_exames(token) {
   const patientName = localStorage.getItem("userName");
   const patientEmail = localStorage.getItem("email");
 
-  const url = `http://${ip}:8080/api/patient/exams/${patientName}/${patientEmail}`;
+  const url = `https://crm-healthlink.onrender.com/api/patient/exams/${patientName}/${patientEmail}`;
 
   try {
     const response = await fetch(url, {
@@ -162,7 +159,7 @@ async function preencherSelectEspecialidades(selectId) {
     return;
   }
 
-  const url = `http://${ip}:8080/api/employee/allspecialities`;
+  const url = `https://crm-healthlink.onrender.com/api/employee/allspecialities`;
 
   try {
     const response = await fetch(url, {
@@ -234,7 +231,7 @@ async function agendarConsulta() {
 
 
   try {
-    const response = await fetch(`http://${ip}:8080/api/calendario/associateDoctor`, {
+    const response = await fetch(`https://crm-healthlink.onrender.com/api/calendario/associateDoctor`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
