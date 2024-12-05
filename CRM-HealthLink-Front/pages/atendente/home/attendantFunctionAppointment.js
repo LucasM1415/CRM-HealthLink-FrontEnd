@@ -75,7 +75,7 @@ async function criarConsulta() {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    alert("Token de autenticação não encontrado. Por favor, faça login novamente.");
+    handleSearchResult("error", "Token de autenticação não encontrado. Por favor, faça login novamente.");
     return;
   }
 
@@ -85,15 +85,14 @@ async function criarConsulta() {
   const pacienteId = document.getElementById("criar-consulta-paciente").value;
   const especialidade = document.getElementById("consulta-especialidade").value;
 
-
   if (!data || !horarioSelecionado || !medicoId || !pacienteId || !especialidade) {
-    alert("Por favor, preencha todos os campos.");
+    handleSearchResult("error", "Por favor, preencha todos os campos.");
     return;
   }
 
   const [horaInicial, horaFinal] = horarioSelecionado.split(" - ");
   if (!horaInicial || !horaFinal) {
-    alert("Por favor, selecione um horário válido.");
+    handleSearchResult("error", "Por favor, selecione um horário válido.");
     return;
   }
 
@@ -105,6 +104,8 @@ async function criarConsulta() {
     speciality: especialidade,
     fim: horaFinal.trim(),
   };
+
+  console.log(corpoRequisicao);
 
   const url = `https://crm-healthlink.onrender.com/api/appointment`;
 
@@ -119,18 +120,26 @@ async function criarConsulta() {
     });
 
     if (response.status === 201) {
-      alert("Consulta criada com sucesso.");
-      await showAppointments()
+      handleSearchResult("success", "Consulta criada com sucesso.");
+      await showAppointments();
     } else {
       const errorText = await response.text();
       console.error("Erro:", errorText);
-      alert(`Erro ao criar a consulta: ${response.status}`);
+      handleSearchResult("error", `Erro ao criar a consulta: ${response.status}`);
     }
   } catch (error) {
     console.error("Erro ao criar consulta:", error);
-    alert("Erro ao criar a consulta.");
+    handleSearchResult("error", "Erro ao criar a consulta.");
   }
 }
+
+document
+  .getElementById("form-criar-consulta")
+  .addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await criarConsulta();
+  });
+
 
 document
   .getElementById("form-criar-consulta")
@@ -138,6 +147,29 @@ document
     event.preventDefault(); 
     await criarConsulta();
   });
+
+  function handleSearchResult(status, message) {
+    const resultsDiv = document.getElementById("resultsGetAppointment");
+    resultsDiv.className = "mt-3 resultsGet"; // Reseta as classes base
+    
+    switch (status) {
+      case "success":
+        resultsDiv.innerText = message || "Consulta criada com sucesso!";
+        resultsDiv.classList.add("success");
+        break;
+  
+      case "error":
+        resultsDiv.innerText = message || "Erro ao criar consulta!";
+        resultsDiv.classList.add("error");
+        break;
+  
+      default:
+        resultsDiv.innerText = message || "Status desconhecido!";
+        resultsDiv.classList.add("error");
+        break;
+    }
+  }
+  
 
 // Função para buscar horários disponíveis da API
 async function buscarHorariosDisponiveis(especialidade, data) {

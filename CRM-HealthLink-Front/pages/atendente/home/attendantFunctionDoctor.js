@@ -120,8 +120,30 @@ function readInfoDoctor(picture, name, birthDate, crm, email, especialidade) {
     renderMedico(data);
   } catch (error) {
     console.error("Erro na requisição:", error);
-    document.getElementById("resultsGetDoctor").innerText =
-      "Erro ao buscar médico.";
+    handleSearchResult("error", "Erro ao buscar médico!");
+    
+  }
+}
+
+function handleSearchResult(status, message) {
+  const resultsDiv = document.getElementById("resultsGetDoctor");
+  resultsDiv.className = "mt-3 resultsGet"; // Reseta as classes base
+
+  switch (status) {
+    case "success":
+      resultsDiv.innerText = message || "Médico encontrado com sucesso!";
+      resultsDiv.classList.add("success");
+      break;
+
+    case "error":
+      resultsDiv.innerText = message || "Erro ao buscar médico!";
+      resultsDiv.classList.add("error");
+      break;
+
+    default:
+      resultsDiv.innerText = message || "Status desconhecido!";
+      resultsDiv.classList.add("error");
+      break;
   }
 }
 

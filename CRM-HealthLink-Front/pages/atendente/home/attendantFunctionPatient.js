@@ -181,21 +181,23 @@ async function createPatient(token, data) {
           throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
       }
 
-      alert("Paciente criado com sucesso!");
       showPatients(); 
+      handleCreationResult("success");
 
   } catch (error) {
-      console.error("Erro ao criar paciente:", error);
-      // alert("Erro ao criar paciente.");
+    console.error("Erro ao criar paciente:", error);
+    handleCreationResult("error");
   }
 }
 async function handleCreationResult(status) {
   const resultsDiv = document.getElementById("resultsCreate");
+  resultsDiv.className = "resultsCreate";
   const token = localStorage.getItem("token");
 
   switch (status) {
     case "success":
       resultsDiv.innerText = "Paciente criado com sucesso!";
+      resultsDiv.classList.add("success");
       if (token) {
         await showPatients();
 
@@ -203,6 +205,8 @@ async function handleCreationResult(status) {
       break;
 
     case "error":
+      resultsDiv.innerText = "Erro ao criar paciente!";
+      resultsDiv.classList.add("error");
       if (token) {
         await showPatients();
 
@@ -210,7 +214,8 @@ async function handleCreationResult(status) {
       break;
 
     default:
-      resultsDiv.innerText = "Status desconhecido.";
+      resultsDiv.innerText = "Status desconhecido!";
+      resultsDiv.classList.add("error");
       break;
   }
 }
@@ -289,13 +294,43 @@ async function updatePatient(token, data) {
       throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
     }
 
-    alert("Paciente atualizado com sucesso!");
     showPatients(); 
+    await handleUpdateResult("success");
   } catch (error) {
-    console.error("Erro ao atualizar paciente:", error);
-    alert("Erro ao atualizar paciente.");
+    // console.error("Erro ao atualizar paciente:", error);
+    await handleUpdateResult("error");
   }
 }
+
+async function handleUpdateResult(status) {
+  const resultsDiv = document.getElementById("resultsCreate");
+  resultsDiv.className = "resultsCreate";
+  const token = localStorage.getItem("token");
+
+  switch (status) {
+    case "success":
+      resultsDiv.innerText = "Paciente atualizado com sucesso!";
+      resultsDiv.classList.add("success");
+      if (token) {
+        await showPatients();
+      }
+      break;
+
+    case "error":
+      resultsDiv.innerText = "Erro ao atualizar paciente!";
+      resultsDiv.classList.add("error");
+      if (token) {
+        await showPatients();
+      }
+      break;
+
+    default:
+      resultsDiv.innerText = "Status desconhecido!";
+      resultsDiv.classList.add("error");
+      break;
+  }
+}
+
 async function setupPacienteForm() {
   const form = document.getElementById("criar-paciente-form");
 
@@ -364,10 +399,33 @@ async function buscarPaciente(token, emailPaciente) {
     renderPacienteDaBusca(data);
   } catch (error) {
     console.error("Erro na requisição:", error);
-    const resultsDiv = document.getElementById("resultsGet");
-    resultsDiv.innerText = "Erro ao buscar paciente.";
+    handleSearchResult("error", "Erro ao buscar paciente.");
   }
 }
+
+function handleSearchResult(status, message) {
+  const resultsDiv = document.getElementById("resultsGet");
+  resultsDiv.className = "mt-3 resultsGet"; // Reseta as classes base
+  
+
+  switch (status) {
+    case "success":
+      resultsDiv.innerText = message || "Paciente encontrado com sucesso!";
+      resultsDiv.classList.add("success");
+      break;
+
+    case "error":
+      resultsDiv.innerText = message || "Erro ao buscar paciente!";
+      resultsDiv.classList.add("error");
+      break;
+
+    default:
+      resultsDiv.innerText = message || "Status desconhecido!";
+      resultsDiv.classList.add("error");
+      break;
+  }
+}
+
 // Função para exibir os dados do paciente no modal ou página
 function renderPacienteDaBusca(data) {
   const resultsDiv = document.getElementById("resultsGet");
@@ -386,12 +444,6 @@ function renderPacienteDaBusca(data) {
   } else {
     resultsDiv.innerHTML = `<p>Nenhum paciente encontrado.</p>`;
   }
-}
-
-// Função para exibir erros
-function renderError(message) {
-  const resultsDiv = document.getElementById("resultsGet");
-  resultsDiv.innerHTML = `<p class="text-danger">${message}</p>`;
 }
 
 // Função para limpar resultados
@@ -498,23 +550,23 @@ async function handleRemovalResult(status, token) {
 
 
 // Função para limpar os campos do formulário
-document.getElementById("clearForm").addEventListener("click", () => {
-  document.getElementById("criar-paciente-form").reset();
-});
+// document.getElementById("clearForm").addEventListener("click", () => {
+//   document.getElementById("criar-paciente-form").reset();
+// });
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    const newUserBtn = document.getElementById('newUserBtn'); 
+// document.addEventListener('DOMContentLoaded', () => {
+//     const newUserBtn = document.getElementById('newUserBtn'); 
 
-    if (newUserBtn) {
-        newUserBtn.addEventListener('click', () => {
-            modalTitle.innerText = "Preencha o Formulário";
-            isEdit = false;
-        });
-    } else {
-        console.error('Botão "Novo Paciente" não encontrado!');
-    }
-});
+//     if (newUserBtn) {
+//         newUserBtn.addEventListener('click', () => {
+//             modalTitle.innerText = "Preencha o Formulário";
+//             isEdit = false;
+//         });
+//     } else {
+//         console.error('Botão "Novo Paciente" não encontrado!');
+//     }
+// });
 
 
 document.addEventListener('DOMContentLoaded', () => {
