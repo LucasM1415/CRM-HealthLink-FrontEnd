@@ -468,20 +468,11 @@
           <section class="p-3">
               <div class="row">
                 <div class="col-12">
-                  <button
-                    class="btn btn-primary newUser"
-                    data-bs-toggle="modal"
-                    data-bs-target="#userForm1"
-                    type="submit"
-                  >
+                  <button class="btn btn-primary newUser" data-bs-toggle="modal" data-bs-target="#modalCriarConsulta" type="button">
                     <strong>Criar Consulta</strong><i class="bi bi-clipboard-check"></i>
                   </button>
-        
-                  <button
-                    class="btn btn-primary searchUser"
-                    data-bs-toggle="modal"
-                    data-bs-target="#userSearch1"
-                  >
+              
+                  <button class="btn btn-primary searchUser" data-bs-toggle="modal" data-bs-target="#userSearch1">
                     <strong>Pesquisar Consulta</strong><i class="bi bi-search"></i>
                   </button>
                 </div>
@@ -510,66 +501,59 @@
               </div>
             </section>
         
-            <!-- Modal Form -->
-            <!-- <div class="modal fade" id="userForm">
+            <!-- Modal Criar Consulta -->
+            <div class="modal fade" id="modalCriarConsulta">
               <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h4 class="modal-title">Criar Consulta</h4>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
             
-                  <!-- Corpo do Modal
                   <div class="modal-body">
-                    <form id="form-criar-consulta" data-form-type="create">
+                    <form id="form-criar-consulta">
                       <div class="mb-3">
-                        <label for="criar-consulta-especialidade" class="form-label">Selecione uma Especialidade:</label>
-                        <select name="criar-consulta-especialidade" id="criar-consulta-especialidade" class="form-select" required>
+                        <label for="consulta-especialidade" class="form-label">Especialidade</label>
+                        <select id="consulta-especialidade" class="form-select" required>
                           <option value="">Selecione uma especialidade</option>
                         </select>
                       </div>
             
                       <div class="mb-3">
-                        <label for="criar-consulta-data" class="form-label">Data:</label>
-                        <input type="date" id="criar-consulta-data" name="criar-consulta-data" class="form-control" required>
+                        <label for="consulta-data" class="form-label">Data</label>
+                        <input type="date" id="consulta-data" class="form-control" required>
                       </div>
             
                       <div class="mb-3">
-                        <label for="criar-consulta-medico" class="form-label">E-Mail do Médico:</label>
-                        <select id="criar-consulta-medico" name="criar-consulta-medico" class="form-select" required>
+                        <label for="consulta-medico" class="form-label">Médico</label>
+                        <select id="criar-consulta-medico" class="form-select" required>
                         </select>
                       </div>
             
                       <div class="mb-3">
-                        <label for="criar-consulta-paciente" class="form-label">E-Mail do Paciente:</label>
-                        <select id="criar-consulta-paciente" name="criar-consulta-paciente" class="form-select" required>
+                        <label for="consulta-paciente" class="form-label">Paciente</label>
+                        <select id="criar-consulta-paciente" class="form-select" required>
                         </select>
                       </div>
             
                       <div class="mb-3">
-                        <label for="criar-consulta-horaInicial" class="form-label">Horários Disponíveis:</label>
-                        <select name="criar-consulta-horaInicial" id="criar-consulta-horaInicial" class="form-select" required>
+                        <label for="consulta-horarios-disponiveis" class="form-label">Horários Disponíveis</label>
+                        <select id="consulta-horarios-disponiveis" class="form-select" required>
                         </select>
                       </div>
-            
-                      <button type="submit" class="btn btn-primary mt-3">Criar Consulta</button>
-                       
-                      <div id="resultsCreate" class="resultsCreate mt-3"></div>
+                      
+                      <button type="submit" class="btn btn-primary">Criar Consulta</button>
                     </form>
-                  </div> -->
-            
-                  <!-- Rodapé do Modal -->
-                  <!-- <div class="modal-footer">
-                    <button type="button" id="clearForm" class="btn btn-secondary">Limpar Campos</button>
+                  </div>
+                  
+                  <div class="modal-footer">
+
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
+
+
             
         
         
@@ -614,58 +598,7 @@
             
         
         
-            <!--Get Data Modal-->
-            <div
-              class="modal fade"
-              id="userSearch"
-              tabindex="-1"
-              aria-labelledby="searchModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="searchModalLabel">Pesquisar Paciente</h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Fechar"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="searchFormPatient1.1">
-                      <div class="mb-3">
-                        <label for="searchEmailPatient1" class="form-label"
-                          >E-mail do Paciente</label
-                        >
-                        <input
-                          type="email"
-                          class="searchEmailPatient1"
-                          id="searchEmailPatient1"
-                          placeholder="Digite o e-mail do Paciente"
-                          required
-                        />
-                      </div>
-                  </div>
-                  <div class="text-center">
-                    <button type="button" class="btn btn-primary searchConfirm">
-                      Pesquisar
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Fechar
-                    </button>
-                    </form>
-                    <!-- Div para exibir os resultados -->
-                   <div id="resultsGet" class="mt-3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
         
             <!-- Custom Delete Confirmation Modal -->
             <div id="deleteModal" class="modal">
@@ -690,15 +623,23 @@
       
       // Chame a função listarPacientes após a página carregar
       document.addEventListener("DOMContentLoaded", () => {
-            const token = localStorage.getItem("token"); // Substitua pelo método correto de obtenção do token
-            showPatients();
+          const token = localStorage.getItem("token"); // Substitua pelo método correto de obtenção do token
+          showPatients();
+      });
+
+
+        document.getElementById("form-criar-consulta").addEventListener("submit", async (event) => {
+          console.log("Submit acionado");
+          event.preventDefault(); // Previne o envio padrão
+          await criarConsulta();
         });
+
         
     </script>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-            preencherSelectEspecialidades("criar-consulta-especialidade");
+            preencherSelectEspecialidades("consulta-especialidade");
             preencherSelectPacientes();
             preencherSelectMedicos();
             preencherSelectEspecialidades("update-consulta-especialidade");

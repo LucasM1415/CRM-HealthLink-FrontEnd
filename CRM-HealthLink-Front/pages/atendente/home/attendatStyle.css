@@ -357,6 +357,46 @@ form .inputField > div input:focus {
     color: #333;
 }
 
+
+
+/* Modificando o comportamento do form para empilhar os campos */
+.modal-body form {
+    display: block; /* Alterando de flex para block */
+    padding: 0;
+}
+
+/* Garantir que os campos dentro do form fiquem empilhados */
+.modal-body .form-row {
+    display: block; /* Alterado de flex para block para empilhar os campos */
+    gap: 20px; /* Se necessário, você pode adicionar espaço entre os campos */
+}
+
+/* Garantir que cada input e select tenha 100% de largura */
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+    width: 100%; /* Garantir que os elementos ocupem toda a largura disponível */
+    padding: 10px;
+    margin-bottom: 15px; /* Espaçamento entre os elementos */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Ajustar o comportamento em telas pequenas */
+@media screen and (max-width: 768px) {
+    .modal-body .form-row {
+        flex-direction: column; /* Se estiver usando flex, garantir que se torne coluna em telas menores */
+    }
+}
+
+
+
+
+
+
 /* Animações */
 @keyframes fadeIn {
     from {
