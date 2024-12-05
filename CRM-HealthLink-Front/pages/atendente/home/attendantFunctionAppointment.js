@@ -59,7 +59,6 @@ function renderConsultas(data) {
     });
   }
   
-  // Função para preencher os detalhes no modal
   function readInfo(patientName, doctorName, date, time) {
     document.getElementById("read-consulta-paciente").value = patientName || "Não disponível";
     document.getElementById("read-consulta-doctor").value = doctorName || "Não disponível";
@@ -80,15 +79,13 @@ async function criarConsulta() {
     return;
   }
 
-  // Obter dados do formulário
   const data = document.getElementById("consulta-data").value;
-  const horarioSelecionado = document.getElementById("consulta-horarios-disponiveis").value; // Ajustado para corresponder ao ID do select de horários
+  const horarioSelecionado = document.getElementById("consulta-horarios-disponiveis").value; 
   const medicoId = document.getElementById("criar-consulta-medico").value;
   const pacienteId = document.getElementById("criar-consulta-paciente").value;
   const especialidade = document.getElementById("consulta-especialidade").value;
 
 
-  // Validação dos campos
   if (!data || !horarioSelecionado || !medicoId || !pacienteId || !especialidade) {
     alert("Por favor, preencha todos os campos.");
     return;
@@ -100,7 +97,6 @@ async function criarConsulta() {
     return;
   }
 
-  // Construção do corpo da requisição
   const corpoRequisicao = {
     email_patient: pacienteId,
     email_doctor: medicoId,
@@ -124,7 +120,6 @@ async function criarConsulta() {
 
     if (response.status === 201) {
       alert("Consulta criada com sucesso.");
-      // Opcional: Atualizar lista de consultas
       await showAppointments()
     } else {
       const errorText = await response.text();
@@ -137,11 +132,10 @@ async function criarConsulta() {
   }
 }
 
-// Listener para o formulário
 document
   .getElementById("form-criar-consulta")
   .addEventListener("submit", async (event) => {
-    event.preventDefault(); // Previne o envio padrão
+    event.preventDefault(); 
     await criarConsulta();
   });
 
@@ -187,19 +181,15 @@ function renderizarHorariosSelect(horarios) {
     return;
   }
 
-  // Limpar as opções anteriores
   selectElement.innerHTML = "";
 
-  // Adicionar uma opção padrão
   const optionDefault = document.createElement("option");
   optionDefault.value = "";
   optionDefault.textContent = "Selecione um horário";
   selectElement.appendChild(optionDefault);
 
-  // Adicionar os horários ao <select>
   horarios.forEach((horario) => {
     const option = document.createElement("option");
-    // Agora, o value contém tanto a hora inicial quanto a hora final
     option.value = `${horario.homeTime} - ${horario.endTime}`;
     option.textContent = `${horario.homeTime} - ${horario.endTime}`;
     selectElement.appendChild(option);
@@ -211,19 +201,93 @@ async function preencherHorarios() {
   const data = document.getElementById("consulta-data").value;
   const especialidade = document.getElementById("consulta-especialidade").value;
 
-  // Verificar se a data e especialidade foram selecionadas
   if (!data || !especialidade) {
     return;
   }
 
-  // Buscar os horários disponíveis
   const horariosDisponiveis = await buscarHorariosDisponiveis(especialidade, data);
   renderizarHorariosSelect(horariosDisponiveis);
 }
 
-// Adicionar eventos para atualizar os horários ao alterar a data ou especialidade
 document.getElementById("consulta-data").addEventListener("change", preencherHorarios);
 document.getElementById("consulta-especialidade").addEventListener("change", preencherHorarios);
+
+
+
+
+// Função para buscar consulta
+async function buscarConsulta(event) {
+  event.preventDefault(); 
+
+  const token = localStorage.getItem("token");
+  const emailPaciente = document.getElementById("searchEmailPaciente").value;
+  const emailDoctor = document.getElementById("searchDoctorEmail").value;
+  const date = document.getElementById("searchData").value;
+  const horaInicio = document.getElementById("searchHoraInicio").value;
+
+  if (!token || !emailPaciente || !emailDoctor || !date || !horaInicio) {
+    alert("Por favor, preencha todos os campos.");
+    return;
+  }
+
+  const url = `http://${ip}:8080/api/appointment?emailMedico=${encodeURIComponent(emailDoctor)}&emailPaciente=${encodeURIComponent(emailPaciente)}&date=${encodeURIComponent(date)}&inicio=${encodeURIComponent(horaInicio)}:00`;
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Erro HTTP! Status: ${response.status}`);
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    renderConsulta(data);
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+    document.getElementById("consulta-results").innerText = "Erro ao buscar consulta.";
+  }
+}
+
+// Função para exibir resultados de consulta
+function renderConsulta(data) {
+  const resultsDiv = document.getElementById("consulta-results");
+  resultsDiv.innerHTML = "";
+
+  if (data && data.length > 0) {
+    data.forEach(consulta => {
+      resultsDiv.innerHTML += `
+        <p><strong>Paciente:</strong> ${consulta.namePatient}</p>
+        <p><strong>Médico:</strong> ${consulta.nameDoctor}</p>
+        <p><strong>Data:</strong> ${new Date(consulta.date).toLocaleDateString()}</p>
+        <p><strong>Hora de Início:</strong> ${consulta.startTime}</p>
+        <hr />
+      `;
+    });
+  } else {
+    resultsDiv.innerHTML = "<p>Nenhuma consulta encontrada.</p>";
+  }
+}
+
+document.querySelector(".searchConfirmConsulta").addEventListener("click", async () => {
+  const token = localStorage.getItem("token"); 
+  const emailPaciente = document.getElementById("searchEmailPaciente").value.trim();
+  const emailDoctor = document.getElementById("searchDoctorEmail").value.trim();
+  const dataConsulta = document.getElementById("searchData").value.trim();
+  const horaInicio = document.getElementById("searchHoraInicio").value.trim();
+
+  if (!emailPaciente || !emailDoctor || !dataConsulta || !horaInicio) {
+    alert("Por favor, insira todos os dados para a consulta.");
+    return;
+  }
+
+  await buscarConsulta(event); 
+});
 
 
 
@@ -232,7 +296,7 @@ document.getElementById("consulta-especialidade").addEventListener("change", pre
 document.addEventListener("DOMContentLoaded", function() {
     const token = localStorage.getItem("token");
     if (token) {
-        showAppointments(token); // Passando o token para listar médicos
+        showAppointments(token); 
     } else {
       console.error("Token não encontrado. Usuário não autenticado.");
     }

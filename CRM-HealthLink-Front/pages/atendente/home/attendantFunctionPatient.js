@@ -8,7 +8,6 @@ const patientForm = document.getElementById("userForm"),
     submitBtn = document.querySelector(".submit"),
     modalTitle = document.querySelector("#userForm .modal-title"),
     newUserBtn = document.querySelector('.newUserBtn'),
-
     searchUserBtn = document.querySelector(".searchUser"),
     deleteModal = document.getElementById("deleteModal"),
     confirmDeleteBtn = document.getElementById("confirmDelete"),
@@ -17,7 +16,6 @@ const patientForm = document.getElementById("userForm"),
 let isEdit = false, editId;
 
 
-// Exibe os dados existentes ao carregar a página
 showPatients();
 
 
@@ -30,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const showSection = (id) => {
       sections.forEach(section => {
           if (section.id === id) {
-              section.style.display = 'block'; // Mostra a seção correspondente
+              section.style.display = 'block'; 
           } else {
-              section.style.display = 'none'; // Esconde as outras seções
+              section.style.display = 'none'; 
           }
       });
   };
@@ -40,13 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Adiciona os eventos de clique aos links do menu
   menuLinks.forEach(link => {
       link.addEventListener('click', (event) => {
-          event.preventDefault(); // Previne o comportamento padrão do link
-          const targetId = link.getAttribute('href').substring(1); // Remove o # do href
+          event.preventDefault(); 
+          const targetId = link.getAttribute('href').substring(1); 
           showSection(targetId);
       });
   });
 
-  // Mostra a seção de pacientes por padrão
   showSection('pacientes');
 });
 
@@ -77,7 +74,7 @@ async function showPatients() {
       if (!response.ok) throw new Error("Erro ao buscar pacientes.");
   
       const patients = await response.json();
-      renderPacientes(patients); // Utiliza a função `renderPacientes` já existente
+      renderPacientes(patients); 
     } catch (error) {
       console.error("Erro ao exibir pacientes:", error);
       const patientData = document.querySelector("table tbody");
@@ -94,7 +91,7 @@ async function showPatients() {
       return;
     }
   
-    patientData.innerHTML = ""; // Limpa a tabela
+    patientData.innerHTML = ""; 
   
     if (!Array.isArray(data)) {
       console.error("Os dados fornecidos não são uma lista de pacientes.");
@@ -139,7 +136,6 @@ async function showPatients() {
   }
   // Função para visualizar informações no modal
 function readInfo(picture, name, birthDate, cpf, email) {
-  // Atualiza os campos do modal com os dados fornecidos
   document.getElementById("showName").value = name || "Nome não disponível";
   document.getElementById("showsDate").value =
     birthDate ? new Date(birthDate).toISOString().split("T")[0] : "";
@@ -186,7 +182,7 @@ async function createPatient(token, data) {
       }
 
       alert("Paciente criado com sucesso!");
-      showPatients(); // Atualiza a lista de pacientes
+      showPatients(); 
 
   } catch (error) {
       console.error("Erro ao criar paciente:", error);
@@ -202,16 +198,14 @@ async function handleCreationResult(status) {
       resultsDiv.innerText = "Paciente criado com sucesso!";
       if (token) {
         await showPatients();
-        // await listarPacientes(token);
+
       }
       break;
 
     case "error":
       if (token) {
         await showPatients();
-        // await listarPacientes(token);
-        // await preencherSelectPacientes();
-        // await listarHorarios(token);
+
       }
       break;
 
@@ -225,7 +219,7 @@ async function setupPacienteForm() {
 
   if (form) {
       form.addEventListener("submit", async (event) => {
-          event.preventDefault(); // Previne o envio padrão do formulário
+          event.preventDefault(); 
           console.log("Evento submit disparado!");
 
           const token = localStorage.getItem("token");
@@ -251,18 +245,15 @@ async function setupPacienteForm() {
 
 // - Função Atualizar Paciente
 function editPatient(index, name, birthDate, cpf, email) {
-  // Preencher os campos do formulário
   document.getElementById("criar-paciente-nome").value = name;
   document.getElementById("criar-paciente-data-nascimento").value = birthDate;
   document.getElementById("criar-paciente-cpf").value = cpf;
   document.getElementById("criar-paciente-email").value = email;
 
-  // Adicionar um atributo ao formulário para indicar o modo de atualização
   const form = document.getElementById("criar-paciente-form");
   form.setAttribute("data-mode", "update");
   form.setAttribute("data-index", index);
 
-  // Alterar o botão de enviar
   const submitButton = document.getElementById("newUserBtn");
   submitButton.textContent = "Atualizar Paciente";
 }
@@ -299,7 +290,7 @@ async function updatePatient(token, data) {
     }
 
     alert("Paciente atualizado com sucesso!");
-    showPatients(); // Atualiza a lista de pacientes
+    showPatients(); 
   } catch (error) {
     console.error("Erro ao atualizar paciente:", error);
     alert("Erro ao atualizar paciente.");
@@ -310,8 +301,7 @@ async function setupPacienteForm() {
 
   if (form) {
     form.addEventListener("submit", async (event) => {
-      event.preventDefault(); // Previne o envio padrão do formulário
-
+      event.preventDefault(); 
       const token = localStorage.getItem("token");
 
       if (!token) {
@@ -335,7 +325,6 @@ async function setupPacienteForm() {
         await createPatient(token, data);
       }
 
-      // Resetar o formulário e modo
       form.reset();
       form.removeAttribute("data-mode");
       document.getElementById("newUserBtn").textContent = "Criar Paciente";
@@ -398,6 +387,7 @@ function renderPacienteDaBusca(data) {
     resultsDiv.innerHTML = `<p>Nenhum paciente encontrado.</p>`;
   }
 }
+
 // Função para exibir erros
 function renderError(message) {
   const resultsDiv = document.getElementById("resultsGet");
@@ -412,7 +402,6 @@ function clearResults() {
   }
 }
 
-// Adiciona evento ao botão "Pesquisar"
 document.querySelector(".searchConfirm").addEventListener("click", async () => {
   const token = localStorage.getItem("token"); 
   const emailPaciente = document.getElementById("searchEmailPatient").value.trim();
@@ -432,7 +421,6 @@ function confirmDelete(email) {
   const confirmButton = document.getElementById("confirmDelete");
   const cancelButton = document.getElementById("cancelDelete");
 
-  // Exibe o modal
   deleteModal.style.display = "block";
 
   // Define o comportamento do botão "Sim"
@@ -445,13 +433,13 @@ function confirmDelete(email) {
       return;
     }
 
-    await removerPaciente(token, email);  // Chama a função de remoção com o e-mail do paciente
-    deleteModal.style.display = "none";    // Fecha o modal após confirmação
+    await removerPaciente(token, email);  
+    deleteModal.style.display = "none";    
   };
 
   // Define o comportamento do botão "Não"
   cancelButton.onclick = () => {
-    deleteModal.style.display = "none";    // Fecha o modal sem remover
+    deleteModal.style.display = "none";    
   };
 }
 async function removerPaciente(token, emailPaciente) {
