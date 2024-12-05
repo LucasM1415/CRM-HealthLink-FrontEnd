@@ -77,7 +77,6 @@ async function showPatients() {
       if (!response.ok) throw new Error("Erro ao buscar pacientes.");
   
       const patients = await response.json();
-      console.log(patients);
       renderPacientes(patients); // Utiliza a função `renderPacientes` já existente
     } catch (error) {
       console.error("Erro ao exibir pacientes:", error);
