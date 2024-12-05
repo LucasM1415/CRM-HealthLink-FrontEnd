@@ -66,7 +66,7 @@ function handleLogin(event) {
           localStorage.setItem('email', data.email)
           localStorage.setItem('acessLeval', data.acessLevel)
           console.log('Login successful:', data);
-          window.location.href = '../pages/managerPage.html';
+          window.location.href = '/pages/gerente/home/managerPage.html';
           break;
       }
 
