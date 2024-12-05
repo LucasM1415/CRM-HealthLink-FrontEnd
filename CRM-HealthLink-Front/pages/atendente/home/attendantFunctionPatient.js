@@ -1,17 +1,17 @@
 // Seletores de elementos do DOM
 const patientForm = document.getElementById("userForm"),
-    // imgInput = document.querySelector(".img"),
-    // file = document.getElementById("imgInput"),
-    userName = document.getElementById("name"),
-    email = document.getElementById("email"),
-    sDate = document.getElementById("sDate"),
-    submitBtn = document.querySelector(".submit"),
-    modalTitle = document.querySelector("#userForm .modal-title"),
-    newUserBtn = document.querySelector('.newUserBtn'),
-    searchUserBtn = document.querySelector(".searchUser"),
-    deleteModal = document.getElementById("deleteModal"),
-    confirmDeleteBtn = document.getElementById("confirmDelete"),
-    cancelDeleteBtn = document.getElementById("cancelDelete");
+  // imgInput = document.querySelector(".img"),
+  // file = document.getElementById("imgInput"),
+  userName = document.getElementById("name"),
+  email = document.getElementById("email"),
+  sDate = document.getElementById("sDate"),
+  submitBtn = document.querySelector(".submit"),
+  modalTitle = document.querySelector("#userForm .modal-title"),
+  newUserBtn = document.querySelector('.newUserBtn'),
+  searchUserBtn = document.querySelector(".searchUser"),
+  deleteModal = document.getElementById("deleteModal"),
+  confirmDeleteBtn = document.getElementById("confirmDelete"),
+  cancelDeleteBtn = document.getElementById("cancelDelete");
 
 let isEdit = false, editId;
 
@@ -26,22 +26,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Função para mostrar a seção correspondente
   const showSection = (id) => {
-      sections.forEach(section => {
-          if (section.id === id) {
-              section.style.display = 'block'; 
-          } else {
-              section.style.display = 'none'; 
-          }
-      });
+    sections.forEach(section => {
+      if (section.id === id) {
+        section.style.display = 'block';
+      } else {
+        section.style.display = 'none';
+      }
+    });
   };
 
   // Adiciona os eventos de clique aos links do menu
   menuLinks.forEach(link => {
-      link.addEventListener('click', (event) => {
-          event.preventDefault(); 
-          const targetId = link.getAttribute('href').substring(1); 
-          showSection(targetId);
-      });
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const targetId = link.getAttribute('href').substring(1);
+      showSection(targetId);
+    });
   });
 
   showSection('pacientes');
@@ -54,72 +54,71 @@ document.addEventListener('DOMContentLoaded', () => {
 // Seção de Paciente
 // - Função Exibir Informações na tabela
 async function showPatients() {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Usuário não autenticado.");
-      return;
-    }
-  
-    const url = `https://crm-healthlink.onrender.com/api/employee/pacientes`;
-
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
-  
-      if (!response.ok) throw new Error("Erro ao buscar pacientes.");
-  
-      const patients = await response.json();
-      renderPacientes(patients); 
-    } catch (error) {
-      console.error("Erro ao exibir pacientes:", error);
-      const patientData = document.querySelector("table tbody");
-      patientData.innerHTML =
-        '<tr><td colspan="5">Erro ao exibir pacientes.</td></tr>';
-    }
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("Usuário não autenticado.");
+    return;
   }
-  // Renderiza os pacientes na tabela
-  function renderPacientes(data) {
+
+  const url = `https://crm-healthlink.onrender.com/api/employee/pacientes`;
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error("Erro ao buscar pacientes.");
+
+    const patients = await response.json();
+    renderPacientes(patients);
+  } catch (error) {
+    console.error("Erro ao exibir pacientes:", error);
     const patientData = document.querySelector("table tbody");
-  
-    if (!patientData) {
-      console.error('Elemento com ID "table tbody" não encontrado.');
-      return;
-    }
-  
-    patientData.innerHTML = ""; 
-  
-    if (!Array.isArray(data)) {
-      console.error("Os dados fornecidos não são uma lista de pacientes.");
-      return;
-    }
-  
-    data.forEach((patient, index) => {
-      const row = `
+    patientData.innerHTML =
+      '<tr><td colspan="5">Erro ao exibir pacientes.</td></tr>';
+  }
+}
+// Renderiza os pacientes na tabela
+function renderPacientes(data) {
+  const patientData = document.querySelector("table tbody");
+
+  if (!patientData) {
+    console.error('Elemento com ID "table tbody" não encontrado.');
+    return;
+  }
+
+  patientData.innerHTML = "";
+
+  if (!Array.isArray(data)) {
+    console.error("Os dados fornecidos não são uma lista de pacientes.");
+    return;
+  }
+
+  data.forEach((patient, index) => {
+    const row = `
         <tr class="patientDetails">
           <td>${index + 1}</td>
           
           <td>${patient.name || "Nome não disponível"}</td>
-          <td>${
-            patient.birthDate
-              ? new Date(patient.birthDate).toLocaleDateString()
-              : "Data de Nascimento não disponível"
-          }</td>
-          <td>${patient.cpf || "CPF não disponível"}</td>
+          <td>${patient.birthDate
+        ? new Date(patient.birthDate).toLocaleDateString()
+        : "Data de Nascimento não disponível"
+      }</td>
+          
           <td>${patient.email || "Email não disponível"}</td>
           <td>
             <button class="btn btn-success" 
-              onclick="readInfo('${patient.picture}', '${patient.name}', '${patient.birthDate}', '${patient.cpf}', '${patient.email}')" 
+              onclick="readInfo('${patient.picture}', '${patient.name}', '${patient.birthDate}', '${patient.email}')" 
               data-bs-toggle="modal" data-bs-target="#readData">
               <i class="bi bi-eye"></i>
             </button>
 
             <button class="btn btn-primary" 
-              onclick="editPatient(${index}, '${patient.name}', '${patient.birthDate}', '${patient.cpf}', '${patient.email}')" 
+              onclick="editPatient(${index}, '${patient.name}', '${patient.birthDate}','${""}', '${patient.email}')" 
               data-bs-toggle="modal" data-bs-target="#userForm">
               <i class="bi bi-pencil-square"></i>
             </button>
@@ -131,10 +130,10 @@ async function showPatients() {
 
           </td>
         </tr>`;
-      patientData.innerHTML += row;
-    });
-  }
-  // Função para visualizar informações no modal
+    patientData.innerHTML += row;
+  });
+}
+// Função para visualizar informações no modal
 function readInfo(picture, name, birthDate, cpf, email) {
   document.getElementById("showName").value = name || "Nome não disponível";
   document.getElementById("showsDate").value =
@@ -150,39 +149,39 @@ function readInfo(picture, name, birthDate, cpf, email) {
 // - Função Criar Paciente
 async function createPatient(token, data) {
   if (!token) {
-      alert("Usuário não autenticado.");
-      return;
+    alert("Usuário não autenticado.");
+    return;
   }
 
   const url = `https://crm-healthlink.onrender.com/api/employee/create/patient`;
 
   const requestBody = {
-      name: data["criar-paciente-nome"],
-      birthDate: data["criar-paciente-data-nascimento"],
-      cpf: data["criar-paciente-cpf"],
-      email: data["criar-paciente-email"],
-      password: data["criar-paciente-password"],
-      accessLevel: "PATIENT", 
+    name: data["criar-paciente-nome"],
+    birthDate: data["criar-paciente-data-nascimento"],
+    cpf: data["criar-paciente-cpf"],
+    email: data["criar-paciente-email"],
+    password: data["criar-paciente-password"],
+    accessLevel: "PATIENT",
   };
 
   try {
-      const response = await fetch(url, {
-          method: "POST",
-          headers: {
-              Authorization: `Bearer ${token}`,
-              Accept: "application/json",
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-      });
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
 
-      if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
-      }
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
+    }
 
-      showPatients(); 
-      handleCreationResult("success");
+    showPatients();
+    handleCreationResult("success");
 
   } catch (error) {
     console.error("Erro ao criar paciente:", error);
@@ -223,27 +222,27 @@ async function setupPacienteForm() {
   const form = document.getElementById("criar-paciente-form");
 
   if (form) {
-      form.addEventListener("submit", async (event) => {
-          event.preventDefault(); 
-          console.log("Evento submit disparado!");
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      console.log("Evento submit disparado!");
 
-          const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
-          if (!token) {
-            console.error("Token não encontrado.");
-            return;
-        }
+      if (!token) {
+        console.error("Token não encontrado.");
+        return;
+      }
 
-          const data = {
-              "criar-paciente-nome": document.getElementById("criar-paciente-nome").value,
-              "criar-paciente-data-nascimento": document.getElementById("criar-paciente-data-nascimento").value,
-              "criar-paciente-cpf": document.getElementById("criar-paciente-cpf").value,
-              "criar-paciente-email": document.getElementById("criar-paciente-email").value,
-              "criar-paciente-password": document.getElementById("criar-paciente-password").value,
-          };
+      const data = {
+        "criar-paciente-nome": document.getElementById("criar-paciente-nome").value,
+        "criar-paciente-data-nascimento": document.getElementById("criar-paciente-data-nascimento").value,
+        "criar-paciente-cpf": document.getElementById("criar-paciente-cpf").value,
+        "criar-paciente-email": document.getElementById("criar-paciente-email").value,
+        "criar-paciente-password": document.getElementById("criar-paciente-password").value,
+      };
 
-          await createPatient(token, data);
-      });
+      await createPatient(token, data);
+    });
   }
 }
 
@@ -294,8 +293,10 @@ async function updatePatient(token, data) {
       throw new Error(`Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`);
     }
 
-    showPatients(); 
+    showPatients();
     await handleUpdateResult("success");
+
+
   } catch (error) {
     // console.error("Erro ao atualizar paciente:", error);
     await handleUpdateResult("error");
@@ -311,24 +312,58 @@ async function handleUpdateResult(status) {
     case "success":
       resultsDiv.innerText = "Paciente atualizado com sucesso!";
       resultsDiv.classList.add("success");
+
       if (token) {
         await showPatients();
       }
+
+      // Espera 3 segundos e limpa o conteúdo
+      setTimeout(() => {
+        resultsDiv.innerText = "";
+        resultsDiv.className = "resultsCreate";
+      }, 3000);
       break;
 
     case "error":
       resultsDiv.innerText = "Erro ao atualizar paciente!";
       resultsDiv.classList.add("error");
+
       if (token) {
         await showPatients();
       }
+
+      // Espera 3 segundos e limpa o conteúdo
+      setTimeout(() => {
+        resultsDiv.innerText = "";
+        resultsDiv.className = "resultsCreate";
+      }, 3000);
       break;
 
     default:
       resultsDiv.innerText = "Status desconhecido!";
       resultsDiv.classList.add("error");
+
+      // Espera 3 segundos e limpa o conteúdo
+      setTimeout(() => {
+        document.getElementById("criar-paciente-nome").value = "";
+        document.getElementById("criar-paciente-data-nascimento").value = "";
+        document.getElementById("criar-paciente-cpf").value = "";
+        document.getElementById("criar-paciente-email").value = "";
+        document.getElementById("crir-paciente-password").value = "";
+        resultsDiv.innerText = "";
+        resultsDiv.className = "resultsCreate";
+      }, 3000);
       break;
   }
+}
+
+function limparCampos() {
+  document.getElementById("criar-paciente-nome").value = "";
+  document.getElementById("criar-paciente-data-nascimento").value = "";
+  document.getElementById("criar-paciente-cpf").value = "";
+  document.getElementById("criar-paciente-email").value = "";
+  resultsDiv.innerText = "";
+  resultsDiv.className = "resultsCreate";
 }
 
 async function setupPacienteForm() {
@@ -336,7 +371,7 @@ async function setupPacienteForm() {
 
   if (form) {
     form.addEventListener("submit", async (event) => {
-      event.preventDefault(); 
+      event.preventDefault();
       const token = localStorage.getItem("token");
 
       if (!token) {
@@ -406,7 +441,7 @@ async function buscarPaciente(token, emailPaciente) {
 function handleSearchResult(status, message) {
   const resultsDiv = document.getElementById("resultsGet");
   resultsDiv.className = "mt-3 resultsGet"; // Reseta as classes base
-  
+
 
   switch (status) {
     case "success":
@@ -429,15 +464,14 @@ function handleSearchResult(status, message) {
 // Função para exibir os dados do paciente no modal ou página
 function renderPacienteDaBusca(data) {
   const resultsDiv = document.getElementById("resultsGet");
-  resultsDiv.innerHTML = ""; 
+  resultsDiv.innerHTML = "";
 
   if (data) {
     resultsDiv.innerHTML = `
       <p><strong>Nome:</strong> ${data.name || "Nome não disponível"}</p>
-      <p><strong>Data de nascimento:</strong> ${
-        data.birthDate
-          ? new Date(data.birthDate).toLocaleDateString()
-          : "Data de Nascimento não disponível"
+      <p><strong>Data de nascimento:</strong> ${data.birthDate
+        ? new Date(data.birthDate).toLocaleDateString()
+        : "Data de Nascimento não disponível"
       }</p>
       <p><strong>Email:</strong> ${data.email || "Email não disponível"}</p>
     `;
@@ -455,7 +489,7 @@ function clearResults() {
 }
 
 document.querySelector(".searchConfirm").addEventListener("click", async () => {
-  const token = localStorage.getItem("token"); 
+  const token = localStorage.getItem("token");
   const emailPaciente = document.getElementById("searchEmailPatient").value.trim();
 
   if (!emailPaciente) {
@@ -485,13 +519,13 @@ function confirmDelete(email) {
       return;
     }
 
-    await removerPaciente(token, email);  
-    deleteModal.style.display = "none";    
+    await removerPaciente(token, email);
+    deleteModal.style.display = "none";
   };
 
   // Define o comportamento do botão "Não"
   cancelButton.onclick = () => {
-    deleteModal.style.display = "none";    
+    deleteModal.style.display = "none";
   };
 }
 async function removerPaciente(token, emailPaciente) {
@@ -516,10 +550,10 @@ async function removerPaciente(token, emailPaciente) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
 
-    handleRemovalResult("success", token); 
+    handleRemovalResult("success", token);
   } catch (error) {
     console.error("Erro na requisição:", error);
-    handleRemovalResult("error", token); 
+    handleRemovalResult("error", token);
   }
 }
 async function handleRemovalResult(status, token) {
@@ -572,9 +606,9 @@ async function handleRemovalResult(status, token) {
 document.addEventListener('DOMContentLoaded', () => {
   const userForm = document.getElementById('userForm');
   if (userForm) {
-      updateUserName();
-      setupPacienteForm(); 
+    updateUserName();
+    setupPacienteForm();
   } else {
-      console.error("Modal não encontrado.");
+    console.error("Modal não encontrado.");
   }
 });
