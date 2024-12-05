@@ -41,7 +41,7 @@ function renderMedicos(medicos) {
       return;
     }
   
-    doctorTableBody.innerHTML = ""; // Limpa a tabela
+    doctorTableBody.innerHTML = ""; 
   
     if (!Array.isArray(medicos)) {
       console.error("Os dados fornecidos não são uma lista de médicos.");
@@ -76,9 +76,7 @@ function renderMedicos(medicos) {
   }
 
 
-    // Função para visualizar informações no modal
 function readInfoDoctor(picture, name, birthDate, crm, email, especialidade) {
-    // Atualiza os campos do modal com os dados fornecidos
     document.getElementById("doctorShowName").value = name || "Nome não disponível";
     document.getElementById("doctorShowDate").value =
       birthDate ? new Date(birthDate).toISOString().split("T")[0] : "";
@@ -127,10 +125,9 @@ function readInfoDoctor(picture, name, birthDate, crm, email, especialidade) {
   }
 }
 
-// Função para exibir os dados do médico no modal ou página
 function renderMedico(data) {
     const resultsDiv = document.getElementById("resultsGetDoctor");
-    resultsDiv.innerHTML = ""; // Limpa o conteúdo anterior
+    resultsDiv.innerHTML = ""; 
   
     if (data) {
       resultsDiv.innerHTML = `
@@ -147,13 +144,12 @@ function renderMedico(data) {
     }
   }
   
-  // Função para exibir erros
   function renderError(message) {
     const resultsDiv = document.getElementById("resultsGetDoctor");
     resultsDiv.innerHTML = `<p class="text-danger">${message}</p>`;
   }
   
-  // Função para limpar resultados
+  
   function clearResults() {
     const resultsDiv = document.getElementById("resultsGetDoctor");
     if (resultsDiv) {
@@ -161,7 +157,6 @@ function renderMedico(data) {
     }
   }
   
-  // Adiciona evento ao botão "Pesquisar"
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".searchConfirmDoctor").addEventListener("click", async () => {
       const token = localStorage.getItem("token");
@@ -177,17 +172,10 @@ function renderMedico(data) {
   });
   
   
-
-
-
-  
-
-  
-  // Carrega a lista de médicos ao inicializar a página
   document.addEventListener("DOMContentLoaded", function() {
     const token = localStorage.getItem("token");
     if (token) {
-        showDoctors(token); // Passando o token para listar médicos
+        showDoctors(token); 
     } else {
       console.error("Token não encontrado. Usuário não autenticado.");
     }
