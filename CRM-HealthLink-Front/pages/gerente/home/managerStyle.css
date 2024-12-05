@@ -1,0 +1,487 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.interface {
+    max-width: 1280px;
+    margin: 0 auto;
+
+}
+
+header {
+    width: 100%;
+    background-color: #1f1f1f;
+    color: #fff;
+}
+
+/* Estilização copiada do EmployeeStylee */
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    text-align: center;
+    flex-grow: 1;
+}
+
+
+/* Top-header */
+.top-header > .interface {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.top-header {
+    background-color: #1f1f1f;
+    padding: 20px 4%;
+}
+
+.top-header .logotipo img {
+    max-width: 80px;
+}
+
+/* Estilização copiada do EmployeeStylee */
+.top-header .btn-back-button button {
+    padding: 10px 20px;
+    background-color: #45a049;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.top-header .btn-back-button button:hover {
+    background-color: #555;
+}
+
+
+/* Bottom-header */
+.bottom-header nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+}
+
+.bottom-header nav ul li a {
+    color: #ffffff;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-weight: 250;
+    display: block;
+    transition: .1s;
+}
+.bottom-header nav ul li a:hover {
+    background-color: #45a049;
+    color: #1f1f1f;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.menu-drop {
+    position: relative;
+}
+
+.menu-drop .drop {
+    position: absolute;
+    background-color: #303030;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    transition: .2s;
+}
+
+.menu-drop .drop a {
+    padding: 12px 12px;
+}
+
+.menu-drop:hover .drop{
+    height: 96px;
+}
+
+
+/* Estilização do Feedback de Operação */
+/* Estilo base */
+.resultsCreate {
+    margin-top: 1rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+    text-align: center;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Estilo para confirmação positiva */
+  .resultsCreate.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+  }
+  
+  /* Estilo para confirmação negativa */
+  .resultsCreate.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+  }
+
+  .resultsGet {
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .resultsGet.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .resultsGet.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+
+  .resultsGetDoctor {
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .resulresultsGetDoctortsGet.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .resultsGetDoctor.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  
+  
+  
+
+
+/* Estilização do CRUD  */
+/* Geral */
+table tr td {
+    vertical-align: middle;
+}
+
+table tr th {
+    text-align: center; 
+    vertical-align: middle; 
+    color: #000000; 
+}
+
+td button {
+    margin: 5px;
+}
+
+td button i {
+    font-size: 20px;
+}
+
+.btn-primary {
+    color: #000000;
+    background-color: #0d6efd;
+}
+
+.btn-success {
+    color: #000000;
+    background-color: #45a049;
+}
+
+.btn-danger {
+    color: #000000;
+    background-color: #dc3545;
+}
+
+
+/* Modal Principal */
+.modal-header {
+    background: #45a049;
+    color: #fff;
+}
+
+.modal-body form {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.modal-body form .imgholder {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid #000000;
+}
+
+.imgholder .upload {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.upload i {
+    color: #fff;
+    font-size: 35px;
+    transition: transform 0.2s;
+}
+
+.imgholder:hover .upload {
+    display: flex;
+    
+}
+
+.imgholder:hover .upload i {
+    transform: scale(1.1);
+    
+}
+
+.imgholder .upload input {
+    display: none;
+    
+}
+
+/* Linha vertical que separa Foto de perfil dos dados do usuario */
+.modal-body form .inputField {
+    flex-basis: 68%;
+    border-left: 3px groove rgb(0, 0, 0);
+    padding-left: 20px;
+}
+
+/* Rótulos dos dados do usuário */
+form .inputField > div {
+    width: 100%;
+    color: #000000;
+    display: flex;
+    justify-content: left;  /* space-between */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+form .inputField > div label {
+    font-size: 20px;
+    font-weight: 500;
+    color: #000000;
+}
+
+#userForm form .inputField > div label::after {
+    content: "*";
+    color: red;
+}
+
+/* Sublinhado dos Dados de Atualização do Usuário */
+form .inputField > div input {
+    width: 75%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-bottom: 2px solid #000000;
+    transition: border-color 0.3s;
+}
+
+form .inputField > div input:focus {
+    border-bottom: 2px solid #0d6efd;
+}
+
+/* Botão de Enviar/Atual */
+.modal-footer .submit {
+    font-size: 18px;
+    background-color: #45a049;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-footer .submit:hover {
+    background-color: #309135;
+}
+
+/* Modal de Leitura */
+#readData form .inputField > div input {
+    color: #000000;
+    font-size: 18px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+/* Modal de Confirmação de Exclusão */
+#deleteModal {
+    display: none; /* Modal escondido inicialmente */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    background-color: rgba(255, 255, 255, 0.596);
+    padding: 220px;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#deleteModal.show {
+    display: flex; /* Modal visível ao adicionar a classe 'show' */
+}
+
+
+#deleteModal .modal-content {
+    background-color: #ffffff;
+    padding: 20px 40px;
+    gap: 7px;
+    border-radius: 15px;
+    text-align: center;
+    width: 400px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
+    animation: scaleUp 0.3s ease-in-out;
+}
+
+#deleteModal .modal-content h4 {
+    font-size: 23px;
+    margin-bottom: 18px;
+    color: #000000;
+    font-weight: bold;
+}
+
+#deleteModal .modal-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#deleteModal .modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+#deleteModal .modal-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#deleteModal .modal-buttons .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    font-weight: bold;
+}
+
+#deleteModal .modal-buttons .btn-danger:hover {
+    background-color: #a71d2a;
+}
+
+#deleteModal .modal-buttons .btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    font-weight: bold;
+}
+
+#deleteModal .modal-buttons .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Botão de Fechamento no Modal */
+#deleteModal .close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#deleteModal .close:hover {
+    color: #333;
+}
+
+
+
+/* Modificando o comportamento do form para empilhar os campos */
+.modal-body form {
+    display: block; /* Alterando de flex para block */
+    padding: 0;
+}
+
+/* Garantir que os campos dentro do form fiquem empilhados */
+.modal-body .form-row {
+    display: block; /* Alterado de flex para block para empilhar os campos */
+    gap: 20px; /* Se necessário, você pode adicionar espaço entre os campos */
+}
+
+/* Garantir que cada input e select tenha 100% de largura */
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+    width: 100%; /* Garantir que os elementos ocupem toda a largura disponível */
+    padding: 10px;
+    margin-bottom: 15px; /* Espaçamento entre os elementos */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Ajustar o comportamento em telas pequenas */
+@media screen and (max-width: 768px) {
+    .modal-body .form-row {
+        flex-direction: column; /* Se estiver usando flex, garantir que se torne coluna em telas menores */
+    }
+}
+
+
+
+
+
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.9);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+
+

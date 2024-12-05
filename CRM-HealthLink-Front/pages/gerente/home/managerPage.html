@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+    crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    
+    <title>Home do Administrador</title>
+
+    <link rel="icon" href="/images/logo2.png" type="image/png">
+    <link rel="stylesheet" href="managerStyle.css">
+    <link rel="stylesheet" href="/pages/gerente/calendario.css">
+
+    <script src="attendantFunctionAppointment.js" defer></script>
+    <script src="attendantFunctionPatient.js" defer></script>
+
+    <script src="/pages/gerente/gerenteCalendario.js"></script>
+    <script src="/js/employee.js" defer></script>
+    <script src="/js/manager.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <section class="top-header">
+            <div class="interface">
+                <div class="logotipo">
+                    <a href="#">
+                        <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
+                    </a>
+                </div>
+
+                <div class="welcome-message">
+                    <h1 id="welcome-message"></h1>
+                </div>
+
+                <div class="btn-back-button">
+                    <a href="#">
+                        <button id="back-button" class="back-button" onclick="singOut()"> <i class="bi bi-box-arrow-left"></i> Logout</button>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="bottom-header">
+            <div class="interface">
+                <nav>
+                    <ul>
+                        <li class="menu-drop"><a>Entidades <i class="bi bi-caret-down-fill"></i></a>
+                            <div class="drop">
+                                <a href="#pacientes">Paciente</a>
+                                <a href="#doutores">Médico</a>
+                                <a href="#funcionarios">Funcionários</a>
+                            </div>
+                        </li>
+                        <li><a href="#consultas">Consulta</a></li>
+                        <li><a href="#horario">Horário</a></li>
+                        <li><a href="#emergencia">Emergência</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </header>
+
+    <main>
+        <!-- Seção de Pacientes -->
+        
+
+
+
+
+        <!-- Seção de Doutores -->
+        
+
+
+
+
+        <!-- Seção de Consultas -->
+        
+
+
+
+
+        <!-- Seção do Funcionário -->
+        
+
+
+        
+
+
+        <!-- Seção do Horário -->
+        <section id="horario" class="content-section" style="display: none;">
+            <h2>Calendário de Consultas</h2>
+
+            <div class="robertoCarlos">
+                <div class="form-row">
+                    <div class="field-group w-30">
+                        <label>Especialidade:</label>
+                        <select id="selectSpeciality">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
+
+                    <div class="field-group w-30">
+                        <label>Tipo dos Agendamentos:</label>
+                        <select id="selectAgendamentos">
+                            <option value="" selected>Selecione um Tipo do Agendamento</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field-group w-30">
+                        <label for="month">Mês:</label>
+                        <select id="month">
+                            <option value="01">Janeiro</option>
+                            <option value="02">Fevereiro</option>
+                            <option value="03">Março</option>
+                            <option value="04">Abril</option>
+                            <option value="05">Maio</option>
+                            <option value="06">Junho</option>
+                            <option value="07">Julho</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Setembro</option>
+                            <option value="10">Outubro</option>
+                            <option value="11">Novembro</option>
+                            <option value="12">Dezembro</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group w-30">
+                        <label for="year">Ano:</label>
+                        <select type="number" id="year" value="2024" min="2000" max="2100">
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Seletores de mês e ano -->
+                <div class="date-selectors">
+
+                    <button onclick="renderizarGerenteCalendario()"><strong>Mostrar Calendário</strong></button>
+                </div>
+
+                <div id="calendarioDoctor" class="calendario">
+                    <div class="calendar" id="calendar">
+                    </div>
+                </div>
+
+                <div class="day-details" id="day-details" style="display: none;">
+                    <p id="selected-day-info"></p>
+                </div>
+            </div>
+
+            <div class="listadehorarios">
+                <h3>Lista de Horários Marcados</h3>
+                <a href="listSchedulesManagerPage.html">
+                    <button><strong>Conferir Lista de Horários Marcados</strong></button>
+                </a>
+            </div>
+        </section>
+
+
+        <section id="emergencia" class="content-section" style="display: none;">
+            <h2>Agendar Prontidão de Emergência</h2>
+            <div class="card">
+                <h3>Criar Prontidão</h3>
+                <form id="form-emergencia">
+                    <label for="data-consulta">Data:</label>
+                    <input type="date" id="data-consulta" name="data-consulta" required>
+                </form>
+
+                <form id="horarios-form">
+                    <label for="hora-inicio">Horário de Início:</label>
+                    <input type="time" id="hora-inicio" name="hora-inicio" required>
+
+                    <label for="hora-fim">Horário de Fim:</label>
+                    <input type="time" id="hora-fim" name="hora-fim" required>
+                </form>
+
+                <form id="medicos-form">
+                    <label for="criar-consulta-medico-emergencia">Selecionar Médico:</label>
+                    <select id="criar-consulta-medico-emergencia" name="criar-consulta-medico" required>
+                    </select>
+
+                    <button type="button" id="adicionar-medico-btn"><strong>Adicionar Médico</strong></button>
+
+                    <!-- Lista de Médicos Adicionados -->
+                    <div id="lista-medicos">
+                        <h4>Médicos Selecionados:</h4>
+                        <ul id="medicos-adicionados">
+                        </ul>
+                        <button type="submit" form="form-emergencia"><strong>Salvar Marcação</strong></button>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+            <div class="card">
+                <h3>Remover Prontidão de Emergência</h3>
+                <form id="remove-emergencia-form">
+                    <label for="remover-consulta-data">Data da Consulta:</label>
+                    <input type="date" id="remover-consulta-data" required>
+
+                    <label for="remover-consulta-hora-inicio">Horário de Início:</label>
+                    <input type="time" id="remover-consulta-hora-inicio" required>
+
+                    <label for="remover-consulta-hora-fim">Horário de Fim:</label>
+                    <input type="time" id="remover-consulta-hora-fim" required>
+
+                    <label for="remover-consulta-medico">Selecionar Médico:</label>
+                    <select id="remover-consulta-medico" required>
+                        <option value="">Selecione um médico</option>
+                    </select>
+
+                    <button type="button" id="remover-medico-btn">
+                        <strong>Adicionar Médico para Remoção</strong>
+                        </button>
+
+                    <div id="lista-medicos-remocao">
+                        <h4>Médicos Selecionados para Remoção:</h4>
+                        <ul id="medicos-remocao">
+                        </ul>
+
+                        <button type="submit"><strong>Remover Seleção</strong></button>
+                    </div>
+                </form>
+
+
+                <div id="remove-consulta-results">
+                </div>
+            </div>
+
+
+            <!-- Card para Listar Consultas -->
+            <div class="card" id="list-emergencias-card">
+                <h3>Lista de Consultas de Emergência</h3>
+                <a href="listEmergencyConsultationsPage.html">
+                    <button><strong>Conferir Lista de Emergências</strong></button>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const minYear = 2000;
+        const maxYear = 2100;
+        const currentYear = new Date().getFullYear(); // Ano atual
+
+        // Seleciona o elemento <select> pelo ID
+        const yearSelect = document.getElementById("year");
+
+        // Gera as opções dinamicamente
+        for (let year = minYear; year <= maxYear; year++) {
+            const option = document.createElement("option");
+            option.value = year;
+            option.textContent = year;
+
+            // Marca o ano atual como selecionado
+            if (year === currentYear) {
+                option.selected = true;
+            }
+
+            yearSelect.appendChild(option);
+        }
+        function showSection(sectionId) {
+            // Esconde todas as seções
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Mostra a seção escolhida
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Adiciona o evento de clique nos links de navegação
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault(); // Previne o comportamento padrão do link
+                const sectionId = this.getAttribute('href').substring(1); // Obtém o ID da seção
+                showSection(sectionId); // Exibe a seção correspondente
+            });
+        });
+
+        // Exibe a primeira seção por padrão
+        document.getElementById('pacientes').style.display = 'block';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            preencherSelectEspecialidades("criar-doutor-speciality");
+            preencherSelectEspecialidades("update-doutor-speciality");
+            preencherSelectEspecialidades("criar-consulta-especialidade");
+            preencherSelectEspecialidades("update-consulta-especialidade");
+            preencherSelectEspecialidades("selectSpeciality");
+            preencherSelectTipoAgendamentos("selectAgendamentos");
+        });
+    </script>
+</body>
+</html>
