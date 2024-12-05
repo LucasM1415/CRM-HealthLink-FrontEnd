@@ -8,11 +8,18 @@
     <link rel="stylesheet" href="chamaPacienteProntidao.css">
 </head>
 <body>
-    <div class="loader-container">
+    <div style="display: block" class="loader-container">
         <div class="loader"></div>
         Aguardando um Médico
     </div>
-    <video style="display: none" id="remoteVideo" autoplay></video>
+
+    <div class="videos-container">
+        <video class="video-remoto" style="display: none"  id="remoteVideo" autoplay></video>
+        <div class="video-overlay">
+            <video class="video-me" style="display: none"  id="localVideo" autoplay></video>
+        </div>    
+    </div>
+    
     <script src="../eventDispatcher.js"></script>
     <script src="../deviceManager.js"></script>
     <script src="../onConnect.js"></script>
