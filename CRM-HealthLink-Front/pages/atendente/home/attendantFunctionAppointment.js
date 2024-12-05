@@ -1,11 +1,11 @@
 async function showAppointments() {
-   const token = localStorage.getItem("token");
-   if (!token) {
-       alert("Usuário não autenticado.");
-       return;
-   }
-    
-   const url = `https://crm-healthlink.onrender.com/api/appointment/all`;
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("Usuário não autenticado.");
+    return;
+  }
+
+  const url = `https://crm-healthlink.onrender.com/api/appointment/all`;
 
   try {
     const response = await fetch(url, {
@@ -19,8 +19,7 @@ async function showAppointments() {
     if (!response.ok) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
-
-    const data = await response.json();
+    var data = await response.json();
     renderConsultas(data);
   } catch (error) {
     console.error("Erro na requisição:", error);
@@ -31,41 +30,40 @@ async function showAppointments() {
 }
 
 function renderConsultas(data) {
-    const appointmentData = document.querySelector("#appointmentTableBody");
-  
-    if (!appointmentData) {
-      console.error("Elemento da tabela de consultas não encontrado.");
-      return;
-    }
-  
-    appointmentData.innerHTML = "";
-  
-    if (!Array.isArray(data)) {
-      console.error("Os dados fornecidos não são uma lista de consultas.");
-      return;
-    }
-  
-    data.forEach((consulta, index) => {
-      const row = `
-        <tr class="appointmentDetails">
-          <td>${index + 1}</td>
-          <td>${consulta.date ? new Date(consulta.date).toLocaleDateString() : "Data não disponível"}</td>
-          <td>${consulta.inicio || "Horário não disponível"}</td>
-          <td>${consulta.namePatient || "Paciente não disponível"}</td>
-          <td>${consulta.nameDoctor || "Doutor não disponível"}</td>
-          
-        </tr>`;
-      appointmentData.innerHTML += row;
-    });
+  const appointmentData = document.querySelector("#appointmentTableBody");
+
+  if (!appointmentData) {
+    console.error("Elemento da tabela de consultas não encontrado.");
+    return;
   }
-  
-  function readInfo(patientName, doctorName, date, time) {
-    document.getElementById("read-consulta-paciente").value = patientName || "Não disponível";
-    document.getElementById("read-consulta-doctor").value = doctorName || "Não disponível";
-    document.getElementById("read-consulta-date").value = date || "0000-00-00";
-    document.getElementById("read-consulta-hora").value = time || "00:00";
+
+  appointmentData.innerHTML = "";
+
+  if (!Array.isArray(data)) {
+    console.error("Os dados fornecidos não são uma lista de consultas.");
+    return;
   }
-  
+  console.log(data)
+  data.forEach((consulta, index) => {
+    const row = `
+    <tr class="appointmentDetails">
+      <td>${index + 1}</td>
+      <td>${consulta.date ? new Date(consulta.date).toLocaleDateString() : "Data não disponível"}</td>
+      <td>${consulta.inicio || "Horário não disponível"}</td>
+      <td>${consulta.namePatient || "Paciente não disponível"}</td>
+      <td>${consulta.nameDoctor || "Doutor não disponível"}</td>
+    </tr>`;
+    appointmentData.insertAdjacentHTML("beforeend", row);
+  });
+}
+
+function readInfo(patientName, doctorName, date, time) {
+  document.getElementById("read-consulta-paciente").value = patientName || "Não disponível";
+  document.getElementById("read-consulta-doctor").value = doctorName || "Não disponível";
+  document.getElementById("read-consulta-date").value = date || "0000-00-00";
+  document.getElementById("read-consulta-hora").value = time || "00:00";
+}
+
 
 
 
@@ -75,24 +73,24 @@ async function criarConsulta() {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    handleSearchResult("error", "Token de autenticação não encontrado. Por favor, faça login novamente.");
+     await handleSearchResult("error", "Token de autenticação não encontrado. Por favor, faça login novamente.");
     return;
   }
 
   const data = document.getElementById("consulta-data").value;
-  const horarioSelecionado = document.getElementById("consulta-horarios-disponiveis").value; 
+  const horarioSelecionado = document.getElementById("consulta-horarios-disponiveis").value;
   const medicoId = document.getElementById("criar-consulta-medico").value;
   const pacienteId = document.getElementById("criar-consulta-paciente").value;
   const especialidade = document.getElementById("consulta-especialidade").value;
 
   if (!data || !horarioSelecionado || !medicoId || !pacienteId || !especialidade) {
-    handleSearchResult("error", "Por favor, preencha todos os campos.");
+     await handleSearchResult("error", "Por favor, preencha todos os campos.");
     return;
   }
 
   const [horaInicial, horaFinal] = horarioSelecionado.split(" - ");
   if (!horaInicial || !horaFinal) {
-    handleSearchResult("error", "Por favor, selecione um horário válido.");
+     await handleSearchResult("error", "Por favor, selecione um horário válido.");
     return;
   }
 
@@ -104,8 +102,6 @@ async function criarConsulta() {
     speciality: especialidade,
     fim: horaFinal.trim(),
   };
-
-  console.log(corpoRequisicao);
 
   const url = `https://crm-healthlink.onrender.com/api/appointment`;
 
@@ -120,16 +116,15 @@ async function criarConsulta() {
     });
 
     if (response.status === 201) {
-      handleSearchResult("success", "Consulta criada com sucesso.");
-      await showAppointments();
+       await handleSearchResult("success", "Consulta criada com sucesso.");
     } else {
       const errorText = await response.text();
       console.error("Erro:", errorText);
-      handleSearchResult("error", `Erro ao criar a consulta: ${response.status}`);
+       await handleSearchResult("error", `Erro ao criar a consulta: ${response.status}`);
     }
   } catch (error) {
     console.error("Erro ao criar consulta:", error);
-    handleSearchResult("error", "Erro ao criar a consulta.");
+     await handleSearchResult("error", "Erro ao criar a consulta.");
   }
 }
 
@@ -144,32 +139,33 @@ document
 document
   .getElementById("form-criar-consulta")
   .addEventListener("submit", async (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     await criarConsulta();
   });
 
-  function handleSearchResult(status, message) {
-    const resultsDiv = document.getElementById("resultsGetAppointment");
-    resultsDiv.className = "mt-3 resultsGet"; // Reseta as classes base
-    
-    switch (status) {
-      case "success":
-        resultsDiv.innerText = message || "Consulta criada com sucesso!";
-        resultsDiv.classList.add("success");
-        break;
-  
-      case "error":
-        resultsDiv.innerText = message || "Erro ao criar consulta!";
-        resultsDiv.classList.add("error");
-        break;
-  
-      default:
-        resultsDiv.innerText = message || "Status desconhecido!";
-        resultsDiv.classList.add("error");
-        break;
-    }
+async function handleSearchResult(status, message) {
+  const resultsDiv = document.getElementById("resultsGetAppointment");
+  resultsDiv.className = "mt-3 resultsGet"; // Reseta as classes base
+
+  switch (status) {
+    case "success":
+      showAppointments();
+      resultsDiv.innerText = message || "Consulta criada com sucesso!";
+      resultsDiv.classList.add("success");
+      break;
+
+    case "error":
+      resultsDiv.innerText = message || "Erro ao criar consulta!";
+      resultsDiv.classList.add("error");
+      break;
+
+    default:
+      resultsDiv.innerText = message || "Status desconhecido!";
+      resultsDiv.classList.add("error");
+      break;
   }
-  
+}
+
 
 // Função para buscar horários disponíveis da API
 async function buscarHorariosDisponiveis(especialidade, data) {
@@ -249,7 +245,7 @@ document.getElementById("consulta-especialidade").addEventListener("change", pre
 
 // Função para buscar consulta
 async function buscarConsulta(event) {
-  event.preventDefault(); 
+  event.preventDefault();
 
   const token = localStorage.getItem("token");
   const emailPaciente = document.getElementById("searchEmailPaciente").value;
@@ -307,7 +303,7 @@ function renderConsulta(data) {
 }
 
 document.querySelector(".searchConfirmConsulta").addEventListener("click", async () => {
-  const token = localStorage.getItem("token"); 
+  const token = localStorage.getItem("token");
   const emailPaciente = document.getElementById("searchEmailPaciente").value.trim();
   const emailDoctor = document.getElementById("searchDoctorEmail").value.trim();
   const dataConsulta = document.getElementById("searchData").value.trim();
@@ -318,18 +314,18 @@ document.querySelector(".searchConfirmConsulta").addEventListener("click", async
     return;
   }
 
-  await buscarConsulta(event); 
+  await buscarConsulta(event);
 });
 
 
 
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    const token = localStorage.getItem("token");
-    if (token) {
-        showAppointments(token); 
-    } else {
-      console.error("Token não encontrado. Usuário não autenticado.");
-    }
-  });
+document.addEventListener("DOMContentLoaded", function () {
+  const token = localStorage.getItem("token");
+  if (token) {
+    showAppointments();
+  } else {
+    console.error("Token não encontrado. Usuário não autenticado.");
+  }
+});
