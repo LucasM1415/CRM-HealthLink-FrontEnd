@@ -16,15 +16,18 @@
     <title>Home do Administrador</title>
 
     <link rel="icon" href="/images/logo2.png" type="image/png">
+    <link rel="stylesheet" href="/css/managerStyle.css">
     <link rel="stylesheet" href="managerStyle.css">
-    <link rel="stylesheet" href="/pages/gerente/calendario.css">
-
-    <script src="attendantFunctionAppointment.js" defer></script>
-    <script src="attendantFunctionPatient.js" defer></script>
+    <link rel="stylesheet" href="../calendario.css">
 
     <script src="/pages/gerente/gerenteCalendario.js"></script>
     <script src="/js/employee.js" defer></script>
     <script src="/js/manager.js"></script>
+    <script src="/pages/atendente/home/attendantFunctionAppointment.js" defer></script>
+    <script src="/pages/atendente/home/attendantFunctionPatient.js" defer></script>
+
+    
+    
 
 </head>
 
@@ -71,6 +74,34 @@
     </header>
 
     <main>
+        <section id="pacientes" class="content-section">
+        
+        </section>
+
+
+
+
+        <!-- Seção de Doutores -->
+        <section id="doutores" class="content-section" style="display: none;">
+            
+        </section>
+
+
+
+
+        <!-- Seção de Consultas -->
+        <section id="consultas" class="content-section" style="display: none;">
+            
+        </section>
+
+
+
+
+        <!-- Seção do Funcionário -->
+        <section id="funcionarios" class="content-section" style="display: none;">
+            
+        </section>
+
         <!-- Seção de Pacientes -->
          <!-- LUCAS PATRICK -->
         
@@ -295,7 +326,7 @@
         });
 
         // Exibe a primeira seção por padrão
-        document.getElementById('pacientes').style.display = 'block';
+        //document.getElementById('pacientes').style.display = 'block';
 
         document.addEventListener("DOMContentLoaded", () => {
             preencherSelectEspecialidades("criar-doutor-speciality");
