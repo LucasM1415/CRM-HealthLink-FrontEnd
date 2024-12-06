@@ -1205,9 +1205,6 @@ async function setupUpdateConsultaForm() {
   }
 }
 
-// Chamar a função para configurar o evento do formulário ao carregar a página
-setupUpdateConsultaForm();
-
 
 
 

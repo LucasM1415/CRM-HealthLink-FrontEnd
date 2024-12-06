@@ -358,12 +358,23 @@ async function handleUpdateResult(status) {
 }
 
 function limparCampos() {
+  // Seleciona o elemento resultsDiv
+  const resultsDiv = document.getElementById("resultsCreate");
+
+  // Limpa os campos do formulário
   document.getElementById("criar-paciente-nome").value = "";
   document.getElementById("criar-paciente-data-nascimento").value = "";
   document.getElementById("criar-paciente-cpf").value = "";
   document.getElementById("criar-paciente-email").value = "";
+
+  // Limpa os resultados e classes
   resultsDiv.innerText = "";
   resultsDiv.className = "resultsCreate";
+}
+
+function limparPesquisar(){
+  const resultsDiv = document.getElementById("resultsGet");
+  resultsDiv.innerHTML="";
 }
 
 async function setupPacienteForm() {
@@ -607,7 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const userForm = document.getElementById('userForm');
   if (userForm) {
     updateUserName();
-    setupPacienteForm();
+    //setupPacienteForm();
   } else {
     console.error("Modal não encontrado.");
   }

@@ -82,6 +82,7 @@
                       class="btn btn-primary searchUser"
                       data-bs-toggle="modal"
                       data-bs-target="#userSearch"
+                      onclick="limparPesquisar()"
                     >
                       <strong>Pesquisar Paciente</strong><i class="bi bi-search"></i>
                     </button>
@@ -393,7 +394,7 @@
                       </form>
 
                       <div class="text-center">
-                        <div id="resultsGetAppointment" class="mt-3"></div>
+                        <div id="resultsGetDoctor" class="mt-3"></div>
                       </div>
 
                       <div class="modal-footer">
@@ -413,11 +414,14 @@
           <section class="p-3">
               <div class="row">
                 <div class="col-12">
-                  <button class="btn btn-primary newUser" data-bs-toggle="modal" data-bs-target="#modalCriarConsulta" type="button">
+                  <button class="btn btn-primary newUser" data-bs-toggle="modal" data-bs-target="#modalCriarConsulta" type="button"
+                  onclick="limparCamposCriarConsulta()"
+                  >
                     <strong>Criar Consulta</strong><i class="bi bi-clipboard-check"></i>
                   </button>
               
-                  <button class="btn btn-primary searchUser" data-bs-toggle="modal" data-bs-target="#consultaSearch">
+                  <button class="btn btn-primary searchUser" data-bs-toggle="modal" data-bs-target="#consultaSearch"
+                  onclick="limparCamposPesquisaConsulta()">
                     <strong>Pesquisar Consulta</strong><i class="bi bi-search"></i>
                   </button>
                 </div>
@@ -488,6 +492,10 @@
                       </div>
                       
                     </form>
+                    <div class="text-center">
+                      <div id="resultsCreateAppointment" class="mt-3"></div>
+                      
+                    </div>
                   </div>
                   
                   <div class="modal-footer">
@@ -529,13 +537,14 @@
                     </form>
                   </div>
                   <div class="text-center">
-                    <div id="consulta-results" class="mt-3"></div>
+                    <div id="resultsGetAppointment" class="mt-3"></div>
+                    <!--resultsGetAppointment-->
                     <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                   Fechar
                                 </button> -->
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary searchConfirmConsulta">
+                    <button type="button" class="btn btn-primary searchConfirmConsulta" >
                       Pesquisar
                     </button>
                   </div>
@@ -583,7 +592,6 @@
             preencherSelectEspecialidades("consulta-especialidade");
             preencherSelectPacientes();
             preencherSelectMedicos();
-            preencherSelectEspecialidades("update-consulta-especialidade");
         });
     </script>
 </body>
