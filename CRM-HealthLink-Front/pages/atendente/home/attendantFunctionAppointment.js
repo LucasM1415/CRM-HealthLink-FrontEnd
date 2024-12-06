@@ -72,7 +72,7 @@ async function criarConsulta() {
   const token = localStorage.getItem("token");
 
   if (!token) {
-     await handleSearchResult("error", "Token de autenticação não encontrado. Por favor, faça login novamente.");
+    await handleResultAppointment("error", "Token de autenticação não encontrado. Por favor, faça login novamente.", "resultsCreateAppointment");
     return;
   }
 
@@ -83,13 +83,13 @@ async function criarConsulta() {
   const especialidade = document.getElementById("consulta-especialidade").value;
 
   if (!data || !horarioSelecionado || !medicoId || !pacienteId || !especialidade) {
-     await handleSearchResult("error", "Por favor, preencha todos os campos.");
+    await handleResultAppointment("error", "Por favor, preencha todos os campos.", "resultsCreateAppointment");
     return;
   }
 
   const [horaInicial, horaFinal] = horarioSelecionado.split(" - ");
   if (!horaInicial || !horaFinal) {
-     await handleSearchResult("error", "Por favor, selecione um horário válido.");
+    await handleResultAppointment("error", "Por favor, selecione um horário válido.", "resultsCreateAppointment");
     return;
   }
 
@@ -115,15 +115,15 @@ async function criarConsulta() {
     });
 
     if (response.status === 201) {
-       await handleSearchResult("success", "Consulta criada com sucesso.");
+      await handleResultAppointment("success", "Consulta criada com sucesso.", "resultsCreateAppointment");
     } else {
       const errorText = await response.text();
       console.error("Erro:", errorText);
-       await handleSearchResult("error", `Erro ao criar a consulta: ${response.status}`);
+      await handleResultAppointment("error", `Erro ao criar a consulta: ${response.status}`, "resultsCreateAppointment");
     }
   } catch (error) {
     console.error("Erro ao criar consulta:", error);
-     await handleSearchResult("error", "Erro ao criar a consulta.");
+    await handleResultAppointment("error", "Erro ao criar a consulta.", "resultsCreateAppointment");
   }
 }
 
@@ -136,19 +136,20 @@ document
   });
 
 
-async function handleSearchResult(status, message) {
-  const resultsDiv = document.getElementById("resultsGetAppointment");
+async function handleResultAppointment(status, message, resultElementId) {
+
+  const resultsDiv = document.getElementById(resultElementId);
   resultsDiv.className = "mt-3 resultsGet"; // Reseta as classes base
 
   switch (status) {
     case "success":
       showAppointments();
-      resultsDiv.innerText = message || "Consulta criada com sucesso!";
+      resultsDiv.innerText = message || "Sucesso!";
       resultsDiv.classList.add("success");
       break;
 
     case "error":
-      resultsDiv.innerText = message || "Erro ao criar consulta!";
+      resultsDiv.innerText = message || "Erro";
       resultsDiv.classList.add("error");
       break;
 
@@ -212,7 +213,7 @@ function renderizarHorariosSelect(horarios) {
   horarios.forEach((horario) => {
     const option = document.createElement("option");
     option.value = `${horario.homeTime} - ${horario.endTime}`;
-    option.textContent = `${horario.homeTime} - ${horario.endTime}`;
+    option.textContent = `${horario.homeTime} - ${horario.endTime}`;resultsCreateAppointment
     selectElement.appendChild(option);
   });
 }
@@ -228,9 +229,9 @@ async function preencherHorarios() {
 
   const horariosDisponiveis = await buscarHorariosDisponiveis(especialidade, data);
 
-  
+
   const nome = document.getElementById("criar-consulta-medico").value;
-  renderizarHorariosSelect(horariosDisponiveis.filter(x=>x["emailMedico"] === nome));
+  renderizarHorariosSelect(horariosDisponiveis.filter(x => x["emailMedico"] === nome));
 }
 
 document.getElementById("consulta-data").addEventListener("change", preencherHorarios);
@@ -271,29 +272,28 @@ async function buscarConsulta(event) {
       throw new Error(`Erro HTTP! Status: ${response.status}`);
     }
 
+    await handleResultAppointment("success", "Consulta  encontrada.", "resultsGetAppointment");
     const data = await response.json();
     renderConsulta(data);
   } catch (error) {
     console.error("Erro na requisição:", error);
-    document.getElementById("consulta-results").innerText = "Erro ao buscar consulta.";
+    await handleResultAppointment("error", "Consulta não encontrada.", "resultsGetAppointment");
   }
 }
 
 // Função para exibir resultados de consulta
 function renderConsulta(data) {
-  const resultsDiv = document.getElementById("consulta-results");
+  const resultsDiv = document.getElementById("resultsGetAppointment");
   resultsDiv.innerHTML = "";
 
-  if (data && data.length > 0) {
-    data.forEach(consulta => {
-      resultsDiv.innerHTML += `
-        <p><strong>Paciente:</strong> ${consulta.namePatient}</p>
-        <p><strong>Médico:</strong> ${consulta.nameDoctor}</p>
-        <p><strong>Data:</strong> ${new Date(consulta.date).toLocaleDateString()}</p>
-        <p><strong>Hora de Início:</strong> ${consulta.startTime}</p>
+  if (Object.keys(data).length > 0) {
+    resultsDiv.innerHTML += `
+        <p><strong>Paciente:</strong> ${data.namePatient}</p>
+        <p><strong>Médico:</strong> ${data.nameDoctor}</p>
+        <p><strong>Data:</strong> ${new Date(data.date).toLocaleDateString()}</p>
+        <p><strong>Hora de Início:</strong> ${data.inicio}</p>
         <hr />
       `;
-    });
   } else {
     resultsDiv.innerHTML = "<p>Nenhuma consulta encontrada.</p>";
   }
@@ -314,7 +314,26 @@ document.querySelector(".searchConfirmConsulta").addEventListener("click", async
   await buscarConsulta(event);
 });
 
+function limparCamposPesquisaConsulta() {
+  const resultsDiv = document.getElementById("resultsGetAppointment");
+  resultsDiv.innerHTML = "";
+  resultsDiv.className = "mt-3";
 
+  document.getElementById("searchEmailPaciente").value = "";
+  document.getElementById("searchDoctorEmail").value = "";
+  document.getElementById("searchData").value = "";
+  document.getElementById("searchHoraInicio").value = "";
+
+
+}
+function limparCamposCriarConsulta() {
+
+  document.getElementById ("consulta-data").value = "";
+  document.getElementById ("criar-consulta-paciente").value = "";
+  document.getElementById ("consulta-horarios-disponiveis").value = "";
+  const resultsDiv = document.getElementById("resultsCreateAppointment");
+  resultsDiv.innerHTML = "";
+  resultsDiv.className = "mt-3";}
 
 
 

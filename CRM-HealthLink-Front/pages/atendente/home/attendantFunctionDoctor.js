@@ -120,12 +120,13 @@ function readInfoDoctor(picture, name, birthDate, crm, email, especialidade) {
     renderMedico(data);
   } catch (error) {
     console.error("Erro na requisição:", error);
-    handleSearchResult("error", "Erro ao buscar médico!");
+    handleSearchResultDoctor("error", "Erro ao buscar médico!");
     
   }
 }
 
-function handleSearchResult(status, message) {
+function handleSearchResultDoctor(status, message) {
+  debugger;
   const resultsDiv = document.getElementById("resultsGetDoctor");
   resultsDiv.className = "mt-3 resultsGet"; // Reseta as classes base
 
