@@ -16,7 +16,7 @@ const patientForm = document.getElementById("userForm"),
 let isEdit = false, editId;
 
 
-showPatients();
+//showPatients();
 
 
 // Gerenciar a exibição das seções com base no clique no menu
@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Seção de Paciente
 // - Função Exibir Informações na tabela
 async function showPatients() {
+  
   const token = localStorage.getItem("token");
   if (!token) {
     alert("Usuário não autenticado.");
@@ -84,6 +85,7 @@ async function showPatients() {
 }
 // Renderiza os pacientes na tabela
 function renderPacientes(data) {
+  
   const patientData = document.querySelector("table tbody");
 
   if (!patientData) {
@@ -135,6 +137,7 @@ function renderPacientes(data) {
 }
 // Função para visualizar informações no modal
 function readInfo( name, birthDate, email) {
+  
   document.getElementById("showName").value = name || "Nome não disponível";
   document.getElementById("showsDate").value =
     birthDate ? new Date(birthDate).toISOString().split("T")[0] : "";
@@ -148,6 +151,7 @@ function readInfo( name, birthDate, email) {
 
 // - Função Criar Paciente
 async function createPatient(token, data) {
+  
   if (!token) {
     alert("Usuário não autenticado.");
     return;
@@ -189,6 +193,7 @@ async function createPatient(token, data) {
   }
 }
 async function handleCreationResult(status) {
+  
   const resultsDiv = document.getElementById("resultsCreate");
   resultsDiv.className = "resultsCreate";
   const token = localStorage.getItem("token");
@@ -219,6 +224,7 @@ async function handleCreationResult(status) {
   }
 }
 async function setupPacienteForm() {
+  
   const form = document.getElementById("criar-paciente-form");
 
   if (form) {
@@ -249,6 +255,7 @@ async function setupPacienteForm() {
 
 // - Função Atualizar Paciente
 function editPatient(index, name, birthDate, cpf, email) {
+  
   document.getElementById("criar-paciente-nome").value = name;
   document.getElementById("criar-paciente-data-nascimento").value = birthDate;
   document.getElementById("criar-paciente-cpf").value = cpf;
@@ -262,6 +269,7 @@ function editPatient(index, name, birthDate, cpf, email) {
   submitButton.textContent = "Atualizar Paciente";
 }
 async function updatePatient(token, data) {
+  
   if (!token) {
     alert("Usuário não autenticado.");
     return;
@@ -304,6 +312,7 @@ async function updatePatient(token, data) {
 }
 
 async function handleUpdateResult(status) {
+  
   const resultsDiv = document.getElementById("resultsCreate");
   resultsDiv.className = "resultsCreate";
   const token = localStorage.getItem("token");
@@ -358,6 +367,7 @@ async function handleUpdateResult(status) {
 }
 
 function limparCampos() {
+  
   document.getElementById("criar-paciente-nome").value = "";
   document.getElementById("criar-paciente-data-nascimento").value = "";
   document.getElementById("criar-paciente-cpf").value = "";
@@ -367,6 +377,7 @@ function limparCampos() {
 }
 
 async function setupPacienteForm() {
+  
   const form = document.getElementById("criar-paciente-form");
 
   if (form) {
@@ -406,10 +417,12 @@ async function setupPacienteForm() {
 // - Função Buscar Paciente por Email
 // Limpa o campo de pesquisa ao abrir o modal
 document.getElementById("userSearch").addEventListener("show.bs.modal", () => {
+
   document.getElementById("searchEmailPatient").value = "";
   clearResults();
 });
 async function buscarPaciente(token, emailPaciente) {
+  
   if (!token) {
     alert("Usuário não autenticado.");
     return;
@@ -439,6 +452,7 @@ async function buscarPaciente(token, emailPaciente) {
 }
 
 function handleSearchResult(status, message) {
+  
   const resultsDiv = document.getElementById("resultsGet");
   resultsDiv.className = "mt-3 resultsGet"; // Reseta as classes base
 
@@ -463,6 +477,7 @@ function handleSearchResult(status, message) {
 
 // Função para exibir os dados do paciente no modal ou página
 function renderPacienteDaBusca(data) {
+  
   const resultsDiv = document.getElementById("resultsGet");
   resultsDiv.innerHTML = "";
 
@@ -482,6 +497,7 @@ function renderPacienteDaBusca(data) {
 
 // Função para limpar resultados
 function clearResults() {
+  
   const resultsDiv = document.getElementById("resultsGet");
   if (resultsDiv) {
     resultsDiv.innerHTML = "";
@@ -503,6 +519,7 @@ document.querySelector(".searchConfirm").addEventListener("click", async () => {
 
 // - Função Deletar Paciente
 function confirmDelete(email) {
+  
   const deleteModal = document.getElementById("deleteModal");
   const confirmButton = document.getElementById("confirmDelete");
   const cancelButton = document.getElementById("cancelDelete");
@@ -529,6 +546,7 @@ function confirmDelete(email) {
   };
 }
 async function removerPaciente(token, emailPaciente) {
+  
   if (!token) {
     alert("Usuário não autenticado.");
     return;
@@ -557,6 +575,7 @@ async function removerPaciente(token, emailPaciente) {
   }
 }
 async function handleRemovalResult(status, token) {
+  
   const resultsDiv = document.getElementById("resultsDelete");
 
   switch (status) {
