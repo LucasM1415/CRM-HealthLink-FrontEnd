@@ -43,7 +43,6 @@ function renderConsultas(data) {
     console.error("Os dados fornecidos não são uma lista de consultas.");
     return;
   }
-  console.log(data)
   data.forEach((consulta, index) => {
     const row = `
     <tr class="appointmentDetails">
@@ -133,15 +132,9 @@ document
   .addEventListener("submit", async (event) => {
     event.preventDefault();
     await criarConsulta();
+    showAppointments();
   });
 
-
-document
-  .getElementById("form-criar-consulta")
-  .addEventListener("submit", async (event) => {
-    event.preventDefault();
-    await criarConsulta();
-  });
 
 async function handleSearchResult(status, message) {
   const resultsDiv = document.getElementById("resultsGetAppointment");
@@ -234,10 +227,14 @@ async function preencherHorarios() {
   }
 
   const horariosDisponiveis = await buscarHorariosDisponiveis(especialidade, data);
-  renderizarHorariosSelect(horariosDisponiveis);
+
+  
+  const nome = document.getElementById("criar-consulta-medico").value;
+  renderizarHorariosSelect(horariosDisponiveis.filter(x=>x["emailMedico"] === nome));
 }
 
 document.getElementById("consulta-data").addEventListener("change", preencherHorarios);
+document.getElementById("criar-consulta-medico").addEventListener("change", preencherHorarios);
 document.getElementById("consulta-especialidade").addEventListener("change", preencherHorarios);
 
 

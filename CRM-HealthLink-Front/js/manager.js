@@ -675,10 +675,7 @@ function renderMedicosSelectEmergencia(medicos) {
 
   selectElement.innerHTML = ""; // Limpa as opções existentes
 
-  const optionDefault = document.createElement("option");
-  optionDefault.value = "";
-  optionDefault.textContent = "Selecione um médico";
-  selectElement.appendChild(optionDefault);
+  
 
   medicos.forEach((medico) => {
     const option = document.createElement("option");
