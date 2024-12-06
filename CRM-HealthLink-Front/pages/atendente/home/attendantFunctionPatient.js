@@ -367,6 +367,7 @@ async function handleUpdateResult(status) {
 }
 
 function limparCampos() {
+  const resultsDiv = document.getElementById("resultsCreate");
   
   document.getElementById("criar-paciente-nome").value = "";
   document.getElementById("criar-paciente-data-nascimento").value = "";
