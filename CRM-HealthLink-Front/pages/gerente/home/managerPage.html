@@ -19,16 +19,18 @@
     <link rel="stylesheet" href="/css/managerStyle.css">
     <link rel="stylesheet" href="managerStyle.css">
     <link rel="stylesheet" href="../calendario.css">
-
+    
+<!-- Scripts de Manipulação de Operações - Consulta, Horário, Calendário -->
     <script src="/pages/gerente/gerenteCalendario.js"></script>
-    <script src="/js/employee.js" defer></script>
-    <script src="/js/manager.js"></script>
     <script src="/pages/atendente/home/attendantFunctionAppointment.js" defer></script>
+
+<!-- Scripts de Gerenciamento das Entidades - Patient, Doctor, Employee -->
+    <script src="/pages/atendente/home/attendantFunctionDoctor.js" defer></script>
     <script src="/pages/atendente/home/attendantFunctionPatient.js" defer></script>
 
-    
-    
-
+<!-- Scripts das Entidades Antigas -->
+    <script src="/js/employee.js" defer></script>
+    <script src="/js/manager.js"></script>
 </head>
 
 <body>
@@ -387,9 +389,12 @@
                             </div>
                           </div>
                 
-                          <div id="resultsCreateDoctor" class="resultsCreateDoctor"></div>
                         </form>
+                        <div class="text-center">
+                          <div id="resultsCreateDoctor" class="resultsCreateDoctor"></div>
+                        </div>
                       </div>
+
                       <div class="modal-footer">
                         <button id="newDoctorBtn" type="submit" form="criar-doutor-form" class="btn btn-primary mt-3">Criar
                           Médico</button>

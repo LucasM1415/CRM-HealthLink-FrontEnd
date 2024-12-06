@@ -1,3 +1,32 @@
+// Configuração do formulário de criação de médico
+  async function setupDoctorForm() {
+    const form = document.getElementById("criar-doutor-form");
+  
+    if (form) {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+  
+        const token = localStorage.getItem("token");
+  
+        if (!token) {
+          console.error("Token não encontrado.");
+          return;
+        }
+  
+        const data = {
+          "criar-doutor-nome": document.getElementById("criar-doutor-nome").value,
+          "criar-doutor-data-nascimento": document.getElementById("criar-doutor-data-nascimento").value,
+          "criar-doutor-cpf": document.getElementById("criar-doutor-cpf").value,
+          "criar-doutor-crm": document.getElementById("criar-doutor-crm").value,
+          "criar-doutor-speciality": document.getElementById("criar-doutor-speciality").value,
+          "criar-doutor-email": document.getElementById("criar-doutor-email").value,
+          "criar-doutor-password": document.getElementById("criar-doutor-password").value,
+        };
+  
+        await createDoctor(token, data);
+      });
+    }
+  }
 // Função Criar Médico
 async function createDoctor(token, data) {
     if (!token) {
@@ -42,8 +71,7 @@ async function createDoctor(token, data) {
       handleDoctorCreationResult("error");
     }
   }
-  
-  // Função para lidar com o resultado da criação do médico
+// Função para lidar com o resultado da criação do médico
   async function handleDoctorCreationResult(status) {
     const resultsDiv = document.getElementById("resultsCreateDoctor");
     resultsDiv.className = "resultsCreateDoctor";
@@ -73,33 +101,5 @@ async function createDoctor(token, data) {
     }
   }
   
-  // Configuração do formulário de criação de médico
-  async function setupDoctorForm() {
-    const form = document.getElementById("criar-doutor-form");
-  
-    if (form) {
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-  
-        const token = localStorage.getItem("token");
-  
-        if (!token) {
-          console.error("Token não encontrado.");
-          return;
-        }
-  
-        const data = {
-          "criar-doutor-nome": document.getElementById("criar-doutor-nome").value,
-          "criar-doutor-data-nascimento": document.getElementById("criar-doutor-data-nascimento").value,
-          "criar-doutor-cpf": document.getElementById("criar-doutor-cpf").value,
-          "criar-doutor-crm": document.getElementById("criar-doutor-crm").value,
-          "criar-doutor-speciality": document.getElementById("criar-doutor-speciality").value,
-          "criar-doutor-email": document.getElementById("criar-doutor-email").value,
-          "criar-doutor-password": document.getElementById("criar-doutor-password").value,
-        };
-  
-        await createDoctor(token, data);
-      });
-    }
-  }
+
   

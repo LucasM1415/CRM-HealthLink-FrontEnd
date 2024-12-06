@@ -79,7 +79,7 @@ async function handleCreationResult(status) {
 }
 
 async function setupDoctorForm() {
-  const form = document.getElementById("criar-doutor-form");
+  const form = document.getElementById("criar-doutor-form1"); // Ñ quero que a nova tela pegue essa função!
 
   if (form) {
     form.addEventListener("submit", async (event) => {
