@@ -298,7 +298,7 @@
                             <button
                               class="btn btn-primary newUser"
                               data-bs-toggle="modal"
-                              data-bs-target="#userForm"
+                              data-bs-target="#doctorForm"
                               type="submit"
                               onclick="limparCampos()"
                             >
@@ -336,6 +336,68 @@
                     </div>
                   </div>
                 </section>
+
+                <!-- Modal Form -->
+                <div class="modal fade" id="doctorForm">
+                  <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Preencha o Formulário</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                
+                      <div class="modal-body">
+                        <form id="criar-doutor-form">
+                          <!-- Campos do Formulário -->
+                          <div class="inputField" id="inputFieldForm">
+                            <div>
+                              <label for="criar-doutor-nome">Nome:</label>
+                              <input type="text" id="criar-doutor-nome" required />
+                            </div>
+                
+                            <div>
+                              <label for="criar-doutor-data-nascimento">Data de Nascimento:</label>
+                              <input type="date" id="criar-doutor-data-nascimento" required />
+                            </div>
+                
+                            <div>
+                              <label for="criar-doutor-cpf">CPF:</label>
+                              <input type="text" id="criar-doutor-cpf" required />
+                            </div>
+                
+                            <div>
+                              <label for="criar-doutor-crm">CRM:</label>
+                              <input type="text" id="criar-doutor-crm" required />
+                            </div>
+                
+                            <div>
+                              <label for="criar-doutor-speciality">Especialidade:</label>
+                              <select id="criar-doutor-speciality" class="form-select" required>
+                              </select>
+                            </div>
+                
+                            <div>
+                              <label for="criar-doutor-email">E-mail:</label>
+                              <input type="email" id="criar-doutor-email" autocomplete="new-email" required />
+                            </div>
+                
+                            <div>
+                              <label for="criar-doutor-password">Senha:</label>
+                              <input type="password" id="criar-doutor-password" autocomplete="new-password" required />
+                            </div>
+                          </div>
+                
+                          <div id="resultsCreateDoctor" class="resultsCreateDoctor"></div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button id="newDoctorBtn" type="submit" form="criar-doutor-form" class="btn btn-primary mt-3">Criar
+                          Médico</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
             
                 <!--Read Data Modal-->
                 <div class="modal fade" id="doctorReadData">
