@@ -49,25 +49,25 @@ function renderPaciente(data) {
   }
 }
 
-// Adiciona evento de submit ao formulário
-document
-  .getElementById("paciente-form") 
-  .addEventListener("submit", async function (event) {
-    event.preventDefault();
+// // Adiciona evento de submit ao formulário
+// document
+//   .getElementById("paciente-form") 
+//   .addEventListener("submit", async function (event) {
+//     event.preventDefault();
 
-    const token = localStorage.getItem("token"); // Substitua por um método que recupere o token dinamicamente
-    const emailPaciente = document
-      .getElementById("obter-paciente-email")
-      .value.trim();
+//     const token = localStorage.getItem("token"); // Substitua por um método que recupere o token dinamicamente
+//     const emailPaciente = document
+//       .getElementById("obter-paciente-email")
+//       .value.trim();
 
-    // Verifique se o email está definido e não está vazio
-    if (!emailPaciente) {
-      alert("Por favor, insira um email válido.");
-      return;
-    }
+//     // Verifique se o email está definido e não está vazio
+//     if (!emailPaciente) {
+//       alert("Por favor, insira um email válido.");
+//       return;
+//     }
 
-    await buscarPaciente(token, emailPaciente);
-  });
+//     await buscarPaciente(token, emailPaciente);
+//   });
 
 
 
@@ -308,18 +308,18 @@ async function handleRemovalResult(status, token) {
   }
 }
 
-// Adiciona evento de submit ao formulário de remoção
-document
-  .getElementById("remover-paciente-form")
-  .addEventListener("submit", async function (event) {
+// // Adiciona evento de submit ao formulário de remoção
+// document
+//   .getElementById("remover-paciente-form")
+//   .addEventListener("submit", async function (event) {
 
-    const token = localStorage.getItem("token");
-    const emailPaciente = document.getElementById(
-      "remover-paciente-email"
-    ).value;
+//     const token = localStorage.getItem("token");
+//     const emailPaciente = document.getElementById(
+//       "remover-paciente-email"
+//     ).value;
 
-    await removerPaciente(token, emailPaciente);
-  });
+//     await removerPaciente(token, emailPaciente);
+//   });
 
 
 
@@ -512,13 +512,13 @@ async function criarNovaConsulta() {
     return;
   }
 
-  const data = document.getElementById("criar-consulta-data").value;
+  const data = document.getElementById("consulta-data").value;
   
  // Obter o valor selecionado do horário (contém tanto horaInicial quanto horaFinal)
- const horarioSelecionado = document.getElementById("criar-consulta-horaInicial").value;
+ const horarioSelecionado = document.getElementById("consulta-horarios-disponiveis").value;
  const medicoId = document.getElementById("criar-consulta-medico").value;
  const pacienteId = document.getElementById("criar-consulta-paciente").value;
- const especialidade = document.getElementById("criar-consulta-especialidade").value;
+ const especialidade = document.getElementById("consulta-especialidade").value;
 
  // Verificar se todos os campos necessários foram preenchidos
  if (!data || !horarioSelecionado || !medicoId || !pacienteId || !especialidade) {
@@ -661,8 +661,8 @@ async function preencherHorarios() {
 }
 
 // Adicionar eventos para atualizar os horários ao alterar a data ou especialidade
-document.getElementById("criar-consulta-data").addEventListener("change", preencherHorarios);
-document.getElementById("criar-consulta-especialidade").addEventListener("change", preencherHorarios);
+//document.getElementById("criar-consulta-data").addEventListener("change", preencherHorarios);
+//document.getElementById("criar-consulta-especialidade").addEventListener("change", preencherHorarios);
 
 // Função para preencher o select de horários quando a data ou especialidade for alterada
 async function preencherHorarios() {
@@ -679,8 +679,8 @@ async function preencherHorarios() {
 }
 
 // Adicionar eventos para atualizar os horários quando a data ou especialidade mudar
-document.getElementById("criar-consulta-data").addEventListener("change", preencherHorarios);
-document.getElementById("criar-consulta-especialidade").addEventListener("change", preencherHorarios);
+// document.getElementById("criar-consulta-data").addEventListener("change", preencherHorarios);
+// document.getElementById("criar-consulta-especialidade").addEventListener("change", preencherHorarios);
 
 
 
@@ -871,11 +871,6 @@ function renderMedicosSelect(medicos) {
 
   selectElement.innerHTML = "";
 
-  const optionDefault = document.createElement("option");
-  optionDefault.value = "";
-  optionDefault.textContent = "Selecione um médico";
-  selectElement.appendChild(optionDefault);
-
   medicos.forEach((medico) => {
     const option = document.createElement("option");
     option.value = medico.email;
@@ -996,10 +991,10 @@ function renderConsulta(data) {
   }
 }
 
-document.getElementById("consulta-form").addEventListener("submit", function(event) {
-  event.preventDefault(); 
-  buscarConsulta(event); 
-});
+// document.getElementById("consulta-form").addEventListener("submit", function(event) {
+//   event.preventDefault(); 
+//   buscarConsulta(event); 
+// });
 
 
 
@@ -1332,14 +1327,14 @@ if (consultaForm) {
 }
 
 
-const formCriarConsulta = document.getElementById("form-criar-consulta");
-if (formCriarConsulta) {
-  formCriarConsulta.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    await criarNovaConsulta();
-    await listarConsultas();
-  });
-}
+// const formCriarConsulta = document.getElementById("form-criar-consulta");
+// if (formCriarConsulta) {
+//   formCriarConsulta.addEventListener("submit", async (event) => {
+//     event.preventDefault();
+//     await criarNovaConsulta();
+//     await listarConsultas();
+//   });
+// }
 
 
 document.addEventListener("DOMContentLoaded", () => {

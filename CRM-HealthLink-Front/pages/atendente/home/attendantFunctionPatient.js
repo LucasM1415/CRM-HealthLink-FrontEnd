@@ -112,7 +112,7 @@ function renderPacientes(data) {
           <td>${patient.email || "Email não disponível"}</td>
           <td>
             <button class="btn btn-success" 
-              onclick="readInfo('${patient.picture}', '${patient.name}', '${patient.birthDate}', '${patient.email}')" 
+              onclick="readInfo('${patient.name}', '${patient.birthDate}', '${patient.email}')" 
               data-bs-toggle="modal" data-bs-target="#readData">
               <i class="bi bi-eye"></i>
             </button>
@@ -134,7 +134,7 @@ function renderPacientes(data) {
   });
 }
 // Função para visualizar informações no modal
-function readInfo(picture, name, birthDate, cpf, email) {
+function readInfo( name, birthDate, email) {
   document.getElementById("showName").value = name || "Nome não disponível";
   document.getElementById("showsDate").value =
     birthDate ? new Date(birthDate).toISOString().split("T")[0] : "";
