@@ -50,7 +50,7 @@ function handleLogin(event) {
           localStorage.setItem('crm',data.crm)
           localStorage.setItem('speciality',data.speciality)
           console.log('Login successful:', data);
-          window.location.href = '../pages/doctorPage.html';
+          window.location.href = '/pages/doctor/home/doctorPage.html';
           break;
         case 'ATTENDANT':
           localStorage.setItem('token', data.token)
