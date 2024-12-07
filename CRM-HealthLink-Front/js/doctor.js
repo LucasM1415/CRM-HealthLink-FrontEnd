@@ -187,10 +187,10 @@ function tokenValidation() {
   var userEmail = localStorage.getItem('email');
   var doctorCRM = localStorage.getItem('crm')
   if (token == null) {
-    window.location.href = '../index.html';
+    window.location.href = '../../../index.html';
   } else {
     listar_consultas(token, doctorCRM);
-    listar_exames(token, doctorCRM);
+   // listar_exames(token, doctorCRM);
   }
 }
 
@@ -200,7 +200,7 @@ function singOut() {
   if (typeof localStorage !== "undefined") {
     localStorage.clear();
     alert("Você foi desconectado com sucesso.");
-    window.location.href = "../pages/login.html";
+    window.location.href = "../../../pages/login.html";
   } else {
     console.error("Local storage não está disponível.");
   }
@@ -328,7 +328,7 @@ async function setupEventListeners() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  setupEventListeners();
+ // setupEventListeners();
   updateUserName();
 });
 

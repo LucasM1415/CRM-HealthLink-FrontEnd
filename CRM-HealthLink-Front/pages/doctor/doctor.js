@@ -3,11 +3,13 @@ const cardDiaClassName = "cardDia";
 
 function cadastrarHorario(index, data, day) {
   var tempo_medio = document.getElementById(`tempo-medio-${index}`).value;
-  var Hora_de_inicio = document.getElementById(`Hora-de-inicio-${index}`).value;
-  var Hora_de_termino = document.getElementById(`Hora-de-termino-${index}`).value;
+  var Hora_de_inicio = ajustarFormatoHora(document.getElementById(`Hora-de-inicio-${index}`).value);
+  var Hora_de_termino = ajustarFormatoHora(document.getElementById(`Hora-de-termino-${index}`).value);
   var especialidade_Medico = document.getElementById("specialty").value.toUpperCase();
   var tipo_agendamento = document.getElementById('selectAgendamentos').value.toUpperCase();
   var crm = localStorage.getItem("crm");
+
+
 
   var datas = {
     "date": data,
@@ -42,7 +44,14 @@ function cadastrarHorario(index, data, day) {
     .catch(error => {
       console.error('Erro:', error);
     });
+}
 
+
+function ajustarFormatoHora(hora) {
+  if (hora && hora.match(/^\d{2}:\d{2}$/)) {
+    return hora + ":00";
+  }
+  return hora; // Retorna o valor original se já estiver no formato correto
 }
 
 
