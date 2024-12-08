@@ -19,18 +19,19 @@
     <link rel="stylesheet" href="/css/managerStyle.css">
     <link rel="stylesheet" href="managerStyle.css">
     <link rel="stylesheet" href="../calendario.css">
-    
-<!-- Scripts de Manipulação de Operações - Consulta, Horário, Calendário -->
+
     <script src="/pages/gerente/gerenteCalendario.js"></script>
-    <script src="/pages/atendente/home/attendantFunctionAppointment.js" defer></script>
-
-<!-- Scripts de Gerenciamento das Entidades - Patient, Doctor, Employee -->
-    <script src="/pages/atendente/home/attendantFunctionDoctor.js" defer></script>
-    <script src="/pages/atendente/home/attendantFunctionPatient.js" defer></script>
-
-<!-- Scripts das Entidades Antigas -->
     <script src="/js/employee.js" defer></script>
+    
+    <script src="/pages/atendente/home/attendantFunctionAppointment.js" defer></script>
+    
+    <script src="/pages/atendente/home/attendantFunctionDoctor.js" defer></script>
+    <script src="/pages/gerente/home/managerFunctionDoctor.js" defer></script>
+    
+    <script src="/pages/atendente/home/attendantFunctionPatient.js" defer></script>
+    
     <script src="/js/manager.js"></script>
+
 </head>
 
 <body>
@@ -388,8 +389,8 @@
                               <input type="password" id="criar-doutor-password" autocomplete="new-password" required />
                             </div>
                           </div>
-                
                         </form>
+
                         <div class="text-center">
                           <div id="resultsCreateDoctor" class="resultsCreateDoctor"></div>
                         </div>
@@ -482,11 +483,10 @@
                         </form>
   
                         <div class="text-center">
-                          <div id="resultsGetAppointment" class="mt-3"></div>
+                          <div id="resultsGetDoctor" class="mt-3"></div>
                         </div>
   
                         <div class="modal-footer">
-                            
                           <button type="button" class="btn btn-primary searchConfirmDoctor">
                             Pesquisar
                           </button>
@@ -1095,7 +1095,6 @@
 
 
       document.getElementById("form-criar-consulta").addEventListener("submit", async (event) => {
-        console.log("Submit acionado");
         event.preventDefault(); 
         await criarConsulta();
       });

@@ -101,7 +101,7 @@ header h1 {
 
 
 /* Estilização do Feedback de Operação */
-/* Estilo base */
+/* Feedback da UI - Patient */
 .resultsCreate {
     margin-top: 1rem;
     font-size: 1rem;
@@ -110,60 +110,66 @@ header h1 {
     border-radius: 5px;
     transition: all 0.3s ease;
   }
-  
-  /* Estilo para confirmação positiva */
   .resultsCreate.success {
     color: #155724;
     background-color: #d4edda;
     border: 1px solid #c3e6cb;
   }
-  
-  /* Estilo para confirmação negativa */
   .resultsCreate.error {
     color: #721c24;
     background-color: #f8d7da;
     border: 1px solid #f5c6cb;
   }
-
   .resultsGet {
     padding: 10px;
     border-radius: 5px;
     font-weight: bold;
     text-align: center;
   }
-  
   .resultsGet.success {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
   }
-  
   .resultsGet.error {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
   }
 
+  /* Feedback da UI - Doctor */
+  .resultsCreateDoctor {
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .resultsCreateDoctor.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  .resultsCreateDoctor.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
   .resultsGetDoctor {
     padding: 10px;
     border-radius: 5px;
     font-weight: bold;
     text-align: center;
   }
-  
-  .resulresultsGetDoctortsGet.success {
+  .resultsGetDoctor.success {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
   }
-  
   .resultsGetDoctor.error {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
   }
-  
-  
   
   
 

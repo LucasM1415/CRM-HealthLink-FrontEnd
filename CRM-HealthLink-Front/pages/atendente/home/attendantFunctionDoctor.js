@@ -34,46 +34,109 @@ async function showDoctors() {
 
 // Função para renderizar médicos na tabela
 function renderMedicos(medicos) {
-    const doctorTableBody = document.querySelector("#doctorTableBody");
-  
-    if (!doctorTableBody) {
-      console.error("Elemento com ID 'doctorTableBody' não encontrado.");
-      return;
-    }
-  
-    doctorTableBody.innerHTML = ""; 
-  
-    if (!Array.isArray(medicos)) {
-      console.error("Os dados fornecidos não são uma lista de médicos.");
-      return;
-    }
-  
-    medicos.forEach((medico, index) => {
-      // Verificar se a especialidade existe e se é um array
-    //   let especialidades = "Especialidade não disponível";  // Valor padrão
-    //   if (medico.specialty && Array.isArray(medico.specialty) && medico.specialty.length > 0) {
-    //     especialidades = medico.specialty.join(", "); // Junta as especialidades se for um array
-    //   }
-      const row = `
-        <tr class="doctorDetails">
-          <td>${index + 1}</td>
-          <td>${medico.name || "Nome não disponível"}</td>
-          <td>${medico.birthDate ? new Date(medico.birthDate).toLocaleDateString() : "Data não disponível"}</td>
-          <td>${medico.crm || "CRM não disponível"}</td>
-          <td>${medico.email || "E-mail não disponível"}</td>
-          <td>${medico.speciality || "Especialição não disponível"}</td>
-          <td>
-            <button class="btn btn-success" 
-              onclick="readInfoDoctor('${medico.picture}', '${medico.name}', '${medico.birthDate}', '${medico.crm}', '${medico.email}', '${medico.speciality}')" 
-              data-bs-toggle="modal" data-bs-target="#doctorReadData">
-              <i class="bi bi-eye"></i>
-            </button>
-          </td>
-        </tr>
-      `;
-      doctorTableBody.innerHTML += row;
-    });
+  const doctorTableBody = document.querySelector("#doctorTableBody");
+  const acessLevel = localStorage.getItem("acessLeval");
+
+  if (!doctorTableBody) {
+    console.error("Elemento com ID 'doctorTableBody' não encontrado.");
+    return;
   }
+
+  doctorTableBody.innerHTML = "";
+
+  if (!Array.isArray(medicos)) {
+    console.error("Os dados fornecidos não são uma lista de médicos.");
+    return;
+  }
+
+  medicos.forEach((medico, index) => {
+    const commonRowContent = `
+      <tr class="doctorDetails">
+        <td>${index + 1}</td>
+        <td>${medico.name || "Nome não disponível"}</td>
+        <td>${medico.birthDate ? new Date(medico.birthDate).toLocaleDateString() : "Data não disponível"}</td>
+        <td>${medico.crm || "CRM não disponível"}</td>
+        <td>${medico.email || "E-mail não disponível"}</td>
+        <td>${medico.speciality || "Especialização não disponível"}</td>
+        <td>
+          <button class="btn btn-success" 
+            onclick="readInfoDoctor('${medico.picture}', '${medico.name}', '${medico.birthDate}', '${medico.crm}', '${medico.email}', '${medico.speciality}')" 
+            data-bs-toggle="modal" data-bs-target="#doctorReadData">
+            <i class="bi bi-eye"></i>
+          </button>
+    `;
+
+    let row;
+
+    if (acessLevel === "ATTENDANT") {
+      row = `${commonRowContent}</td></tr>`;
+      
+    } else if (acessLevel === "MANAGER") {
+      row = `
+        ${commonRowContent}
+          <button class="btn btn-primary" 
+            onclick="editDoctor(${index}, '${medico.name}', '${medico.birthDate}', '${""}', '${medico.crm}', '${medico.email}', '${medico.speciality}')"
+            data-bs-toggle="modal" data-bs-target="#doctorForm">
+            <i class="bi bi-pencil-square"></i>
+          </button>
+        </td>
+      </tr>`;
+    } else {
+      console.warn("Nível de acesso desconhecido:", acessLevel);
+      return; // Caso o nível de acesso não seja reconhecido, não renderiza a linha
+    }
+
+    doctorTableBody.innerHTML += row;
+  });
+}
+
+// function renderMedicos(medicos) {
+//     const doctorTableBody = document.querySelector("#doctorTableBody");
+  
+//     if (!doctorTableBody) {
+//       console.error("Elemento com ID 'doctorTableBody' não encontrado.");
+//       return;
+//     }
+  
+//     doctorTableBody.innerHTML = ""; 
+  
+//     if (!Array.isArray(medicos)) {
+//       console.error("Os dados fornecidos não são uma lista de médicos.");
+//       return;
+//     }
+  
+//     medicos.forEach((medico, index) => {
+//       // Verificar se a especialidade existe e se é um array
+//     //   let especialidades = "Especialidade não disponível";  // Valor padrão
+//     //   if (medico.specialty && Array.isArray(medico.specialty) && medico.specialty.length > 0) {
+//     //     especialidades = medico.specialty.join(", "); // Junta as especialidades se for um array
+//     //   }
+//       const row = `
+//         <tr class="doctorDetails">
+//           <td>${index + 1}</td>
+//           <td>${medico.name || "Nome não disponível"}</td>
+//           <td>${medico.birthDate ? new Date(medico.birthDate).toLocaleDateString() : "Data não disponível"}</td>
+//           <td>${medico.crm || "CRM não disponível"}</td>
+//           <td>${medico.email || "E-mail não disponível"}</td>
+//           <td>${medico.speciality || "Especialição não disponível"}</td>
+//           <td>
+//             <button class="btn btn-success" 
+//               onclick="readInfoDoctor('${medico.picture}', '${medico.name}', '${medico.birthDate}', '${medico.crm}', '${medico.email}', '${medico.speciality}')" 
+//               data-bs-toggle="modal" data-bs-target="#doctorReadData">
+//               <i class="bi bi-eye"></i>
+//             </button>
+
+//             <button class="btn btn-primary" 
+//               onclick="editDoctor(${index}, '${patient.name}', '${patient.birthDate}','${""}', '${patient.email}')" 
+//               data-bs-toggle="modal" data-bs-target="#userForm">
+//               <i class="bi bi-pencil-square"></i>
+//             </button>
+//           </td>
+//         </tr>
+//       `;
+//       doctorTableBody.innerHTML += row;
+//     });
+//   }
 
 
 function readInfoDoctor(picture, name, birthDate, crm, email, especialidade) {

@@ -1,112 +1,112 @@
-// Criar um Médico
-async function criarMedico(token, data) {
-  if (!token) {
-    alert("Usuário não autenticado.");
-    return;
-  }
+// // Criar um Médico
+// async function criarMedico(token, data) {
+//   if (!token) {
+//     alert("Usuário não autenticado.");
+//     return;
+//   }
 
-  const url = `https://crm-healthlink.onrender.com/api/employee/doctor`;
+//   const url = `https://crm-healthlink.onrender.com/api/employee/doctor`;
 
-  const requestBody = {
-    name: data["criar-doutor-nome"],
-    birthDate: data["criar-doutor-data-nascimento"],
-    cpf: data["criar-doutor-cpf"],
-    crm: data["criar-doutor-crm"],
-    speciality: [data["criar-doutor-speciality"]],
-    email: data["criar-doutor-email"],
-    password: data["criar-doutor-password"],
-    accessLevel: "DOCTOR",
-  };
+//   const requestBody = {
+//     name: data["criar-doutor-nome"],
+//     birthDate: data["criar-doutor-data-nascimento"],
+//     cpf: data["criar-doutor-cpf"],
+//     crm: data["criar-doutor-crm"],
+//     speciality: [data["criar-doutor-speciality"]],
+//     email: data["criar-doutor-email"],
+//     password: data["criar-doutor-password"],
+//     accessLevel: "DOCTOR",
+//   };
 
-  console.log("Dados enviados:", requestBody);
+//   // console.log("Dados enviados:", requestBody);
 
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    });
+//   try {
+//     const response = await fetch(url, {
+//       method: "POST",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         Accept: "application/json",
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(requestBody),
+//     });
 
-    if (!response.ok) {
-      const errorText = await response.text(); // Lê o texto da resposta
-      throw new Error(
-        `Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`
-      );
-    }
+//     if (!response.ok) {
+//       const errorText = await response.text(); // Lê o texto da resposta
+//       throw new Error(
+//         `Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`
+//       );
+//     }
 
-    const responseData = await response.json();
-    if (responseData) {
-      //const jsonData = JSON.parse(responseData);
-      handleCreationResult("success");
-    } else {
-      handleCreationResult("success");
-    }
-  } catch (error) {
-    console.error("Erro na requisição:", error);
-    handleCreationResult("error");
-  }
-}
+//     const responseData = await response.json();
+//     if (responseData) {
+//       //const jsonData = JSON.parse(responseData);
+//       handleCreationResult("success");
+//     } else {
+//       handleCreationResult("success");
+//     }
+//   } catch (error) {
+//     console.error("Erro na requisição:", error);
+//     handleCreationResult("error");
+//   }
+// }
 
-//Funcção pra lidar com a criar do Médico
-async function handleCreationResult(status) {
-  const resultsDivs = document.getElementById("resultsCreateDoctor");
-  const token = localStorage.getItem("token");
+// //Funcção pra lidar com a criar do Médico
+// async function handleCreationResult(status) {
+//   const resultsDivs = document.getElementById("resultsCreateDoctor");
+//   const token = localStorage.getItem("token");
 
-  switch (status) {
-    case "success":
-      resultsDivs.innerText = "Médico criado com sucesso!";
-      if (token) {
-        await listarMedicos(token);
-      }
-      break;
+//   switch (status) {
+//     case "success":
+//       resultsDivs.innerText = "Médico criado com sucesso!";
+//       if (token) {
+//         await listarMedicos(token);
+//       }
+//       break;
 
-    case "error":
-      if (token) {
-        await listarMedicos(token);
-        await listarPacientes(token);
-        await preencherSelectPacientes();
-      }
-      break;
+//     case "error":
+//       if (token) {
+//         await listarMedicos(token);
+//         await listarPacientes(token);
+//         await preencherSelectPacientes();
+//       }
+//       break;
 
-    default:
-      resultsDivs.innerText = "Status desconhecido.";
-      break;
-  }
-}
+//     default:
+//       resultsDivs.innerText = "Status desconhecido.";
+//       break;
+//   }
+// }
 
-async function setupDoctorForm() {
-  const form = document.getElementById("criar-doutor-form1"); // Ñ quero que a nova tela pegue essa função!
-
-  if (form) {
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      const token = localStorage.getItem("token");
-      const data = {
-        "criar-doutor-nome": document.getElementById("criar-doutor-nome").value,
-        "criar-doutor-data-nascimento": document.getElementById(
-          "criar-doutor-data-nascimento"
-        ).value,
-        "criar-doutor-cpf": document.getElementById("criar-doutor-cpf").value,
-        "criar-doutor-crm": document.getElementById("criar-doutor-crm").value,
-        "criar-doutor-speciality": document.getElementById(
-          "criar-doutor-speciality"
-        ).value,
-        "criar-doutor-email":
-          document.getElementById("criar-doutor-email").value,
-        "criar-doutor-password": document.getElementById(
-          "criar-doutor-password"
-        ).value,
-      };
-
-      await criarMedico(token, data);
-    });
-  }
-}
+// async function setupDoctorFormTeste() {
+//   const form = document.getElementById("criar-doutor-form"); 
+//   // O elemento ñ existe, comentei pois estava conflitando com a mesma função da nova tela de gerente, no ato da criação de um médico!
+//   if (form) {
+//     form.addEventListener("submit", async (event) => {
+//       event.preventDefault();
+      
+//       const token = localStorage.getItem("token");
+//       const data = {
+//         "criar-doutor-nome": document.getElementById("criar-doutor-nome").value,
+//         "criar-doutor-data-nascimento": document.getElementById(
+//           "criar-doutor-data-nascimento"
+//         ).value,
+//         "criar-doutor-cpf": document.getElementById("criar-doutor-cpf").value,
+//         "criar-doutor-crm": document.getElementById("criar-doutor-crm").value,
+//         "criar-doutor-speciality": document.getElementById(
+//           "criar-doutor-speciality"
+//         ).value,
+//         "criar-doutor-email":
+//         document.getElementById("criar-doutor-email").value,
+//         "criar-doutor-password": document.getElementById(
+//           "criar-doutor-password"
+//         ).value,
+//       };
+      
+//       await criarMedico(token, data);
+//     });
+//   }
+// }
 
 //Atualizar um Médico pelo E-Mail
 async function atualizarMedico(token, data) {
@@ -1155,7 +1155,7 @@ async function setupEventListeners2() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  setupDoctorForm();
+  // setupDoctorFormTeste();
   setupUpdateDoctorForm();
   setupEventListeners2();
   preencherSelectEspecialidades("criar-doutor-speciality");
