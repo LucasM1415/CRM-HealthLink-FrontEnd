@@ -149,6 +149,34 @@ function readInfo( name, birthDate, email) {
 }
 
 
+// Configuração do formulário de criação de paciente
+async function setupPacienteForm() {
+  const form = document.getElementById("criar-paciente-form");
+
+  if (form) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      console.log("Evento submit disparado!");
+
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        console.error("Token não encontrado.");
+        return;
+      }
+
+      const data = {
+        "criar-paciente-nome": document.getElementById("criar-paciente-nome").value,
+        "criar-paciente-data-nascimento": document.getElementById("criar-paciente-data-nascimento").value,
+        "criar-paciente-cpf": document.getElementById("criar-paciente-cpf").value,
+        "criar-paciente-email": document.getElementById("criar-paciente-email").value,
+        "criar-paciente-password": document.getElementById("criar-paciente-password").value,
+      };
+
+      await createPatient(token, data);
+    });
+  }
+}
 // - Função Criar Paciente
 async function createPatient(token, data) {
   
@@ -223,34 +251,7 @@ async function handleCreationResult(status) {
       break;
   }
 }
-async function setupPacienteForm() {
-  
-  const form = document.getElementById("criar-paciente-form");
 
-  if (form) {
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      console.log("Evento submit disparado!");
-
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        console.error("Token não encontrado.");
-        return;
-      }
-
-      const data = {
-        "criar-paciente-nome": document.getElementById("criar-paciente-nome").value,
-        "criar-paciente-data-nascimento": document.getElementById("criar-paciente-data-nascimento").value,
-        "criar-paciente-cpf": document.getElementById("criar-paciente-cpf").value,
-        "criar-paciente-email": document.getElementById("criar-paciente-email").value,
-        "criar-paciente-password": document.getElementById("criar-paciente-password").value,
-      };
-
-      await createPatient(token, data);
-    });
-  }
-}
 
 
 // - Função Atualizar Paciente
@@ -306,7 +307,6 @@ async function updatePatient(token, data) {
 
 
   } catch (error) {
-    // console.error("Erro ao atualizar paciente:", error);
     await handleUpdateResult("error");
   }
 }
