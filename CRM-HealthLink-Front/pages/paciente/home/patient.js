@@ -254,8 +254,8 @@ async function agendarConsulta() {
 const appointmentForm = document.getElementById("appointment-form");
 
 appointmentForm.addEventListener("submit", (event) => {
-  event.preventDefault(); // Previne o envio padrão do formulário
-  agendarConsulta(); // Chama a função de agendar
+  event.preventDefault(); 
+  agendarConsulta(); 
 });
 
 
