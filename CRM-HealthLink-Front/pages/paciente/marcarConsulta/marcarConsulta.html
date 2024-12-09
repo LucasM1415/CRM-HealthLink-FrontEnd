@@ -15,14 +15,30 @@
 
 <body onload="popularPacienteMarcarConsulta()">
   <header>
-        <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
-        <h1 id="patientGetName"></h1>
-        <button onclick="voltarPacienteHome()" id = "back-button" class="back-button"><strong>Voltar</strong></button>
+    <section class="top-header">
+      <div class="interface">
+          <div class="logotipo">
+              <a href="#">
+                  <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
+              </a>
+          </div>
+
+          <div class="welcome-message">
+            <h1 id="patientGetName"></h1>
+          </div>
+
+          <div class="btn-back-button">
+              <a href="#">
+                <button onclick="voltarPacienteHome()" id = "back-button" class="back-button"><strong>Voltar</strong></button>
+              </a>
+          </div>
+      </div>
+  </section>
   </header>
-
-  <section class="schedule-appointment">
+      
+      <section class="schedule-appointment">
         <div class="pacienteMarcarConsultaContainer">
-
+          
         </div>
     </section>
 
@@ -38,14 +54,8 @@
       }
 
       document.addEventListener("DOMContentLoaded", function() {
-        getNome(); // Chama a função ao carregar a página
+        getNome();
       });
-    </script>
-
-        document.addEventListener("DOMContentLoaded", () => {
-            setupEventListeners();
-            updateUserName();
-        });
     </script>
 </body>
 </html>

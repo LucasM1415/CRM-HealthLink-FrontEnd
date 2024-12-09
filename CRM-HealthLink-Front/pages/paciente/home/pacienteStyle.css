@@ -182,42 +182,49 @@ ul {
 
 
 #appointments-list {
-    list-style-type: none; 
-    padding: 0; 
-    margin: 0; 
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
 }
 
 .item {
     cursor: pointer;
-    border: 1px solid #ddd;
-    margin: 10px 0; 
+    border: 1px solid #ccc;
+    margin: 15px 10px;
     border-radius: 8px;
-    background-color: #f9f9f9; 
-    width: calc(100% - 20px); 
-    box-sizing: border-box; 
-    display: flex; 
-    flex-direction: column; 
-    padding: 10px; 
+    background: linear-gradient(to bottom, #f9f9f9, #e9e9e9);
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.item:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
 }
 
 .title {
     font-weight: bold;
-    margin: 0; 
-    padding: 15px; 
-    background-color: #fff; 
-    border-bottom: 1px solid #ddd; 
-    text-align: center; 
-    width: 100%;
-    box-sizing: border-box; 
+    padding: 10px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    color: #333;
+    text-transform: uppercase;
 }
 
 .expanded-content {
-    display: none; 
-    padding: 10px;
+    display: none;
+    padding: 15px;
+    background-color: #fff;
     border-top: 1px solid #ddd;
-    background-color: #fff; 
-    width: 100%; 
-    box-sizing: border-box; 
+    border-radius: 0 0 8px 8px;
+    color: #555;
 }
 
 .expanded-content.show {
@@ -225,9 +232,11 @@ ul {
 }
 
 .expanded-content p {
-    margin: 5px 0; 
+    margin: 8px 0;
     text-align: center;
+    font-size: 14px;
 }
+
 
 
 
@@ -236,108 +245,6 @@ ul {
     padding: 0; 
     margin: 0; 
 }
-
-.item {
-    cursor: pointer;
-    border: 1px solid #ddd;
-    margin: 10px 0; 
-    border-radius: 8px;
-    background-color: #f9f9f9; 
-    width: calc(100% - 20px); 
-    box-sizing: border-box; 
-    display: flex; 
-    flex-direction: column; 
-    padding: 10px; 
-}
-
-.title {
-    font-weight: bold;
-    margin: 0;
-    padding: 15px; 
-    background-color: #fff; 
-    border-bottom: 1px solid #ddd;
-    text-align: center; 
-    width: 900px; 
-    box-sizing: border-box; 
-    margin-left: 220px;
-}
-
-
-.expanded-content {
-    display: none; 
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    background-color: #fff; 
-    width: 100%; 
-    box-sizing: border-box; 
-    margin-left: 220px;
-}
-
-
-.expanded-content.show {
-    display: block;
-}
-
-
-.expanded-content p {
-    margin: 5px 0;
-    text-align: center;
-}
-
-
-#exams-list {
-    list-style-type: none; 
-    padding: 0; 
-    margin: 0; 
-}
-
-.item {
-    cursor: pointer;
-    border: 1px solid #ddd;
-    margin: 10px 0; 
-    border-radius: 8px;
-    background-color: #f9f9f9; 
-    width: calc(100% - 20px); 
-    box-sizing: border-box; 
-    display: flex; 
-    flex-direction: column; 
-    padding: 10px; 
-}
-
-.title {
-    font-weight: bold;
-    margin: 0;
-    padding: 15px; 
-    background-color: #fff; 
-    border-bottom: 1px solid #ddd;
-    text-align: center; 
-    width: 900px; 
-    box-sizing: border-box; 
-    margin-left: 220px;
-}
-
-
-.expanded-content {
-    display: none; 
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    background-color: #fff; 
-    width: 100%; 
-    box-sizing: border-box; 
-    margin-left: 220px;
-}
-
-
-.expanded-content.show {
-    display: block;
-}
-
-
-.expanded-content p {
-    margin: 5px 0;
-    text-align: center;
-}
-
 
 /* .paciente-atendimento-remoto-container {
     border-left: 2px solid #eeee67;
