@@ -686,62 +686,62 @@ async function preencherHorarios() {
 
 
 
-//Listar consultas
-async function listarConsultas(token) {
-  if (!token) {
-    ("Usuário não autenticado.");
-    return;
-  }
+// //Listar consultas
+// async function listarConsultas(token) {
+//   if (!token) {
+//     ("Usuário não autenticado.");
+//     return;
+//   }
 
-  const url = `https://crm-healthlink.onrender.com/api/appointment/all`;
+//   const url = `https://crm-healthlink.onrender.com/api/appointment/all`;
 
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-    });
+//   try {
+//     const response = await fetch(url, {
+//       method: "GET",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         Accept: "application/json",
+//       },
+//     });
 
-    if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
-    }
+//     if (!response.ok) {
+//       throw new Error(`Erro HTTP! Status: ${response.status}`);
+//     }
 
-    const data = await response.json();
-    renderConsultas(data);
-  } catch (error) {
-    console.error("Erro na requisição:", error);
-    const resultsTable = document.querySelector("#list-consultas-tbody");
-    resultsTable.innerHTML =
-      '<tr><td colspan="6">Erro ao listar consultas.</td></tr>';
-  }
-}
+//     const data = await response.json();
+//     renderConsultas(data);
+//   } catch (error) {
+//     console.error("Erro na requisição:", error);
+//     const resultsTable = document.querySelector("#list-consultas-tbody");
+//     resultsTable.innerHTML =
+//       '<tr><td colspan="6">Erro ao listar consultas.</td></tr>';
+//   }
+// }
 
-// Função para renderizar as consultas na tabela
-function renderConsultas(consultas) {
-  const tableBody = document.querySelector("#list-consultas-tbody");
+// // Função para renderizar as consultas na tabela
+// function renderConsultas(consultas) {
+//   const tableBody = document.querySelector("#list-consultas-tbody");
 
-  if (!tableBody) {
-    // console.error("Elemento <tbody> não encontrado!"); >> "[tbody] Deste render está no listAppointmentManagerPage.html"
-    return;
-  }
+//   if (!tableBody) {
+//     // console.error("Elemento <tbody> não encontrado!"); >> "[tbody] Deste render está no listAppointmentManagerPage.html"
+//     return;
+//   }
 
-  tableBody.innerHTML = "";
+//   tableBody.innerHTML = "";
 
-  consultas.forEach((consulta) => {
-    const row = document.createElement("tr");
+//   consultas.forEach((consulta) => {
+//     const row = document.createElement("tr");
 
-    row.innerHTML = `
-      <td>${consulta.date || "Data não disponível"}</td>
-      <td>${consulta.inicio || "Horário não disponível"}</td>
-      <td>${consulta.namePatient || "Paciente não disponível"}</td>
-      <td>${consulta.nameDoctor || "Médico não disponível"}</td>
-    `;
+//     row.innerHTML = `
+//       <td>${consulta.date || "Data não disponível"}</td>
+//       <td>${consulta.inicio || "Horário não disponível"}</td>
+//       <td>${consulta.namePatient || "Paciente não disponível"}</td>
+//       <td>${consulta.nameDoctor || "Médico não disponível"}</td>
+//     `;
 
-    tableBody.appendChild(row);
-  });
-}
+//     tableBody.appendChild(row);
+//   });
+// }
 
 
 
@@ -1216,7 +1216,7 @@ function tokenValidation() {
   } else {
     listarPacientes(token, userid);
     listarMedicos(token, userid);
-    listarConsultas(token, userid);
+    //listarConsultas(token, userid);
   }
 }
 
@@ -1275,7 +1275,7 @@ async function setupEventListeners() {
       await preencherSelectPacientes();
       await preencherSelectMedicos();
       await listarMedicos(token);
-      await listarConsultas(token);
+      //await listarConsultas(token);
     } catch (error) {
       console.error("Erro ao preencher o select com pacientes:", error);
     }

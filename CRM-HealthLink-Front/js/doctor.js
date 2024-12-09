@@ -1,11 +1,11 @@
 
-async function listar_exames(token, doctorEmail) {
+async function listar_exames(token, doctorCRM) {
   if (!token) {
     alert('Usuário não autenticado.');
     return;
   }
 
-  const url = `https://crm-healthlink.onrender.com/api/doctor/exams/${doctorEmail}`;
+  const url = `https://crm-healthlink.onrender.com/api/doctor/exams/${doctorCRM}`;
 
   fetch(url, {
     method: 'GET',
@@ -28,13 +28,13 @@ async function listar_exames(token, doctorEmail) {
     });
 }
 
-async function listar_consultas(token, doctorEmail) {
+async function listar_consultas(token, doctorCRM) {
   if (!token) {
     alert('Usuário não autenticado.');
     return;
   }
 
-  const url = `https://crm-healthlink.onrender.com/api/doctor/appointment/${doctorEmail}`;
+  const url = `https://crm-healthlink.onrender.com/api/doctor/appointment/${doctorCRM}`;
 
   fetch(url, {
     method: 'GET',
@@ -263,6 +263,15 @@ function renderConsultations(data) {
   appointmentsList.innerHTML = '';
   const consultas = data || listaDeConsultas;
 
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`; // Formata como DD/MM/YYYY
+  };
+
+  const formatTime = (timeString) => {
+    return timeString; // Já vem no formato HH:MM:SS, então podemos utilizá-lo diretamente
+  };
+
   consultas.forEach(consulta => {
     const listItem = document.createElement('li');
     listItem.classList.add('item');
@@ -275,9 +284,9 @@ function renderConsultations(data) {
     const expandedContent = document.createElement('div');
     expandedContent.classList.add('expanded-content');
     expandedContent.innerHTML = `
-        <p><strong>Data:</strong> ${new Date(consulta.date).toLocaleDateString()}</p>
-        <p><strong>Hora:</strong> ${new Date(consulta.date).toLocaleTimeString()}</p>
-        <p><strong>Paciente:</strong> ${consulta.namePatient}</p>
+        <p><strong>Data:</strong> ${consulta.date ? formatDate(consulta.date) : 'Data não disponível'}</p>
+        <p><strong>Hora:</strong> ${consulta.inicio ? formatTime(consulta.inicio) : 'Hora não disponível'}</p>
+        <p><strong>Paciente:</strong> ${consulta.namePatient || 'Paciente não disponível'}</p>
     `;
     listItem.appendChild(expandedContent);
 
@@ -288,6 +297,7 @@ function renderConsultations(data) {
     appointmentsList.appendChild(listItem);
   });
 }
+
 
 async function setupEventListeners() {
   const form = document.getElementById('create-exam-form');
