@@ -32,63 +32,75 @@ async function showDoctors() {
   }
 
 
-// Função para renderizar médicos na tabela
-function renderMedicos(medicos) {
-  const doctorTableBody = document.querySelector("#doctorTableBody");
-  const acessLevel = localStorage.getItem("acessLeval");
-
-  if (!doctorTableBody) {
-    console.error("Elemento com ID 'doctorTableBody' não encontrado.");
-    return;
-  }
-
-  doctorTableBody.innerHTML = "";
-
-  if (!Array.isArray(medicos)) {
-    console.error("Os dados fornecidos não são uma lista de médicos.");
-    return;
-  }
-
-  medicos.forEach((medico, index) => {
-    const commonRowContent = `
-      <tr class="doctorDetails">
-        <td>${index + 1}</td>
-        <td>${medico.name || "Nome não disponível"}</td>
-        <td>${medico.birthDate ? new Date(medico.birthDate).toLocaleDateString() : "Data não disponível"}</td>
-        <td>${medico.crm || "CRM não disponível"}</td>
-        <td>${medico.email || "E-mail não disponível"}</td>
-        <td>${medico.speciality || "Especialização não disponível"}</td>
-        <td>
-          <button class="btn btn-success" 
-            onclick="readInfoDoctor('${medico.picture}', '${medico.name}', '${medico.birthDate}', '${medico.crm}', '${medico.email}', '${medico.speciality}')" 
-            data-bs-toggle="modal" data-bs-target="#doctorReadData">
-            <i class="bi bi-eye"></i>
-          </button>
-    `;
-
-    let row;
-
-    if (acessLevel === "ATTENDANT") {
-      row = `${commonRowContent}</td></tr>`;
-      
-    } else if (acessLevel === "MANAGER") {
-      row = `
-        ${commonRowContent}
-          <button class="btn btn-primary" 
-            onclick="editDoctor(${index}, '${medico.name}', '${medico.birthDate}', '${""}', '${medico.crm}', '${medico.email}', '${medico.speciality}')"
-            data-bs-toggle="modal" data-bs-target="#doctorForm">
-            <i class="bi bi-pencil-square"></i>
-          </button>
-        </td>
-      </tr>`;
-    } else {
-      console.warn("Nível de acesso desconhecido:", acessLevel);
-      return; // Caso o nível de acesso não seja reconhecido, não renderiza a linha
+  function renderMedicos(medicos) {
+    const doctorTableBody = document.querySelector("#doctorTableBody");
+    const acessLevel = localStorage.getItem("acessLeval");
+  
+    if (!doctorTableBody) {
+      console.error("Elemento com ID 'doctorTableBody' não encontrado.");
+      return;
     }
-
-    doctorTableBody.innerHTML += row;
-  });
-}
+  
+    doctorTableBody.innerHTML = "";
+  
+    if (!Array.isArray(medicos)) {
+      console.error("Os dados fornecidos não são uma lista de médicos.");
+      return;
+    }
+  
+    const formatDate = (dateString) => {
+      const [year, month, day] = dateString.split("-");
+      const localDate = new Date(year, month - 1, day); // Ignora timezone
+      return localDate.toLocaleDateString("pt-BR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+    };
+  
+    const formatSpecialities = (specialities) =>
+      Array.isArray(specialities) ? specialities.join(", ") : "Especialização não disponível";
+  
+    medicos.forEach((medico, index) => {
+      const commonRowContent = `
+        <tr class="doctorDetails">
+          <td>${index + 1}</td>
+          <td>${medico.name || "Nome não disponível"}</td>
+          <td>${medico.birthDate ? formatDate(medico.birthDate) : "Data não disponível"}</td>
+          <td>${medico.crm || "CRM não disponível"}</td>
+          <td>${medico.email || "E-mail não disponível"}</td>
+          <td>${formatSpecialities(medico.speciality)}</td>
+          <td>
+            <button class="btn btn-success" 
+              onclick="readInfoDoctor('${medico.picture}', '${medico.name}', '${medico.birthDate}', '${medico.crm}', '${medico.email}', '${formatSpecialities(medico.speciality)}')" 
+              data-bs-toggle="modal" data-bs-target="#doctorReadData">
+              <i class="bi bi-eye"></i>
+            </button>
+      `;
+  
+      let row;
+  
+      if (acessLevel === "ATTENDANT") {
+        row = `${commonRowContent}</td></tr>`;
+      } else if (acessLevel === "MANAGER") {
+        row = `
+          ${commonRowContent}
+            <button class="btn btn-primary" 
+              onclick="editDoctor(${index}, '${medico.name}', '${medico.birthDate}', '${""}', '${medico.crm}', '${medico.email}', '${formatSpecialities(medico.speciality)}')"
+              data-bs-toggle="modal" data-bs-target="#doctorForm">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+          </td>
+        </tr>`;
+      } else {
+        console.warn("Nível de acesso desconhecido:", acessLevel);
+        return; // Caso o nível de acesso não seja reconhecido, não renderiza a linha
+      }
+  
+      doctorTableBody.innerHTML += row;
+    });
+  }
+  
 
 // function renderMedicos(medicos) {
 //     const doctorTableBody = document.querySelector("#doctorTableBody");

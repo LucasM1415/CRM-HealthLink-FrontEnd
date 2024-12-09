@@ -83,9 +83,7 @@ async function showPatients() {
       '<tr><td colspan="5">Erro ao exibir pacientes.</td></tr>';
   }
 }
-// Renderiza os pacientes na tabela
 function renderPacientes(data) {
-  
   const patientData = document.querySelector("table tbody");
 
   if (!patientData) {
@@ -100,17 +98,25 @@ function renderPacientes(data) {
     return;
   }
 
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    const localDate = new Date(year, month - 1, day); // Ignora timezone
+    return localDate.toLocaleDateString("pt-BR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  };
+
   data.forEach((patient, index) => {
     const row = `
         <tr class="patientDetails">
           <td>${index + 1}</td>
-          
           <td>${patient.name || "Nome não disponível"}</td>
           <td>${patient.birthDate
-        ? new Date(patient.birthDate).toLocaleDateString()
-        : "Data de Nascimento não disponível"
-      }</td>
-          
+            ? formatDate(patient.birthDate)
+            : "Data de Nascimento não disponível"
+          }</td>
           <td>${patient.email || "Email não disponível"}</td>
           <td>
             <button class="btn btn-success" 
@@ -118,23 +124,21 @@ function renderPacientes(data) {
               data-bs-toggle="modal" data-bs-target="#readData">
               <i class="bi bi-eye"></i>
             </button>
-
             <button class="btn btn-primary" 
               onclick="editPatient(${index}, '${patient.name}', '${patient.birthDate}','${""}', '${patient.email}')" 
               data-bs-toggle="modal" data-bs-target="#userForm">
               <i class="bi bi-pencil-square"></i>
             </button>
-
             <button class="btn btn-danger" 
               onclick="confirmDelete('${encodeURIComponent(patient.email)}')">
               <i class="bi bi-trash"></i>
             </button>
-
           </td>
         </tr>`;
     patientData.innerHTML += row;
   });
 }
+
 // Função para visualizar informações no modal
 function readInfo( name, birthDate, email) {
   
@@ -485,23 +489,33 @@ function handleSearchResult(status, message) {
 
 // Função para exibir os dados do paciente no modal ou página
 function renderPacienteDaBusca(data) {
-  
   const resultsDiv = document.getElementById("resultsGet");
   resultsDiv.innerHTML = "";
 
-  if (data) {
+  if (data && Object.keys(data).length > 0) {
+    const formatDate = (dateString) => {
+      const [year, month, day] = dateString.split("-");
+      const localDate = new Date(year, month - 1, day); // Ignora timezone
+      return localDate.toLocaleDateString("pt-BR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    };
+
+    const renderField = (label, value) => 
+      `<p><strong>${label}:</strong> ${value || `${label} não disponível`}</p>`;
+
     resultsDiv.innerHTML = `
-      <p><strong>Nome:</strong> ${data.name || "Nome não disponível"}</p>
-      <p><strong>Data de nascimento:</strong> ${data.birthDate
-        ? new Date(data.birthDate).toLocaleDateString()
-        : "Data de Nascimento não disponível"
-      }</p>
-      <p><strong>Email:</strong> ${data.email || "Email não disponível"}</p>
+      ${renderField("Nome", data.name)}
+      ${renderField("Data de nascimento", data.birthDate ? formatDate(data.birthDate) : null)}
+      ${renderField("Email", data.email)}
     `;
   } else {
     resultsDiv.innerHTML = `<p>Nenhum paciente encontrado.</p>`;
   }
 }
+
 
 // Função para limpar resultados
 function clearResults() {
