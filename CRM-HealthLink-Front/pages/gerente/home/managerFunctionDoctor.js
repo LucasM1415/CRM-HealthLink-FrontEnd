@@ -115,14 +115,13 @@ async function handleDoctorCreationResult(status) {
 
 // - Função Atualizar Doctor
 function editDoctor(index, name, birthDate, cpf, crm, email, speciality) {
-  
+
   document.getElementById("criar-doutor-nome").value = name;
   document.getElementById("criar-doutor-data-nascimento").value = birthDate;
   document.getElementById("criar-doutor-cpf").value = cpf;
   document.getElementById("criar-doutor-crm").value = crm;
   document.getElementById("criar-doutor-email").value = email;
-  document.getElementById("criar-doutor-speciality").value = speciality;
-
+  // document.getElementById("criar-doutor-speciality").value = speciality;
   const form = document.getElementById("criar-doutor-form");
   form.setAttribute("data-mode", "update");
   form.setAttribute("data-index", index);
@@ -178,11 +177,12 @@ async function updateDoctor(token, data) {
     birthDate: data["criar-doutor-data-nascimento"],
     cpf: data["criar-doutor-cpf"],
     crm: data["criar-doutor-crm"],
-    speciality: [data["criar-doutor-speciality"]],
-    accessLevel: "DOCTOR",
+    speciality: [data["criar-doutor-speciality"]],  // Garantindo que 'speciality' seja um array
     email: data["criar-doutor-email"],
     password: data["criar-doutor-password"],
   };
+
+
 
   console.log(requestBody);
 
@@ -212,6 +212,33 @@ async function updateDoctor(token, data) {
     handleUpdateDoctorResult("error");
   }
 }
+
+function limparCamposDoctor() {
+  const resultsDiv = document.getElementById("resultsCreateDoctor");
+  if (resultsDiv) {
+    alert
+    resultsDiv.className = "resultsCreateDoctor"; 
+    resultsDiv.innerHTML = ""; 
+  }
+
+  const form = document.getElementById("criar-doutor-form");
+  
+  if (form) {
+
+    form.reset();
+
+    form.removeAttribute("data-mode");
+  }
+
+  const newDoctorBtn = document.getElementById("newDoctorBtn");
+  if (newDoctorBtn) {
+    newDoctorBtn.textContent = "Criar Médico";
+  }
+
+}
+
+
+
 
 async function handleUpdateDoctorResult(status) {
   const resultsDiv = document.getElementById("resultsCreateDoctor");
