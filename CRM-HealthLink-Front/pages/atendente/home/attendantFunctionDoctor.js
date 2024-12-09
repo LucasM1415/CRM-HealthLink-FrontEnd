@@ -224,23 +224,29 @@ function handleSearchResultDoctor(status, message) {
 }
 
 function renderMedico(data) {
-    const resultsDiv = document.getElementById("resultsGetDoctor");
-    resultsDiv.innerHTML = ""; 
-  
-    if (data) {
-      resultsDiv.innerHTML = `
-        <p><strong>Nome:</strong> ${data.name || "Nome não disponível"}</p>
-        <p><strong>Telefone:</strong> ${data.birthDate
-            ? new Date(data.birthDate).toLocaleDateString()
-            : "Data de Nascimento não disponível"}</p>
-        <p><strong>Especialidade:</strong> ${data.speciality || "Especialidade não disponível"}</p>
-        <p><strong>Especialidade:</strong> ${data.crm || "CRM não disponível"}</p>
-        <p><strong>Email:</strong> ${data.email || "Email não disponível"}</p>
-      `;
-    } else {
-      resultsDiv.innerHTML = `<p>Nenhum médico encontrado.</p>`;
-    }
+  const resultsDiv = document.getElementById("resultsGetDoctor");
+  resultsDiv.innerHTML = ""; 
+
+  const formatDate = (dateString) => {
+      const [year, month, day] = dateString.split("-"); // Separa a data em partes
+      return `${day}/${month}/${year}`; // Retorna no formato DD/MM/YYYY
+  };
+
+  if (data) {
+    resultsDiv.innerHTML = `
+      <p><strong>Nome:</strong> ${data.name || "Nome não disponível"}</p>
+      <p><strong>Data de Nascimento:</strong> ${data.birthDate
+          ? formatDate(data.birthDate)
+          : "Data de Nascimento não disponível"}</p>
+      <p><strong>Especialidade:</strong> ${data.speciality.join(', ') || "Especialidade não disponível"}</p>
+      <p><strong>CRM:</strong> ${data.crm || "CRM não disponível"}</p>
+      <p><strong>Email:</strong> ${data.email || "Email não disponível"}</p>
+    `;
+  } else {
+    resultsDiv.innerHTML = `<p>Nenhum médico encontrado.</p>`;
   }
+}
+
   
   function renderError(message) {
     const resultsDiv = document.getElementById("resultsGetDoctor");
