@@ -29,7 +29,6 @@ const minhasConsultas = async ()=> {
 
     const consultas = await response.json();
     const ul = document.getElementById("appointments-list")
-    console.log(consultas)
     consultas.forEach(consulta=>{
         let li = document.createElement('li')
         let pHorario = document.createElement('p')
