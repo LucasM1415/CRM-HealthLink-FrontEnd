@@ -11,51 +11,96 @@
     <script src="render.js"></script>
     <link rel="stylesheet" href="pacienteStyle.css">
   </head>
+
   <body onload="iniciarTelaPaciente()">
     <header>
-      <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
-      <h1 id="welcome-message"></h1>
-      <button id="back-button" class="back-button" onclick="logout()"><i class="bi bi-box-arrow-left"></i> Sair</button>
-    </header>
-    <section class="patient-data">
-      <div class="exams">
-        <h2>Meus Exames</h2>
-        <ul id="exams-list">
-          <!-- Aqui os dados de exames serão inseridos dinamicamente -->
-        </ul>
+      <section class="top-header">
+          <div class="interface">
+              <div class="logotipo">
+                  <a href="#">
+                      <img src="/images/logo2.png" alt="Logo da Empresa" class="logo">
+                  </a>
+              </div>
+
+              <div class="welcome-message">
+                  <h1 id="welcome-message"></h1>
+              </div>
+
+              <div class="btn-back-button">
+                  <a href="#">
+                      <button id="back-button" class="back-button" onclick="singOut()"> <i class="bi bi-box-arrow-left"></i> Sair</button>
+                  </a>
+              </div>
+          </div>
+      </section>
+
+      <section class="bottom-header">
+          <div class="interface">
+              <nav>
+                  <ul>
+                      <li><a href="#agendarConsulta">Agendar Consulta</a></li>
+                      <li><a href="#minhasConsultas">Minhas Consultas</a></li>
+                      <li><a href="#prontidao">Prontidão</a></li>
+                  </ul>
+              </nav>
+              
+          </div>
+      </section>
+  </header>
+    
+    <section id="agendarConsulta" class="patient-data">
+      <div class="schedule-appointment">
+        <section class="section-agendar-consulta-online">
+          <h2>Agendar Consulta</h2>
+          <label for="especialidadeSelect">Selecione uma Especialidade: </label>
+          <select name="especialidadeSelect" id="especialidadeSelect"></select>
+          <br>
+          <label for="dataSelect">Selecione uma data: </label>
+          <input type="date" id="dataSelect"></input>
+          <br>
+          <button id="submit-button" class="submit-button" onclick="irParaMarcarConsulta()">
+            <strong>Marcar Consulta</strong>
+          </button>
+        </section>
       </div>
-  
-        <div class="appointments">
+    </section>
+
+    
+    <section id="minhasConsultas" class="patient-data" style="display: none;">
+        <div class="schedule-appointment">
           <h2>Minhas Consultas</h2>
           <ul id="appointments-list">
-            <!-- Aqui os dados de consultas serão inseridos dinamicamente -->
           </ul>
         </div>
       </section>
-    <div class="schedule-appointment">
-      <section class="section-agendar-consulta-online"> 
-        <h2>Agendar Consulta</h2>
 
-        <label for="especialidadeSelect">Selecione uma Especialidade: </label>
-        <select name="especialidadeSelect" id="especialidadeSelect"></select>
 
-        <br>
-
-        <label for="dataSelect">Selecione uma data: </label>
-        <input type="date" id="dataSelect"></input>
-
-        <br>
-    
-        <button id="submit-button" class="submit-button" onclick="irParaMarcarConsulta()">
-          <strong>Marcar Consulta</strong>
-        </button>
-        
-      </section>
-      <div class="paciente-atendimento-remoto-container">
-        <a href="../../chamada/paciente/chamadaPacienteProntidao.html">Prontidão</a>
+    <section id="prontidao" class="patient-data" style="display: none;">
+      <div class="schedule-appointment">
+        <h2>Acessar Prontidão</h2>
+        <section class="paciente-atendimento-remoto-container">
+            <a href="../../chamada/paciente/chamadaPacienteProntidao.html">Entrar <i class="bi bi-camera-video"></i></a>
+        </section>
       </div>
-    </div>
+    </section>
+     
     <script>
+      function showSection(sectionId) {
+            document.querySelectorAll('.patient-data').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault(); 
+                const sectionId = this.getAttribute('href').substring(1); // Obtém o ID da seção
+                showSection(sectionId); // Exibe a seção correspondente
+            });
+        });
+
       document.addEventListener("DOMContentLoaded", () => {
         setupEventListeners();
         updateUserName();

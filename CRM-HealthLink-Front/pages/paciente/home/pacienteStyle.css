@@ -1,107 +1,105 @@
-body {
-    font-family: Arial, sans-serif;
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.interface {
+    max-width: 1280px;
+    margin: 0 auto;
+
 }
 
 header {
+    width: 100%;
     background-color: #1f1f1f;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-}
-header .back-button {
-    background-color: #4CAF50;
-    color: white; 
-    border: none; 
-    padding: 10px 15px; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    font-size: 16px; 
-    margin-left: 20px; 
+    color: #fff;
 }
 
-header .back-button:hover {
-    background-color: #45a049; 
-}
-
-header .logo {
-    height: 80px; 
-}
-
+/* Estilização copiada do EmployeeStylee */
 header h1 {
     margin: 0;
-    font-size: 1.5em;
+    font-size: 2em;
     text-align: center;
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
-header .user-info {
-    margin-left: auto;
+
+/* Top-header */
+.top-header > .interface {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
-header .user-info img {
-    border-radius: 50%; 
-    margin-left: 10px;
-    height: 40px;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
-
-header {
+.top-header {
     background-color: #1f1f1f;
-    color: white;
+    padding: 20px 4%;
+}
+
+.top-header .logotipo img {
+    max-width: 80px;
+}
+
+/* Estilização copiada do EmployeeStylee */
+.top-header .btn-back-button button {
     padding: 10px 20px;
+    background-color: #45a049;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.top-header .btn-back-button button:hover {
+    background-color: #555;
+}
+
+
+/* Bottom-header */
+.bottom-header nav ul {
+    width: auto;
     display: flex;
     align-items: center;
-    justify-content: space-between; 
-}
-header .back-button {
-    background-color: #4CAF50;
-    color: white; 
-    border: none; 
-    padding: 10px 15px; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    font-size: 16px; 
-    margin-left: 20px; 
+    justify-content: center;
+    list-style-type: none;
 }
 
-header .back-button:hover {
-    background-color: #45a049; 
+.bottom-header nav ul li a {
+    color: #ffffff;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-weight: 250;
+    display: block;
+    transition: .1s;
+}
+.bottom-header nav ul li a:hover {
+    background-color: #45a049;
+    color: #1f1f1f;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15);
 }
 
-header .logo {
-    height: 80px; 
+.menu-drop {
+    position: relative;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 1.5em;
-    text-align: center;
-    flex-grow: 1; 
+.menu-drop .drop {
+    position: absolute;
+    background-color: #303030;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    transition: .2s;
 }
 
-header .user-info {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
+.menu-drop .drop a {
+    padding: 12px 12px;
 }
 
-header .user-info img {
-    border-radius: 50%; 
-    margin-left: 10px;
-    height: 40px;
+.menu-drop:hover .drop{
+    white-space: nowrap;
+    width: auto;
+    height: auto;
 }
 
 .schedule-appointment {
@@ -109,7 +107,7 @@ header .user-info img {
     padding: 0.2em;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px;
+    margin: 30px;
     display: flex;
     height: 30vh;
 }
@@ -152,9 +150,14 @@ header .user-info img {
 }
 
 .patient-data {
-    display: flex;
-    justify-content: space-around;
-    margin: 20px;
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    width: 100%; 
+    max-width: 800px; 
+    border-radius: 8px; 
+    z-index: 1000; 
 }
 
 .patient-data div {
@@ -162,7 +165,7 @@ header .user-info img {
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 45%;
+    width: auto;
 }
 
 .patient-data h2 {
@@ -281,82 +284,6 @@ ul {
     text-align: center;
 }
 
-.patient-data {
-    display: flex;
-    justify-content: space-around;
-    margin: 20px;
-}
-
-.patient-data div {
-    background-color: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 45%;
-}
-
-.patient-data h2 {
-    border-bottom: 2px solid #4CAF50;
-    padding-bottom: 10px;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-
-
-#appointments-list {
-    list-style-type: none; 
-    padding: 0; 
-    margin: 0; 
-}
-
-.item {
-    cursor: pointer;
-    border: 1px solid #ddd;
-    margin: 10px 0; 
-    border-radius: 8px;
-    background-color: #f9f9f9; 
-    width: calc(100% - 20px); 
-    box-sizing: border-box; 
-    display: flex; 
-    flex-direction: column; 
-    padding: 10px; 
-}
-
-.title {
-    font-weight: bold;
-    margin: 0; 
-    padding: 15px; 
-    background-color: #fff; 
-    border-bottom: 1px solid #ddd; 
-    text-align: center; 
-    width: 100%;
-    box-sizing: border-box; 
-}
-
-.expanded-content {
-    display: none; 
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    background-color: #fff; 
-    width: 100%; 
-    box-sizing: border-box; 
-}
-
-.expanded-content.show {
-    display: block;
-}
-
-.expanded-content p {
-    margin: 5px 0; 
-    text-align: center;
-}
-
-
 
 #exams-list {
     list-style-type: none; 
@@ -409,6 +336,15 @@ ul {
 .expanded-content p {
     margin: 5px 0;
     text-align: center;
+}
+
+
+/* .paciente-atendimento-remoto-container {
+    border-left: 2px solid #eeee67;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
 }
 
 .paciente-atendimento-remoto-container a{
@@ -422,21 +358,71 @@ ul {
     text-align: center;
     border-radius: 12px;
 }
+
 .paciente-atendimento-remoto-container a:hover {
     background-color:#C0CA33;
 }
-.paciente-atendimento-remoto-container {
-    border-left: 2px solid #eeee67;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-}
 
-.section-agendar-consulta-online{
+.section-agendar-consulta-online {
     flex: 2;
 }
 .paciente-atendimento-remoto-container iframe{
+    height: 100%;
+    width: 100%;
+} */
+
+
+
+
+/* Modelo de Estilização - <div>, <h2> e <a>*/
+.schedule-appointment {
+    background-color: white;
+    padding: 0.2em;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 30px;
+    display: flex;
+    flex-direction: column; /* Permite que os filhos sejam exibidos um abaixo do outro */
+    height: 30vh;
+}
+
+.schedule-appointment h2 {
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+
+.paciente-atendimento-remoto-container {
+    /* border-left: 2px solid #eeee67; */
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height: 100%;
+}
+
+.paciente-atendimento-remoto-container a {
+    text-decoration: none;
+    color: #1B1B1B;
+    font-weight: 700;
+    height: 8vh;
+    width: 50%;
+    background-color: #eeee67;
+    align-content: center;
+    text-align: center;
+    border-radius: 12px;
+    margin-top: 10px; 
+}
+
+.paciente-atendimento-remoto-container a:hover {
+    background-color: #C0CA33;
+}
+
+.section-agendar-consulta-online {
+    flex: 2;
+}
+
+.paciente-atendimento-remoto-container iframe {
     height: 100%;
     width: 100%;
 }
