@@ -43,18 +43,26 @@ function renderConsultas(data) {
     console.error("Os dados fornecidos não são uma lista de consultas.");
     return;
   }
+
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`; // Formata como DD/MM/YYYY
+  };
+
   data.forEach((consulta, index) => {
+    const formattedDate = consulta.date ? formatDate(consulta.date) : "Data não disponível";
     const row = `
-    <tr class="appointmentDetails">
-      <td>${index + 1}</td>
-      <td>${consulta.date ? new Date(consulta.date).toLocaleDateString() : "Data não disponível"}</td>
-      <td>${consulta.inicio || "Horário não disponível"}</td>
-      <td>${consulta.namePatient || "Paciente não disponível"}</td>
-      <td>${consulta.nameDoctor || "Doutor não disponível"}</td>
-    </tr>`;
+      <tr class="appointmentDetails">
+        <td>${index + 1}</td>
+        <td>${formattedDate}</td>
+        <td>${consulta.inicio || "Horário não disponível"}</td>
+        <td>${consulta.namePatient || "Paciente não disponível"}</td>
+        <td>${consulta.nameDoctor || "Doutor não disponível"}</td>
+      </tr>`;
     appointmentData.insertAdjacentHTML("beforeend", row);
   });
 }
+
 
 function readInfo(patientName, doctorName, date, time) {
   document.getElementById("read-consulta-paciente").value = patientName || "Não disponível";
