@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lista Geral</title>
+    <title>Lista de Consultas de Emergência</title>
     <link rel="icon" href="/images/logo2.png" type="image/png" />
     <link rel="stylesheet" href="/css/managerStyle.css" />
     <script src="/js/employee.js" defer></script>
-    <script src="/js/manager.js" refed></script>
+    <script src="/js/manager.js" defer></script>
 
     <style>
         html {
@@ -23,43 +23,44 @@
         <div class="header-top">
             <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
             <h1 id="welcome-message"></h1>
-            <a href="managerPage.html">
-                <button id="back-button" class="back-button">Voltar</button>
+            <a href="/pages/gerente/home/managerPage.html">
+                <button class="back-button">Voltar</button>
             </a>
         </div>
-        <h1>Lista de Médicos Registrados</h1>
+        <h1>Lista de Consultas de Emergência Registradas</h1>
     </header>
+
     <main>
-        <!-- Seção de Doutores -->
-        <section id="doutores" class="content-section" style="display: none">
-            <div class="card" id="list-medicos-card">
-                <table id="list-medicos-table">
+        <!-- Seção de Consultas de Emergência -->
+        <section id="consultas-emergencia" class="content-section" style="display: none;">
+            <div class="card">
+                <table id="consultas-emergencia-table">
                     <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>Data de Nascimento</th>
-                            <th>Email</th>
-                            <th>CRM</th>
-                            <th>Especialização</th>
+                            <th>Data</th>
+                            <th>Hora de Início</th>
+                            <th>Hora de Fim</th>
+                            <th>Médico</th>
+                            <th>Especialidades</th>
+
                         </tr>
                     </thead>
-                    <tbody id="list-medicos-tbody">
-                        <!-- Dados dos médicos serão inseridos aqui -->
+                    <tbody id="consultas-emergencia-tbody">
+                        <!-- Dados das emergências serão inseridos aqui -->
                     </tbody>
                 </table>
             </div>
         </section>
-
-
     </main>
+
     <script>
         // Exibe a primeira seção por padrão
-        document.getElementById('doutores').style.display = 'block';
+        document.getElementById('consultas-emergencia').style.display = 'block';
 
-        // Chame a função listarPacientes após a página carregar
+        // Chame a função listarConsultasEmergencia após a página carregar
         document.addEventListener("DOMContentLoaded", () => {
             const token = localStorage.getItem("token"); // Substitua pelo método correto de obtenção do token
-            listarMedicos(token);
+            listarEmergencias(token);
         });
     </script>
 </body>
