@@ -304,3 +304,62 @@ ul {
     height: 100%;
     width: 100%;
 }
+
+
+
+
+
+/*Marcar Consulta*/
+.pacienteMarcarConsultaContainer {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens quebrem para a linha seguinte quando necessário */
+    gap: 20px; /* Espaço entre os elementos */
+    justify-content: center; /* Garante que os itens fiquem centralizados */
+    width: 90%; /* Largura específica da container */
+    margin: 0 auto; /* Centraliza o container */
+}
+
+.cardMedicoDisponibilidade {
+    background-color: transparent; /* Deixa a div sem fundo */
+    flex: 1 1 calc(25% - 20px); /* Cada card ocupa 25% da largura disponível */
+    margin-top: 1em;
+    padding: 1.5em;
+    box-sizing: border-box;
+    border: 2px solid #ccc; /* Borda cinza para separar os cards */
+    border-radius: 10px; /* Bordas arredondadas para o card */
+    text-align: center; /* Garante que o conteúdo dos cards fique centralizado */
+}
+
+.cardMedicoDisponibilidade h3 {
+    text-align: center; /* Alinhar título ao centro */
+    margin-bottom: 15px; /* Espaço entre o título e os horários */
+}
+
+.cardMedicoDisponibilidade span {
+    background-color: white; /* Fundo branco */
+    border: 2px solid black; /* Borda preta */
+    margin: 0.5em;
+    padding: 15px 25px; /* Aumentando o "gordinho" */
+    display: inline-block;
+    text-align: center;
+    border-radius: 20px; /* Borda arredondada */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transições mais suaves */
+}
+
+.cardMedicoDisponibilidade span:hover {
+    background-color: rgb(57, 167, 57); /* Verde ao passar o mouse */
+    color: white; /* Texto branco */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .pacienteMarcarConsultaContainer {
+        flex-direction: column; /* No celular, coloca os cards um abaixo do outro */
+        gap: 10px;
+    }
+
+    .cardMedicoDisponibilidade {
+        flex: 1 1 100%; /* Em telas pequenas, os cards ocupam 100% da largura */
+    }
+}
