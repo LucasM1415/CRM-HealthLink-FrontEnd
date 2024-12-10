@@ -31,12 +31,19 @@ const minhasConsultas = async ()=> {
     const ul = document.getElementById("appointments-list")
     consultas.forEach(consulta=>{
         let li = document.createElement('li')
-        let pHorario = document.createElement('p')
+        let pHorarioInicio = document.createElement('p')
+        let pHorarioFim = document.createElement('p')
+        let pData = document.createElement('p')
         let pMedicoEspecialidade = document.createElement('p')
-        pHorario.textContent = `${consulta["inicio"]} - ${consulta["fim"]}`
+        const data = consulta["date"].split("-")
+        pData.textContent = `Data: ${data[2]}/${data[1]}/${data[0]}`
+        pHorarioInicio.textContent = `Inicio: ${consulta["inicio"]}`
+        pHorarioFim.textContent = `Fim: ${consulta["fim"]} `
         pMedicoEspecialidade.textContent = ` Médico: ${consulta["nameDoctor"]} / ${consulta["speciality"]}`
         li.appendChild(pMedicoEspecialidade)
-        li.appendChild(pHorario)
+        li.appendChild(pData)
+        li.appendChild(pHorarioInicio)
+        li.appendChild(pHorarioFim)
         ul.appendChild(li);
     })
 }
