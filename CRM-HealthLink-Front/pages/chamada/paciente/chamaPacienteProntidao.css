@@ -2,20 +2,20 @@
     margin: 0;
     padding: 0;
 }
+
 .loader-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-
 }
 
 .loader {
     width: 50px;
     height: 50px;
     border: 5px solid #f3f3f3; 
-    border-top: 5px solid #3498db; 
+    border-top: 5px solid #4CAF50; 
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -29,6 +29,11 @@
     }
 }
 
+p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
 
 
 .videos-container {
@@ -67,6 +72,37 @@
     width: 100%; 
     height: auto; 
     border-radius: 15px; 
+
+    /* Espelhar vídeo */
+    transform: scaleX(-1); 
+    -webkit-transform: scaleX(-1);
+    transform-origin: center; 
   }
-  
+
+
+  .back-button {
+    position: fixed; /* Fixa o botão em uma posição específica */
+    bottom: 20px; /* Espaçamento da parte inferior da tela */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajusta o deslocamento para alinhar o centro do botão */
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 10; /* Garante que o botão esteja acima de outros elementos */
+}
+
+.back-button:hover {
+    background-color: #a04545; 
+    transform: translateX(-50%) scale(1.05); 
+}
+
+.back-button:active {
+    background-color: #8e3e3e; 
+}
+
   

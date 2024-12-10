@@ -3,31 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Prontidão do Médico</title>
+    <link rel="icon" href="/images/logo2.png" type="image/png">
     <link rel="stylesheet" href="../paciente/chamaPacienteProntidao.css">
     
 </head>
 <body>
-    <div style="display: block" class="loader-container">
+    <div style="display: flex" class="loader-container">
         <div class="loader"></div>
-        Aguardando um Paciente
+        <p>Aguardando um Paciente...</p>
+        <button class="back-button" onclick="voltarPagina()">Voltar</button>
     </div>
+
 
     <div class="videos-container">
         <video class="video-remoto" style="display: none"  id="remoteVideo" autoplay></video>
+        
         <div class="video-overlay">
             <video class="video-me" style="display: none"  id="localVideo" autoplay></video>
-        </div>    
+        </div>   
     </div>
+    
+
+    <div class="footer-navbar">
+        <button class="back-button" onclick="voltarPagina()">Encerrar Prontidão</button>
+    </div>
+
+
     <video id="remoteVideo" autoplay></video>
+
     <script src="../stomp.js"></script>
     <script src="../eventDispatcher.js"></script>
     <script src="../deviceManager.js"></script>
     <script src="../onConnect.js"></script>
     <script src="../handlers.js"></script>
     <script src="../ws.js"></script>
+
     <script>
         WsConnFac.get(onConnectDoctor)
+
+        function voltarPagina() {
+            window.history.back(); 
+        }
     </script>
 </body>
 </html>
