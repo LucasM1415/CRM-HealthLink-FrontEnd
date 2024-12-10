@@ -11,6 +11,7 @@ formFuncionario.addEventListener("submit",(e)=>{
   e.target.reset()
   showEmployees();
 })
+
 async function updateEmployee() {
   const resultDiv = document.getElementById("resultsEmployeeCreate");
 
@@ -95,6 +96,7 @@ function readInfoEmployee(picture, name, cargo,email) {
   // const imgElement = document.querySelector('.img-read');
   // if (imgElement) imgElement.src = picture || './image/Profile Icon.webp';
 }
+
 function editEmployee(index, name, cargo,email) {
 
   document.getElementById("criar-funcionario-nome").value = name;
@@ -108,6 +110,8 @@ function editEmployee(index, name, cargo,email) {
   const submitButton = document.getElementById("newUserBtnFuncionario");
   submitButton.textContent = "Atualizar Funcionário";
 }
+
+
 async function showEmployees() {
   const token = localStorage.getItem("token");
   if (!token) {
@@ -139,7 +143,6 @@ async function showEmployees() {
       '<tr><td colspan="8">Erro ao listar funcionários.</td></tr>';
   }
 }
-
 
 
 function renderEmployees(employees) {
@@ -205,3 +208,102 @@ function renderEmployees(employees) {
     employeeTableBody.innerHTML += row;
   });
 }
+
+
+
+document.getElementById("userSearchFuncionario").addEventListener("show.bs.modal", () => {
+  document.getElementById("searchEmailFuncionarioInput").value = "";
+  clearFuncionarioResults();
+});
+
+async function buscarFuncionario(token, emailFuncionario) {
+  if (!token) {
+      alert("Usuário não autenticado.");
+      return;
+  }
+
+  const url = `https://crm-healthlink.onrender.com/api/employee/${emailFuncionario}`;
+
+  try {
+      const response = await fetch(url, {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+          },
+      });
+
+      if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      renderFuncionario(data);
+  } catch (error) {
+      console.error("Erro na requisição:", error);
+      handleSearchResultFuncionario("error", "Erro ao buscar funcionário!");
+  }
+}
+
+function handleSearchResultFuncionario(status, message) {
+  const resultsDiv = document.getElementById("resultsGetFuncionario");
+  resultsDiv.className = "mt-3 resultsGet"; 
+
+  switch (status) {
+      case "success":
+          resultsDiv.innerText = message || "Funcionário encontrado com sucesso!";
+          resultsDiv.classList.add("success");
+          break;
+
+      case "error":
+          resultsDiv.innerText = message || "Erro ao buscar funcionário!";
+          resultsDiv.classList.add("error");
+          break;
+
+      default:
+          resultsDiv.innerText = message || "Status desconhecido!";
+          resultsDiv.classList.add("error");
+          break;
+  }
+}
+
+function renderFuncionario(data) {
+  const resultsDiv = document.getElementById("resultsGetFuncionario");
+  resultsDiv.innerHTML = "";
+
+  const formatDate = (dateString) => {
+      const [year, month, day] = dateString.split("-");
+      return `${day}/${month}/${year}`;
+  };
+
+  if (data) {
+      resultsDiv.innerHTML = `
+          <p><strong>Nome:</strong> ${data.name || "Nome não disponível"}</p>
+          <p><strong>Data de Nascimento:</strong> ${data.birthDate
+              ? formatDate(data.birthDate)
+              : "Data de Nascimento não disponível"}</p>
+          <p><strong>Cargo:</strong> ${data.office || "Departamento não disponível"}</p>
+          <p><strong>Email:</strong> ${data.email || "Email não disponível"}</p>
+      `;
+  } else {
+      resultsDiv.innerHTML = `<p>Nenhum funcionário encontrado.</p>`;
+  }
+}
+
+function clearFuncionarioResults() {
+  const resultsDiv = document.getElementById("resultsGetFuncionario");
+  if (resultsDiv) {
+      resultsDiv.innerHTML = "";
+  }
+}
+
+document.querySelector(".searchConfirmFuncionario").addEventListener("click", () => {
+  const token = localStorage.getItem("token");
+  const emailFuncionario = document.getElementById("searchEmailFuncionarioInput").value.trim();
+
+  if (emailFuncionario) {
+      buscarFuncionario(token, emailFuncionario);
+  } else {
+      alert("Por favor, insira um e-mail válido.");
+  }
+});
