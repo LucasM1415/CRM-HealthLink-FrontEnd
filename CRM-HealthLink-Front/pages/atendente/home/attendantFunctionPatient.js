@@ -381,6 +381,8 @@ function limparCampos() {
   // Limpa os resultados e classes
   resultsDiv.innerText = "";
   resultsDiv.className = "resultsCreate";
+  const submitButton = document.getElementById("newUserBtn");
+  submitButton.textContent = "Criar Paciente";
 }
 
 function limparPesquisar(){
