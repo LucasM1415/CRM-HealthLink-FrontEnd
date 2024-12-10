@@ -13,11 +13,12 @@
 }
 
 #appointments-list li {
-    background-color: #58c05b;
+    background-color: #eeeeee;
     color: rgb(0, 0, 0);
     margin: 1em;
     padding: 0.5em;
     cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
 }
 
 #appointments-list li:hover {
