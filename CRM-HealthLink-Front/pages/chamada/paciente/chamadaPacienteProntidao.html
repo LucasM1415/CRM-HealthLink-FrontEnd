@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prontidao</title>
+    <title>Paciente em Prontidão</title>
+    <link rel="icon" href="/images/logo2.png" type="image/png">
     <script src="../stomp.js"></script>
     <link rel="stylesheet" href="chamaPacienteProntidao.css">
 </head>
 <body>
-    <div style="display: block" class="loader-container">
+    <div style="display: flex" class="loader-container">
         <div class="loader"></div>
-        Aguardando um Médico
+        <p>Aguardando um Médico...</p>
+        <button class="back-button" onclick="voltarPagina()">Voltar</button>
     </div>
 
     <div class="videos-container">
@@ -19,7 +21,13 @@
             <video class="video-me" style="display: none"  id="localVideo" autoplay></video>
         </div>    
     </div>
+
+    <div class="footer-navbar">
+        <button class="back-button" onclick="voltarPagina()">Encerrar Prontidão</button>
+    </div>
     
+    <video id="remoteVideo" autoplay></video>
+
     <script src="../eventDispatcher.js"></script>
     <script src="../deviceManager.js"></script>
     <script src="../onConnect.js"></script>
@@ -27,8 +35,12 @@
     <script src="../ws.js"></script>
     
     <script>
-
         WsConnFac.get(onConnectPatientProntidao)
+
+        function voltarPagina() {
+            window.history.back(); 
+        }
+
     </script>
 </body>
 </html>
