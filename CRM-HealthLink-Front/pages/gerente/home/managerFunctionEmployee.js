@@ -70,14 +70,22 @@ async function criarFuncionario(){
 }
 
 function limparCamposEmployee() {
-    document.getElementById("criar-funcionario-nome").value = "";
-    document.getElementById("criar-funcionario-data-nascimento").value = "";
-    document.getElementById("criar-funcionario-cpf").value = "";
-    document.getElementById("criar-funcionario-email").value = "";
-    const resultsDiv = document.getElementById("resultsCreate");
-    resultsDiv.innerText = "";
+  const resultsDiv = document.getElementById("resultsCreate");
+  if (resultsDiv) {
     resultsDiv.className = "resultsCreate";
+    resultsDiv.innerText = "";
+  }
+
+  const form = document.getElementById("criar-funcionario-form");
+  if (form) {
+    form.reset();
+  }
+  const newUserBtnFuncionario = document.getElementById("newUserBtnFuncionario");
+  if(newUserBtnFuncionario){
+    newUserBtnFuncionario.textContent = "Criar Funcionário"
+  }
 }
+
 function readInfoEmployee(picture, name, cargo,email) {
   document.getElementById("showNameFuncionario").value = name || "Nome não disponível";
   document.getElementById("showCargoFuncionario").value = cargo || "Cargo não disponível" ;
@@ -90,7 +98,7 @@ function readInfoEmployee(picture, name, cargo,email) {
 function editEmployee(index, name, cargo,email) {
 
   document.getElementById("criar-funcionario-nome").value = name;
-  document.getElementById("criar-funcionario-cargo").value = cargo;
+  // document.getElementById("criar-funcionario-cargo").value = cargo;
   document.getElementById("criar-funcionario-email").value = email;
   
   const form = document.getElementById("criar-funcionario-form");
