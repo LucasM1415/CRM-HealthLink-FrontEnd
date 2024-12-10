@@ -1,6 +1,28 @@
+.scrollable-div {
+    max-height: 300px; 
+    overflow-y: auto; 
+    border: 1px solid #ddd; 
+    padding: 10px; 
+    background-color: #f9f9f9;
+}
+
+#appointments-list {
+    list-style-type: none; 
+    margin: 0;
+    padding: 0;
+}
+
 #appointments-list li {
-    background-color: red;
+    background-color: #58c05b;
+    color: rgb(0, 0, 0);
     margin: 1em;
     padding: 0.5em;
-    
+    cursor: pointer;
+}
+
+#appointments-list li:hover {
+    background-color: #338836;
+    color: white;
+    cursor: pointer;
+    transform: scale(1.05);
 }

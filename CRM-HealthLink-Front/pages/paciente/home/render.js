@@ -39,7 +39,7 @@ const minhasConsultas = async ()=> {
         pData.textContent = `Data: ${data[2]}/${data[1]}/${data[0]}`
         pHorarioInicio.textContent = `Inicio: ${consulta["inicio"]}`
         pHorarioFim.textContent = `Fim: ${consulta["fim"]} `
-        pMedicoEspecialidade.textContent = ` Médico: ${consulta["nameDoctor"]} / ${consulta["speciality"]}`
+        pMedicoEspecialidade.textContent = ` Médico: ${consulta["nameDoctor"]} - ${consulta["speciality"]}`
         li.appendChild(pMedicoEspecialidade)
         li.appendChild(pData)
         li.appendChild(pHorarioInicio)

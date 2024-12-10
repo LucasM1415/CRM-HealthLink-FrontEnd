@@ -149,13 +149,14 @@ header h1 {
     background-color: #45a049;
 }
 
-.patient-data {
+.patient-data { 
     position: fixed; 
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); 
     width: 100%; 
     max-width: 800px; 
+    max-height: 600px; 
     border-radius: 8px; 
     z-index: 1000; 
 }
@@ -165,8 +166,12 @@ header h1 {
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: auto;
+    width: 90%; 
+    max-width: 1000px; 
+    height: 100%; 
+    overflow-y: auto; 
 }
+
 
 .patient-data h2 {
     border-bottom: 2px solid #4CAF50;
@@ -245,40 +250,6 @@ ul {
     padding: 0; 
     margin: 0; 
 }
-
-/* .paciente-atendimento-remoto-container {
-    border-left: 2px solid #eeee67;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-}
-
-.paciente-atendimento-remoto-container a{
-    text-decoration: none;
-    color: #1B1B1B  ;
-    font-weight: 700;
-    height: 8vh;
-    width: 50%;
-    background-color:#eeee67;
-    align-content: center;
-    text-align: center;
-    border-radius: 12px;
-}
-
-.paciente-atendimento-remoto-container a:hover {
-    background-color:#C0CA33;
-}
-
-.section-agendar-consulta-online {
-    flex: 2;
-}
-.paciente-atendimento-remoto-container iframe{
-    height: 100%;
-    width: 100%;
-} */
-
-
 
 
 /* Modelo de Estilização - <div>, <h2> e <a>*/
