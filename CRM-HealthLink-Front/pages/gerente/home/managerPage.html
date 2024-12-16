@@ -110,6 +110,7 @@
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
+                            <th>CPF</th>
                             <th>E-Mail</th>
                             <th>Opções</th>
                           </tr>
@@ -129,71 +130,73 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <h4 class="modal-title">Preencha o Formulário</h4>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
             
                   <div class="modal-body">
-                    <form id="criar-paciente-form">
-            
-                      <!-- <div class="card imgholder">
-                        <label for="imgInput" class="upload">
-                          <input type="file" id="imgInput" />
-                          <i class="bi bi-plus-circle-dotted"></i>
-                        </label>
-                        <img
-                          src="./image/Profile Icon.webp"
-                          alt=""
-                          width="200"
-                          height="200"
-                          class="img img-form"
-                        />
-                      </div> -->
-            
+                    <form id="criar-paciente-form" class="needs-validation" novalidate>
                       <div class="inputField" id="inputFieldForm">
-                        <div>
-                          <label for="criar-paciente-nome">Nome:</label>
-                          <input type="text" id="criar-paciente-nome" required />
+                        <div class="mb-3">
+                          <!-- Nome -->
+                          <label for="criar-paciente-nome" class="form-label">Nome:</label>
+                          <input type="text" id="criar-paciente-nome" class="form-control" required />
+                          <div class="valid-feedback">Tudo certo!</div>
+                          <div class="invalid-feedback">
+                            O nome deve conter apenas letras e espaços e não pode ser vazio ou composto apenas de espaços.
+                          </div>
                         </div>
             
-                        <div>
-                          <label for="criar-paciente-data-nascimento">Data de Nascimento:</label>
-                          <input type="date" id="criar-paciente-data-nascimento" required />
+                        <div class="mb-3">
+                          <!-- Data de Nascimento -->
+                          <label for="criar-paciente-data-nascimento" class="form-label">Data de Nascimento:</label>
+                          <input type="date" id="criar-paciente-data-nascimento" class="form-control" required />
+                          <div class="valid-feedback">Tudo certo!</div>
+                          <div class="invalid-feedback">
+                            A data de nascimento não pode estar em branco.
+                          </div>
                         </div>
             
-                        <div>
-                          <label for="criar-paciente-cpf">CPF:</label>
-                          <input type="text" id="criar-paciente-cpf" required />
+                        <div class="mb-3">
+                          <!-- CPF -->
+                          <label for="criar-paciente-cpf" class="form-label">CPF:</label>
+                          <input type="text" id="criar-paciente-cpf" class="form-control" maxlength="14" required />
+                          <div class="valid-feedback">Tudo certo!</div>
+                          <div class="invalid-feedback">
+                            O CPF deve conter 11 números.
+                          </div>
                         </div>
             
-                        <div>
-                          <label for="criar-paciente-email">E-mail:</label>
-                          <input type="email" id="criar-paciente-email" autocomplete="new-email" required />
+                        <div class="mb-3">
+                          <!-- EMAIL -->
+                          <label for="criar-paciente-email" class="form-label">E-mail:</label>
+                          <input type="email" id="criar-paciente-email" class="form-control" autocomplete="new-email" required />
+                          <div class="valid-feedback">Tudo certo!</div>
+                          <div class="invalid-feedback">Por favor, insira um e-mail válido.</div>
                         </div>
             
-                        <div>
-                          <label for="criar-paciente-password">Senha:</label>
-                          <input type="password" id="criar-paciente-password" autocomplete="new-password" required />
+                        <div class="mb-3">
+                          <!-- Senha -->
+                          <label for="criar-paciente-password" class="form-label">Senha:</label>
+                          <input type="password" id="criar-paciente-password" class="form-control" required />
+                          <div class="valid-feedback">Tudo certo!</div>
+                          <div class="invalid-feedback">
+                            A senha deve ter no mínimo 3 caracteres.
+                          </div>
                         </div>
                       </div>
             
                       <div id="resultsCreate" class="resultsCreate"></div>
-                      
                     </form>
                   </div>
                   <div class="modal-footer">
-                    <button id="newUserBtn" type="submit" form="criar-paciente-form" class="btn btn-primary mt-3">Criar Paciente</button>
-                    <!-- <button type="button" id="clearForm" class="btn btn-secondary">Limpar Campos</button> -->
+                    <button id="newUserBtn" type="submit" form="criar-paciente-form" class="btn btn-primary mt-3">
+                      Criar Paciente
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-            
-            
+
                 <!--Read Data Modal-->
                 <div class="modal fade" id="readData">
                   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -226,6 +229,11 @@
                               <input type="text" name="" id="showName" disabled />
                             </div>
                             
+                            <div>
+                              <label for="sCPF">CPF:</label>
+                              <input type="text" name="" id="showsCPF" disabled />
+                            </div>
+
                             <div>
                               <label for="sDate">Data de Nascimento:</label>
                               <input type="date" name="" id="showsDate" disabled />
@@ -322,6 +330,7 @@
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Data de Nascimento</th>
+                            <th>CPF</th>
                             <th>CRM</th>
                             <th>E-Mail</th>
                             <th>Especialidade</th>
@@ -347,51 +356,71 @@
                       </div>
                 
                       <div class="modal-body">
-                        <form id="criar-doutor-form">
+                        <form id="criar-doutor-form" novalidate>
                           <div class="inputField" id="inputFieldForm">
                             <div>
                               <label for="criar-doutor-nome">Nome:</label>
                               <input type="text" id="criar-doutor-nome" required />
+                              <div class="valid-feedback">Tudo certo!</div>
+                              <div class="invalid-feedback">
+                                O nome deve conter apenas letras e espaços e não pode ser vazio ou composto apenas de espaços.
+                              </div>
                             </div>
                 
                             <div>
                               <label for="criar-doutor-data-nascimento">Data de Nascimento:</label>
                               <input type="date" id="criar-doutor-data-nascimento" required />
+                              <div class="invalid-feedback">
+                                Data de nascimento não pode estar em branco.
+                              </div>
                             </div>
                 
                             <div>
                               <label for="criar-doutor-cpf">CPF:</label>
                               <input type="text" id="criar-doutor-cpf" required />
+                              <div class="invalid-feedback">
+                                Apenas números, 11 caracteres.
+                              </div>
                             </div>
                 
                             <div>
                               <label for="criar-doutor-crm">CRM:</label>
                               <input type="text" id="criar-doutor-crm" required />
+                              <div class="invalid-feedback">
+                                Formato correto: 12345-PE.
+                              </div>
                             </div>
                 
                             <div>
                               <label for="criar-doutor-speciality">Especialidade:</label>
                               <select id="criar-doutor-speciality" class="form-select" required>
+                                <option value="">Selecione uma especialidade</option>
                               </select>
                             </div>
                 
                             <div>
                               <label for="criar-doutor-email">E-mail:</label>
                               <input type="email" id="criar-doutor-email" autocomplete="new-email" required />
+                              <div class="invalid-feedback">
+                                Por favor, insira um e-mail válido.
+                              </div>
                             </div>
                 
                             <div>
                               <label for="criar-doutor-password">Senha:</label>
                               <input type="password" id="criar-doutor-password" autocomplete="new-password" required />
+                              <div class="invalid-feedback">
+                                A senha deve ter pelo menos 3 caracteres.
+                              </div>
                             </div>
                           </div>
                         </form>
-
+                
                         <div class="text-center">
                           <div id="resultsCreateDoctor" class="resultsCreateDoctor"></div>
                         </div>
                       </div>
-
+                
                       <div class="modal-footer">
                         <button id="newDoctorBtn" type="submit" form="criar-doutor-form" class="btn btn-primary mt-3">Criar
                           Médico</button>
@@ -399,7 +428,7 @@
                     </div>
                   </div>
                 </div>
-            
+
                 <!--Read Data Modal-->
                 <div class="modal fade" id="doctorReadData">
                   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -437,6 +466,11 @@
                               <input type="date" name="" id="doctorShowDate" disabled />
                             </div>
   
+                            <div>
+                              <label for="doctorShowCPF">CPF:</label>
+                              <input type="text" name="" id="doctorShowCPF" disabled />
+                            </div>
+
                             <div>
                               <label for="doctorShowCRM">CRM:</label>
                               <input type="text" name="" id="doctorShowCRM" disabled />
@@ -538,60 +572,61 @@
               </div>
             </section>
         
-            <!-- Modal Criar Consulta -->
-            <div class="modal fade" id="modalCriarConsulta">
-              <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Criar Consulta</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-            
-                  <div class="modal-body">
-                    <form id="form-criar-consulta">
-                      <div class="mb-3">
-                        <label for="consulta-especialidade" class="form-label">Especialidade</label>
-                        <select id="consulta-especialidade" class="form-select" required>
-                          <option value="">Selecione uma especialidade</option>
-                        </select>
-                      </div>
-            
-                      <div class="mb-3">
-                        <label for="consulta-data" class="form-label">Data</label>
-                        <input type="date" id="consulta-data" class="form-control" required>
-                      </div>
-            
-                      <div class="mb-3">
-                        <label for="consulta-medico" class="form-label">Médico</label>
-                        <select id="criar-consulta-medico" class="form-select" required>
-                        </select>
-                      </div>
-            
-                      <div class="mb-3">
-                        <label for="consulta-paciente" class="form-label">Paciente</label>
-                        <select id="criar-consulta-paciente" class="form-select" required>
-                        </select>
-                      </div>
-            
-                      <div class="mb-3">
-                        <label for="consulta-horarios-disponiveis" class="form-label">Horários Disponíveis</label>
-                        <select id="consulta-horarios-disponiveis" class="form-select" required>
-                        </select>
-                      </div>
-                      
-                    </form>
-                    <div class="text-center">
-                      <div id="resultsCreateAppointment" class="mt-3"></div>
-                      
+          <!-- Modal Criar Consulta -->
+          <div class="modal fade" id="modalCriarConsulta">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Criar Consulta</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+          
+                <div class="modal-body">
+                  <form id="form-criar-consulta">
+                    <div class="mb-3">
+                      <label for="consulta-especialidade" class="form-label">Especialidade</label>
+                      <select id="consulta-especialidade" class="form-select" required>
+                        <option value="">Selecione uma especialidade</option>
+                      </select>
                     </div>
+          
+                    <div class="mb-3">
+                      <label for="consulta-data" class="form-label">Data</label>
+                      <input type="date" id="consulta-data" class="form-control" required>
+                      <div class="valid-feedback">Tudo certo!</div>
+                      <div class="invalid-feedback">A data não pode estar em branco.</div>
+                    </div>
+          
+                    <div class="mb-3">
+                      <label for="criar-consulta-medico" class="form-label">Médico</label>
+                      <select id="criar-consulta-medico" class="form-select" required>
+                      </select>
+                    </div>
+          
+                    <div class="mb-3">
+                      <label for="criar-consulta-paciente" class="form-label">Paciente</label>
+                      <select id="criar-consulta-paciente" class="form-select" required>
+                      </select>
+                    </div>
+          
+                    <div class="mb-3">
+                      <label for="consulta-horarios-disponiveis" class="form-label">Horários Disponíveis</label>
+                      <select id="consulta-horarios-disponiveis" class="form-select" required>
+                      </select>
+                    </div>
+                  </form>
+          
+                  <div class="text-center">
+                    <div id="resultsCreateAppointment" class="mt-3"></div>
                   </div>
-                  
-                  <div class="modal-footer">
-                    <button type="submit" form="form-criar-consulta" class="btn btn-primary">Criar Consulta</button>
-                  </div>
+                </div>
+          
+                <div class="modal-footer">
+                  <button type="submit" form="form-criar-consulta" class="btn btn-primary">Criar Consulta</button>
                 </div>
               </div>
             </div>
+          </div>
 
             <!-- Modal de Pesquisa de Consulta -->
             <div class="modal fade" id="consultaSearch" tabindex="-1" aria-labelledby="consultaModalLabel" aria-hidden="true">
@@ -690,6 +725,7 @@
                                   <th>ID</th>
                                   <th>Nome</th>
                                   <th>Cargo</th>
+                                  <th>CPF</th>
                                   <th>E-Mail</th>
                                   <th>Opções</th>
                               </tr>
@@ -705,65 +741,73 @@
       
           <!-- Modal Form -->
           <div class="modal fade" id="employeeForm">
-              <div class="modal-dialog modal-dialog-centered modal-lg">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h4 class="modal-title">Preencha o Formulário</h4>
-                          <button
-                              type="button"
-                              class="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                          ></button>
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Preencha o Formulário</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+          
+                <div class="modal-body">
+                  <form id="criar-funcionario-form">
+                    <div class="inputField" id="inputFieldForm">
+                      <div>
+                        <label for="criar-funcionario-nome">Nome:</label>
+                        <input type="text" id="criar-funcionario-nome" required />
+                        <div class="valid-feedback">Tudo certo!</div>
+                        <div class="invalid-feedback">Nome inválido. Apenas letras e espaços são permitidos.</div>
                       </div>
-      
-                      <div class="modal-body">
-                          <form id="criar-funcionario-form">
-                              <div class="inputField" id="inputFieldForm">
-                                  <div>
-                                      <label for="criar-funcionario-nome">Nome:</label>
-                                      <input type="text" id="criar-funcionario-nome" required />
-                                  </div>
-                                  <div>
-                                    <label for="criar-paciente-data-nascimento">Data de Nascimento:</label>
-                                    <input type="date" id="criar-funcionario-data-nascimento" required />
-                                  </div>
-                                  <div>
-                                    <label for="criar-funcionario-cargo">Cargo: </label>
-                                      <select name="criar-funcionario-cargo" id="criar-funcionario-cargo" >
-                                        <option value="RECEPTIONIST" selected>Atendente</option>
-                                        <option value="MANAGER">Gerente</option>
-                                      </select>
-                                      
-                                  </div>
-      
-                                  <div>
-                                      <label for="criar-funcionario-cpf">CPF:</label>
-                                      <input type="text" id="criar-funcionario-cpf" required />
-                                  </div>
-      
-                                  <div>
-                                      <label for="criar-funcionario-email">E-mail:</label>
-                                      <input type="email" id="criar-funcionario-email" autocomplete="new-email" required />
-                                  </div>
-      
-                                  <div>
-                                      <label for="criar-funcionario-password">Senha:</label>
-                                      <input type="password" id="criar-funcionario-password" autocomplete="new-password" required />
-                                  </div>
-                              </div>
-      
-                              <div id="resultsEmployeeCreate" class="resultsCreate"></div>
-                              
-                          </form>
+          
+                      <div>
+                        <label for="criar-funcionario-data-nascimento">Data de Nascimento:</label>
+                        <input type="date" id="criar-funcionario-data-nascimento" required />
+                        <div class="valid-feedback">Tudo certo!</div>
+                        <div class="invalid-feedback">A data não pode estar em branco.</div>
                       </div>
-                      <div class="modal-footer">
-                          <button id="newUserBtnFuncionario" type="submit" form="criar-funcionario-form" class="btn btn-primary mt-3">Criar Funcionário</button>
+          
+                      <div>
+                        <label for="criar-funcionario-cargo">Cargo:</label>
+                        <select name="criar-funcionario-cargo" id="criar-funcionario-cargo" required>
+                          <option value="RECEPTIONIST" selected>Atendente</option>
+                          <option value="MANAGER">Gerente</option>
+                        </select>
                       </div>
-                  </div>
+          
+                      <div>
+                        <label for="criar-funcionario-cpf">CPF:</label>
+                        <input type="text" id="criar-funcionario-cpf" required />
+                        <div class="valid-feedback">Tudo certo!</div>
+                        <div class="invalid-feedback">CPF inválido. Apenas números são permitidos e deve ter 11 caracteres.</div>
+                      </div>
+          
+                      <div>
+                        <label for="criar-funcionario-email">E-mail:</label>
+                        <input type="email" id="criar-funcionario-email" autocomplete="new-email" required />
+                        <div class="valid-feedback">E-mail válido!</div>
+                        <div class="invalid-feedback">E-mail inválido.</div>
+                      </div>
+          
+                      <div>
+                        <label for="criar-funcionario-password">Senha:</label>
+                        <input type="password" id="criar-funcionario-password" autocomplete="new-password" required
+                          minlength="3" />
+                        <div class="valid-feedback">Senha válida!</div>
+                        <div class="invalid-feedback">Senha muito curta. Mínimo de 3 caracteres.</div>
+                      </div>
+                    </div>
+                  </form>
+          
+                  <div id="resultsEmployeeCreate" class="resultsCreate"></div>
+                </div>
+          
+                <div class="modal-footer">
+                  <button id="newUserBtnFuncionario" type="submit" form="criar-funcionario-form"
+                    class="btn btn-primary mt-3">Criar Funcionário</button>
+                </div>
               </div>
+            </div>
           </div>
-      
+
           <!--Read Data Modal-->
           <div class="modal fade" id="readDataFuncionario">
               <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -790,6 +834,11 @@
                                       <label for="showCargoFuncionario">Cargo:</label>
                                       <input type="text" name="" id="showCargoFuncionario" disabled />
                                   </div>
+
+                                  <div>
+                                    <label for="showCPFFuncionario">CPF:</label>
+                                    <input type="text" name="" id="showCPFFuncionario" disabled />
+                                </div>
                                   
                                   <div>
                                       <label for="showEmailFuncionario">E-Mail:</label>
@@ -1078,5 +1127,6 @@
       });
   </script>
   <script src="managerFunctionEmployee.js"></script>
+  <script src="/pages/atendente/home/inputsValidations.js"></script>
 </body>
 </html>
