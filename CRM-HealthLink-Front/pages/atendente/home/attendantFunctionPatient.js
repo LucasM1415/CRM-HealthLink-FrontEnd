@@ -50,6 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+function formatCPF(cpf) {
+  if (cpf.length === 11) {
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  }
+  return cpf; // Retorna o CPF original se o formato não for válido
+}
+
 
 // Seção de Paciente
 // - Função Exibir Informações na tabela
@@ -117,10 +124,11 @@ function renderPacientes(data) {
             ? formatDate(patient.birthDate)
             : "Data de Nascimento não disponível"
           }</td>
+          <td>${formatCPF(patient.cpf)}</td>
           <td>${patient.email || "Email não disponível"}</td>
           <td>
             <button class="btn btn-success" 
-              onclick="readInfo('${patient.name}', '${patient.birthDate}', '${patient.email}')" 
+              onclick="readInfo('${patient.name}', '${formatCPF(patient.cpf)}', '${patient.birthDate}', '${patient.email}')" 
               data-bs-toggle="modal" data-bs-target="#readData">
               <i class="bi bi-eye"></i>
             </button>
@@ -140,9 +148,10 @@ function renderPacientes(data) {
 }
 
 // Função para visualizar informações no modal
-function readInfo( name, birthDate, email) {
+function readInfo(name, cpf, birthDate, email) {
   
   document.getElementById("showName").value = name || "Nome não disponível";
+  document.getElementById("showsCPF").value = cpf || "CPF não disponível";
   document.getElementById("showsDate").value =
     birthDate ? new Date(birthDate).toISOString().split("T")[0] : "";
   document.getElementById("showEmail").value = email || "E-mail não disponível";
@@ -511,6 +520,7 @@ function renderPacienteDaBusca(data) {
     resultsDiv.innerHTML = `
       ${renderField("Nome", data.name)}
       ${renderField("Data de nascimento", data.birthDate ? formatDate(data.birthDate) : null)}
+      ${renderField("CPF", formatCPF(data.cpf))}
       ${renderField("Email", data.email)}
     `;
   } else {

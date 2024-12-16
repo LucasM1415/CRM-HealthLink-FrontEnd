@@ -1,3 +1,10 @@
+function formatCPF(cpf) {
+  if (cpf.length === 11) {
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  }
+  return cpf; // Retorna o CPF original se o formato não for válido
+}
+
 // Função para listar os médicos na tabela
 async function showDoctors() {
     const token = localStorage.getItem("token");
@@ -67,12 +74,13 @@ async function showDoctors() {
           <td>${index + 1}</td>
           <td>${medico.name || "Nome não disponível"}</td>
           <td>${medico.birthDate ? formatDate(medico.birthDate) : "Data não disponível"}</td>
+          <td>${formatCPF(medico.cpf)}</td>
           <td>${medico.crm || "CRM não disponível"}</td>
           <td>${medico.email || "E-mail não disponível"}</td>
           <td>${formatSpecialities(medico.speciality)}</td>
           <td>
             <button class="btn btn-success" 
-              onclick="readInfoDoctor('${medico.picture}', '${medico.name}', '${medico.birthDate}', '${medico.crm}', '${medico.email}', '${formatSpecialities(medico.speciality)}')" 
+              onclick="readInfoDoctor('${medico.picture}', '${medico.name}', '${medico.birthDate}', '${formatCPF(medico.cpf)}', '${medico.crm}', '${medico.email}', '${formatSpecialities(medico.speciality)}')" 
               data-bs-toggle="modal" data-bs-target="#doctorReadData">
               <i class="bi bi-eye"></i>
             </button>
@@ -151,10 +159,11 @@ async function showDoctors() {
 //   }
 
 
-function readInfoDoctor(picture, name, birthDate, crm, email, especialidade) {
+function readInfoDoctor(picture, name, birthDate, cpf, crm, email, especialidade) {
     document.getElementById("doctorShowName").value = name || "Nome não disponível";
     document.getElementById("doctorShowDate").value =
-      birthDate ? new Date(birthDate).toISOString().split("T")[0] : "";
+    birthDate ? new Date(birthDate).toISOString().split("T")[0] : "";
+    document.getElementById("doctorShowCPF").value = cpf || "CPF não disponível";
       document.getElementById("doctorShowCRM").value = crm || "CRM não disponível";
     document.getElementById("doctorShowEmail").value = email || "E-mail não disponível";
     document.getElementById("doctorShowSpecialty").value = especialidade || "Especialização não disponível";
@@ -238,6 +247,7 @@ function renderMedico(data) {
       <p><strong>Data de Nascimento:</strong> ${data.birthDate
           ? formatDate(data.birthDate)
           : "Data de Nascimento não disponível"}</p>
+      <p><strong>CPF:</strong> ${formatCPF(data.cpf) || "CPF não disponível"}</p>
       <p><strong>Especialidade:</strong> ${data.speciality.join(', ') || "Especialidade não disponível"}</p>
       <p><strong>CRM:</strong> ${data.crm || "CRM não disponível"}</p>
       <p><strong>Email:</strong> ${data.email || "Email não disponível"}</p>

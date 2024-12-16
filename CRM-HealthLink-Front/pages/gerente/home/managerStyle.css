@@ -294,6 +294,22 @@ form .inputField > div label {
     color: red;
 }
 
+#doctorForm form .inputField > div label::after {
+    content: "*";
+    color: red;
+}
+
+#modalCriarConsulta form .inputField > div label::after {
+    content: "*";
+    color: red;
+}
+
+#employeeForm form .inputField > div label::after {
+    content: "*";
+    color: red;
+}
+
+
 /* Sublinhado dos Dados de Atualização do Usuário */
 form .inputField > div input {
     width: 75%;

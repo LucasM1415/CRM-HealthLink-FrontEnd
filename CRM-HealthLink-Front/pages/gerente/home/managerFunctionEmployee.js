@@ -87,10 +87,11 @@ function limparCamposEmployee() {
   }
 }
 
-function readInfoEmployee(picture, name, cargo,email) {
+function readInfoEmployee(picture, name, cargo, cpf, email) {
   document.getElementById("showNameFuncionario").value = name || "Nome não disponível";
   document.getElementById("showCargoFuncionario").value = cargo || "Cargo não disponível" ;
-    document.getElementById("showEmailFuncionario").value = email || "CRM não disponível";
+  document.getElementById("showCPFFuncionario").value = cpf || "CPF não disponível" ;
+  document.getElementById("showEmailFuncionario").value = email || "CRM não disponível";
 
   // Se quiser usar a imagem no modal, descomente e ajuste:
   // const imgElement = document.querySelector('.img-read');
@@ -109,6 +110,14 @@ function editEmployee(index, name, cargo,email) {
 
   const submitButton = document.getElementById("newUserBtnFuncionario");
   submitButton.textContent = "Atualizar Funcionário";
+}
+
+
+function formatCPF(cpf) {
+  if (cpf.length === 11) {
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  }
+  return cpf; // Retorna o CPF original se o formato não for válido
 }
 
 
@@ -177,10 +186,11 @@ function renderEmployees(employees) {
         <td>${index + 1}</td>
         <td>${employee.name || "Nome não disponível"}</td>
         <td>${employee.office}</td>
+        <td>${formatCPF(employee.cpf)}</td>
         <td>${employee.email || "E-mail não disponível"}</td>
         <td>
           <button class="btn btn-success" 
-            onclick="readInfoEmployee('${employee.picture}', '${employee.name}', '${employee.office}', '${employee.email}')" 
+            onclick="readInfoEmployee('${employee.picture}', '${employee.name}', '${employee.office}', '${formatCPF(employee.cpf)}','${employee.email}')" 
             data-bs-toggle="modal" data-bs-target="#readDataFuncionario">
             <i class="bi bi-eye"></i>
           </button>
