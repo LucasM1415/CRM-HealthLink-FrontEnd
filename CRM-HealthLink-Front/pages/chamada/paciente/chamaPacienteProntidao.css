@@ -79,30 +79,53 @@ p {
     transform-origin: center; 
   }
 
+  
+  .footer-navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 20px; 
+    z-index: 1000;
+}
 
-  .back-button {
-    position: fixed; /* Fixa o botão em uma posição específica */
-    bottom: 20px; /* Espaçamento da parte inferior da tela */
-    left: 50%; /* Centraliza horizontalmente */
-    transform: translateX(-50%); /* Ajusta o deslocamento para alinhar o centro do botão */
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #4CAF50;
+.footer-navbar button {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px; 
     border: none;
-    border-radius: 5px;
+    background-color: #4CAF50; 
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    z-index: 10; /* Garante que o botão esteja acima de outros elementos */
+}
+
+.footer-navbar button i {
+    margin-right: 8px; 
+}
+
+
+.back-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-button i {
+  font-size: 18px;
 }
 
 .back-button:hover {
-    background-color: #a04545; 
-    transform: translateX(-50%) scale(1.05); 
+  background-color: #a04545; 
+  transform: scale(1.05);
 }
-
-.back-button:active {
-    background-color: #8e3e3e; 
-}
-
-  
