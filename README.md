@@ -3,7 +3,7 @@
 
 ## 🔗 Acesse o Swagger pelo link
 ```sh
-[Link do Site](https://crm-health-link-front-end.vercel.app/)
+https://crm-health-link-front-end.vercel.app/
 ```
 
 ## 🗂️ Repositório Back-End
