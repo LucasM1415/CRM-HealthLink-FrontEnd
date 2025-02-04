@@ -1,7 +1,7 @@
 # CRM-HealthLink-FrontEnd CRM-HealthLink
 >> Projeto desenvolvido para a disciplina de Desenvolvimento Web II - IFPE Campus Palmares
 
-## 🔗 Acesse o Swagger pelo link
+## 🔗 Acesse a HealthLink pelo link
 ```sh
 https://crm-health-link-front-end.vercel.app/
 ```
