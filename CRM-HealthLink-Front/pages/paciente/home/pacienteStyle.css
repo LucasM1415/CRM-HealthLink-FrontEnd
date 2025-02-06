@@ -58,11 +58,28 @@ header h1 {
 
 /* Bottom-header */
 .bottom-header nav ul {
-    width: auto;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Permite que os itens quebrem para a linha seguinte */
+
+    /* width: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; */
+}
+
+.bottom-header nav ul li {
+    display: inline-block;
 }
 
 .bottom-header nav ul li a {
@@ -71,13 +88,46 @@ header h1 {
     text-decoration: none;
     font-weight: 250;
     display: block;
-    transition: .1s;
+    transition: 0.1s;
 }
+
 .bottom-header nav ul li a:hover {
     background-color: #45a049;
     color: #1f1f1f;
     box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15);
 }
+/* Responsividade para telas médias (menores que 768px) */
+@media (max-width: 768px) {
+    .bottom-header nav ul {
+        flex-direction: column; /* Organiza os links verticalmente */
+        gap: 10px;
+    }
+
+    .bottom-header nav ul li {
+        width: 100%; /* Torna os links mais largos */
+        text-align: center; /* Centraliza os links */
+    }
+
+    .bottom-header nav ul li a {
+        padding: 12px 20px; /* Ajusta o padding para dispositivos menores */
+        font-size: 16px; /* Ajusta o tamanho da fonte */
+    }
+}
+
+/* Responsividade para telas menores que 480px */
+@media (max-width: 480px) {
+    .bottom-header nav ul li a {
+        font-size: 14px; /* Ajuste ainda menor para telas pequenas */
+        padding: 10px 15px;
+    }
+}
+
+
+
+
+
+
+
 
 .menu-drop {
     position: relative;
@@ -260,7 +310,7 @@ ul {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 30px;
     display: flex;
-    flex-direction: column; /* Permite que os filhos sejam exibidos um abaixo do outro */
+    flex-direction: column; 
     height: 30vh;
 }
 
@@ -284,12 +334,15 @@ ul {
     color: #1B1B1B;
     font-weight: 700;
     height: 8vh;
-    width: 50%;
+    /* width: 50%; */
     background-color: #eeee67;
     align-content: center;
-    text-align: center;
+    /* text-align: center; */
     border-radius: 12px;
     margin-top: 10px; 
+    display: inline-block;
+    text-align: center;
+    width: 100%;
 }
 
 .paciente-atendimento-remoto-container a:hover {
@@ -354,6 +407,16 @@ ul {
 
 /* Responsividade */
 @media (max-width: 768px) {
+    .patient-data { 
+        position: relative; /* Mudança de fixed para relative */
+        left: -2%;
+        transform: none; 
+        width: 100%; 
+        border-radius: 8px; 
+        z-index: 1000; 
+        margin-top: 20px; 
+    }
+
     .pacienteMarcarConsultaContainer {
         flex-direction: column; /* No celular, coloca os cards um abaixo do outro */
         gap: 10px;
@@ -361,5 +424,91 @@ ul {
 
     .cardMedicoDisponibilidade {
         flex: 1 1 100%; /* Em telas pequenas, os cards ocupam 100% da largura */
+    }
+    .interface {
+        flex-direction: column; /* Empilhar os elementos */
+        align-items: center;
+        text-align: center;
+    }
+
+    .logotipo img {
+        width: 120px; /* Reduzir tamanho da logo */
+    }
+
+    .welcome-message h1 {
+        font-size: 20px; /* Diminuir o tamanho do texto */
+    }
+
+    .btn-back-button {
+        margin-top: 10px;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    nav ul li {
+        width: 100%; /* Ocupa toda a largura */
+        text-align: center;
+    }
+
+    .schedule-appointment {
+        background-color: white;
+        padding: 0.2em;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 30px;
+        display: flex;
+        flex-direction: column;
+        height: auto; /* Tira a altura fixa */
+    }
+    
+    .schedule-appointment {
+        width: 90%; /* Reduz a largura para melhor adaptação */
+        padding: 10px;
+    }
+
+    .scrollable-div {
+        max-height: 200px; /* Evita que a lista fique muito longa */
+        overflow-y: auto;
+    }
+}
+
+/* ===== Telas menores que 480px (Celulares pequenos) ===== */
+@media (max-width: 480px) {
+    .logotipo img {
+        width: 100px;
+    }
+
+    .welcome-message h1 {
+        font-size: 18px;
+    }
+
+    .back-button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .schedule-appointment h2 {
+        font-size: 18px;
+    }
+
+    input, select, button {
+        width: 100%; /* Ajusta os campos de entrada */
+        font-size: 16px;
+    }
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .patient-data {
+        margin-top: 50px; /* Ajuste para evitar sobreposição no celular */
+    }
+
+    .schedule-appointment {
+        width: 90%; /* Ajuste no tamanho da seção */
     }
 }
