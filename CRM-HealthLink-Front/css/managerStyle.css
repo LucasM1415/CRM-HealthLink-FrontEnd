@@ -145,3 +145,14 @@ select:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.2);
 }
+
+.radio-container label {
+    display: flex;
+    align-items: baseline; /* Centraliza o texto e o botão */
+    margin-bottom: 8px; /* Espaçamento entre os itens */
+}
+
+.radio-container input[type="radio"] {
+    margin-right: 10px; /* Espaço entre o botão e o texto */
+}
+

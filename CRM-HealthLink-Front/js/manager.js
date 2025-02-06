@@ -565,15 +565,19 @@ async function pesquisarHorarios() {
   const speciality = document.getElementById("specialization-search").value;
   const month = document.getElementById("month-search").value;
   const year = document.getElementById("year-search").value;
+  const tipoAgendamento = "CONSULTA"; 
 
   if (!token || !speciality || !month || !year) {
     console.error("Dados insuficientes para realizar a pesquisa");
     return;
   }
 
-  const url = `https://crm-healthlink.onrender.com/api/calendario/specialty?speciality=${speciality}&month=${month}&year=${year}`;
+  const url = `https://crm-healthlink.onrender.com/api/calendario/specialtyfordoctor?speciality=${speciality}&month=${month}&year=${year}&tipoAgendamento=${tipoAgendamento}`;
 
   try {
+    console.log("Enviando requisição para:", url);
+    console.log("Token enviado:", token);
+
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -583,20 +587,19 @@ async function pesquisarHorarios() {
     });
 
     if (!response.ok) {
-      throw new Error(`Erro HTTP! Status: ${response.status}`);
+      const errorMessage = await response.text(); // Captura a resposta do erro
+      throw new Error(`Erro HTTP! Status: ${response.status} - ${errorMessage}`);
     }
 
     const data = await response.json();
-    console.log("Dados recebidos da pesquisa:", data); // Verifica a estrutura dos dados
-
-    renderizarHorariosPesquisa(data); // Chama a função para renderizar os horários de pesquisa
-
-    // Exibir a tabela após a pesquisa
-    document.getElementById("search-results").style.display = "block"; // Exibe a tabela correta
+    console.log("Dados recebidos da pesquisa:", data);
+    renderizarHorariosPesquisa(data);
+    document.getElementById("search-results").style.display = "block";
   } catch (error) {
     console.error("Erro ao pesquisar horários:", error);
   }
 }
+
 
 function renderizarHorariosPesquisa(data) {
   const resultsTable = document.getElementById("search-results-tbody"); // Corrigido para o ID correto
