@@ -13,7 +13,6 @@
     <style>
         html {
             scroll-behavior: smooth;
-            /* Habilita a rolagem suave */
         }
     </style>
 
@@ -34,14 +33,16 @@
         <!-- Seção do Horário -->
         <section id="horario" class="content-section" style="display: none;">
             <div>
-                <h3>Opções de Visualização</h3>
+                <h3>Selecione uma opção de Visualização:</h3>
                 <label>
-                    <input type="radio" name="visualizacao" value="todos" checked>
+                    <br>
                     Ver Todos os Horários Marcados
+                    <input type="radio" name="visualizacao" value="todos">
                 </label>
+                
                 <label>
-                    <input type="radio" name="visualizacao" value="pesquisar">
                     Pesquisar Horário
+                    <input type="radio" name="visualizacao" value="pesquisar" >
                 </label>
             </div>
 
@@ -96,7 +97,7 @@
                     </tbody>
                 </table>
             </div>
-
+        </section>
 
     </main>
     <script>
@@ -107,8 +108,9 @@
         // Chame a função listarPacientes após a página carregar
         document.addEventListener("DOMContentLoaded", () => {
             preencherSelectEspecialidades("specialization-search");
-            const token = localStorage.getItem("token"); // Substitua pelo método correto de obtenção do token
-            listarConsultas(token);
+            // const token = localStorage.getItem("token"); 
+            // listarHorarios(token);
+            // listarConsultas(token);
         });
 
 
