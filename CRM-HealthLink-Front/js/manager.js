@@ -108,110 +108,110 @@
 //   }
 // }
 
-//Atualizar um Médico pelo E-Mail
-async function atualizarMedico(token, data) {
-  if (!token) {
-    alert("Usuário não autenticado.");
-    return;
-  }
+//Atualizar um Médico pelo E-Mail - Função Imbutida em ManagerFunctionDoctor.js
+// async function atualizarMedico(token, data) {
+//   if (!token) {
+//     alert("Usuário não autenticado.");
+//     return;
+//   }
 
-  const url = `https://crm-healthlink.onrender.com/api/employee/doctor`;
+//   const url = `https://crm-healthlink.onrender.com/api/employee/doctor`;
 
-  const requestBody = {
-    name: data["update-doutor-nome"],
-    birthDate: data["update-doutor-data-nascimento"],
-    cpf: data["update-doutor-cpf"],
-    crm: data["update-doutor-crm"],
-    speciality: [data["update-doutor-speciality"]],
-    accessLevel: "DOCTOR",
-    email: data["update-doutor-email"],
-    password: data["update-doutor-password"],
-  };
+//   const requestBody = {
+//     name: data["update-doutor-nome"],
+//     birthDate: data["update-doutor-data-nascimento"],
+//     cpf: data["update-doutor-cpf"],
+//     crm: data["update-doutor-crm"],
+//     speciality: [data["update-doutor-speciality"]],
+//     accessLevel: "DOCTOR",
+//     email: data["update-doutor-email"],
+//     password: data["update-doutor-password"],
+//   };
 
-  try {
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    });
+//   try {
+//     const response = await fetch(url, {
+//       method: "PUT",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         Accept: "application/json",
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(requestBody),
+//     });
 
-    if (!response.ok) {
-      const errorText = await response.text(); // Lê o texto da resposta
-      throw new Error(
-        `Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`
-      );
-    }
+//     if (!response.ok) {
+//       const errorText = await response.text(); // Lê o texto da resposta
+//       throw new Error(
+//         `Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`
+//       );
+//     }
 
-    alert("Médico atualizado com sucesso!");
-    handleUpdateDoctorResult("success");
-  } catch (error) {
-    console.error("Erro na requisição:", error);
-    alert("Erro ao atualizar médico.");
-    handleUpdateDoctorResult("error");
-  }
-}
+//     alert("Médico atualizado com sucesso!");
+//     handleUpdateDoctorResult("success");
+//   } catch (error) {
+//     console.error("Erro na requisição:", error);
+//     alert("Erro ao atualizar médico.");
+//     handleUpdateDoctorResult("error");
+//   }
+// }
 
-async function handleUpdateDoctorResult(status) {
-  const resultsDiv = document.getElementById("resultsUpdateDoctor");
+// async function handleUpdateDoctorResult(status) {
+//   const resultsDiv = document.getElementById("resultsUpdateDoctor");
 
-  if (!resultsDiv) {
-    console.error('Elemento <div id="resultsUpdate"> não encontrado!');
-    return;
-  }
+//   if (!resultsDiv) {
+//     console.error('Elemento <div id="resultsUpdate"> não encontrado!');
+//     return;
+//   }
 
-  if (status === "success") {
-    const token = localStorage.getItem("token");
-    if (token) {
-      await listarMedicos(token);
-    }
-  } else if (status === "error") {
-    const token = localStorage.getItem("token");
-    if (token) {
-      await listarMedicos(token);
-      await preencherSelectEspecialidades("update-doutor-speciality");
-    }
-  } else {
-    resultsDiv.innerHTML = "<p>Estado desconhecido.</p>";
-    resultsDiv.style.color = "orange";
-  }
-}
+//   if (status === "success") {
+//     const token = localStorage.getItem("token");
+//     if (token) {
+//       await listarMedicos(token);
+//     }
+//   } else if (status === "error") {
+//     const token = localStorage.getItem("token");
+//     if (token) {
+//       await listarMedicos(token);
+//       await preencherSelectEspecialidades("update-doutor-speciality");
+//     }
+//   } else {
+//     resultsDiv.innerHTML = "<p>Estado desconhecido.</p>";
+//     resultsDiv.style.color = "orange";
+//   }
+// }
 
-async function setupUpdateDoctorForm() {
-  const form = document.getElementById("update-doutor-form");
+// async function setupUpdateDoctorForm() {
+//   const form = document.getElementById("update-doutor-form");
 
-  if (form) {
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault(); // Previne o refresh da página
+//   if (form) {
+//     form.addEventListener("submit", async (event) => {
+//       event.preventDefault(); // Previne o refresh da página
 
-      const token = localStorage.getItem("token");
-      const data = {
-        "update-doutor-email": document.getElementById("update-doutor-email")
-          .value,
-        "update-doutor-nome":
-          document.getElementById("update-doutor-nome").value,
-        "update-doutor-data-nascimento": document.getElementById(
-          "update-doutor-data-nascimento"
-        ).value,
-        "update-doutor-cpf": document.getElementById("update-doutor-cpf").value,
-        "update-doutor-crm": document.getElementById("update-doutor-crm").value,
-        "update-doutor-speciality": document.getElementById(
-          "update-doutor-speciality"
-        ).value,
-        "update-doutor-password": document.getElementById(
-          "update-doutor-password"
-        ).value,
-      };
+//       const token = localStorage.getItem("token");
+//       const data = {
+//         "update-doutor-email": document.getElementById("update-doutor-email")
+//           .value,
+//         "update-doutor-nome":
+//           document.getElementById("update-doutor-nome").value,
+//         "update-doutor-data-nascimento": document.getElementById(
+//           "update-doutor-data-nascimento"
+//         ).value,
+//         "update-doutor-cpf": document.getElementById("update-doutor-cpf").value,
+//         "update-doutor-crm": document.getElementById("update-doutor-crm").value,
+//         "update-doutor-speciality": document.getElementById(
+//           "update-doutor-speciality"
+//         ).value,
+//         "update-doutor-password": document.getElementById(
+//           "update-doutor-password"
+//         ).value,
+//       };
 
-      await atualizarMedico(token, data);
-    });
-  } else {
-    console.error("Formulário de atualização de médico não encontrado!");
-  }
-}
+//       await atualizarMedico(token, data);
+//     });
+//   } else {
+//     console.error("Formulário de atualização de médico não encontrado!");
+//   }
+// }
 
 //Criar um Funcionário
 async function criarFuncionario(token, data) {
@@ -1159,7 +1159,7 @@ async function setupEventListeners2() {
 
 document.addEventListener("DOMContentLoaded", () => {
   // setupDoctorFormTeste();
-  setupUpdateDoctorForm();
+  // setupUpdateDoctorForm();
   setupEventListeners2();
   preencherSelectEspecialidades("criar-doutor-speciality");
   preencherSelectMedicosEmergencia();

@@ -54,7 +54,7 @@ function formatCPF(cpf) {
   if (cpf.length === 11) {
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   }
-  return cpf; // Retorna o CPF original se o formato não for válido
+  return cpf; 
 }
 
 
@@ -134,7 +134,7 @@ function renderPacientes(data) {
             </button>
             <button class="btn btn-primary" 
               onclick="editPatient(${index}, '${patient.name}', '${patient.birthDate}','${""}', '${patient.email}')" 
-              data-bs-toggle="modal" data-bs-target="#userForm">
+              data-bs-toggle="modal" data-bs-target="#updateUserForm">
               <i class="bi bi-pencil-square"></i>
             </button>
             <button class="btn btn-danger" 
@@ -164,32 +164,11 @@ function readInfo(name, cpf, birthDate, email) {
 
 // Configuração do formulário de criação de paciente
 async function setupPacienteForm() {
-  const form = document.getElementById("criar-paciente-form");
-
-  if (form) {
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      console.log("Evento submit disparado!");
-
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        console.error("Token não encontrado.");
-        return;
-      }
-
-      const data = {
-        "criar-paciente-nome": document.getElementById("criar-paciente-nome").value,
-        "criar-paciente-data-nascimento": document.getElementById("criar-paciente-data-nascimento").value,
-        "criar-paciente-cpf": document.getElementById("criar-paciente-cpf").value,
-        "criar-paciente-email": document.getElementById("criar-paciente-email").value,
-        "criar-paciente-password": document.getElementById("criar-paciente-password").value,
-      };
-
-      await createPatient(token, data);
-    });
-  }
+    setupPacienteCreateForm();
+    setupPacienteUpdateForm();
 }
+
+
 // - Função Criar Paciente
 async function createPatient(token, data) {
   
@@ -270,17 +249,17 @@ async function handleCreationResult(status) {
 // - Função Atualizar Paciente
 function editPatient(index, name, birthDate, cpf, email) {
   
-  document.getElementById("criar-paciente-nome").value = name;
-  document.getElementById("criar-paciente-data-nascimento").value = birthDate;
-  document.getElementById("criar-paciente-cpf").value = cpf;
-  document.getElementById("criar-paciente-email").value = email;
+  document.getElementById("update-patient-name").value = name;
+  document.getElementById("update-patient-birthdate").value = birthDate;
+  document.getElementById("update-patient-cpf").value = cpf;
+  document.getElementById("update-patient-email").value = email;
 
-  const form = document.getElementById("criar-paciente-form");
-  form.setAttribute("data-mode", "update");
-  form.setAttribute("data-index", index);
+  // const form = document.getElementById("update-patient-form");
+  // form.setAttribute("data-mode", "update");
+  // form.setAttribute("data-index", index);
 
-  const submitButton = document.getElementById("newUserBtn");
-  submitButton.textContent = "Atualizar Paciente";
+  // const submitButton = document.getElementById("updateUserBtn");
+  // submitButton.textContent = "Atualizar Paciente";
 }
 async function updatePatient(token, data) {
   
@@ -292,11 +271,11 @@ async function updatePatient(token, data) {
   const url = `https://crm-healthlink.onrender.com/api/employee/paciente`;
 
   const requestBody = {
-    name: data["criar-paciente-nome"],
-    birthDate: data["criar-paciente-data-nascimento"],
-    cpf: data["criar-paciente-cpf"],
-    email: data["criar-paciente-email"],
-    password: data["criar-paciente-password"],
+    name: data["update-patient-name"],
+    birthDate: data["update-patient-birthdate"],
+    cpf: data["update-patient-cpf"],
+    email: data["update-patient-email"],
+    password: data["update-patient-password"],
   };
 
   try {
@@ -326,8 +305,8 @@ async function updatePatient(token, data) {
 
 async function handleUpdateResult(status) {
   
-  const resultsDiv = document.getElementById("resultsCreate");
-  resultsDiv.className = "resultsCreate";
+  const resultsDiv = document.getElementById("resultsUpdate");
+  resultsDiv.className = "resultsUpdate";
   const token = localStorage.getItem("token");
 
   switch (status) {
@@ -342,7 +321,7 @@ async function handleUpdateResult(status) {
       // Espera 3 segundos e limpa o conteúdo
       setTimeout(() => {
         resultsDiv.innerText = "";
-        resultsDiv.className = "resultsCreate";
+        resultsDiv.className = "resultsUpdate";
       }, 3000);
       break;
 
@@ -357,7 +336,7 @@ async function handleUpdateResult(status) {
       // Espera 3 segundos e limpa o conteúdo
       setTimeout(() => {
         resultsDiv.innerText = "";
-        resultsDiv.className = "resultsCreate";
+        resultsDiv.className = "resultsUpdate";
       }, 3000);
       break;
 
@@ -367,13 +346,13 @@ async function handleUpdateResult(status) {
 
       // Espera 3 segundos e limpa o conteúdo
       setTimeout(() => {
-        document.getElementById("criar-paciente-nome").value = "";
-        document.getElementById("criar-paciente-data-nascimento").value = "";
-        document.getElementById("criar-paciente-cpf").value = "";
-        document.getElementById("criar-paciente-email").value = "";
-        document.getElementById("crir-paciente-password").value = "";
+        document.getElementById("update-patient-name").value = "";
+        document.getElementById("update-patient-birthdate").value = "";
+        // document.getElementById("criar-paciente-cpf").value = "";
+        // document.getElementById("criar-paciente-email").value = "";
+        document.getElementById("update-patient-password").value = "";
         resultsDiv.innerText = "";
-        resultsDiv.className = "resultsCreate";
+        resultsDiv.className = "resultsUpdate";
       }, 3000);
       break;
   }
@@ -399,12 +378,11 @@ function limparPesquisar(){
   resultsDiv.innerHTML="";
 }
 
-async function setupPacienteForm() {
-  
-  const form = document.getElementById("criar-paciente-form");
+async function setupPacienteCreateForm() {
+  const formCreate = document.getElementById("criar-paciente-form");
 
-  if (form) {
-    form.addEventListener("submit", async (event) => {
+  if (formCreate) {
+    formCreate.addEventListener("submit", async (event) => {
       event.preventDefault();
       const token = localStorage.getItem("token");
 
@@ -413,7 +391,7 @@ async function setupPacienteForm() {
         return;
       }
 
-      const data = {
+      const dataCreate = {
         "criar-paciente-nome": document.getElementById("criar-paciente-nome").value,
         "criar-paciente-data-nascimento": document.getElementById("criar-paciente-data-nascimento").value,
         "criar-paciente-cpf": document.getElementById("criar-paciente-cpf").value,
@@ -421,20 +399,91 @@ async function setupPacienteForm() {
         "criar-paciente-password": document.getElementById("criar-paciente-password").value,
       };
 
-      const mode = form.getAttribute("data-mode");
+      await createPatient(token, dataCreate);
 
-      if (mode === "update") {
-        await updatePatient(token, data);
-      } else {
-        await createPatient(token, data);
-      }
-
-      form.reset();
-      form.removeAttribute("data-mode");
+      formCreate.reset();
       document.getElementById("newUserBtn").textContent = "Criar Paciente";
     });
   }
 }
+
+
+async function setupPacienteUpdateForm() {
+  const formUpdate = document.getElementById("update-patient-form");
+
+  if (formUpdate) {
+    formUpdate.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        console.error("Token não encontrado.");
+        return;
+      }
+
+      const dataUpdate = {
+        "update-patient-name": document.getElementById("update-patient-name").value,
+        "update-patient-birthdate": document.getElementById("update-patient-birthdate").value,
+        "update-patient-cpf": document.getElementById("update-patient-cpf").value,
+        "update-patient-email": document.getElementById("update-patient-email").value,
+        "update-patient-password": document.getElementById("update-patient-password").value,
+      };
+
+      await updatePatient(token, dataUpdate);
+
+      formUpdate.reset();
+      formUpdate.removeAttribute("data-mode");
+      document.getElementById("newUserBtn").textContent = "Criar Paciente";
+    });
+  }
+}
+
+
+// async function setupPacienteForm() {
+  
+//   const formCreate = document.getElementById("criar-paciente-form"); 
+//   const formUpdate = document.getElementById("update-patient-form");
+
+//   if (formCreate || formUpdate) {
+//     form.addEventListener("submit", async (event) => {
+//       event.preventDefault();
+//       const token = localStorage.getItem("token");
+
+//       if (!token) {
+//         console.error("Token não encontrado.");
+//         return;
+//       }
+
+//       const dataCreate = {
+//         "criar-paciente-nome": document.getElementById("criar-paciente-nome").value,
+//         "criar-paciente-data-nascimento": document.getElementById("criar-paciente-data-nascimento").value,
+//         "criar-paciente-cpf": document.getElementById("criar-paciente-cpf").value,
+//         "criar-paciente-email": document.getElementById("criar-paciente-email").value,
+//         "criar-paciente-password": document.getElementById("criar-paciente-password").value,
+//       };
+
+//       const dataUpdate = {
+//         "update-patient-name": document.getElementById("update-patient-name").value,
+//         "update-patient-birthdate": document.getElementById("update-patient-birthdate").value,
+//         "update-patient-cpf": document.getElementById("update-patient-cpf").value,
+//         "update-patient-email": document.getElementById("update-patient-email").value,
+//         "update-patient-password": document.getElementById("update-patient-password").value,
+//       };
+
+//       const mode = form.getAttribute("data-mode");
+
+//       if (mode === "update") {
+//         await updatePatient(token, dataUpdate);
+//       } else {
+//         await createPatient(token, dataCreate);
+//       }
+
+//       form.reset();
+//       form.removeAttribute("data-mode");
+//       document.getElementById("newUserBtn").textContent = "Criar Paciente";
+//     });
+//   }
+// }
 
 
 // - Função Buscar Paciente por Email
