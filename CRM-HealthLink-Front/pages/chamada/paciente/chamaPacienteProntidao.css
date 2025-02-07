@@ -3,6 +3,14 @@
     padding: 0;
 }
 
+header {
+  width: 100%;
+  align-items: end;
+  justify-items: end;
+  margin-top: 2%;
+  margin-left: -2%;
+}
+
 .loader-container {
     display: flex;
     flex-direction: column;
@@ -80,7 +88,7 @@ p {
   }
 
   
-  .footer-navbar {
+  /* .footer-navbar {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -105,20 +113,51 @@ p {
 
 .footer-navbar button i {
     margin-right: 8px; 
+} */
+
+.footer-navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 1000;
+}
+.footer-navbar button {
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 12px;
+width: 50px;
+height: 50px;
+border: none;
+border-radius: 50%;
+background-color: #4CAF50;
+cursor: pointer;
+color: white;
+font-size: 18px;
+}
+.footer-navbar button:hover {
+background-color: #a04545;
+transform: scale(1.1);
 }
 
-
 .back-button {
-  padding: 10px 20px;
-  font-size: 16px;
+  width: 45px;
+  height: 45px; 
+  padding: 0;
   border: none;
-  border-radius: 5px;
+  border-radius: 50%;
   cursor: pointer;
-  background-color: #4CAF50;
+  background-color: #ad4a4a;
   color: white;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
 }
 
 .back-button i {
@@ -126,6 +165,92 @@ p {
 }
 
 .back-button:hover {
-  background-color: #a04545; 
+  background-color: #8a3636; 
   transform: scale(1.05);
+}
+
+/* Estilos padrão já existentes */
+
+/* ===== Telas menores que 768px (Tablets e celulares) ===== */
+@media (max-width: 768px) {
+  header {
+    width: 100%;
+    align-items: end;
+    justify-items: end;
+    margin-top: 4%;
+    margin-left: -3%;
+  }
+
+  .loader-container {
+      flex-direction: column;
+      text-align: center;
+      font-size: 18px;
+  }
+
+  .videos-container {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: auto;
+  }
+
+  .video-remoto, .video-me {
+      width: 100%;  /* Ajusta o tamanho do vídeo */
+      height: auto;
+  }
+
+  .video-overlay {
+      bottom: 10px;
+      right: 10px;
+      width: 30%; /* Reduz o tamanho do vídeo menor */
+  }
+  .footer-navbar {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+  /* .footer-navbar {
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+  } */
+  
+
+  /* .chamada-button,
+  .back-button {
+      width: 100%;
+      font-size: 16px;
+  } */
+}
+
+/* ===== Telas menores que 480px (Celulares pequenos) ===== */
+@media (max-width: 480px) {
+  .footer-navbar {
+    flex-direction: column;
+    gap: 10px;
+    padding: 5px;
+}
+.footer-navbar button {
+    width: 80%;
+    border-radius: 10px;
+}
+  /* .loader-container p {
+      font-size: 16px;
+  }
+
+  .video-overlay {
+      width: 40%; 
+  }
+
+  .footer-navbar {
+      padding: 5px;
+  }
+
+  .chamada-button,
+  .back-button {
+      font-size: 14px;
+      padding: 8px;
+  } */
 }
