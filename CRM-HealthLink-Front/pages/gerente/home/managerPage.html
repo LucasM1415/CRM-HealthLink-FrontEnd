@@ -129,7 +129,7 @@
               <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h4 class="modal-title">Preencha o Formulário</h4>
+                    <h4 class="modal-title">Criar Novo Paciente</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
             
@@ -137,7 +137,6 @@
                     <form id="criar-paciente-form" class="needs-validation" novalidate>
                       <div class="inputField" id="inputFieldForm">
                         <div class="mb-3">
-                          <!-- Nome -->
                           <label for="criar-paciente-nome" class="form-label">Nome:</label>
                           <input type="text" id="criar-paciente-nome" class="form-control" required />
                           <div class="valid-feedback">Tudo certo!</div>
@@ -145,9 +144,8 @@
                             O nome deve conter apenas letras e espaços e não pode ser vazio ou composto apenas de espaços.
                           </div>
                         </div>
-            
+
                         <div class="mb-3">
-                          <!-- Data de Nascimento -->
                           <label for="criar-paciente-data-nascimento" class="form-label">Data de Nascimento:</label>
                           <input type="date" id="criar-paciente-data-nascimento" class="form-control" required />
                           <div class="valid-feedback">Tudo certo!</div>
@@ -155,9 +153,8 @@
                             A data de nascimento não pode estar em branco.
                           </div>
                         </div>
-            
+
                         <div class="mb-3">
-                          <!-- CPF -->
                           <label for="criar-paciente-cpf" class="form-label">CPF:</label>
                           <input type="text" id="criar-paciente-cpf" class="form-control" maxlength="14" required />
                           <div class="valid-feedback">Tudo certo!</div>
@@ -165,17 +162,14 @@
                             O CPF deve conter 11 números.
                           </div>
                         </div>
-            
                         <div class="mb-3">
-                          <!-- EMAIL -->
                           <label for="criar-paciente-email" class="form-label">E-mail:</label>
                           <input type="email" id="criar-paciente-email" class="form-control" autocomplete="new-email" required />
                           <div class="valid-feedback">Tudo certo!</div>
                           <div class="invalid-feedback">Por favor, insira um e-mail válido.</div>
                         </div>
-            
+
                         <div class="mb-3">
-                          <!-- Senha -->
                           <label for="criar-paciente-password" class="form-label">Senha:</label>
                           <input type="password" id="criar-paciente-password" class="form-control" required />
                           <div class="valid-feedback">Tudo certo!</div>
@@ -184,10 +178,11 @@
                           </div>
                         </div>
                       </div>
-            
+                      
                       <div id="resultsCreate" class="resultsCreate"></div>
                     </form>
                   </div>
+            
                   <div class="modal-footer">
                     <button id="newUserBtn" type="submit" form="criar-paciente-form" class="btn btn-primary mt-3">
                       Criar Paciente
@@ -196,6 +191,112 @@
                 </div>
               </div>
             </div>
+            
+            <!-- Update Modal-->
+            <div class="modal fade" id="updateUserForm">
+              <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Atualizar Paciente</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+            
+                  <div class="modal-body">
+                    <form id="update-patient-form" class="needs-validation" novalidate>
+                      <div class="inputField" id="inputFieldForm">
+
+                        <!-- Campos não editáveis -->
+                        <div class="mb-4">
+                          <div class="mb-3">
+                            <label for="update-patient-cpf" class="form-label">CPF (não editável):</label>
+                          <input
+                            type="text"
+                            id="update-patient-cpf"
+                            class="form-control"
+                            maxlength="14"
+                            autocomplete="off" 
+                            placeholder="000.000.000-00"
+                            required
+                          />
+                          <div class="valid-feedback">Tudo certo!</div>
+                          <div class="invalid-feedback">
+                            O CPF deve conter 11 números.
+                          </div>
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="update-patient-email" class="form-label">E-mail (não editável):</label>
+                          <input
+                            type="email"
+                            id="update-patient-email"
+                            class="form-control"
+                            autocomplete="off" 
+                            placeholder="exemplo@email.com"
+                            required 
+                          />
+                          <div class="valid-feedback">Tudo certo!</div>
+                          <div class="invalid-feedback">Por favor, insira um e-mail válido.</div>
+                        </div>
+                      </div>
+            
+                      <!-- Campos editáveis -->
+                      <div class="mb-3">
+                        <label for="update-patient-name" class="form-label">Nome:</label>
+                        <input
+                        type="text"
+                        id="update-patient-name"
+                        class="form-control"
+                        required
+                        />
+                        <div class="valid-feedback">Tudo certo!</div>
+                        <div class="invalid-feedback">
+                          O nome deve conter apenas letras e espaços e não pode ser vazio ou composto apenas de espaços.
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="update-patient-birthdate" class="form-label">Data de Nascimento:</label>
+                        <input
+                          type="date"
+                          id="update-patient-birthdate"
+                          class="form-control"
+                          required
+                          />
+                          <div class="valid-feedback">Tudo certo!</div>
+                          <div class="invalid-feedback">
+                            A data de nascimento não pode estar em branco.
+                          </div>
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="update-patient-password" class="form-label">Senha:</label>
+                          <input
+                          type="password"
+                          id="update-patient-password"
+                          class="form-control"
+                          required
+                          />
+                          <div class="valid-feedback">Tudo certo!</div>
+                          <div class="invalid-feedback">
+                            A senha deve ter no mínimo 3 caracteres.
+                          </div>
+                        </div>
+                      </div>
+                        
+                      <div id="resultsUpdate" class="resultsUpdate"></div>
+                      <!-- <div id="updateResults" class="resultsUpdate"></div> -->
+                    </form>
+                  </div>
+            
+                  <div class="modal-footer">
+                    <button id="updateUserBtn" type="submit" form="update-patient-form" class="btn btn-primary mt-3">
+                      Atualizar Paciente
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
 
                 <!--Read Data Modal-->
                 <div class="modal fade" id="readData">
@@ -428,6 +529,103 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- Update Modal -->
+                <div class="modal fade" id="doctorUpdateForm">
+                  <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Atualizar Médico</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                
+                      <div class="modal-body">
+                        <form id="update-doutor-form" class="needs-validation" novalidate>
+                          <div class="inputField" id="inputFieldForm">
+                            
+                            <!-- Campos não Editáveis -->
+                            <div class="mb-4">
+                              <div class="mb-3">
+                                <label for="update-doutor-cpf" class="form-label">CPF (não editável):</label>
+                              <input
+                                type="text"
+                                id="update-doutor-cpf"
+                                class="form-control"
+                                maxlength="14"
+                                autocomplete="off" 
+                                placeholder="000.000.000-00"
+                                required
+                              />
+                              <div class="valid-feedback">Tudo certo!</div>
+                              <div class="invalid-feedback">
+                                O CPF deve conter 11 números.
+                              </div>
+                            </div>
+    
+                            <div class="mb-3">
+                              <label for="update-doutor-email" class="form-label">E-mail (não editável):</label>
+                              <input
+                                type="email"
+                                id="update-doutor-email"
+                                class="form-control"
+                                autocomplete="off" 
+                                placeholder="exemplo@email.com"
+                                required 
+                              />
+                              <div class="valid-feedback">Tudo certo!</div>
+                              <div class="invalid-feedback">Por favor, insira um e-mail válido.</div>
+                            </div>
+                          </div>
+
+                            <!-- Campos editáveis -->
+                            <div>
+                              <label for="update-doutor-nome">Nome:</label>
+                              <input type="text" id="update-doutor-nome" required />
+                              <div class="valid-feedback">Tudo certo!</div>
+                              <div class="invalid-feedback">
+                                O nome deve conter apenas letras e espaços e não pode ser vazio ou composto apenas de espaços.
+                              </div>
+                            </div>
+                
+                            <div>
+                              <label for="update-doutor-data-nascimento">Data de Nascimento:</label>
+                              <input type="date" id="update-doutor-data-nascimento" required />
+                              <div class="invalid-feedback">Data de nascimento não pode estar em branco.</div>
+                            </div>
+                
+                            <div>
+                              <label for="update-doutor-crm">CRM:</label>
+                              <input type="text" id="update-doutor-crm" required />
+                              <div class="invalid-feedback">Formato correto: 12345-PE.</div>
+                            </div>
+                
+                            <div>
+                              <label for="update-doutor-speciality">Especialidade:</label>
+                              <select id="update-doutor-speciality" class="form-select" required>
+                                <option value="">Selecione uma especialidade</option>
+                              </select>
+                            </div>
+                
+                            <div>
+                              <label for="update-doutor-password">Senha:</label>
+                              <input type="password" id="update-doutor-password" autocomplete="new-password" required />
+                              <div class="invalid-feedback">A senha deve ter pelo menos 3 caracteres.</div>
+                            </div>
+                          </div>
+                        </form>
+                
+                        <div class="text-center">
+                          <div id="resultsUpdateDoctor" class="resultsUpdateDoctor"></div>
+                        </div>
+                      </div>
+                
+                      <div class="modal-footer">
+                        <button id="updateDoctorBtn" type="submit" form="update-doutor-form" class="btn btn-primary mt-3">Atualizar Médico</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
 
                 <!--Read Data Modal-->
                 <div class="modal fade" id="doctorReadData">
@@ -807,6 +1005,98 @@
               </div>
             </div>
           </div>
+
+          <!-- Update Modal -->
+          <div class="modal fade" id="employeeUpdateForm">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Atualizar Funcionário</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+          
+                <div class="modal-body">
+                  <form id="update-funcionario-form" class="needs-validation" novalidate>
+                    <div class="inputField" id="inputFieldForm">
+
+                      <!-- Campos não editáveis -->
+                      <div class="mb-4">
+                        <div class="mb-3">
+                          <label for="update-funcionario-cpf" class="form-label">CPF (não editável):</label>
+                        <input
+                          type="text"
+                          id="update-funcionario-cpf"
+                          class="form-control"
+                          maxlength="14"
+                          autocomplete="off" 
+                          placeholder="000.000.000-00"
+                          required
+                        />
+                        <div class="valid-feedback">Tudo certo!</div>
+                        <div class="invalid-feedback">
+                          O CPF deve conter 11 números.
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="update-funcionario-email" class="form-label">E-mail (não editável):</label>
+                        <input
+                          type="email"
+                          id="update-funcionario-email"
+                          class="form-control"
+                          autocomplete="off" 
+                          placeholder="exemplo@email.com"
+                          required 
+                        />
+                        <div class="valid-feedback">Tudo certo!</div>
+                        <div class="invalid-feedback">Por favor, insira um e-mail válido.</div>
+                      </div>
+                    </div>
+          
+                    <!-- Campos editáveis -->
+                      <div>
+                        <label for="update-funcionario-nome">Nome:</label>
+                        <input type="text" id="update-funcionario-nome" required />
+                        <div class="valid-feedback">Tudo certo!</div>
+                        <div class="invalid-feedback">Nome inválido. Apenas letras e espaços são permitidos.</div>
+                      </div>
+          
+                      <div>
+                        <label for="update-funcionario-data-nascimento">Data de Nascimento:</label>
+                        <input type="date" id="update-funcionario-data-nascimento" required />
+                        <div class="valid-feedback">Tudo certo!</div>
+                        <div class="invalid-feedback">A data não pode estar em branco.</div>
+                      </div>
+          
+                      <div>
+                        <label for="update-funcionario-cargo">Cargo:</label>
+                        <select name="update-funcionario-cargo" id="update-funcionario-cargo" required>
+                          <option value="RECEPTIONIST" selected>Atendente</option>
+                          <option value="MANAGER">Gerente</option>
+                        </select>
+                      </div>
+          
+                      <div>
+                        <label for="update-funcionario-password">Senha:</label>
+                        <input type="password" id="update-funcionario-password" autocomplete="new-password" required minlength="3" />
+                        <div class="valid-feedback">Senha válida!</div>
+                        <div class="invalid-feedback">Senha muito curta. Mínimo de 3 caracteres.</div>
+                      </div>
+                    </div>
+                  </form>
+          
+                  <div id="resultsEmployeeUpdate" class="resultsUpdate"></div>
+                </div>
+          
+                <div class="modal-footer">
+                  <button id="updateUserBtnFuncionario" type="submit" form="update-funcionario-form" class="btn btn-primary mt-3">
+                    Atualizar Funcionário
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
 
           <!--Read Data Modal-->
           <div class="modal fade" id="readDataFuncionario">

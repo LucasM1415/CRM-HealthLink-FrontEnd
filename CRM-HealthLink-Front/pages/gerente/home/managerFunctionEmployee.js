@@ -1,33 +1,80 @@
-const formFuncionario = document.getElementById("criar-funcionario-form");
+// const formFuncionario = document.getElementById("criar-funcionario-form");
 
-formFuncionario.addEventListener("submit",(e)=>{
-  e.preventDefault();
-  if(e.target.dataset.mode == "update"){
-    updateEmployee();
+// formFuncionario.addEventListener("submit",(e)=>{
+//   e.preventDefault();
+//   if(e.target.dataset.mode == "update"){
+//     updateEmployee();
     
-  }else{
-    criarFuncionario();
+//   }else{
+//     criarFuncionario();
+//   }
+//   e.target.reset()
+//   showEmployees();
+// })
+
+
+function editEmployee(index, name, cargo, email) {
+
+  document.getElementById("update-funcionario-nome").value = name;
+  document.getElementById("update-funcionario-cargo").value = cargo;
+  document.getElementById("update-funcionario-email").value = email;
+  
+  const form = document.getElementById("employeeUpdateForm");
+  form.setAttribute("data-mode", "update");
+  form.setAttribute("data-index", index);
+
+  const submitButton = document.getElementById("newUserBtnFuncionario");
+  submitButton.textContent = "Atualizar Funcionário";
+}
+
+
+// Formulário de Criação
+const formFuncionarioCreate = document.getElementById("criar-funcionario-form");
+formFuncionarioCreate.addEventListener("submit", async (e) => {
+  e.preventDefault(); 
+
+  if (e.target.dataset.mode === "update") {
+    await updateEmployee();  
+  } else {
+    await criarFuncionario(); 
   }
-  e.target.reset()
+
+  e.target.reset();
   showEmployees();
-})
+});
+
+// Formulário de Atualização
+const formFuncionarioUpdate = document.getElementById("update-funcionario-form");
+formFuncionarioUpdate.addEventListener("submit", async (e) => {
+  e.preventDefault(); 
+
+  if (e.target.dataset.mode === "update") {
+    await criarFuncionario(); 
+  } else {
+    await updateEmployee();  
+  }
+
+  e.target.reset();
+  showEmployees();
+});
+
 
 async function updateEmployee() {
-  const resultDiv = document.getElementById("resultsEmployeeCreate");
 
   const employeeData = {
-    name: document.getElementById("criar-funcionario-nome").value,
-    birthDate: document.getElementById("criar-funcionario-data-nascimento").value,
-    cpf: document.getElementById("criar-funcionario-cpf").value,
-    email: document.getElementById("criar-funcionario-email").value,
-    password: document.getElementById("criar-funcionario-password").value,
-    office: document.getElementById("criar-funcionario-cargo").value,
-    acessLevel: document.getElementById("criar-funcionario-cargo").value == "RECEPTIONIST" ? "ATTENDANT" : "MANAGER"
+    name: document.getElementById("update-funcionario-nome").value,
+    birthDate: document.getElementById("update-funcionario-data-nascimento").value,
+    cpf: document.getElementById("update-funcionario-cpf").value,
+    email: document.getElementById("update-funcionario-email").value,
+    password: document.getElementById("update-funcionario-password").value,
+    office: document.getElementById("update-funcionario-cargo").value,
+    acessLevel: document.getElementById("update-funcionario-cargo").value == "RECEPTIONIST" ? "ATTENDANT" : "MANAGER"
   };
 
-  const response = await fetch("https://crm-healthlink.onrender.com/api/employee", {
-    method: "PUT",
-    headers: {
+  try {
+    const response = await fetch("https://crm-healthlink.onrender.com/api/employee", {
+      method: "PUT",
+      headers: {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json"
     },
@@ -35,14 +82,73 @@ async function updateEmployee() {
   });
 
   if(!response.ok){
-    resultDiv.innerHTML = "Não atualizado"  
-    return;
+    const errorText = await response.text();
+    throw new Error(
+      `Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`
+    );
   }
-  resultDiv.innerHTML = "Atualizado"
+
+  showEmployees();
+  handleUpdateEmployeeResult("success");
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+    handleUpdateEmployeeResult("error");
+  }
+}
+
+async function handleUpdateEmployeeResult(status) {
+  const resultsDiv = document.getElementById("resultsEmployeeUpdate");
+  resultsDiv.className = "resultsEmployeeUpdate";
+  const token = localStorage.getItem("token");
+
+  switch (status) {
+    case "success":
+      resultsDiv.innerText = "Funcionário atualizado com sucesso!";
+      resultsDiv.classList.add("success");
+
+      if (token) {
+        await showEmployees();
+      }
+
+      setTimeout(() => {
+        resultsDiv.innerText = "";
+        resultsDiv.className = "resultsEmployeeUpdate";
+      }, 3000);
+      break;
+
+    case "error":
+      resultsDiv.innerText = "Erro ao atualizar funcionário!";
+      resultsDiv.classList.add("error");
+
+      if (token) {
+        await showEmployees();
+      }
+
+      setTimeout(() => {
+        resultsDiv.innerText = "";
+        resultsDiv.className = "resultsEmployeeUpdate";
+      }, 3000);
+      break;
+
+    default:
+      resultsDiv.innerText = "Status desconhecido!";
+      resultsDiv.classList.add("error");
+
+      setTimeout(() => {
+        document.getElementById("update-funcionario-cpf").value = "";
+        document.getElementById("update-funcionario-email").value = "";
+        document.getElementById("update-funcionario-nome").value = "";
+        document.getElementById("update-funcionario-data-nascimento").value = "";
+        document.getElementById("update-funcionario-cargo").value = "";
+        document.getElementById("update-funcionario-password").value = "";
+        resultsDiv.innerText = "";
+        resultsDiv.className = "resultsEmployeeUpdate";
+      }, 3000);
+      break;
+  }
 }
 
 async function criarFuncionario(){
-  const resultDiv = document.getElementById("resultsEmployeeCreate");
 
   const employeeData = {
     name: document.getElementById("criar-funcionario-nome").value,
@@ -54,21 +160,73 @@ async function criarFuncionario(){
     acessLevel: document.getElementById("criar-funcionario-cargo").value == "RECEPTIONIST" ? "ATTENDANT" : "MANAGER"
   };
 
-  const response = await fetch("https://crm-healthlink.onrender.com/api/employee/create/employee", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(employeeData) 
-  });
+  try {
+    const response = await fetch("https://crm-healthlink.onrender.com/api/employee/create/employee", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(employeeData) 
+    });
+    
+    if(!response.ok){
+      const errorText = await response.text();
+      throw new Error(
+        `Erro HTTP! Status: ${response.status}, Mensagem: ${errorText}`
+      );
+    }
 
-  if(!response.ok){
-    resultDiv.innerHTML = "Não criado"  
-    return;
+  showEmployees();
+  handleCreateEmployeeResult("success");
+  } catch  (error) {
+    console.error("Erro na requisição:", error);
+    handleCreateEmployeeResult("error");
   }
-  resultDiv.innerHTML = "criado"
 }
+
+async function handleCreateEmployeeResult(status) {
+  const resultsDiv = document.getElementById("resultsEmployeeCreate");
+  resultsDiv.className = "resultsEmployeeCreate";
+  const token = localStorage.getItem("token");
+
+  switch (status) {
+    case "success":
+      resultsDiv.innerText = "Funcionário criado com sucesso!";
+      resultsDiv.classList.add("success");
+
+      if (token) {
+        await showEmployees();
+      }
+
+      setTimeout(() => {
+        resultsDiv.innerText = "";
+        resultsDiv.className = "resultsEmployeeUpdate";
+      }, 3000);
+      break;
+
+    case "error":
+      resultsDiv.innerText = "Erro ao criar funcionário!";
+      resultsDiv.classList.add("error");
+
+      if (token) {
+        await showEmployees();
+      }
+
+      setTimeout(() => {
+        resultsDiv.innerText = "";
+        resultsDiv.className = "resultsEmployeeCreate";
+      }, 3000);
+      break;
+
+    default:
+      resultsDiv.innerText = "Status desconhecido!";
+      resultsDiv.classList.add("error");
+      break;
+  }
+}
+
+
 
 function limparCamposEmployee() {
   const resultsDiv = document.getElementById("resultsCreate");
@@ -98,19 +256,6 @@ function readInfoEmployee(picture, name, cargo, cpf, email) {
   // if (imgElement) imgElement.src = picture || './image/Profile Icon.webp';
 }
 
-function editEmployee(index, name, cargo,email) {
-
-  document.getElementById("criar-funcionario-nome").value = name;
-  // document.getElementById("criar-funcionario-cargo").value = cargo;
-  document.getElementById("criar-funcionario-email").value = email;
-  
-  const form = document.getElementById("criar-funcionario-form");
-  form.setAttribute("data-mode", "update");
-  form.setAttribute("data-index", index);
-
-  const submitButton = document.getElementById("newUserBtnFuncionario");
-  submitButton.textContent = "Atualizar Funcionário";
-}
 
 
 function formatCPF(cpf) {
@@ -205,7 +350,7 @@ function renderEmployees(employees) {
         ${commonRowContent}
           <button class="btn btn-primary" 
             onclick="editEmployee(${index}, '${employee.name}', '${employee.cargo}', '${employee.email}')"
-            data-bs-toggle="modal" data-bs-target="#employeeForm">
+            data-bs-toggle="modal" data-bs-target="#employeeUpdateForm">
             <i class="bi bi-pencil-square"></i>
           </button>
         </td>
