@@ -1,4 +1,4 @@
-const IP = "http://localhost:8080/ws"//"https://crm-healthlink.onrender.com"
+const IP = "https://crm-healthlink.onrender.com"
 
 class WsConnFac {
     static client = '';
