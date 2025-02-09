@@ -95,7 +95,7 @@ async function showDoctors() {
           ${commonRowContent}
             <button class="btn btn-primary" 
               onclick="editDoctor(${index}, '${medico.name}', '${medico.birthDate}', '${""}', '${medico.crm}', '${medico.email}', '${formatSpecialities(medico.speciality)}')"
-              data-bs-toggle="modal" data-bs-target="#doctorForm">
+              data-bs-toggle="modal" data-bs-target="#doctorUpdateForm">
               <i class="bi bi-pencil-square"></i>
             </button>
           </td>
