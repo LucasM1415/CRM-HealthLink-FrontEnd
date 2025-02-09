@@ -15,6 +15,15 @@ function criarConnection(){
     peerConnection.ontrack = e => DeviceManager.remoteVideoElement.srcObject = e.streams[0];
     DeviceManager.localStream.getTracks().forEach(track => peerConnection.addTrack(track, DeviceManager.localStream));
     
+    peerConnection.onconnectionstatechange = (event) => {
+        const state = peerConnection.connectionState;
+        console.log("Estado de conexão WebRTC: ", state);
+        
+        if (state === 'failed' || state === 'closed') {
+            console.log('O outro usuário se desconectou ou houve uma falha na conexão');
+            MessageManager.lost();
+        }
+    };
     
 }
 
@@ -54,8 +63,13 @@ async function handleCandidate(e){
         await peerConnection.addIceCandidate(sdp);
       }
 }
-//function handleHangout(sdp){}
-
+async function handleDisconnect(e){
+    alert(e.detail.sdp.msg);
+    if(peerConnection){
+        peerConnection.close();
+    }
+    window.history.back();
+}
 
 EventDispatcher.dispatcher.addEventListener("offer",(e)=>{
     handleOffer(e);
@@ -73,5 +87,5 @@ EventDispatcher.dispatcher.addEventListener("doOffer",(e)=>{
 
 EventDispatcher.dispatcher.addEventListener("answer",handleAnswer)
 EventDispatcher.dispatcher.addEventListener("candidate",handleCandidate)
-//EventDispatcher.dispatcher.addEventListener("doOffer",handleDoOffer)
-//EventDispatcher.dispatcher.addEventListener("hangout",handleOffer)
+EventDispatcher.dispatcher.addEventListener("disconnect",(e)=>handleDisconnect(e))
+

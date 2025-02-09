@@ -4,7 +4,7 @@ class DeviceManager {
     static localVideoElement = document.getElementById("localVideo");
 
     static async getPermissions(){
-        DeviceManager.localStream = await navigator.mediaDevices.getUserMedia({video: true,audio: true})
+        DeviceManager.localStream = await navigator.mediaDevices.getUserMedia({video: false,audio: true})
         DeviceManager.localVideoElement.srcObject =  new MediaStream(await DeviceManager.localStream.getVideoTracks())
     }
 
