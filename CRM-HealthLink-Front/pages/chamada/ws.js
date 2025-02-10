@@ -1,9 +1,11 @@
+const IP = "https://crm-healthlink.onrender.com"
+
 class WsConnFac {
     static client = '';
 
     static createClient(){
         WsConnFac.client = new StompJs.Client({
-            brokerURL: `https://crm-healthlink.onrender.com/ws?token=${localStorage.getItem("token")}`,
+            brokerURL: `${IP}?token=${localStorage.getItem("token")}`,
           connectHeaders: {
             login: 'user',
             passcode: 'password'
@@ -31,6 +33,7 @@ class WsConnFac {
 
 class MessageManager {
     static prontidaoRota = "/app/prontidao"
+    static lostRota = "/app/lost"
     static sendToRoute = '/app/sendTo/'
     static hearingAt = "/user/queue";
     static sendToUser = '';
@@ -63,6 +66,14 @@ class MessageManager {
         const client = WsConnFac.get();
         client.publish({destination: MessageManager.sendToRoute + MessageManager.sendToUser, 
             body: JSON.stringify(sdp)})
+    }
+
+    static lost(){
+        const client = WsConnFac.get();
+        const sdp = {
+            outro: MessageManager.sendToUser 
+        }
+        client.publish({destination: MessageManager.lostRota,body: JSON.stringify(sdp)})
     }
 }
 
