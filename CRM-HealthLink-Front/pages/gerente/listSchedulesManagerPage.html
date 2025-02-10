@@ -22,47 +22,55 @@
     <header>
         <div class="header-top">
             <img src="/images/logo2.png" alt="Logo da Empresa" class="logo" />
-            <h1 id="welcome-message"></h1>
+            <h1></h1>
             <a href="/pages/gerente/home/managerPage.html">
                 <button class="back-button">Voltar</button>
             </a>
         </div>
-        <h1>Lista de Horários Marcados</h1>
+
     </header>
     <main>
         <!-- Seção do Horário -->
         <section id="horario" class="content-section" style="display: none;">
             <div>
-                <h3>Selecione uma opção de Visualização:</h3>
+                <h2>Lista de Horários Marcados</h2>
+
+
                 <label>
                     <br>
                     Ver Todos os Horários Marcados
                     <input type="radio" name="visualizacao" value="todos">
                 </label>
-                
+
+
                 <label>
                     Pesquisar Horário
-                    <input type="radio" name="visualizacao" value="pesquisar" >
+                    <input type="radio" name="visualizacao" value="pesquisar">
                 </label>
             </div>
 
-            <div id="search-section" style="display: none;">
-                <h3>Pesquisar Horário</h3>
+            <section class="p-3">
+                <div id="search-section" style="display: none;">
+                    <div class="card">
 
-                <label for="specialization-search">Especialidade:</label>
-                <select id="specialization-search" required>
-                    <option value="">Selecione uma especialidade</option>
-                    <!-- As opções serão preenchidas dinamicamente -->
-                </select>
+                        <h3>Pesquisar Horário</h3>
 
-                <label for="month-search">Mês:</label>
-                <input type="number" id="month-search" min="1" max="12" required placeholder="1-12">
+                        <label for="specialization-search">Especialidade:</label>
+                        <select id="specialization-search" required>
+                            <option value="">Selecione uma especialidade</option>
+                            <!-- As opções serão preenchidas dinamicamente -->
+                        </select>
 
-                <label for="year-search">Ano:</label>
-                <input type="number" id="year-search" min="2020" max="2100" required placeholder="2024">
+                        <label for="month-search">Mês:</label>
+                        <input type="number" id="month-search" min="1" max="12" required placeholder="1-12">
 
-                <button id="search-button">Pesquisar</button>
-            </div>
+                        <label for="year-search">Ano:</label>
+                        <input type="number" id="year-search" min="2020" max="2100" required placeholder="2024">
+
+                        <button id="search-button">Pesquisar</button>
+                    </div>
+                </div>
+            </section>
 
             <div class="card" id="lista-horarios" style="display: none;">
                 <h3>Lista dos Horários Marcados</h3>
