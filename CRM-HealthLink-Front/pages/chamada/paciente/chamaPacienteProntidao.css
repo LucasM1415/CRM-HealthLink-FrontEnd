@@ -3,7 +3,15 @@
     padding: 0;
 }
 
+html, body {
+  overflow: hidden; 
+  height: 100%; 
+  margin: 0;
+  padding: 0;
+}
+
 header {
+  background-color: transparent;
   width: 100%;
   align-items: end;
   justify-items: end;
@@ -87,33 +95,6 @@ p {
     transform-origin: center; 
   }
 
-  
-  /* .footer-navbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px 0;
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    gap: 20px; 
-    z-index: 1000;
-}
-
-.footer-navbar button {
-    display: flex; 
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px; 
-    border: none;
-    background-color: #4CAF50; 
-    cursor: pointer;
-}
-
-.footer-navbar button i {
-    margin-right: 8px; 
-} */
 
 .footer-navbar {
   position: fixed;
