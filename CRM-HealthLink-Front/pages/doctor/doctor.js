@@ -21,6 +21,7 @@ function cadastrarHorario(index, data, day) {
     "tempoMedioConsultaMinutos": parseInt(tempo_medio)
   };
 
+
   var token = localStorage.getItem("token");
   fetch('https://crm-healthlink.onrender.com/api/calendario/associateDoctor', {
     method: 'PUT',
@@ -33,6 +34,8 @@ function cadastrarHorario(index, data, day) {
   })
     .then(response => {
       if (response.ok) {
+        alert("Associação realizada com sucesso!");
+        reiniciarPagina();
         return response.text();
       } else {
         throw new Error('Erro na requisição: ' + response.statusText);
@@ -46,6 +49,9 @@ function cadastrarHorario(index, data, day) {
     });
 }
 
+function reiniciarPagina() {
+  location.reload();
+}
 
 function ajustarFormatoHora(hora) {
   if (hora && hora.match(/^\d{2}:\d{2}$/)) {
