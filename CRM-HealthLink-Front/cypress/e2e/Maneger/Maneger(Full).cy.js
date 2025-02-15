@@ -128,29 +128,29 @@ describe('CRUD de Medico', () => {
     cy.loginGerente(); // Garante que o gerente está logado
   });
 
-  it('Editando um medico (Falho)', () => {
-    
+  it('Criando um Médico Invalido', () => {
+    //Seleciona o paciente no drop dawn
     cy.get('body > header > section.bottom-header > div > nav > ul > li.menu-drop > div > a:nth-child(2)')
     .click({ force: true });
-    //Confirmação de está na seção de médico
+    //Confirmação de está na seção de paciente
     cy.get('#doutores > h2').should('be.visible');
-    //Editando médico
-    cy.get(':nth-child(2) > :nth-child(8) > .btn-primary').click();
-    //CPF Invalido
-    cy.get('#update-doutor-cpf').type('61363766440');
-    cy.get('#update-doutor-crm').clear({ force: true }).type('54321-TS', { force: true });
-    cy.get('#update-doutor-nome').clear({ force: true }).type('TESTE DE ALTERAÇÃO', { force: true });
-    cy.get('#update-doutor-data-nascimento').clear({ force: true }).type('2025-01-01', { force: true });
-    cy.get('#update-doutor-password').clear({ force: true }).type('senha123', { force: true });
+    //Criando Paciente
+    cy.get('#doutores > .p-3 > :nth-child(1) > .col-12 > .newUser > strong').click();
+    cy.get('#criar-doutor-nome').type('Dr.João da Silva');
+    cy.get('#criar-doutor-data-nascimento').type('1990-05-20', { force: true });
+    //CPF invalido
+    cy.get('#criar-doutor-cpf').type('83483608');
+    //CRM invalido
+    cy.get('#criar-doutor-crm').type('12345');
+    cy.get('#criar-doutor-email').type('joao.silva@example.com');
+    cy.get('#criar-doutor-password').type('senha123');
+    // Clicar no botão para criar o paciente
+    cy.get('#newDoctorBtn').click();
 
-    // Clicar no botão para atualizar o Médico
-    cy.get('#updateDoctorBtn').click();
-
-    // Verificar se o médico foi alterado corretamente
-    cy.contains('Erro ao atualizar médico').should('be.visible');
+    // Verificar se o paciente foi cadastrado corretamente (ajustar conforme necessário)
+    cy.contains('Erro ao criar médico').should('be.visible');
     cy.wait(1000);
-    cy.get('#doctorUpdateForm > .modal-dialog > .modal-content > .modal-header > .btn-close').click();
-
+    cy.get('#doctorForm > .modal-dialog > .modal-content > .modal-header > .btn-close').click();
   });
 
   it('Criando um Médico válido', () => {
@@ -174,6 +174,31 @@ describe('CRUD de Medico', () => {
     cy.contains('Médico criado com sucesso').should('be.visible');
     cy.wait(1000);
     cy.get('#doctorForm > .modal-dialog > .modal-content > .modal-header > .btn-close').click();
+
+  });
+
+  it('Editando um medico (Falho)', () => {
+    
+    cy.get('body > header > section.bottom-header > div > nav > ul > li.menu-drop > div > a:nth-child(2)')
+    .click({ force: true });
+    //Confirmação de está na seção de médico
+    cy.get('#doutores > h2').should('be.visible');
+    //Editando médico
+    cy.get(':nth-child(2) > :nth-child(8) > .btn-primary').click();
+    //CPF Invalido
+    cy.get('#update-doutor-cpf').type('61363766440');
+    cy.get('#update-doutor-crm').clear({ force: true }).type('54321-TS', { force: true });
+    cy.get('#update-doutor-nome').clear({ force: true }).type('TESTE DE ALTERAÇÃO', { force: true });
+    cy.get('#update-doutor-data-nascimento').clear({ force: true }).type('2025-01-01', { force: true });
+    cy.get('#update-doutor-password').clear({ force: true }).type('senha123', { force: true });
+
+    // Clicar no botão para atualizar o Médico
+    cy.get('#updateDoctorBtn').click();
+
+    // Verificar se o médico foi alterado corretamente
+    cy.contains('Erro ao atualizar médico').should('be.visible');
+    cy.wait(1000);
+    cy.get('#doctorUpdateForm > .modal-dialog > .modal-content > .modal-header > .btn-close').click();
 
   });
 
@@ -331,50 +356,7 @@ describe('CRUD de Funcionario', () => {
     });
 
 });
-describe('CRUD de Consulta', () => {
-  beforeEach(() => {
-    cy.loginGerente();
-    cy.get('ul > :nth-child(2) > a').click();
-    cy.get('#consultas > h2').should('be.visible');
-  });
 
-  it('Marcando uma Consulta inválida', () => {
-      cy.get('#consultas > h2').should('be.visible');
-      cy.get('#consultas > .p-3 > :nth-child(1) > .col-12 > .newUser').click();
-      cy.get('#consulta-especialidade').select(0,  { force: true });
-  
-      // Data de consulta inválida
-      cy.get('#consulta-data').type('2025-02-20').trigger('change', { force: true });
-      cy.wait(1000);
-      
-      cy.get('#criar-consulta-medico').select(0,  { force: true });
-      cy.get('#criar-consulta-paciente').select(1,  { force: true });
-       // Verificar se o select de horários tem apenas um elemento
-      cy.get('#consulta-horarios-disponiveis option').should('have.length', 1);
-
-      cy.get('#consulta-horarios-disponiveis').select(0, { force: true });
-
-  
-      //Consulta não marcada pois não há horario do médico no dia
-      cy.get('#modalCriarConsulta > .modal-dialog > .modal-content > .modal-header > .btn-close').click();
-  });
-  
-  it('Marcando uma Consulta valida', () => {
-      cy.get('#consultas > h2').should('be.visible');
-      cy.get('#consultas > .p-3 > :nth-child(1) > .col-12 > .newUser').click();
-      cy.get('#consulta-especialidade').select(0,  { force: true });
-      cy.get('#consulta-data').type('2025-02-15').trigger('change', { force: true });
-      cy.wait(1000);
-      cy.get('#criar-consulta-medico').select(0,  { force: true });
-      cy.get('#criar-consulta-paciente').select(1,  { force: true });
-      cy.get('#consulta-horarios-disponiveis').select(1,  { force: true });
-      cy.get('#modalCriarConsulta > .modal-dialog > .modal-content > .modal-footer > .btn')
-      cy.wait(1000);
-      cy.get('#modalCriarConsulta > .modal-dialog > .modal-content > .modal-header > .btn-close').click();
-  
-    });
-
-});
 describe('Funcionalidades de Horário', () => {
   beforeEach(() => {
     cy.loginGerente();
@@ -420,6 +402,51 @@ describe('Funcionalidades de Horário', () => {
     });
 
 });
+describe('CRUD de Consulta', () => {
+  beforeEach(() => {
+    cy.loginGerente();
+    cy.get('ul > :nth-child(2) > a').click();
+    cy.get('#consultas > h2').should('be.visible');
+  });
+
+  it('Marcando uma Consulta inválida', () => {
+      cy.get('#consultas > h2').should('be.visible');
+      cy.get('#consultas > .p-3 > :nth-child(1) > .col-12 > .newUser').click();
+      cy.get('#consulta-especialidade').select(0,  { force: true });
+  
+      // Data de consulta inválida
+      cy.get('#consulta-data').type('2025-02-20').trigger('change', { force: true });
+      cy.wait(1000);
+      
+      cy.get('#criar-consulta-medico').select(0,  { force: true });
+      cy.get('#criar-consulta-paciente').select(1,  { force: true });
+       // Verificar se o select de horários tem apenas um elemento
+      cy.get('#consulta-horarios-disponiveis option').should('have.length', 1);
+
+      cy.get('#consulta-horarios-disponiveis').select(0, { force: true });
+
+  
+      //Consulta não marcada pois não há horario do médico no dia
+      cy.get('#modalCriarConsulta > .modal-dialog > .modal-content > .modal-header > .btn-close').click();
+  });
+  
+  it('Marcando uma Consulta valida', () => {
+      cy.get('#consultas > h2').should('be.visible');
+      cy.get('#consultas > .p-3 > :nth-child(1) > .col-12 > .newUser').click();
+      cy.get('#consulta-especialidade').select(0,  { force: true });
+      cy.get('#consulta-data').type('2025-02-21').trigger('change', { force: true });
+      cy.wait(1000);
+      cy.get('#criar-consulta-medico').select(0,  { force: true });
+      cy.get('#criar-consulta-paciente').select(1,  { force: true });
+      cy.get('#consulta-horarios-disponiveis').select(1,  { force: true });
+      cy.get('#modalCriarConsulta > .modal-dialog > .modal-content > .modal-footer > .btn')
+      cy.wait(1000);
+      cy.get('#modalCriarConsulta > .modal-dialog > .modal-content > .modal-header > .btn-close').click();
+  
+    });
+
+});
+
 describe('Funcionalidades de Prontidão', () => {
   beforeEach(() => {
     cy.loginGerente();

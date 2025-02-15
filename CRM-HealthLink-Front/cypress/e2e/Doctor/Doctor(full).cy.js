@@ -3,10 +3,11 @@ describe('CRUD de Consulta', () => {
       cy.loginMedico();
     });
 
-    it('Marcando uma Consulta', () => {
+    it('Se associando a um horário', () => {
       // Confirmação de que está na seção de paciente
       cy.get('#Calendario > h2').should('be.visible');
       cy.get('body > header > div.bottom-header > div > nav > ul > li.menu-drop > div > a:nth-child(1)').click({ force: true });
+
       cy.wait(1000);
       cy.get('#selectAgendamentos').select(0,  { force: true }).trigger('change', { force: true });
       cy.wait(1000);
@@ -16,7 +17,7 @@ describe('CRUD de Consulta', () => {
       cy.get('#year').clear({ force: true }).type('2025', { force: true });
       cy.get('.button').click().trigger('change', { force: true });
       cy.get(':nth-child(27) > p').click();
-      cy.get('#selected-day-info > :nth-child(2) > .button').click();
+      cy.get('.horario-bloco > .button').click();
        
     });
   });
@@ -26,7 +27,7 @@ describe('Visualisar consultas marcadas', () => {
       cy.loginMedico();
     });
 
-    it('Marcando uma Consulta', () => {
+    it('Visualisando consultas marcadas', () => {
       // Confirmação de que está na seção de paciente
       cy.get('#Calendario > h2').should('be.visible');
       cy.get('body > header > div.bottom-header > div > nav > ul > li.menu-drop > div > a:nth-child(2)').click({ force: true });
@@ -35,7 +36,6 @@ describe('Visualisar consultas marcadas', () => {
  
     });
     
-   
 
   });
 

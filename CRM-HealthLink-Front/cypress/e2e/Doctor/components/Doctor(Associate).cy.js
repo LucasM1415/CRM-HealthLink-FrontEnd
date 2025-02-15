@@ -17,7 +17,7 @@ describe('CRUD de Consulta', () => {
       cy.get('#year').clear({ force: true }).type('2025', { force: true });
       cy.get('.button').click().trigger('change', { force: true });
       cy.get(':nth-child(27) > p').click();
-      cy.get('#selected-day-info > :nth-child(2) > .button').click();
+      cy.get('.horario-bloco > .button').click();
        
     });
     

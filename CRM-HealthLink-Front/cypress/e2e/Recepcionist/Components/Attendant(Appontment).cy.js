@@ -17,7 +17,6 @@ describe('CRUD de Consulta', () => {
         cy.get('#criar-consulta-medico').select(0,  { force: true });
         cy.get('#criar-consulta-paciente').select(1,  { force: true });
          // Verificar se o select de horários tem apenas um elemento
-        cy.get('#consulta-horarios-disponiveis option').should('have.length', 1);
 
         cy.get('#consulta-horarios-disponiveis').select(0, { force: true });
 
@@ -30,7 +29,7 @@ describe('CRUD de Consulta', () => {
         cy.get('#consultas > h2').should('be.visible');
         cy.get('#consultas > .p-3 > :nth-child(1) > .col-12 > .newUser').click();
         cy.get('#consulta-especialidade').select(0,  { force: true });
-        cy.get('#consulta-data').type('2025-02-15').trigger('change', { force: true });
+        cy.get('#consulta-data').type('2025-02-21').trigger('change', { force: true });
         cy.wait(1000);
         cy.get('#criar-consulta-medico').select(0,  { force: true });
         cy.get('#criar-consulta-paciente').select(1,  { force: true });

@@ -13,10 +13,10 @@ describe('Funcionalidades de Horário', () => {
         cy.get('#month').select(1,  { force: true });
         cy.get('#year').select(25,  { force: true });
         cy.get('.date-selectors > button').click();
-        cy.get(':nth-child(20) > p').click();
+        cy.get(':nth-child(21) > p').click();
         cy.get('#Hora-de-inicio').type('08:00');
         cy.get('#Hora-de-termino').type('16:00');
-        cy.get('#quantidade-De-Vagas').type('3');
+        cy.get('#quantidade-De-Vagas').type('10');
         cy.get('#selected-day-info > button').click();
       });
 
